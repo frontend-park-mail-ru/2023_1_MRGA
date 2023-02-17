@@ -10,4 +10,4 @@
 📎 **Абдуллин Хасбулат** - [Yakwilik](Yakwilik)  
 
 ## Ментор
-📎 **Денис Власов** - *Ментор* - [labzunova](https://github.com/wd055)
+📎 **Денис Власов** - *Ментор* - [wd055](https://github.com/wd055)
