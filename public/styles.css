@@ -1,4 +1,1 @@
-body {
-    text-align: center;
-    color: red;
-}
+@import url(components/header/header.css);

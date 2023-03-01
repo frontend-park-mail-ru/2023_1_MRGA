@@ -1,4 +1,4 @@
-console.log("hello")
+import {headerComponent} from "./components/header/header.js";
 
 const root = document.getElementById('root')
 
@@ -6,12 +6,12 @@ const root = document.getElementById('root')
 const headerConfig = {
     login: {
         href: '/login',
-        textContent: 'Войти',
+        textContent: 'Login',
         openMethod: loginPage
     },
     signup: {
         href: '/signup',
-        textContent: 'Зарегистрироваться',
+        textContent: 'Create account',
         openMethod: registrationPage
     }
 }
@@ -28,8 +28,6 @@ const renderHeader = (parentNode, headerConfig) => {
     });
 }
 
-renderHeader(root, headerConfig)
-
 const createInput = (type, placeholder, name) => {
     const input = document.createElement('input')
     input.type = type
@@ -38,15 +36,18 @@ const createInput = (type, placeholder, name) => {
     return input
 }
 
+const menuItems = Object.entries(headerConfig).map(([key, {href, textContent}]) => ({key, href, textContent}))
 const menuPage = () => {
-    root.innerHTML = ''
-    renderHeader(root, headerConfig)
+    const header = new headerComponent(root)
+    header.items = menuItems
+
+    header.render()
 }
+
 menuPage()
 
 function registrationPage() {
-    root.innerHTML = ''
-    renderHeader(root, headerConfig)
+    menuPage()
 
     const registrationForm = document.createElement('form')
 
@@ -67,8 +68,7 @@ function registrationPage() {
 
 
 function loginPage(){
-    root.innerHTML = ''
-    renderHeader(root, headerConfig)
+    menuPage()
 
     const loginForm = document.createElement('form')
 
@@ -96,3 +96,19 @@ root.addEventListener('click', (event) => {
         headerConfig[section].openMethod()
     }
 })
+
+
+async function ajax(url, method, headers, data) {
+    return await fetch(url, {method: method, headers: headers, body: data})
+}
+
+async function log() {
+    const res = await ajax('https://jsonplaceholder.typicode.com/posts/1', "GET")
+    const js = await res.json()
+    console.log(js)
+}
+
+log()
+
+
+
