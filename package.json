@@ -1,0 +1,21 @@
+{
+  "name": "2023_1_mrga",
+  "version": "1.0.0",
+  "description": "## [Ссылка на Golang](https://github.com/go-park-mail-ru/2023_1_MRGA)",
+  "main": "index.js",
+  "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "node server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-park-mail-ru/2023_1_MRGA.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frontend-park-mail-ru/2023_1_MRGA/issues"
+  },
+  "homepage": "https://github.com/frontend-park-mail-ru/2023_1_MRGA#readme"
+}
