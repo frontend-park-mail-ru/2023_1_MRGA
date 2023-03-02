@@ -1,4 +1,4 @@
-import {headerComponent} from "./components/header/header.js";
+import {headerComponent, RENDER_TYPE} from "./components/header/header.js";
 
 const root = document.getElementById('root')
 
@@ -16,18 +16,6 @@ const headerConfig = {
     }
 }
 
-const renderHeader = (parentNode, headerConfig) => {
-    Object.
-    entries(headerConfig).
-    map(([key, {href, textContent}]) => {
-        const headerElement = document.createElement('a')
-        headerElement.href = href
-        headerElement.textContent = textContent
-        headerElement.dataset.section = key
-        parentNode.appendChild(headerElement)
-    });
-}
-
 const createInput = (type, placeholder, name) => {
     const input = document.createElement('input')
     input.type = type
@@ -41,7 +29,7 @@ const menuPage = () => {
     const header = new headerComponent(root)
     header.items = menuItems
 
-    header.render()
+    header.render(RENDER_TYPE.NUNJUCKS)
 }
 
 menuPage()
@@ -107,8 +95,6 @@ async function log() {
     const js = await res.json()
     console.log(js)
 }
-
-log()
 
 
 
