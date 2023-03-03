@@ -1,1 +1,7 @@
 @import url(components/header/header.css);
+@import url(components/pages/authorization/authorization.css);
+
+#root {
+    background-color: #F0EFFF;
+    height: 100vh;
+}

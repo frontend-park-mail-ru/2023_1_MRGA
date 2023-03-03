@@ -1,7 +1,23 @@
+import {loginPage, signupPage} from "../../index.js"
+
 export const RENDER_TYPE = {
-    DOM: 'dom',
     NUNJUCKS: 'nunjucks'
 }
+
+const headerConfig = {
+    login: {
+        href: '/login',
+        textContent: 'Login',
+        openMethod: loginPage
+    },
+    signup: {
+        href: '/signup',
+        textContent: 'Create account',
+        openMethod: signupPage
+    }
+}
+
+export const menuItems = Object.entries(headerConfig).map(([key, {href, textContent}]) => ({key, href, textContent}))
 
 const headerNunjucksTemplate =
     `<div class="headerContainer">
@@ -17,6 +33,7 @@ export class headerComponent {
     #root
     #items
     #nunjucksTemplate
+    #node
     constructor(root) {
         this.#root = root
         this.#nunjucksTemplate = nunjucks.compile(headerNunjucksTemplate)
@@ -27,40 +44,34 @@ export class headerComponent {
     get items() {
         return this.#items
     }
+    init() {
+        const div = document.createElement('div')
+        div.innerHTML = this.#nunjucksTemplate.render({items: this.#items});
+        this.#node =  div.firstChild;
+    }
     render(type) {
         switch (type) {
-            case RENDER_TYPE.DOM:
-                this.renderDOM()
-                break
             case RENDER_TYPE.NUNJUCKS:
-                this.renderNunjucks()
-                break
             default:
-                this.renderDOM()
+                this.renderNunjucks()
         }
     }
     renderNunjucks() {
-        this.#root.innerHTML = this.#nunjucksTemplate.render({items: this.#items});
-    }
-    renderDOM() {
-        this.#root.innerHTML = ''
-        const headerContainer = document.createElement('div')
-        headerContainer.classList.add('headerContainer')
-        const logo = document.createElement('img')
-        logo.src = './Logo.png'
-        logo.width = 203
-        headerContainer.appendChild(logo)
-        const routes = document.createElement('div')
+        this.#root.appendChild(this.getNode());
+        const header = this.#root.querySelector(".headerContainer")
+        header.addEventListener('click', (event) => {
+            const {target} = event
 
-        this.#items.map(({key, href, textContent}) => {
-            const headerElement = document.createElement('a')
-            headerElement.href = href
-            headerElement.textContent = textContent
-            headerElement.dataset.section = key
-            headerElement.classList.add('headerElement')
-            routes.appendChild(headerElement)
+            if (target instanceof HTMLAnchorElement) {
+                event.preventDefault()
+
+                const {section} = target.dataset
+                headerConfig[section].openMethod()
+            }
         })
-        headerContainer.appendChild(routes)
-        this.#root.appendChild(headerContainer)
+    }
+    getNode() {
+        this.init()
+        return this.#node
     }
 }

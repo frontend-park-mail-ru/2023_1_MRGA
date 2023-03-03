@@ -1,0 +1,55 @@
+.authorizationContainer {
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    max-width: 60%;
+    background-color: #FFFFFF;
+    margin: 1rem auto;
+    border-radius: 3%;
+}
+
+.authorizationFormElement {
+    display: block;
+    margin: 1rem;
+    min-width: 414px;
+    min-height: 68px;
+    border-radius: 20px;
+    padding: 1rem;
+    box-sizing: border-box;
+    font-size: 24px;
+    border: rgba(195, 162, 203, 1) 1px solid;
+}
+
+.authorizationForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.authLabel {
+    display: block;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.password {
+    position: relative;
+}
+
+.password-control {
+    position: absolute;
+    top: 64px;
+    right: 35px;
+    display: inline-block;
+    width: 35px;
+    height: 30px;
+    background: url(./view_outline.svg) 0 0 no-repeat;
+}
+
+.password-control.view {
+    background: url(./view.svg) 0 0 no-repeat;
+}
+
+.enterButton {
+    background: #6864FE;
+    border: none;
+}
