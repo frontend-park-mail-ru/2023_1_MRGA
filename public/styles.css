@@ -1,7 +1,9 @@
 @import url(components/header/header.css);
 @import url(components/pages/authorization/authorization.css);
-
+body {
+    margin: 0;
+}
 #root {
     background-color: #F0EFFF;
-    height: 100vh;
+    min-height: 100vh;
 }

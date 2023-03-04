@@ -1,3 +1,5 @@
+import {Ajax} from "../../../api/ajax.js";
+
 const authorizationNunjucksTemplate =
     `<div class="authorizationContainer">
         <form class="authorizationForm">
@@ -8,7 +10,7 @@ const authorizationNunjucksTemplate =
             </span>
             <span class="password">
                 <label for="password" class="authLabel">Password</label>
-                <input name="password" class="authorizationFormElement" type="password" placeholder="введите ваш пароль">
+                <input name="password" id="pass" class="authorizationFormElement" type="password" placeholder="введите ваш пароль">
                 <a href=# class="password-control" id="view-pass"></a>
             </span>
             <button class="authorizationFormElement enterButton" type="submit">войти</button>
@@ -31,22 +33,33 @@ function viewPasswordClick(e) {
     }
 }
 
+
+
 export class authorizationPage {
     #root
     #header
     #nunjucksTemplate
+    pass
     constructor(root,  header) {
         this.#root = root
         this.#header = header
         this.#nunjucksTemplate = nunjucks.compile(authorizationNunjucksTemplate)
     }
-
     render() {
         this.#root.innerHTML = ''
         this.#header.render()
         this.#root.appendChild(this.getNode())
         const passView = this.#root.querySelector("#view-pass")
         passView.addEventListener('click', viewPasswordClick)
+
+        const form = this.#root.querySelector(".authorizationForm")
+        form.addEventListener('submit', this.#authClick)
+
+        const passwrd = this.#root.querySelector("#pass")
+        passwrd.addEventListener('change', (e) => {
+            this.pass = e.currentTarget.value;
+            console.dir(this.pass.toString());
+        })
     }
     getNode() {
         const div = document.createElement('div');
@@ -54,4 +67,10 @@ export class authorizationPage {
         return div.firstChild;
     }
 
+    #authClick(e) {
+        e.preventDefault()
+
+        Ajax.ajax("http://localhost:8081/meetme/login", "POST", {}, JSON.stringify({"pass": this.pass.value}))
+        // Ajax.ajax("http://localhost:8081/meetme/login", "POST", {}, "preview")
+    }
 }
