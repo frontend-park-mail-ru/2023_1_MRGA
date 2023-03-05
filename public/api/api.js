@@ -16,6 +16,10 @@ export class Tinder {
     static async getCities() {
         return Ajax.ajax(ApiUrl+"cities", "GET")
     }
+
+    static async getUser() {
+        return Ajax.ajax(ApiUrl+"user", "GET")
+    }
 }
 
 function sexToNumber(sex) {

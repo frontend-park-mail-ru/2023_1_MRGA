@@ -5,9 +5,13 @@ import {headerComponent} from "./components/header/header.js";
 import {Ajax} from "./api/ajax.js";
 
 import {menuItems} from "./components/header/header.js";
+import {Tinder} from "./api/api.js";
 
 
 const root = document.getElementById('root')
+
+
+
 
 
 const lenta = new feedPage(root);
@@ -30,8 +34,7 @@ export function signupPage() {
     signupPage.render()
 }
 
-// loginPage()
-signupPage()
+
 
 async function printResult() {
     let res
@@ -46,3 +49,17 @@ async function printResult() {
 
     }
 }
+
+const loadPage = async () => {
+    const userResp = await Tinder.getUser()
+    const json = await userResp.json()
+    if (json.status !== 200) {
+        loginPage()
+    } else {
+        lenta.render()
+    }
+    console.log(json)
+
+}
+
+loadPage()
