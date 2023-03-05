@@ -5,13 +5,13 @@ const feedNunjucksTemplate =
             <div class="avatar">
                 <img src="https://randomuser.me/api/portraits/women/64.jpg" alt="" />
             </div>
-            <div class="title">MashaNab</div>
+            <div class="title">{{context.username}}</div>
         </div>
         <div class="menu">
             <ul>
-                <li>Matches</li>
-                <li>Mensagens</li>
-                <li class="active">Dating</li>
+                <li>Совпадения</li>
+                <li>Сообщения</li>
+                <li class="active">Свидание</li>
             </ul>
         </div>
     </div>
@@ -24,7 +24,7 @@ const feedNunjucksTemplate =
                     alt=""
                 />
                 <div class="profile">
-                    <div class="name">Dinero <span>19</span></div>
+                    <div class="name">Динеро <span>19</span></div>
                     <div class="local">
                         <i class="fas fa-map-marker-alt"></i>
                         <span>Москва</span>
@@ -58,6 +58,8 @@ export class feedPage {
         this.#nunjucksTemplate = nunjucks.compile(feedNunjucksTemplate)
     }
     render = () => {
-        this.#root.innerHTML = this.#nunjucksTemplate.render()
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        // console.log(user)
+        this.#root.innerHTML = this.#nunjucksTemplate.render({context: user})
     }
 }

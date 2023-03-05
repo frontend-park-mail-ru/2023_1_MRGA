@@ -56,9 +56,10 @@ const loadPage = async () => {
     if (json.status !== 200) {
         loginPage()
     } else {
+        localStorage.setItem('currentUser', JSON.stringify(json))
         lenta.render()
     }
-    console.log(json)
+    console.log("json: ", json)
 
 }
 
