@@ -49,6 +49,14 @@
     background: url(./view.svg) 0 0 no-repeat;
 }
 
+.avatar img{
+    width: 90%;
+}
+
+.avatar p{
+    color: mediumvioletred;
+}
+
 .enterButton {
     background: #6864FE;
     border: none;
