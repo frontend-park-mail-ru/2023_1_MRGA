@@ -13,6 +13,9 @@ const authorizationNunjucksTemplate =
                 <input name="password" id="pass" class="authorizationFormElement" type="password" placeholder="введите ваш пароль">
                 <a href=# class="password-control" id="view-pass"></a>
             </span>
+            </span>
+                <span id="error" class="errorText">
+            </span>
             <button class="authorizationFormElement enterButton" type="submit">войти</button>
         </form>
     </div>`;
@@ -67,6 +70,8 @@ export class authorizationPage {
             this.login = e.currentTarget.value;
             console.dir(this.login.toString());
         });
+
+        this.err = this.#root.querySelector("#error");
     }
     getNode() {
         const div = document.createElement('div');
@@ -74,12 +79,15 @@ export class authorizationPage {
         return div.firstChild;
     }
 
-    async #authClick(e) {
+    #authClick = async (e) => {
         e.preventDefault()
+        this.err.innerHTML = json.err;
         try {
-            const resp = await Tinder.login({"password": this.pass.value, "nickname": this.login.value})
+            const resp = await Tinder.login({"password": this.pass, "input": this.login})
             const json = await resp.json()
-            console.log(resp, json)
+            if (json.status !== 200) {
+                this.err.innerHTML = json.err;
+            }
         } catch (e) {
             console.dir(e)
             alert(e)

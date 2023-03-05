@@ -86,7 +86,6 @@ export class registrationPage {
         this.regForm.addEventListener('input', this.formInputListener)
         this.regForm.addEventListener('submit', this.formSubmit);
         this.err = this.#root.querySelector("#error");
-        console.log(this.err)
     }
     getNode() {
         const div = document.createElement('div');
@@ -129,7 +128,11 @@ export class registrationPage {
         }
         if (e.target.id === "pass1" || e.target.id === "pass2") {
             if (this.pass1 !== this.pass2) {
-                this.err.innerHTML = 'пароли не совпадают'
+                this.err.innerHTML = 'пароли не совпадают';
+                return
+            }
+            if (this.pass1.length < 5) {
+                this.err.innerHTML = 'пароль слишком короткий';
             }
         }
     }
@@ -152,8 +155,6 @@ export class registrationPage {
             })
             const json = await resp.json()
             if (json.status !== 200) {
-                console.log("json", json);
-                console.log("err: ", json.err);
                 this.err.innerHTML = json.err;
             }
         } catch (e) {

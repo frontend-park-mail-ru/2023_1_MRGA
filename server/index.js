@@ -4,7 +4,7 @@ const path = require('path');
 const public = path.join(path.resolve(__dirname, '..'), 'public');
 
 const config = {
-    PORT: 8080,
+    PORT: 3000,
     HOST: "localhost"
 }
 
