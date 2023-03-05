@@ -202,3 +202,23 @@ body {
 	width: 60px;
 	height: 60px;
 }
+
+.logout-btn-box {
+	margin-left: auto;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+.logout {
+	color: white;
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.logout:visited {
+	color: white;
+}
+
+.logout:hover {
+	color: #e7e6f8;
+}

@@ -6,6 +6,9 @@ const feedNunjucksTemplate =
                 <img src="https://randomuser.me/api/portraits/women/64.jpg" alt="" />
             </div>
             <div class="title">{{context.username}}</div>
+            <div class="logout-btn-box">
+                <a class="logout" href="https://google.com">Log out</a>
+            </div>
         </div>
         <div class="menu">
             <ul>
