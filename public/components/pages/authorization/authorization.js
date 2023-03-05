@@ -1,15 +1,15 @@
-import {Ajax} from "../../../api/ajax.js";
+import {Tinder} from "../../../api/api.js";
 
 const authorizationNunjucksTemplate =
     `<div class="authorizationContainer">
         <form class="authorizationForm">
             <img src="./LogoMini.svg" width="46">
             <span>
-                <label for="email" class="authLabel">Email Address</label>
-                <input class="authorizationFormElement" name="email" type="email" placeholder="123@mail.ru">
+                <label for="email" class="authLabel">Почта или login</label>
+                <input class="authorizationFormElement" id="login" name="email" type="text" placeholder="123@mail.ru">
             </span>
             <span class="password">
-                <label for="password" class="authLabel">Password</label>
+                <label for="password" class="authLabel">Пароль</label>
                 <input name="password" id="pass" class="authorizationFormElement" type="password" placeholder="введите ваш пароль">
                 <a href=# class="password-control" id="view-pass"></a>
             </span>
@@ -40,6 +40,7 @@ export class authorizationPage {
     #header
     #nunjucksTemplate
     pass
+    login
     constructor(root,  header) {
         this.#root = root
         this.#header = header
@@ -55,11 +56,17 @@ export class authorizationPage {
         const form = this.#root.querySelector(".authorizationForm")
         form.addEventListener('submit', this.#authClick)
 
-        const passwrd = this.#root.querySelector("#pass")
-        passwrd.addEventListener('change', (e) => {
+        const password = this.#root.querySelector("#pass")
+        password.addEventListener('input', (e) => {
             this.pass = e.currentTarget.value;
             console.dir(this.pass.toString());
-        })
+        });
+
+        const login = this.#root.querySelector("#login")
+        login.addEventListener('input', (e) => {
+            this.login = e.currentTarget.value;
+            console.dir(this.login.toString());
+        });
     }
     getNode() {
         const div = document.createElement('div');
@@ -67,10 +74,16 @@ export class authorizationPage {
         return div.firstChild;
     }
 
-    #authClick(e) {
+    async #authClick(e) {
         e.preventDefault()
+        try {
+            const resp = await Tinder.login({"password": this.pass.value, "nickname": this.login.value})
+            const json = await resp.json()
+            console.log(resp, json)
+        } catch (e) {
+            console.dir(e)
+            alert(e)
+        }
 
-        Ajax.ajax("http://localhost:8081/meetme/login", "POST", {}, JSON.stringify({"pass": this.pass.value}))
-        // Ajax.ajax("http://localhost:8081/meetme/login", "POST", {}, "preview")
     }
 }

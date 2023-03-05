@@ -26,7 +26,8 @@ export function signupPage() {
     signupPage.render()
 }
 
-loginPage()
+// loginPage()
+signupPage()
 
 async function printResult() {
     let res
@@ -41,13 +42,3 @@ async function printResult() {
 
     }
 }
-
-
-try {
-    printResult()
-} catch (e) {
-    console.log('return', e)
-} finally {
-    console.log("ok")
-}
-
