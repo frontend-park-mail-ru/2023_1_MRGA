@@ -34,6 +34,13 @@ const registrationNunjucksTemplate =
                 <input name="password" id="pass2" required="true" class="authorizationFormElement" type="password" placeholder="повторите ваш пароль">
                 <a href=# class="password-control" id="view-pass2"></a>
             </span>
+            <span class="avatar">
+                <label for="avatar" class="authLabel">Avatar</label>
+                <input class="authorizationFormElement" id="avatar" required="false" name="avatar" type="text" placeholder="" value="">
+                <img src ="" hidden="true" id="hidden-avatar">
+                <p id="error-photo" hidden="true">Некорректное фото</p>
+            </span>
+         
             <span id="error" class="errorText">
             </span>
             <button class="authorizationFormElement enterButton" type="submit">войти</button>
@@ -54,7 +61,33 @@ function viewPasswordClick(e) {
             input.type = "password";
 
     }
+
 }
+
+function ShowImageClick(e) {
+    e.preventDefault();
+    const classAvatar = document.querySelector(".avatar")
+    const error = classAvatar.querySelector("p");
+    const input = classAvatar.querySelector("input");
+    const img = classAvatar.querySelector("img");
+    const value = input.value;
+    error.hidden = true
+    switch (value) {
+        case "":
+            img.hidden = true;
+            error.hidden = true
+            break;
+        default:
+            img.hidden = false;
+            img.src = value
+            error.hidden = true
+    }
+    img.onerror = function () {
+        img.hidden = true;
+        error.hidden = false
+    }
+}
+
 
 export class registrationPage {
     #root
@@ -66,6 +99,7 @@ export class registrationPage {
     sex
     pass1
     pass2
+    avatar
     err
     regForm
     onSuccess
@@ -83,6 +117,8 @@ export class registrationPage {
         passView.addEventListener('click', viewPasswordClick)
         const passView2 = this.#root.querySelector("#view-pass2")
         passView2.addEventListener('click', viewPasswordClick)
+        const image = this.#root.querySelector("#avatar")
+        image.addEventListener('input', ShowImageClick)
 
         this.regForm = this.#root.querySelector("#regForm")
         this.regForm.addEventListener('input', this.formInputListener)
