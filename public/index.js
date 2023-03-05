@@ -1,6 +1,6 @@
 import {authorizationPage} from "./components/pages/authorization/authorization.js";
 import {registrationPage} from "./components/pages/registration/registration.js";
-import {lentaPage} from "./components/pages/lenta/lenta.js";
+import {feedPage} from "./components/pages/lenta/feed.js";
 import {headerComponent} from "./components/header/header.js";
 import {Ajax} from "./api/ajax.js";
 
@@ -10,7 +10,7 @@ import {menuItems} from "./components/header/header.js";
 const root = document.getElementById('root')
 
 
-const lenta = new lentaPage(root);
+const lenta = new feedPage(root);
 
 export  function loginPage(){
     root.innerHTML = ''
