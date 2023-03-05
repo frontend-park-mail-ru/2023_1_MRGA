@@ -44,10 +44,12 @@ export class authorizationPage {
     #nunjucksTemplate
     pass
     login
-    constructor(root,  header) {
+    onSuccess
+    constructor(root,  header, onSuccess) {
         this.#root = root
         this.#header = header
         this.#nunjucksTemplate = nunjucks.compile(authorizationNunjucksTemplate)
+        this.onSuccess = onSuccess;
     }
     render() {
         this.#root.innerHTML = ''
@@ -81,13 +83,16 @@ export class authorizationPage {
 
     #authClick = async (e) => {
         e.preventDefault()
-        this.err.innerHTML = json.err;
+        this.err.innerHTML = '';
         try {
             const resp = await Tinder.login({"password": this.pass, "input": this.login})
+            console.log(resp)
             const json = await resp.json()
             if (json.status !== 200) {
                 this.err.innerHTML = json.err;
+                return
             }
+            this.onSuccess();
         } catch (e) {
             console.dir(e)
             alert(e)

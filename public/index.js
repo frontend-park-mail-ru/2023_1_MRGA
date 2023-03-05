@@ -1,5 +1,6 @@
 import {authorizationPage} from "./components/pages/authorization/authorization.js";
 import {registrationPage} from "./components/pages/registration/registration.js";
+import {lentaPage} from "./components/pages/lenta/lenta.js";
 import {headerComponent} from "./components/header/header.js";
 import {Ajax} from "./api/ajax.js";
 
@@ -8,12 +9,15 @@ import {menuItems} from "./components/header/header.js";
 
 const root = document.getElementById('root')
 
+
+const lenta = new lentaPage(root);
+
 export  function loginPage(){
     root.innerHTML = ''
     const header = new headerComponent(root)
     header.items = menuItems
 
-    const authPage = new authorizationPage(root, header)
+    const authPage = new authorizationPage(root, header, lenta.render)
     authPage.render()
 }
 
@@ -22,7 +26,7 @@ export function signupPage() {
     const header = new headerComponent(root)
     header.items = menuItems
 
-    const signupPage = new registrationPage(root, header)
+    const signupPage = new registrationPage(root, header, lenta.render)
     signupPage.render()
 }
 

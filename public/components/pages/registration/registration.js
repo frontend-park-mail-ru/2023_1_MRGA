@@ -68,10 +68,12 @@ export class registrationPage {
     pass2
     err
     regForm
-    constructor(root,  header) {
+    onSuccess
+    constructor(root,  header, onSuccess) {
         this.#root = root
         this.#header = header
         this.#nunjucksTemplate = nunjucks.compile(registrationNunjucksTemplate)
+        this.onSuccess = onSuccess;
     }
     render() {
         this.#root.innerHTML = ''
@@ -156,7 +158,9 @@ export class registrationPage {
             const json = await resp.json()
             if (json.status !== 200) {
                 this.err.innerHTML = json.err;
+                return
             }
+            this.onSuccess();
         } catch (e) {
             console.log(e)
         }
