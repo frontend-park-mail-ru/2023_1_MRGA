@@ -53,8 +53,6 @@ const loadPage = async () => {
         User.setUser(json)
         lenta.render()
     }
-    console.log("json: ", json)
-
 }
 
 loadPage()

@@ -78,6 +78,7 @@ export class registrationPage {
     err
     regForm
     onSuccess
+    imageLoadError
     constructor(root,  header, onSuccess) {
         this.#root = root
         this.#header = header
@@ -151,6 +152,12 @@ export class registrationPage {
     }
     formSubmit = async (e) => {
         e.preventDefault();
+        if (this.imageLoadError) {
+            return ;
+        }
+        if (this.err.innerHTML !== '') {
+            return;
+        }
         this.err.innerHTML = '';
         if (this.pass1 !== this.pass2) {
             console.log("err", this.err);
@@ -184,7 +191,8 @@ export class registrationPage {
         const input = classAvatar.querySelector("input");
         const img = classAvatar.querySelector("img");
         const value = input.value;
-        error.hidden = true
+        error.hidden = true;
+        this.imageLoadError = false;
         switch (value) {
             case "":
                 img.hidden = true;
@@ -195,10 +203,15 @@ export class registrationPage {
                 img.src = value
                 error.hidden = true
         }
-        img.onerror = function () {
+        img.onerror = async () => {
             img.hidden = true;
             error.hidden = false
+            this.imageLoadError = true;
         }
+
+        img.onload = e => {
+            console.log(e)
+        }   
     }
 
 }

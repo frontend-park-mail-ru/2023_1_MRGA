@@ -24,7 +24,7 @@ const feedNunjucksTemplate =
     <div class="content">
         {%if isContent %}
             <div class="card" onselectstart="return false">
-            <div class="swipe user inline_block">
+            <div class="swipe pointer user inline_block">
                 <img ondragstar="return false"
                     class="user"
                     id="rec-avatar"

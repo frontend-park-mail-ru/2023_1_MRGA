@@ -67,7 +67,6 @@ export class authorizationPage {
         const password = this.#root.querySelector("#pass")
         password.addEventListener('input', (e) => {
             this.pass = e.currentTarget.value;
-            console.dir(this.pass.toString());
         });
 
         const login = this.#root.querySelector("#login")
