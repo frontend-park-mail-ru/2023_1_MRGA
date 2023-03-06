@@ -36,7 +36,7 @@ const registrationNunjucksTemplate =
             </span>
             <span class="avatar">
                 <label for="avatar" class="authLabel">Avatar</label>
-                <input class="authorizationFormElement" id="avatar" required="false" name="avatar" type="text" placeholder="" value="">
+                <input class="authorizationFormElement" id="avatar" name="avatar" type="text" placeholder="" value="">
                 <img src ="" hidden="true" id="hidden-avatar">
                 <p id="error-photo" hidden="true">Некорректное фото</p>
             </span>
