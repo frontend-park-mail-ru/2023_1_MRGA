@@ -5,7 +5,7 @@ const public = path.join(path.resolve(__dirname, '..'), 'public');
 
 const config = {
     PORT: 3000,
-    HOST: "localhost"
+    HOST: "192.168.0.2"
 }
 
 app.get('/', function(req, res) {
