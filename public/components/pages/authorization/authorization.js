@@ -4,6 +4,9 @@ const authorizationNunjucksTemplate =
     `<div class="authorizationContainer">
         <form class="authorizationForm">
             <img src="./LogoMini.svg" width="46">
+            <span class="inviteText">
+                <p>Введите выши данные</p>
+            </span>
             <span>
                 <label for="email" class="authLabel">Почта или login</label>
                 <input class="authorizationFormElement" id="login" name="email" type="text" placeholder="123@mail.ru">

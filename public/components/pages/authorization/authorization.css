@@ -2,7 +2,7 @@
     padding: 1rem;
     display: flex;
     justify-content: center;
-    max-width: 60%;
+    max-width: 50%;
     background-color: #FFFFFF;
     margin: 1rem auto;
     border-radius: 3%;
@@ -10,7 +10,6 @@
 
 .authorizationFormElement {
     display: block;
-    margin: 1rem;
     min-width: 414px;
     min-height: 68px;
     border-radius: 20px;
@@ -25,10 +24,14 @@
     flex-direction: column;
     align-items: center;
 }
+
+
 .authLabel {
+    margin-top: 15px;
     display: block;
     font-size: 24px;
     font-weight: 500;
+    font-family: "Avenir Next";
 }
 
 .password {
@@ -58,10 +61,19 @@
 }
 
 .enterButton {
+    margin-top: 10%;
     background: #6864FE;
     border: none;
+    font-family: "Avenir Next";
+    color: white;
+    font-size: 36px;
 }
 
 .errorText {
     color: mediumvioletred;
+}
+
+.inviteText p{
+    font-size: 36px;
+    font-family: "Avenir Next";
 }
