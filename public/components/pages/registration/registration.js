@@ -64,31 +64,6 @@ function viewPasswordClick(e) {
 
 }
 
-function ShowImageClick(e) {
-    e.preventDefault();
-    const classAvatar = document.querySelector(".avatar")
-    const error = classAvatar.querySelector("p");
-    const input = classAvatar.querySelector("input");
-    const img = classAvatar.querySelector("img");
-    const value = input.value;
-    error.hidden = true
-    switch (value) {
-        case "":
-            img.hidden = true;
-            error.hidden = true
-            break;
-        default:
-            img.hidden = false;
-            img.src = value
-            error.hidden = true
-    }
-    img.onerror = function () {
-        img.hidden = true;
-        error.hidden = false
-    }
-}
-
-
 export class registrationPage {
     #root
     #header
@@ -118,7 +93,7 @@ export class registrationPage {
         const passView2 = this.#root.querySelector("#view-pass2")
         passView2.addEventListener('click', viewPasswordClick)
         const image = this.#root.querySelector("#avatar")
-        image.addEventListener('input', ShowImageClick)
+        image.addEventListener('input', this.ShowImageClick)
 
         this.regForm = this.#root.querySelector("#regForm")
         this.regForm.addEventListener('input', this.formInputListener)
@@ -189,7 +164,7 @@ export class registrationPage {
                 "age": Number(this.age),
                 "sex": this.sex,
                 "password": this.pass2,
-
+                "avatar": this.avatar
             })
             const json = await resp.json()
             if (json.status !== 200) {
@@ -200,13 +175,30 @@ export class registrationPage {
         } catch (e) {
             console.log(e)
         }
-        // console.log(this.email);
-        // console.log(this.nickname);
-        // console.log(this.age);
-        // console.log(this.sex);
-        // console.log(this.pass1);
-        // console.log(this.pass2);
+    }
+
+     ShowImageClick = (e) => {
+        e.preventDefault();
+        const classAvatar = document.querySelector(".avatar")
+        const error = classAvatar.querySelector("p");
+        const input = classAvatar.querySelector("input");
+        const img = classAvatar.querySelector("img");
+        const value = input.value;
+        error.hidden = true
+        switch (value) {
+            case "":
+                img.hidden = true;
+                error.hidden = true
+                break;
+            default:
+                img.hidden = false;
+                img.src = value
+                error.hidden = true
+        }
+        img.onerror = function () {
+            img.hidden = true;
+            error.hidden = false
+        }
     }
 
 }
-

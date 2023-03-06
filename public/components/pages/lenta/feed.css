@@ -99,6 +99,7 @@ body {
     margin-top: 40px;
 	position: relative;
 	height: 450px;
+	display: flex;
 }
 
 .inline_block {
