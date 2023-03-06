@@ -24,7 +24,7 @@ const feedNunjucksTemplate =
     <div class="content">
         {%if isContent %}
             <div class="card" onselectstart="return false">
-            <div class="user inline_block">
+            <div class="swipe user inline_block">
                 <img ondragstar="return false"
                     class="user"
                     id="rec-avatar"
@@ -78,23 +78,16 @@ export class feedPage {
         this.#logoutLink = this.#root.querySelector("#logout")
         this.#logoutLink.addEventListener('click', this.#onLogoout);
         const buttons = this.#root.querySelector(".buttons");
-        const content = this.#root.querySelector(".content");
+        const card = this.#root.querySelector(".swipe");
         if (buttons) {
             buttons.addEventListener('click', this.#onButtonsClick, true)
-            content.addEventListener('swipe', e => {
-                console.log(e.detail);
+            card.addEventListener('swipe', this.#onSwipe, true)
+            swipe(card, { maxTime: 1000, minTime: 100, maxDist: 150,  minDist: 60 });
+            const recAvatar = this.#root.querySelector("#rec-avatar");
+            recAvatar.addEventListener('dragstart', e => {
+                e.preventDefault();
             })
-        }
-        swipe(content, { maxTime: 1000, minTime: 100, maxDist: 150,  minDist: 60 });
-        const recAvatar = this.#root.querySelector("#rec-avatar");
-        // recAvatar.addEventListener('click', e => {
-        //     e.preventDefault();
-        // })
-        recAvatar.addEventListener('dragstart', e => {
-            e.preventDefault();
-        })
-        
-
+        }   
     }
     render = async () => {
          this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -111,6 +104,11 @@ export class feedPage {
         this.#root.innerHTML = this.#nunjucksTemplate.render({context: this.user, recommendation: this.#recomendations[this.#counter++], isContent: true})
 
         this.initEventListeners()
+    }
+    #onSwipe = async (e) => {
+        if (e.detail.dir == "left" || e.detail.dir == "right") {
+            this.nextRec();
+        }
     }
     #onButtonsClick = async (e) => {
         let button = false;
@@ -129,18 +127,19 @@ export class feedPage {
             }
         }
         if (button) {
-            console.log("here " ,this.#counter)
-            if (this.#counter >= this.#recomendations.length) {
-                console.log("here " ,this.#counter)
-                this.#root.innerHTML = this.#nunjucksTemplate.render({context: this.user, isContent: false})
-                this.initEventListeners()
-                return
-            }
-            this.#root.innerHTML = this.#nunjucksTemplate.render({context: this.user,
-                recommendation: this.#recomendations[this.#counter++],
-                isContent: true})
-            this.initEventListeners()
+           this.nextRec();
         }
+    }
+    nextRec = async () => {
+        if (this.#counter >= this.#recomendations.length) {
+            this.#root.innerHTML = this.#nunjucksTemplate.render({context: this.user, isContent: false})
+            this.initEventListeners()
+            return
+        }
+        this.#root.innerHTML = this.#nunjucksTemplate.render({context: this.user,
+            recommendation: this.#recomendations[this.#counter++],
+            isContent: true})
+        this.initEventListeners()
     }
 }
 
