@@ -140,12 +140,12 @@ export class registrationPage {
             }
         }
         if (e.target.id === "pass1" || e.target.id === "pass2") {
-            if (this.pass1 !== this.pass2) {
-                this.err.innerHTML = 'пароли не совпадают';
-                return
-            }
             if (this.pass1.length < 5) {
                 this.err.innerHTML = 'пароль слишком короткий';
+                return
+            }
+            if (this.pass1 !== this.pass2) {
+                this.err.innerHTML = 'пароли не совпадают';
             }
         }
     }

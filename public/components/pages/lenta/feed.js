@@ -75,7 +75,6 @@ export class feedPage {
     initEventListeners() {
         this.#logoutLink = this.#root.querySelector("#logout")
         this.#logoutLink.addEventListener('click', this.#onLogoout);
-
         const buttons = this.#root.querySelector(".buttons");
         if (buttons) {
             buttons.addEventListener('click', this.#onButtonsClick, true)
@@ -88,7 +87,9 @@ export class feedPage {
         const jsonResponse = await recommendationsQueryResponse.json();
         if (jsonResponse.status !== 200 || jsonResponse.recommendations.length < 1) {
             this.#recomendations = [];
-            console.log(jsonResponse.err)
+            this.#root.innerHTML = this.#nunjucksTemplate.render({context: this.user, isContent: false});
+            this.initEventListeners()
+            return
         }
         this.#recomendations = jsonResponse.recommendations;
         this.#root.innerHTML = this.#nunjucksTemplate.render({context: this.user, recommendation: this.#recomendations[this.#counter++], isContent: true})
