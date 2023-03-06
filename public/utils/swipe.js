@@ -3,7 +3,7 @@
  * @param {Object} el - элемент DOM.
  * @param {Object} settings - объект с предварительными настройками.
  */
-export const swipe = function(el, settings) {
+export const swipe = function(el, settingss) {
 
     // настройки по умолчанию
     var settings = Object.assign({}, {
@@ -11,7 +11,7 @@ export const swipe = function(el, settings) {
         maxDist: 120, // максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп (px)
         maxTime: 700, // максимальное время, за которое должен быть совершен свайп (ms)
         minTime: 50   // минимальное время, за которое должен быть совершен свайп (ms)
-    }, settings);
+    }, settingss);
 
     // коррекция времени при ошибочных значениях
     if (settings.maxTime < settings.minTime) settings.maxTime = settings.minTime + 500;
