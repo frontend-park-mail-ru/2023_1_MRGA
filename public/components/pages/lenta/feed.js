@@ -1,4 +1,5 @@
 import {Tinder} from "../../../api/api.js";
+import { swipe } from "../../../utils/swipe.js";
 
 const feedNunjucksTemplate =
 `<div class="container">
@@ -22,10 +23,11 @@ const feedNunjucksTemplate =
     </div>
     <div class="content">
         {%if isContent %}
-            <div class="card">
+            <div class="card" onselectstart="return false">
             <div class="user inline_block">
-                <img
+                <img ondragstar="return false"
                     class="user"
+                    id="rec-avatar"
                     src="{{recommendation.avatar}}"
                     alt=""
                 />
@@ -40,13 +42,13 @@ const feedNunjucksTemplate =
             <div class="user_desc inline_block">{{recommendation.description}}</div>
         </div>
         <div class="buttons">
-            <div id="no" class="no">
+            <div id="no" class="no pointer">
                 <i id="no" class="fas fa-times"></i>
             </div>
-            <div id="star" id="star" class="star">
+            <div id="star" id="star" class="star pointer">
                 <i id="star" class="fas fa-star fa"></i>
             </div>
-            <div id="heart" class="heart">
+            <div id="heart" class="heart pointer">
                 <i id="heart" class="fas fa-heart"></i>
             </div>
         </div>
@@ -76,9 +78,23 @@ export class feedPage {
         this.#logoutLink = this.#root.querySelector("#logout")
         this.#logoutLink.addEventListener('click', this.#onLogoout);
         const buttons = this.#root.querySelector(".buttons");
+        const content = this.#root.querySelector(".content");
         if (buttons) {
             buttons.addEventListener('click', this.#onButtonsClick, true)
+            content.addEventListener('swipe', e => {
+                console.log(e.detail);
+            })
         }
+        swipe(content, { maxTime: 1000, minTime: 100, maxDist: 150,  minDist: 60 });
+        const recAvatar = this.#root.querySelector("#rec-avatar");
+        // recAvatar.addEventListener('click', e => {
+        //     e.preventDefault();
+        // })
+        recAvatar.addEventListener('dragstart', e => {
+            e.preventDefault();
+        })
+        
+
     }
     render = async () => {
          this.user = JSON.parse(localStorage.getItem('currentUser'));

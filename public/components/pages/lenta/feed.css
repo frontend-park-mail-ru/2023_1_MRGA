@@ -214,6 +214,7 @@ body {
 	color: white;
 	text-decoration: none;
 	font-weight: 600;
+	cursor: pointer;
 }
 
 .logout:visited {
@@ -222,4 +223,8 @@ body {
 
 .logout:hover {
 	color: #e7e6f8;
+}
+
+.pointer {
+	cursor: pointer;
 }
