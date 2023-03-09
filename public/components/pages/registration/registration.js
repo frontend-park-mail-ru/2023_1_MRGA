@@ -137,8 +137,6 @@ export class registrationPage {
                 this.pass2 = e.target.value;
                 break;
             }
-            default: {
-            }
         }
         if (e.target.id === "pass1" || e.target.id === "pass2") {
             if (this.pass1.length < 5) {
