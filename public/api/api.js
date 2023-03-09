@@ -1,6 +1,6 @@
 import {Ajax} from "./ajax.js";
 
-export const BackendHost = "http://5.159.100.59:8080";:
+export const BackendHost = "http://5.159.100.59:8080";
 // export const BackendHost = "http://localhost:8080";
 
 const ApiUrl = BackendHost+"/meetme/";
