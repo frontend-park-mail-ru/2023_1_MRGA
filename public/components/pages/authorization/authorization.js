@@ -1,9 +1,11 @@
 import {Tinder} from "../../../api/api.js";
+import logoMini from "../../../assets/LogoMini.svg"
+import * as nunjucks from "nunjucks"
 
 const authorizationNunjucksTemplate =
     `<div class="authorizationContainer">
         <form class="authorizationForm">
-            <img src="./LogoMini.svg" width="46">
+            <img src={{logo}} width="46">
             <span class="inviteText">
                 <p>Введите ваши данные</p>
             </span>
@@ -72,14 +74,13 @@ export class authorizationPage {
         const login = this.#root.querySelector("#login")
         login.addEventListener('input', (e) => {
             this.login = e.currentTarget.value;
-            console.dir(this.login.toString());
         });
 
         this.err = this.#root.querySelector("#error");
     }
     getNode() {
         const div = document.createElement('div');
-        div.innerHTML = this.#nunjucksTemplate.render();
+        div.innerHTML = this.#nunjucksTemplate.render({logo: logoMini});
         return div.firstChild;
     }
 
@@ -88,7 +89,6 @@ export class authorizationPage {
         this.err.innerHTML = '';
         try {
             const resp = await Tinder.login({"password": this.pass, "input": this.login})
-            console.log(resp)
             const json = await resp.json()
             if (json.status !== 200) {
                 this.err.innerHTML = json.err;
@@ -96,7 +96,6 @@ export class authorizationPage {
             }
             this.onSuccess();
         } catch (e) {
-            console.dir(e)
             alert(e)
         }
 

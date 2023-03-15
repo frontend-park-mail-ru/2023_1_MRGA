@@ -1,5 +1,7 @@
 import {Tinder} from "../../../api/api.js";
 import { swipe } from "../../../utils/swipe.js";
+import {userStore} from "../../../store/user.js";
+import * as nunjucks from "nunjucks"
 
 const feedNunjucksTemplate =
 `<div class="container">
@@ -90,7 +92,7 @@ export class feedPage {
         }   
     }
     render = async () => {
-         this.user = JSON.parse(localStorage.getItem('currentUser'));
+         this.user = userStore.getState()
 
         const recommendationsQueryResponse = await Tinder.recommendations();
         const jsonResponse = await recommendationsQueryResponse.json();

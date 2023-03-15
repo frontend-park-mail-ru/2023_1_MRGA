@@ -1,9 +1,12 @@
 import {Tinder} from "../../../api/api.js";
 
+import logoMini from "../../../assets/LogoMini.svg";
+import * as nunjucks from "nunjucks"
+
 const registrationNunjucksTemplate =
     `<div class="authorizationContainer">
         <form id="regForm" class="authorizationForm">
-            <img src="./LogoMini.svg" width="46">
+            <img src={{logoMini}} width="46">
             <span>
                 <label for="email" class="authLabel">Email Address</label>
                 <input class="authorizationFormElement" id="email" required="true" name="email" type="email" placeholder="123@mail.ru">
@@ -103,7 +106,7 @@ export class registrationPage {
     }
     getNode() {
         const div = document.createElement('div');
-        div.innerHTML = this.#nunjucksTemplate.render();
+        div.innerHTML = this.#nunjucksTemplate.render({logoMini: logoMini});
         return div.firstChild;
     }
     formInputListener = (e) => {
@@ -158,7 +161,6 @@ export class registrationPage {
         }
         this.err.innerHTML = '';
         if (this.pass1 !== this.pass2) {
-            console.log("err", this.err);
             this.err.innerHTML = "пароли не совпадают";
             return
         }
@@ -178,7 +180,6 @@ export class registrationPage {
             }
             this.onSuccess();
         } catch (e) {
-            console.log(e)
         }
     }
 

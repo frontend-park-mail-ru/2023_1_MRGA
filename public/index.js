@@ -1,27 +1,29 @@
-import {authorizationPage} from "./components/pages/authorization/authorization.js";
-import {registrationPage} from "./components/pages/registration/registration.js";
-import {feedPage} from "./components/pages/lenta/feed.js";
-import {headerComponent} from "./components/header/header.js";
+import {authorizationPage} from "pages/authorization/authorization";
+import {registrationPage} from "pages/registration/registration";
+import {feedPage} from "components/pages/lenta/feed";
+import {headerComponent} from "components/header/header";
 
-import {menuItems} from "./components/header/header.js";
+import {menuItems} from "components/header/header";
 import {Tinder} from "./api/api.js";
-import {User} from "./store/user.js";
+import {setUser, userStore} from "./store/user.js";
 
+import styles from "./styles/styles.css"
+import less from "./styles/less.less"
+import scss from "./styles/scss.scss"
 
 const root = document.getElementById('root')
 
+
+
 const onLogout = async (e) => {
     e.preventDefault();
-    console.log(e)
     const logoutResponse = await Tinder.logout();
     const jsonResponse = await  logoutResponse.json();
     if (jsonResponse.status !== 200) {
-        console.log(jsonResponse.err);
     }
+    userStore.dispatch(setUser(undefined));
     loginPage();
-    User.setUser('')
 }
-
 
 
 const lenta = new feedPage(root, onLogout);
@@ -50,7 +52,7 @@ const loadPage = async () => {
     if (json.status !== 200) {
         loginPage()
     } else {
-        User.setUser(json)
+        userStore.dispatch(setUser(json))
         lenta.render()
     }
 }

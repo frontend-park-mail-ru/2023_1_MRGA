@@ -45,11 +45,11 @@
     display: inline-block;
     width: 35px;
     height: 30px;
-    background: url(./view_outline.svg) 0 0 no-repeat;
+    background: url(../../../assets/view_outline.svg) 0 0 no-repeat;
 }
 
 .password-control.view {
-    background: url(./view.svg) 0 0 no-repeat;
+    background: url(../../../assets/view.svg) 0 0 no-repeat;
 }
 
 .avatar img{

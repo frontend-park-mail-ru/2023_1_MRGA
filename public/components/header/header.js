@@ -1,4 +1,6 @@
 import {loginPage, signupPage} from "../../index.js"
+import logo from "../../assets/Logo.svg"
+import * as nunjucks from "nunjucks"
 
 export const RENDER_TYPE = {
     NUNJUCKS: 'nunjucks'
@@ -21,7 +23,7 @@ export const menuItems = Object.entries(headerConfig).map(([key, {href, textCont
 
 const headerNunjucksTemplate =
     `<div class="headerContainer">
-        <img src="./Logo.svg" width="203">
+        <img src={{logo}} width="203">
         <div>
             {% for item in items %}
             <a href={{item.href}} data-section={{item.key}} class="headerElement"> {{item.textContent}}</a>
@@ -46,7 +48,7 @@ export class headerComponent {
     }
     init() {
         const div = document.createElement('div')
-        div.innerHTML = this.#nunjucksTemplate.render({items: this.#items});
+        div.innerHTML = this.#nunjucksTemplate.render({items: this.#items, logo: logo});
         this.#node =  div.firstChild;
     }
     render(type) {
