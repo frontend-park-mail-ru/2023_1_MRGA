@@ -5,10 +5,10 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env NODE_ENV=development webpack --mode production",
-    "build": "cross-env NODE_ENV=production webpack --mode production",
-    "watch": "cross-env NODE_ENV=development webpack serve --mode development --open",
-    "stats":"webpack --json > stats.json && webpack-bundle-analyzer stats.json"
+    "dev": "cross-env NODE_ENV=development webpack --mode development",
+    "build": "cross-env NODE_ENV=production NEED_CLEAN=dontNeed webpack --mode production",
+    "watch": "cross-env NODE_ENV=development NEED_CLEAN=dontNeed webpack serve --mode development --open",
+    "stats": "webpack --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
     "@babel/plugin-transform-react-jsx": "^7.21.0",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-typescript": "^7.21.0",
+    "autoprefixer": "^10.4.14",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^9.1.2",
     "clean-webpack-plugin": "^4.0.0",
@@ -51,11 +52,14 @@
     "less-loader": "^11.1.0",
     "mini-css-extract-plugin": "^2.7.3",
     "node-sass": "^8.0.0",
+    "postcss-loader": "^7.0.2",
+    "resolve-url-loader": "^5.0.0",
     "sass-loader": "^13.2.0",
     "scss": "^0.2.4",
     "scss-loader": "^0.0.1",
     "style-loader": "^3.3.2",
     "terser-webpack-plugin": "^5.3.7",
+    "url-loader": "^4.1.1",
     "webpack": "^5.76.1",
     "webpack-bundle-analyzer": "^4.8.0",
     "webpack-cli": "^5.0.1",

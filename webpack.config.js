@@ -9,7 +9,7 @@ const path = require('path')
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
-
+const dontNeedClean = process.env.NEED_CLEAN === 'dontNeed';
 const filename = ext => isDev ? `[name].${ext }` : `[name].[hash].${ext}`
 
 const optimization = () => {
@@ -31,7 +31,29 @@ const cssLoaders =  (extra) => {
     const loaders = [{
         loader: MiniCssExtractPlugin.loader,
         options: {}
-    }, 'css-loader']
+    },
+    {
+        loader: 'css-loader',
+        options: {
+            url: false,
+            esModule: false
+        }
+    },
+    {
+        loader: 'postcss-loader',
+        options: {
+            postcssOptions: {
+                plugins: ['autoprefixer'],
+            },
+        },
+    },
+    {
+        loader: 'resolve-url-loader',
+        options: {
+            sourceMap: isDev,
+            esModule: false
+        },
+    }]
     if (extra) {
         loaders.push(extra);
     }
@@ -74,7 +96,6 @@ const plugins = () => {
                 collapseWhitespace: isProd
             }
         }),
-        new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
             patterns: [ {
                 from: path.resolve(__dirname, 'public/assets/favicon.ico'),
@@ -85,6 +106,9 @@ const plugins = () => {
             filename: filename('css')
         })
     ]
+    if (!dontNeedClean) {
+        plugins.push(new CleanWebpackPlugin())
+    }
     if (isProd) {
         plugins.push(new BundleAnalyzerPlugin())
     }
@@ -132,7 +156,12 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,
-                use: ['file-loader']
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]',
+                    outputPath: 'assets/',
+                    esModule: false
+                }
             },
             {
                 test: /\.js$/,
