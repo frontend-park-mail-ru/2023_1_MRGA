@@ -180,6 +180,7 @@ export class registrationPage {
             }
             this.onSuccess();
         } catch (e) {
+            console.log(e)
         }
     }
 

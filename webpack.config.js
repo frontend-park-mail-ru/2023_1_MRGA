@@ -4,6 +4,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path')
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -37,6 +38,59 @@ const cssLoaders =  (extra) => {
     return loaders;
 }
 
+const jsLoaders = () => {
+    const loaders = [{
+        loader: 'babel-loader',
+        options: babelOptions()
+    }]
+    if (isDev) {
+        loaders.push('eslint-loader')
+    }
+    return loaders;
+}
+
+const babelOptions = (presets, plugins) => {
+    const options = {
+        presets: ["@babel/preset-env"]
+        // plugins: [["@babel/plugin-transform-react-jsx", {
+        //     "pragma": "h",
+        //     "pragmaFrag": "createElement"
+        // }]],
+    }
+    if (Array.isArray(presets)) {
+        options.presets = [...options.presets, ...presets]
+    }
+    if (Array.isArray(plugins)) {
+        options.plugins = [...options.plugins, ...plugins]
+    }
+    return options;
+}
+
+const plugins = () => {
+    const plugins = [
+        new HtmlWebpackPlugin({
+            template: "./index.html",
+            minify: {
+                collapseWhitespace: isProd
+            }
+        }),
+        new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [ {
+                from: path.resolve(__dirname, 'public/assets/favicon.ico'),
+                to:  path.resolve(__dirname, 'dist')
+            }],
+        }),
+        new MiniCssExtractPlugin({
+            filename: filename('css')
+        })
+    ]
+    if (isProd) {
+        plugins.push(new BundleAnalyzerPlugin())
+    }
+    return plugins;
+}
+
 module.exports = {
     context: path.resolve(__dirname,'public'),
     mode: 'development',
@@ -60,24 +114,8 @@ module.exports = {
         port: "3000",
         historyApiFallback: true,
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: "./index.html",
-            minify: {
-                collapseWhitespace: isProd
-            }
-        }),
-        new CleanWebpackPlugin(),
-        new CopyWebpackPlugin({
-            patterns: [ {
-                    from: path.resolve(__dirname, 'public/assets/favicon.ico'),
-                    to:  path.resolve(__dirname, 'dist')
-            }],
-        }),
-        new MiniCssExtractPlugin({
-            filename: filename('css')
-        })
-    ],
+    devtool: isDev? 'source-map' : false,
+    plugins: plugins(),
     module: {
         rules: [
             {
@@ -95,6 +133,19 @@ module.exports = {
             {
                 test: /\.(png|jpg|svg|gif)$/,
                 use: ['file-loader']
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use:  jsLoaders()
+            },
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                use:  {
+                    loader: 'babel-loader',
+                    options: babelOptions(["@babel/preset-typescript"])
+                }
             }
 
         ]

@@ -10,6 +10,7 @@ import {setUser, userStore} from "./store/user.js";
 import styles from "./styles/styles.css"
 import less from "./styles/less.less"
 import scss from "./styles/scss.scss"
+import {f} from "./ts.ts"
 
 const root = document.getElementById('root')
 
@@ -20,6 +21,7 @@ const onLogout = async (e) => {
     const logoutResponse = await Tinder.logout();
     const jsonResponse = await  logoutResponse.json();
     if (jsonResponse.status !== 200) {
+        console.log(200)
     }
     userStore.dispatch(setUser(undefined));
     loginPage();
