@@ -99,6 +99,7 @@ a {
 .side-bar .buttons {
     display: flex;
     flex-direction: column;
+    font-size: 18px;
 }
 
 .side-bar svg {
@@ -240,7 +241,8 @@ a {
 
 .distance {
     display: flex;
-    /*margin-top: 4px;*/
+    font-size: 18px;
+    margin-top: 4px;
     color: #8A8A8A;
 
 }
@@ -298,4 +300,24 @@ a {
     margin-bottom: 8px;
     margin-left: 4px;
     margin-right: 4px;
+}
+
+.btn-edit {
+    margin-top: 16px;
+    border-radius: 20px;
+    color: white;
+    background-color: #6864FE;
+    min-width: 300px;
+
+    font-size: 18px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 14px 25px;
+    gap: 10px;
+}
+
+.btn-edit:hover {
+    background-color: #3F2FFF;
 }
