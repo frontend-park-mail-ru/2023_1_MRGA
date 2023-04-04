@@ -7,11 +7,3 @@
     padding: 1rem;
     box-sizing: border-box;
 }
-
-.headerElement {
-    padding: 1rem;
-    font-weight: bold;
-}
-.headerContainer a {
-    text-decoration: none;
-}

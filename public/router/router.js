@@ -1,14 +1,23 @@
+import {render} from "@/lib/jsx";
+import {Header} from "components/App/header/header";
+import {AuthorizationPage} from "components/App/pages/authorization/authorization";
+import {RegistrationPage} from "components/App/pages/registration/registration";
+import {Navigate} from "@/lib/jsx/components/navigate/navigate";
+
 export const routes = [
-    { path: '/', component: '<h1>Home Page</h1>' },
-    { path: '/login', component: '<h1>About Page</h1>' },
-    { path: '/authorization', component: '<h1>Contact Page</h1>' },
+    { path: '/login', component: AuthorizationPage},
+    { path: '/hello', component: (arg) => <h1>{arg}</h1>, args: {arg: "arg"}},
+    { path: '/', component: (arg) => <h1>{arg}</h1>, args: {arg: "arg"}},
+    { path: '/header', component: Header},
+    {path: '/signup', component: RegistrationPage}
+    // {path:'/', component}
 ];
 
 const router = () => {
     const currentPath = window.location.pathname;
     const route = routes.find(route => route.path === currentPath);
-    const appContainer = document.getElementById('app-container');
-    appContainer.innerHTML = route.component;
+    const args = Object.values(route.args || []);
+    render(route.component.call(null, ...args));
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,15 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('popstate', () => {
+    console.log("popstate");
     router();
 });
 
-const links = document.querySelectorAll('.nav-link');
-links.forEach(link => {
-    link.addEventListener('click', e => {
-        e.preventDefault();
-        const href = link.getAttribute('href');
-        window.history.pushState({}, href, window.location.origin + href);
-        router();
-    });
-});
+

@@ -30,11 +30,11 @@ const optimization = () => {
 const cssLoaders =  (extra) => {
     const loaders = [{
         loader: MiniCssExtractPlugin.loader,
-        options: {}
     },
     {
         loader: 'css-loader',
         options: {
+            sourceMap: isDev,
             url: false,
             esModule: false
         }
@@ -42,18 +42,19 @@ const cssLoaders =  (extra) => {
     {
         loader: 'postcss-loader',
         options: {
+            sourceMap: true,
             postcssOptions: {
                 plugins: ['autoprefixer'],
             },
         },
-    },
-    {
-        loader: 'resolve-url-loader',
-        options: {
-            sourceMap: isDev,
-            esModule: false
-        },
     }]
+    // {
+    //     loader: 'resolve-url-loader',
+    //     options: {
+    //         sourceMap: true,
+    //         esModule: false
+    //     },
+    // }]
     if (extra) {
         loaders.push(extra);
     }
@@ -66,18 +67,18 @@ const jsLoaders = () => {
         options: babelOptions()
     }]
     if (isDev) {
-        loaders.push('eslint-loader')
+        // loaders.push('eslint-loader')
     }
     return loaders;
 }
 
 const babelOptions = (presets, plugins) => {
     const options = {
-        presets: ["@babel/preset-env"]
-        // plugins: [["@babel/plugin-transform-react-jsx", {
-        //     "pragma": "h",
-        //     "pragmaFrag": "createElement"
-        // }]],
+        presets: ["@babel/preset-env"],
+        plugins: [["@babel/plugin-transform-react-jsx", {
+            "pragma": "window.h",
+            "pragmaFrag": "createElement"
+        }]],
     }
     if (Array.isArray(presets)) {
         options.presets = [...options.presets, ...presets]
@@ -130,13 +131,16 @@ module.exports = {
         extensions: ['.js'],
         alias: {
             'components': path.resolve(__dirname, 'public/components'),
-            'pages': path.resolve(__dirname, 'public/components/pages')
+            'pages': path.resolve(__dirname, 'public/components/pages'),
+            'jsx': path.resolve(__dirname, 'public/jsx'),
+            'assets': path.resolve(__dirname, 'public/assets'),
+            '@': path.resolve(__dirname, 'public')
         }
     },
     devServer: {
         host: "localhost",
         port: "3000",
-        historyApiFallback: true,
+        historyApiFallback: true
     },
     devtool: isDev? 'source-map' : false,
     plugins: plugins(),
@@ -148,11 +152,11 @@ module.exports = {
             },
             {
                 test: /\.s[ac]ss$/,
-                use: cssLoaders('sass-loader')
+                use: cssLoaders({loader: 'sass-loader', options: {sourceMap: isDev}})
             },
             {
                 test: /\.less$/,
-                use: cssLoaders('less-loader')
+                use: cssLoaders({loader: 'less-loader', options: {sourceMap: isDev}})
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,
@@ -167,6 +171,11 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use:  jsLoaders()
+            },
+            {
+                test: /\.(js|css)$/,
+                enforce: 'pre',
+                use: ['source-map-loader'],
             },
             {
                 test: /\.ts$/,

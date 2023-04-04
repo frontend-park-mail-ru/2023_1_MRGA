@@ -1,6 +1,6 @@
-import {Tinder} from "../../../api/api.js";
-import { swipe } from "../../../utils/swipe.js";
-import {userStore} from "../../../store/user.js";
+import {Tinder} from "../../../../api/api.js";
+import { swipe } from "../../../../utils/swipe.js";
+import {userStore} from "../../../../store/user.js";
 import * as nunjucks from "nunjucks"
 
 const feedNunjucksTemplate =
@@ -108,8 +108,8 @@ export class feedPage {
         this.initEventListeners()
     }
     #onSwipe = async (e) => {
-        if (e.detail.dir == "left" || e.detail.dir == "right") {
-            this.nextRec();
+        if (e.detail.dir === "left" || e.detail.dir === "right") {
+            await this.nextRec();
         }
     }
     #onButtonsClick = async (e) => {

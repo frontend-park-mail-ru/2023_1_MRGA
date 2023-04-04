@@ -1,7 +1,18 @@
-import {Tinder} from "../../../api/api.js";
+import {Tinder} from "../../../../api/api.js";
 
-import logoMini from "../../../assets/LogoMini.svg";
+import logoMini from "assets/LogoMini.svg";
 import * as nunjucks from "nunjucks"
+import {Header} from "components/App/header/header";
+import {PasswordInput} from "components/UI/forms/passwordInput/passwordInput";
+import {createElement} from "@/lib/jsx";
+import {InputWithLabel} from "components/UI/forms/inputWithLabel/inputWithLabel";
+import {Select} from "components/UI/forms/select/select";
+import {Label} from "components/UI/forms/label/label";
+import {Form} from "components/UI/forms/form/form";
+import {FormContainer} from "components/UI/containers/formContainer/formContainer";
+import {Warning} from "components/UI/forms/warning/warning";
+import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
+import {RegistrationForm} from "components/App/registrationForm/registrationForm";
 
 const registrationNunjucksTemplate =
     `<div class="authorizationContainer">
@@ -28,11 +39,6 @@ const registrationNunjucksTemplate =
                 </select>
             </span>
             <span class="password">
-                <label for="password" class="authLabel">Password</label>
-                <input name="password" id="pass1" required="true" class="authorizationFormElement" type="password" placeholder="введите ваш пароль">
-                <a href=# class="password-control" id="view-pass"></a>
-            </span>
-            <span class="password">
                 <label for="password" class="authLabel">Password repeat</label>
                 <input name="password" id="pass2" required="true" class="authorizationFormElement" type="password" placeholder="повторите ваш пароль">
                 <a href=# class="password-control" id="view-pass2"></a>
@@ -43,30 +49,20 @@ const registrationNunjucksTemplate =
                 <img src ="" hidden="true" id="hidden-avatar">
                 <p id="error-photo" hidden="true">Некорректное фото</p>
             </span>
-         
             <span id="error" class="errorText">
             </span>
             <button class="authorizationFormElement enterButton" type="submit">войти</button>
         </form>
     </div>`;
 
-function viewPasswordClick(e) {
-    e.preventDefault();
-    this.classList.toggle('view');
-    const parent = this.parentNode;
-    const input = parent.querySelector("input");
-    const type = input.type;
-    switch (type) {
-        case "password":
-            input.type = "text";
-            break;
-        default:
-            input.type = "password";
-
-    }
-
+export const RegistrationPage = () => {
+    return (
+        <>
+        <Header/>
+        <RegistrationForm/>
+        </>
+    )
 }
-
 export class registrationPage {
     #root
     #header
@@ -90,7 +86,7 @@ export class registrationPage {
     }
     render() {
         this.#root.innerHTML = ''
-        this.#header.render()
+        this.#root.appendChild(this.#header.render())
         this.#root.appendChild(this.getNode())
         const passView = this.#root.querySelector("#view-pass")
         passView.addEventListener('click', viewPasswordClick)

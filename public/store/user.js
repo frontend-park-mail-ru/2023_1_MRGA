@@ -1,4 +1,4 @@
-import {createStore} from "../lib/redux.js";
+import {createStore} from "../lib/redux";
 
 const userToken = 'currentUser';
 

@@ -1,62 +1,59 @@
-import {authorizationPage} from "pages/authorization/authorization";
-import {registrationPage} from "pages/registration/registration";
-import {feedPage} from "components/pages/lenta/feed";
-import {headerComponent} from "components/header/header";
-
-import {menuItems} from "components/header/header";
-import {Tinder} from "./api/api.js";
-import {setUser, userStore} from "./store/user.js";
 
 import styles from "./styles/styles.css"
-import less from "./styles/less.less"
-import scss from "./styles/scss.scss"
-import {f} from "./ts.ts"
-
-const root = document.getElementById('root')
-
-
-
-const onLogout = async (e) => {
-    e.preventDefault();
-    const logoutResponse = await Tinder.logout();
-    const jsonResponse = await  logoutResponse.json();
-    if (jsonResponse.status !== 200) {
-        console.log(200)
-    }
-    userStore.dispatch(setUser(undefined));
-    loginPage();
-}
+// import less from "./styles/less.less"
+// import scss from "./styles/scss.scss"
+// import {f} from "./ts.ts"
+import {createRoot, createElement} from "@/lib/jsx";
+const root = createRoot(document.getElementById('root'));
 
 
-const lenta = new feedPage(root, onLogout);
+import {routes} from "/router/router.js";
+import {Header} from "components/App/header/header";
 
-export  function loginPage(){
-    root.innerHTML = ''
-    const header = new headerComponent(root)
-    header.items = menuItems
 
-    const authPage = new authorizationPage(root, header, loadPage)
-    authPage.render()
-}
+// const onLogout = async (e) => {
+//     e.preventDefault();
+//     const logoutResponse = await Tinder.logout();
+//     const jsonResponse = await  logoutResponse.json();
+//     if (jsonResponse.status !== 200) {
+//         console.log(200)
+//     }
+//     userStore.dispatch(setUser(undefined));
+//     loginPage();
+// }
 
-export function signupPage() {
-    root.innerHTML = ''
-    const header = new headerComponent(root)
-    header.items = menuItems
 
-    const signupPage = new registrationPage(root, header, loadPage)
-    signupPage.render()
-}
+// const lenta = new feedPage(root, onLogout);
 
-const loadPage = async () => {
-    const userResp = await Tinder.getUser()
-    const json = await userResp.json()
-    if (json.status !== 200) {
-        loginPage()
-    } else {
-        userStore.dispatch(setUser(json))
-        lenta.render()
-    }
-}
+// export  function loginPage(){
+//     render(<AuthorizationPage/>, root)
+// }
 
-loadPage()
+// export function signupPage() {
+//     const header = new headerComponent(root)
+//     const signupPage = new registrationPage(root, header, loadPage)
+//     signupPage.render()
+// }
+
+// export const loadPage = async () => {
+//     const userResp = await Tinder.getUser()
+//     const json = await userResp.json()
+//     if (json.status !== 200) {
+//         loginPage()
+//     } else {
+//         userStore.dispatch(setUser(json))
+//         await lenta.render()
+//     }
+// }
+// console.log(<Link href={"/hello"}>MY LINK</Link>)
+// console.log(<AuthorizationPage some={"hello"}/>)
+// render(<AuthorizationPage some={"hello"}/>, root)
+// render(<Link className={"yellow"} href="/hello" myprops={lenta}>MY LINK</Link> , root);
+
+// loadPage()
+// root.appendChild(createElement(<Header/>))
+
+// root.appendChild(createElement(<AuthorizationPage/>))
+// const jsx = <>hello</>
+// render(jsx, root)
+// render(<AuthorizationPage/>, root)
