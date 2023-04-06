@@ -1,6 +1,6 @@
-import {Tinder} from "../../../../api/api.js";
-import { swipe } from "../../../../utils/swipe.js";
-import {userStore} from "../../../../store/user.js";
+import {Tinder} from "@/api/api";
+import { swipe } from "@/utils/swipe";
+import {userStore} from "@/store/user";
 import * as nunjucks from "nunjucks"
 
 const feedNunjucksTemplate =
@@ -57,8 +57,6 @@ const feedNunjucksTemplate =
         {% else %}
         <div> Список пользователей закончился </div>
         {% endif %}
-        
-        
     </div>
 </div>`;
 
@@ -145,3 +143,65 @@ export class feedPage {
     }
 }
 
+export const FeedPage = () => {
+    const onSelectStart = () => {
+        return false;
+    }
+    return (
+        <div className={"container"}>
+            <div className="side">
+                <div className="header">
+                    <div className="avatar">
+                        <img src="{{context.avatar}}"/>
+                    </div>
+                    <div className="title">"Username"</div>
+                    <div className="logout-btn-box">
+                        <a className="logout" id="logout">Log out</a>
+                    </div>
+                </div>
+                <div className="menu">
+                    <ul>
+                        {/*// <!--                <li>Совпадения</li>-->*/}
+                        {/*// <!--                <li>Сообщения</li>-->*/}
+                        <li className="active">Поиск</li>
+                    </ul>
+                </div>
+            </div>
+            <div className="content">
+                {/*{%if isContent %}*/}
+                <div className="card" onSelectStart={onSelectStart}>
+                    <div className="swipe pointer user inline_block">
+                        <img onDragStart={() => false}
+                             className="user"
+                             id="rec-avatar"
+                             src="{{recommendation.avatar}}"
+                             alt=""
+                        />
+                        <div className="profile">
+                            <div className="name">"recommendation.username" <span>recommendation.age</span></div>
+                            <div className="local">
+                                <i className="fas fa-map-marker-alt"></i>
+                                <span>Москва</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="user_desc inline_block">"recommendation.description"</div>
+                </div>
+                <div className="buttons">
+                    <div id="no" className="no pointer">
+                        <i id="no" className="fas fa-times"></i>
+                    </div>
+                    <div id="star" id="star" className="star pointer">
+                        <i id="star" className="fas fa-star fa"></i>
+                    </div>
+                    <div id="heart" className="heart pointer">
+                        <i id="heart" className="fas fa-heart"></i>
+                    </div>
+                </div>
+                {/*{% else %}*/}
+                <div> Список пользователей закончился</div>
+                {/*{% endif %}*/}
+            </div>
+        </div>
+    )
+}

@@ -32,7 +32,6 @@ export const AuthorizationForm = () => {
             alert(e)
         }
     }
-
     return (
         <FormContainer>
             <Form>
