@@ -1,11 +1,26 @@
 import styles from './sideBar.module.css'
+import {User} from "@/store/user";
+import {Tinder} from "@/api/api";
 
-export const SideBar = (props) => {
+
+export const SideBar = () => {
+    const name = Tinder.getUser()
+        .then(result => result.json())
+        .then((user) => {
+            document.getElementById("userName").innerText = user.name;
+        });
+    console.log("hello")
+    // console.log(name)
+    // console.log(user)
+
     return (
         <div className={styles.sideBar}>
             <div className={styles.profileInfo}>
                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
-                    <div className={styles.name}>Александр, 28</div>
+                    <div id="userName" className={styles.name}>
+                        {/*Александр, 28*/}
+                        {/*{name}*/}
+                    </div>
             </div>
             <div className={styles.spacer}></div>
 

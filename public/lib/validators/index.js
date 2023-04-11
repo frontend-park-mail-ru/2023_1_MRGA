@@ -31,7 +31,7 @@ export const validatePassword = (password) => {
     return { valid: true };
 }
 
-export const validateNickname = (nickname) => {
-    const usernameRegex = /^[a-zA-Z0-9_-]{3,16}$/;
-    return usernameRegex.test(nickname);
+export const validateName = (name) => {
+    const usernameRegex = /^[a-zA-Z]{3,16}$/;
+    return usernameRegex.test(name);
 }

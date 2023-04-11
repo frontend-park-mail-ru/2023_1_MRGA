@@ -5,6 +5,7 @@ import {RegistrationPage} from "components/App/pages/registration/registration";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {FeedPage} from "components/App/pages/lenta/feed";
 import {MatchesPage} from "components/App/pages/matches/matches";
+import {InterviewPage} from "components/App/pages/interview/interview";
 
 export const routes = [
     { path: '/login', component: AuthorizationPage},
@@ -12,6 +13,7 @@ export const routes = [
     { path: '/', component: FeedPage},
     { path: '/header', component: Header},
     {path: '/signup', component: RegistrationPage},
+    {path: '/interview', component: InterviewPage},
     {path: '/matches', component: MatchesPage}
 
     // {path:'/', component}

@@ -127,17 +127,18 @@ export const RegistrationForm = () => {
         try {
             const resp = await Tinder.registration({
                 "email": email.getValue().value,
-                "username": nickname.getValue().value,
-                "age": age.getValue().valueAsNumber,
-                "sex": sex.getValue().value,
+                "birthDay": `${2023-age.getValue().valueAsNumber}-01-01`,
+                // "username": nickname.getValue().value,
+                // "age": age.getValue().valueAsNumber,
+                // "sex": sex.getValue().value,
                 "password": password.getValue().value,
             })
             const json = await resp.json()
             if (json.status !== 200) {
-                warning.getValue().innerHTML = json.err;
+                warning.getValue().innerHTML = json.error;
                 return
             }
-            Navigate({to:'/'});
+            Navigate({to:'/interview'});
         } catch (e) {
             alert(e);
         }
@@ -161,20 +162,20 @@ export const RegistrationForm = () => {
                     ref={emailWarning}
                     title={"http://ru.wikipedia.org/wiki/Адрес%20электронной%20почты"}
                 />
-                <InputWithLabel
-                    name={"nickname"}
-                    id={"login"}
-                    type={"text"}
-                    placeholder={"yakwilik"}
-                    labelText={"Nickname"}
-                    required={true}
-                    onChange={onNicknameChange}
-                    ref={nickname}
-                />
-                <Warning
-                    ref={nicknameWarning}
-                    title={nicknameValidationInfo}
-                />
+                {/*<InputWithLabel*/}
+                {/*    name={"nickname"}*/}
+                {/*    id={"login"}*/}
+                {/*    type={"text"}*/}
+                {/*    placeholder={"yakwilik"}*/}
+                {/*    labelText={"Nickname"}*/}
+                {/*    required={true}*/}
+                {/*    onChange={onNicknameChange}*/}
+                {/*    ref={nickname}*/}
+                {/*/>*/}
+                {/*<Warning*/}
+                {/*    ref={nicknameWarning}*/}
+                {/*    title={nicknameValidationInfo}*/}
+                {/*/>*/}
                 <InputWithLabel
                     name={"age"}
                     id={"age"}
@@ -190,24 +191,24 @@ export const RegistrationForm = () => {
                     ref={ageWarning}
                     title={"возраст должен быть больше или равен 18"}
                 />
-                <span>
-                    <Label labelText={"Sex"} htmlFor={"sex"}/>
-                    <Select
-                        id={"sex"}
-                        required={true}
-                        name={"sex"}
-                        ref={sex}
-                        onChange={onSexInputChange}
-                    >
-                        <option>не выбрано</option>
-                        <option>М</option>
-                        <option>Ж</option>
-                    </Select>
-                </span>
-                <Warning
-                    ref={sexWarning}
-                    title={"возраст должен быть больше или равен 18"}
-                />
+                {/*<span>*/}
+                {/*    <Label labelText={"Sex"} htmlFor={"sex"}/>*/}
+                {/*    <Select*/}
+                {/*        id={"sex"}*/}
+                {/*        required={true}*/}
+                {/*        name={"sex"}*/}
+                {/*        ref={sex}*/}
+                {/*        onChange={onSexInputChange}*/}
+                {/*    >*/}
+                {/*        <option>не выбрано</option>*/}
+                {/*        <option>М</option>*/}
+                {/*        <option>Ж</option>*/}
+                {/*    </Select>*/}
+                {/*</span>*/}
+                {/*<Warning*/}
+                {/*    ref={sexWarning}*/}
+                {/*    title={"возраст должен быть больше или равен 18"}*/}
+                {/*/>*/}
                 <PasswordInput
                     id="pass1"
                     labelText="Password"

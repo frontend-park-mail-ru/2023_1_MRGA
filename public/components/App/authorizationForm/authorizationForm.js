@@ -21,7 +21,7 @@ export const AuthorizationForm = () => {
         console.log(login.getValue().value);
         // Navigate({to: "/"});
         try {
-            const resp = await Tinder.login({"password": password.getValue().value, "input": login.getValue().value})
+            const resp = await Tinder.login({"password": password.getValue().value, "email": login.getValue().value})
             const json = await resp.json()
             if (json.status !== 200) {
                 error.getValue().innerHTML = json.err;
