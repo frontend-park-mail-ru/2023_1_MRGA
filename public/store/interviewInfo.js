@@ -20,8 +20,7 @@ export const SetCities = (cities) => {
 
 const userReducer = (state, action) => {
     if (action.type === cityActionTypes.set) {
-
-        return {state, ...action.payload};
+        return {...state, ...action.payload};
     }
 }
 
@@ -41,9 +40,9 @@ export class City {
             return [];
         }
         const cities = Array.from(json.body.cities);
-        this.state = true
-        console.log(cities)
         cityStore.dispatch(SetCities(cities))
+
+        console.log(cityStore.getState())
     }
 }
 
