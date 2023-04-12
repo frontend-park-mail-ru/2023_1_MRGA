@@ -1,207 +1,65 @@
-import {Tinder} from "@/api/api";
-import { swipe } from "@/utils/swipe";
-import {userStore} from "@/store/user";
-import * as nunjucks from "nunjucks"
-
-const feedNunjucksTemplate =
-`<div class="container">
-    <div class="side">
-        <div class="header">
-            <div class="avatar">
-                    <img src="{{context.avatar}}">
-            </div>
-            <div class="title">{{context.username}}</div>
-            <div class="logout-btn-box">
-                <a class="logout" id="logout">Log out</a>
-            </div>
-        </div>
-        <div class="menu">
-            <ul>
-<!--                <li>Совпадения</li>-->
-<!--                <li>Сообщения</li>-->
-                <li class="active">Поиск</li>
-            </ul>
-        </div>
-    </div>
-    <div class="content">
-        {%if isContent %}
-            <div class="card" onselectstart="return false">
-            <div class="swipe pointer user inline_block">
-                <img ondragstar="return false"
-                    class="user"
-                    id="rec-avatar"
-                    src="{{recommendation.avatar}}"
-                    alt=""
-                />
-                <div class="profile">
-                    <div class="name">{{recommendation.username}} <span>{{recommendation.age}}</span></div>
-                    <div class="local">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Москва</span>
-                    </div>
-                </div>
-            </div>
-            <div class="user_desc inline_block">{{recommendation.description}}</div>
-        </div>
-        <div class="buttons">
-            <div id="no" class="no pointer">
-                <i id="no" class="fas fa-times"></i>
-            </div>
-            <div id="star" id="star" class="star pointer">
-                <i id="star" class="fas fa-star fa"></i>
-            </div>
-            <div id="heart" class="heart pointer">
-                <i id="heart" class="fas fa-heart"></i>
-            </div>
-        </div>
-        {% else %}
-        <div> Список пользователей закончился </div>
-        {% endif %}
-    </div>
-</div>`;
-
-export class feedPage {
-    #root
-    #nunjucksTemplate
-    #logoutLink
-    #onLogoout
-    #recomendations
-    #counter
-    user
-    constructor(root, onLogout) {
-        this.#root = root
-        this.#nunjucksTemplate = nunjucks.compile(feedNunjucksTemplate);
-        this.#onLogoout = onLogout;
-        this.#counter = 0;
-    }
-    initEventListeners() {
-        this.#logoutLink = this.#root.querySelector("#logout")
-        this.#logoutLink.addEventListener('click', this.#onLogoout);
-        const buttons = this.#root.querySelector(".buttons");
-        const card = this.#root.querySelector(".swipe");
-        if (buttons) {
-            buttons.addEventListener('click', this.#onButtonsClick, true)
-            card.addEventListener('swipe', this.#onSwipe, true)
-            swipe(card, { maxTime: 1000, minTime: 100, maxDist: 150,  minDist: 60 });
-            const recAvatar = this.#root.querySelector("#rec-avatar");
-            recAvatar.addEventListener('dragstart', e => {
-                e.preventDefault();
-            })
-        }   
-    }
-    render = async () => {
-         this.user = userStore.getState()
-
-        const recommendationsQueryResponse = await Tinder.recommendations();
-        const jsonResponse = await recommendationsQueryResponse.json();
-        if (jsonResponse.status !== 200 || jsonResponse.recommendations.length < 1) {
-            this.#recomendations = [];
-            this.#root.innerHTML = this.#nunjucksTemplate.render({context: this.user, isContent: false});
-            this.initEventListeners()
-            return
-        }
-        this.#recomendations = jsonResponse.recommendations;
-        this.#root.innerHTML = this.#nunjucksTemplate.render({context: this.user, recommendation: this.#recomendations[this.#counter++], isContent: true})
-
-        this.initEventListeners()
-    }
-    #onSwipe = async (e) => {
-        if (e.detail.dir === "left" || e.detail.dir === "right") {
-            await this.nextRec();
-        }
-    }
-    #onButtonsClick = async (e) => {
-        let button = false;
-        switch (e.target.id) {
-            case "no": {
-                button = true;
-                break;
-            }
-            case "star": {
-                button = true;
-                break;
-            }
-            case "heart": {
-                button = true;
-                break;
-            }
-        }
-        if (button) {
-           this.nextRec();
-        }
-    }
-    nextRec = async () => {
-        if (this.#counter >= this.#recomendations.length) {
-            this.#root.innerHTML = this.#nunjucksTemplate.render({context: this.user, isContent: false})
-            this.initEventListeners()
-            return
-        }
-        this.#root.innerHTML = this.#nunjucksTemplate.render({context: this.user,
-            recommendation: this.#recomendations[this.#counter++],
-            isContent: true})
-        this.initEventListeners()
-    }
-}
+import {HeaderAuth} from "components/App/header/header";
+import {createElement} from "@/lib/jsx";
+import {AuthorizationForm} from "components/App/authorizationForm/authorizationForm";
+import {SideBar} from "components/App/sideBar/sideBar";
+import {MatchesList} from "components/App/matchesList/matchesList";
+import {RecommendProfile} from "components/App/recommendProfile/recommendProfile";
+import styles from './feed.css'
 
 export const FeedPage = () => {
-    const onSelectStart = () => {
-        return false;
-    }
     return (
-        <div className={"container"}>
-            <div className="side">
-                <div className="header">
-                    <div className="avatar">
-                        <img src="{{context.avatar}}"/>
-                    </div>
-                    <div className="title">"Username"</div>
-                    <div className="logout-btn-box">
-                        <a className="logout" id="logout">Log out</a>
-                    </div>
-                </div>
-                <div className="menu">
-                    <ul>
-                        {/*// <!--                <li>Совпадения</li>-->*/}
-                        {/*// <!--                <li>Сообщения</li>-->*/}
-                        <li className="active">Поиск</li>
-                    </ul>
-                </div>
-            </div>
-            <div className="content">
-                {/*{%if isContent %}*/}
-                <div className="card" onSelectStart={onSelectStart}>
-                    <div className="swipe pointer user inline_block">
-                        <img onDragStart={() => false}
-                             className="user"
-                             id="rec-avatar"
-                             src="{{recommendation.avatar}}"
-                             alt=""
-                        />
-                        <div className="profile">
-                            <div className="name">"recommendation.username" <span>recommendation.age</span></div>
-                            <div className="local">
-                                <i className="fas fa-map-marker-alt"></i>
-                                <span>Москва</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="user_desc inline_block">"recommendation.description"</div>
-                </div>
-                <div className="buttons">
-                    <div id="no" className="no pointer">
-                        <i id="no" className="fas fa-times"></i>
-                    </div>
-                    <div id="star" id="star" className="star pointer">
-                        <i id="star" className="fas fa-star fa"></i>
-                    </div>
-                    <div id="heart" className="heart pointer">
-                        <i id="heart" className="fas fa-heart"></i>
-                    </div>
-                </div>
-                {/*{% else %}*/}
-                <div> Список пользователей закончился</div>
-                {/*{% endif %}*/}
-            </div>
-        </div>
+        <>
+            <HeaderAuth/>
+            <RecommendProfile/>
+        </>
     )
 }
+// export const FeedPage = () => {
+//     return (
+//         <>
+//             <div style="
+//             background-color: #F0EFFF;
+//             display: flex;
+//             flex-direction: column;
+//             height: 100vh;
+//             width: 100%;">
+//                 <HeaderAuth/>
+//                 <div style="
+//                         min-width: 928px;
+//                         margin-top: 10px;
+//                         display: flex;
+//                         height: 87%;
+//                         flex-direction: row;
+//                         justify-content: space-around;">
+//                     <SideBar/>
+//                     <div style="
+//                         margin-left: 12px;
+//                         margin-right: 12px;
+//                         min-height: 500px;
+//                         display: flex;
+//                         flex-direction: row;
+//                         justify-content: space-evenly;
+//                         width: 76%;
+//                         flex: 1;
+//                         height: auto;
+//                         border-radius: 20px;">
+//                         <RecommendProfile/>
+//                         <div style="
+//                             background-color: white;
+//                             border-radius: 20px;
+//                             display: flex;
+//                             flex-direction: column;
+//                             width: 60%;
+//                             min-width: 400px;
+//                             position: relative;
+//                             justify-content: center;">
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+//         </>
+//     )
+// }
+
+
+

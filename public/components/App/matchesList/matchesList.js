@@ -18,35 +18,35 @@ export const MatchesList = () => {
         <div className={styles.peopleSide}>
             <div className={styles.people}>
                 <div className={styles.singleProfile}>
-                    <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+                    <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
                         Анастасия
                 </div>
                 <div className={styles.singleProfile}>
-                    <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+                    <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
                         Анастасия
                 </div>
                 <div className={styles.singleProfile}>
-                    <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+                    <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
                         Анастасия
                 </div>
                 <div className={styles.singleProfile}>
-                    <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+                    <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
                         Анастасия
                 </div>
                 <div className={styles.singleProfile}>
-                    <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+                    <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
                         Анастасия
                 </div>
                 <div className={styles.singleProfile}>
-                    <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+                    <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
                         Анастасия
                 </div>
                 <div className={styles.singleProfile}>
-                    <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+                    <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
                         Анастасия
                 </div>
                 <div className={styles.singleProfile}>
-                    <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+                    <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
                         Анастасия
                 </div>
 
@@ -61,35 +61,35 @@ export const MatchesList = () => {
     //     <div className={styles.peopleSide}>
     //         <div className={styles.people}>
     //             <div className={styles.singleProfile}>
-    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                 <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
     //                     Анастасия
     //             </div>
     //             <div className={styles.singleProfile}>
-    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                 <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
     //                     Анастасия
     //             </div>
     //             <div className={styles.singleProfile}>
-    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                 <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
     //                     Анастасия
     //             </div>
     //             <div className={styles.singleProfile}>
-    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                 <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
     //                     Анастасия
     //             </div>
     //             <div className={styles.singleProfile}>
-    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                 <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
     //                     Анастасия
     //             </div>
     //             <div className={styles.singleProfile}>
-    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                 <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
     //                     Анастасия
     //             </div>
     //             <div className={styles.singleProfile}>
-    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                 <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
     //                     Анастасия
     //             </div>
     //             <div className={styles.singleProfile}>
-    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                 <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
     //                     Анастасия
     //             </div>
     //
