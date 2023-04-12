@@ -11,6 +11,7 @@ import {useRef} from "@/lib/jsx/hooks/useRef";
 import {validateName} from "@/lib/validators";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
+import {City, cityStore} from "@/store/interviewInfo";
 
 
 const nameValidationInfo = `
@@ -36,6 +37,7 @@ export const InterviewForm = () => {
     const descriptionWarning = useRef();
     const submitButton = useRef();
     const warning = useRef();
+
 
     const onJobInputChange = () => {
         if (sex.getValue().value === 'не выбрано') {
@@ -146,16 +148,13 @@ export const InterviewForm = () => {
         }
     }
     const respCities = async () => {
-        let resp = await Tinder.getCities();
-        let json = await resp.json();
-        if (json.status !== 200) {
-            warning.getValue().innerHTML = json.error;
-            return;
-        }
-        return json.body.cities;
+        const cities = await City.getCities()
+        console.log(cities)
+        return cities
+
     }
     const respZodiac = async () => {
-        let resp = await Tinder.getZodia();
+        let resp = await Tinder.getZodiac();
         let json = await resp.json();
         if (json.status !== 200) {
             warning.getValue().innerHTML = json.error;
@@ -179,9 +178,10 @@ export const InterviewForm = () => {
             warning.getValue().innerHTML = json.error;
             return;
         }
+        let arr = Array.from(json.body.education)
         return json.body.education;
     }
-    return(
+    return  (
         <FormContainer>
             <Form>
                 <img src={logoMini} width="46" alt={"logo"}/>
@@ -201,15 +201,22 @@ export const InterviewForm = () => {
                 />
                 <span>
                    <Label labelText={"Sex"} htmlFor={"sex"}/>
-                   <Select
-                       arrayOptions={["не выбрано", "М", "Ж"]}
-                       id={"sex"}
-                       required={true}
-                       name={"sex"}
-                       ref={sex}
-                       onChange={onSexInputChange}
-                   >
-                   </Select>
+                    <Select
+                        id={"sex"}
+                        required={true}
+                        name={"sex"}
+                        ref={sex}
+                        onChange={onSexInputChange}
+                    >{["не выбрано", "М", "Ж"].map(option => <option>{option}</option>)}</Select>
+                   {/*<Select*/}
+                   {/*    arrayOptions={["не выбрано", "М", "Ж"]}*/}
+                   {/*    id={"sex"}*/}
+                   {/*    required={true}*/}
+                   {/*    name={"sex"}*/}
+                   {/*    ref={sex}*/}
+                   {/*    onChange={onSexInputChange}*/}
+                   {/*>*/}
+                   {/*</Select>*/}
                 </span>
                 <Warning
                     ref={sexWarning}
@@ -217,15 +224,15 @@ export const InterviewForm = () => {
                 />
                 <span>
                    <Label labelText={"City"} htmlFor={"city"}/>
-                   <Select
-                       arrayOptions={respCities}
-                       id={"city"}
-                       required={true}
-                       name={"city"}
-                       ref={city}
-                       onChange={onCityInputChange}
-                   >
-                   </Select>
+                    <Select
+                        id={"city"}
+                        required={true}
+                        name={"city"}
+                        ref={city}
+                        onChange={onCityInputChange}
+                        onClick={respCities}
+
+                    >{cityStore.getState().cities.map(option => <option>{option}</option>)}</Select>
                 </span>
                 <Warning
                     ref={cityWarning}
@@ -240,7 +247,7 @@ export const InterviewForm = () => {
                        name={"zodiac"}
                        ref={zodiac}
                        onChange={onZodiacInputChange}
-                   >
+                   >{['весы', 'рак'].map(option => <option>{option}</option>)}
                    </Select>
                 </span>
                 <Warning
@@ -270,7 +277,7 @@ export const InterviewForm = () => {
                        name={"job"}
                        ref={job}
                        onChange={onJobInputChange}
-                   >
+                   >{["есть", 'нет'].map(option => <option>{option}</option>)}
                    </Select>
                 </span>
                 <Warning
@@ -286,7 +293,7 @@ export const InterviewForm = () => {
                        name={"education"}
                        ref={education}
                        onChange={onEducationInputChange}
-                   >
+                   >{["есть", 'нет'].map(option => <option>{option}</option>)}
                    </Select>
                 </span>
                 <Warning
