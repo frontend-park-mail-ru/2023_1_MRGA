@@ -1,9 +1,9 @@
-import styles from './matches.module.css'
+import styles from './matchesList.module.css'
 import {User} from "@/store/user";
 import {Tinder} from "@/api/api";
 
 
-export const Matches = () => {
+export const MatchesList = () => {
     // const name = Tinder.getUser()
     //     .then(result => result.json())
     //     .then((user) => {

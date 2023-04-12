@@ -2,7 +2,7 @@ import {HeaderAuth} from "components/App/header/header";
 import {createElement} from "@/lib/jsx";
 import {AuthorizationForm} from "components/App/authorizationForm/authorizationForm";
 import {SideBar} from "components/App/sideBar/sideBar";
-import {Matches} from "components/App/matches/matches";
+import {MatchesList} from "components/App/matchesList/matchesList";
 import styles from './matches.css'
 
 // export const MatchesPage = () => {
@@ -10,7 +10,7 @@ import styles from './matches.css'
 //         <>
 //             <Header/>
 //             <SideBar/>
-//             <Matches/>
+//             <MatchesList/>
 //
 //         </>
 // )
@@ -21,7 +21,7 @@ import styles from './matches.css'
 //             <Header/>
 //             <div>
 //                 <SideBar/>
-//                 <Matches/>
+//                 <MatchesList/>
 //                 {/*<div className={styles.chatSide}>*/}
 //                 {/*    <div className={styles.matchesSide}>*/}
 //                 {/*        <img src="../../../assets/svg/chat-icon.svg" width="52" height="52" alt=""/>*/}
@@ -63,7 +63,7 @@ export const MatchesPage = () => {
                         flex: 1;
                         height: auto;
                         border-radius: 20px;">
-                        <Matches/>
+                        <MatchesList/>
                         <div style="
                             background-color: white;
                             border-radius: 20px;
