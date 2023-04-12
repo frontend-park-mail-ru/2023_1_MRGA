@@ -19,7 +19,7 @@ const nameValidationInfo = `
 иметь длину от 3 до 16 символов
 `
 
-export const RegistrationForm = () => {
+export const InterviewForm = () => {
     const name = useRef();
     const nameWarning = useRef();
     const sex = useRef();
@@ -35,8 +35,9 @@ export const RegistrationForm = () => {
     const description = useRef();
     const descriptionWarning = useRef();
     const submitButton = useRef();
+    const warning = useRef();
 
-    const onJobChange = () => {
+    const onJobInputChange = () => {
         if (sex.getValue().value === 'не выбрано') {
             sexWarning.getValue().innerHTML = 'Вы не выбрали работу';
         } else {
@@ -44,7 +45,7 @@ export const RegistrationForm = () => {
         }
     }
 
-    const onCityChange = () => {
+    const onCityInputChange = () => {
         if (sex.getValue().value === 'не выбрано') {
             sexWarning.getValue().innerHTML = 'Вы не выбрали город';
         } else {
@@ -60,7 +61,7 @@ export const RegistrationForm = () => {
         }
     }
 
-    const onDescriptionChange = () => {
+    const onDescriptionInputChange = () => {
         const nameText = name.getValue().value;
         if (nameText === "") {
             nameWarning.getValue().innerHTML = 'Некорректное описание';
@@ -77,7 +78,7 @@ export const RegistrationForm = () => {
         }
     }
 
-    const onNameChange = () => {
+    const onNameInputChange = () => {
         const nameText = name.getValue().value;
         const isValid = validateName(nameText);
         if (!isValid) {
@@ -95,11 +96,11 @@ export const RegistrationForm = () => {
         }
     }
     const allChecks = () => {
-        onJobChange();
-        onCityChange();
-        onNameChange();
+        onJobInputChange();
+        onCityInputChange();
+        onNameInputChange();
         onEducationInputChange();
-        onDescriptionChange();
+        onDescriptionInputChange();
         onZodiacInputChange();
         onSexInputChange();
     }
@@ -124,107 +125,174 @@ export const RegistrationForm = () => {
             return ;
         }
         try {
-            const resp = await Tinder.registration({
-                "email": email.getValue().value,
-                "birthDay": `${2023-age.getValue().valueAsNumber}-01-01`,
-                // "username": nickname.getValue().value,
-                // "age": age.getValue().valueAsNumber,
-                // "sex": sex.getValue().value,
-                "password": password.getValue().value,
+            const respInfoUser = await Tinder.infoUser({
+                "name": name.getValue().value,
+                "city": city.getValue().value,
+                "job": job.getValue().value,
+                "education": education.getValue().value,
+                "sex": sex.getValue().value,
+                "zodiac": zodiac.getValue().value,
+                "description": description.getValue().value,
             })
-            const json = await resp.json()
-            if (json.status !== 200) {
-                warning.getValue().innerHTML = json.error;
+            const jsonInfoUser = await respInfoUser.json()
+            if (jsonInfoUser.status !== 200) {
+                warning.getValue().innerHTML = jsonInfoUser.error;
                 return
             }
-            Navigate({to:'/interview'});
+
+            Navigate({to:'/'});
         } catch (e) {
             alert(e);
         }
+    }
+    const respCities = async () => {
+        let resp = await Tinder.getCities();
+        let json = await resp.json();
+        if (json.status !== 200) {
+            warning.getValue().innerHTML = json.error;
+            return;
+        }
+        return json.body.cities;
+    }
+    const respZodiac = async () => {
+        let resp = await Tinder.getZodia();
+        let json = await resp.json();
+        if (json.status !== 200) {
+            warning.getValue().innerHTML = json.error;
+            return;
+        }
+        return json.body.zodiac;
+    }
+    const respJob = async () => {
+        let resp = await Tinder.getJob();
+        let json = await resp.json();
+        if (json.status !== 200) {
+            warning.getValue().innerHTML = json.error;
+            return;
+        }
+        return json.body.jobs;
+    }
+    const respEducation = async () => {
+        let resp = await Tinder.getEducation();
+        let json = await resp.json();
+        if (json.status !== 200) {
+            warning.getValue().innerHTML = json.error;
+            return;
+        }
+        return json.body.education;
     }
     return(
         <FormContainer>
             <Form>
                 <img src={logoMini} width="46" alt={"logo"}/>
                 <InputWithLabel
-                    name={"email"}
-                    id={"email"}
+                    name={"name"}
+                    id={"name"}
                     type={"text"}
-                    placeholder={"123@mail.ru"}
-                    labelText={"Email Address"}
-                    ref={email}
+                    placeholder={"Хасбулат"}
+                    labelText={"Name"}
+                    ref={name}
                     required={true}
-                    onChange={onEmailChange}
-                    // ref={login}
+                    onChange={onNameInputChange}
                 />
                 <Warning
-                    ref={emailWarning}
+                    ref={nameWarning}
                     title={"http://ru.wikipedia.org/wiki/Адрес%20электронной%20почты"}
                 />
-                {/*<InputWithLabel*/}
-                {/*    name={"nickname"}*/}
-                {/*    id={"login"}*/}
-                {/*    type={"text"}*/}
-                {/*    placeholder={"yakwilik"}*/}
-                {/*    labelText={"Nickname"}*/}
-                {/*    required={true}*/}
-                {/*    onChange={onNicknameChange}*/}
-                {/*    ref={nickname}*/}
-                {/*/>*/}
-                {/*<Warning*/}
-                {/*    ref={nicknameWarning}*/}
-                {/*    title={nicknameValidationInfo}*/}
-                {/*/>*/}
+                <span>
+                   <Label labelText={"Sex"} htmlFor={"sex"}/>
+                   <Select
+                       arrayOptions={["не выбрано", "М", "Ж"]}
+                       id={"sex"}
+                       required={true}
+                       name={"sex"}
+                       ref={sex}
+                       onChange={onSexInputChange}
+                   >
+                   </Select>
+                </span>
+                <Warning
+                    ref={sexWarning}
+                    title={"пол должен быть выбран"}
+                />
+                <span>
+                   <Label labelText={"City"} htmlFor={"city"}/>
+                   <Select
+                       arrayOptions={respCities}
+                       id={"city"}
+                       required={true}
+                       name={"city"}
+                       ref={city}
+                       onChange={onCityInputChange}
+                   >
+                   </Select>
+                </span>
+                <Warning
+                    ref={cityWarning}
+                    title={"город должен быть выбран"}
+                />
+                <span>
+                   <Label labelText={"Zodiac"} htmlFor={"zodiac"}/>
+                   <Select
+                       arrayOptions={respZodiac}
+                       id={"zodiac"}
+                       required={true}
+                       name={"zodiac"}
+                       ref={zodiac}
+                       onChange={onZodiacInputChange}
+                   >
+                   </Select>
+                </span>
+                <Warning
+                    ref={zodiacWarning}
+                    title={"знак зодиака должен быть выбран"}
+                />
                 <InputWithLabel
-                    name={"age"}
-                    id={"age"}
-                    type={"number"}
-                    placeholder={"18"}
-                    labelText={"Age"}
+                    name={"description"}
+                    id={"description"}
+                    type={"text"}
+                    placeholder={"Я живу в Москве ;)"}
+                    labelText={"Описание"}
+                    ref={description}
                     required={true}
-                    min={"18"}
-                    onChange={onAgeInputChange}
-                    ref={age}
+                    onChange={onDescriptionInputChange}
                 />
                 <Warning
-                    ref={ageWarning}
-                    title={"возраст должен быть больше или равен 18"}
+                    ref={descriptionWarning}
+                    title={"описание должно быть заполнено и не более 300 символов"}
                 />
-                {/*<span>*/}
-                {/*    <Label labelText={"Sex"} htmlFor={"sex"}/>*/}
-                {/*    <Select*/}
-                {/*        id={"sex"}*/}
-                {/*        required={true}*/}
-                {/*        name={"sex"}*/}
-                {/*        ref={sex}*/}
-                {/*        onChange={onSexInputChange}*/}
-                {/*    >*/}
-                {/*        <option>не выбрано</option>*/}
-                {/*        <option>М</option>*/}
-                {/*        <option>Ж</option>*/}
-                {/*    </Select>*/}
-                {/*</span>*/}
-                {/*<Warning*/}
-                {/*    ref={sexWarning}*/}
-                {/*    title={"возраст должен быть больше или равен 18"}*/}
-                {/*/>*/}
-                <PasswordInput
-                    id="pass1"
-                    labelText="Password"
-                    placeholder={"Ваш пароль"}
-                    ref={password}
-                    required={true}
-                    onChange={onPasswordInputChange}
+                <span>
+                   <Label labelText={"Job"} htmlFor={"job"}/>
+                   <Select
+                       arrayOptions={respJob}
+                       id={"job"}
+                       required={true}
+                       name={"job"}
+                       ref={job}
+                       onChange={onJobInputChange}
+                   >
+                   </Select>
+                </span>
+                <Warning
+                    ref={jobWarning}
+                    title={"работа должна быть быть выбран"}
                 />
-                <PasswordInput
-                    id="pass2"
-                    labelText="Password repeat"
-                    placeholder={"повторите Ваш пароль"}
-                    required={true}
-                    ref={passwordRepeat}
-                    onChange={onPasswordInputChange}
+                <span>
+                   <Label labelText={"Education"} htmlFor={"education"}/>
+                   <Select
+                       arrayOptions={respEducation}
+                       id={"education"}
+                       required={true}
+                       name={"education"}
+                       ref={education}
+                       onChange={onEducationInputChange}
+                   >
+                   </Select>
+                </span>
+                <Warning
+                    ref={educationWarning}
+                    title={"Образование должно быть выбрано"}
                 />
-                <Warning ref={warning}></Warning>
                 <SubmitButton
                     ref={submitButton}
                     onClick={onSubmitClick}
