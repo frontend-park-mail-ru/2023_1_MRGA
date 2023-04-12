@@ -9,9 +9,6 @@ export const SideBar = () => {
         .then((user) => {
             document.getElementById("userName").innerText = user.name;
         });
-    console.log("hello")
-    // console.log(name)
-    // console.log(user)
 
     return (
         <div className={styles.sideBar}>

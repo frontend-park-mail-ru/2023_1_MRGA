@@ -45,35 +45,60 @@ export const InterviewForm = () => {
     const maxAgeWarning = useRef();
     const reasons = useRef();
     const reasonsWarning = useRef();
-
-
+    const sexSearch = useRef();
+    const sexSearchWarning = useRef();
+    const hashTags = useRef();
+    const hashTagsWarning = useRef();
 
     const onJobInputChange = () => {
         if (job.getValue().value === 'не выбрано') {
             jobWarning.getValue().innerHTML = 'Вы не выбрали работу';
+            return false;
         } else {
             jobWarning.getValue().innerHTML = '';
+            return true;
         }
     }
 
     const onPhotoInputChange = () => {
-        console.log(photo.getValue().files[0])
+        if (photo.getValue().files.length === 0) {
+            photoWarning.getValue().innerHTML = 'Вы не прикрепили фотографию';
+            return false;
+        } else {
+            photoWarning.getValue().innerHTML = '';
+            return true;
+        }
+    }
 
+    const onHashTagsInputChange = () => {
+        const hashTagsValues = document.querySelector("#hashTags").querySelectorAll('option:checked');
+
+        if (hashTagsValues.length === 0) {
+            hashTagsWarning.getValue().innerHTML = 'Вы не выбрали хэш-теги';
+            return false;
+        } else {
+            hashTagsWarning.getValue().innerHTML = '';
+            return true;
+        }
     }
 
     const onCityInputChange = () => {
         if (city.getValue().value === 'не выбрано') {
             cityWarning.getValue().innerHTML = 'Вы не выбрали город';
+            return false;
         } else {
             cityWarning.getValue().innerHTML = '';
+            return true;
         }
     }
 
     const onEducationInputChange = () => {
         if (education.getValue().value === 'не выбрано') {
             educationWarning.getValue().innerHTML = 'Вы не выбрали образование';
+            return false;
         } else {
             educationWarning.getValue().innerHTML = '';
+            return true;
         }
     }
 
@@ -81,16 +106,30 @@ export const InterviewForm = () => {
         const descriptionText = name.getValue().value;
         if (descriptionText === "") {
            descriptionWarning.getValue().innerHTML = 'Некорректное описание';
+           return false;
         } else {
             descriptionWarning.getValue().innerHTML = '';
+            return true;
         }
     }
 
     const onZodiacInputChange = () => {
         if (zodiac.getValue().value === 'не выбрано') {
             zodiacWarning.getValue().innerHTML = 'Вы не выбрали знак зодиака';
+            return false;
         } else {
             zodiacWarning.getValue().innerHTML = '';
+            return true;
+        }
+    }
+
+    const onsexSearchInputChange = (event) => {
+        if (sexSearch.getValue().value === 'не выбрано') {
+            sexSearchWarning.getValue().innerHTML = 'Вы не интересующий пол';
+            return false;
+        } else {
+            sexSearchWarning.getValue().innerHTML = '';
+            return true;
         }
     }
 
@@ -99,8 +138,10 @@ export const InterviewForm = () => {
         const isValid = validateName(nameText);
         if (!isValid) {
             nameWarning.getValue().innerHTML = 'Некорректное имя';
+            return false;
         } else {
             nameWarning.getValue().innerHTML = '';
+            return true;
         }
     }
 
@@ -113,9 +154,10 @@ export const InterviewForm = () => {
         } else if (isNaN(ageNumber)) {
             minAgeWarning.getValue().innerHTML = 'Введите возраст';
         } else {
-            console.log(ageNumber)
             minAgeWarning.getValue().innerHTML = '';
+            return true;
         }
+        return false;
     }
 
     const onMaxAgeInputChange = () => {
@@ -128,22 +170,9 @@ export const InterviewForm = () => {
             maxAgeWarning.getValue().innerHTML = 'Введите возраст';
         } else {
             maxAgeWarning.getValue().innerHTML = '';
+            return true;
         }
-    }
-
-    const getSelectValues = (select) => {
-        let result = [];
-        const options = select && select.options;
-        let opt;
-
-        for (var i=0, iLen=options.length; i<iLen; i++) {
-            opt = options[i];
-
-            if (opt.selected) {
-                result.push(opt.value || opt.text);
-            }
-        }
-        return result;
+        return false;
     }
 
     const getPhotoValue = (photoInp) => {
@@ -159,35 +188,40 @@ export const InterviewForm = () => {
     }
 
     const onReasonInputChange = () => {
-        const reasonsValues = getSelectValues(reasons.getValue());
+        const reasonsValues = document.querySelector("#reasons").querySelectorAll('option:checked');
 
         if (reasonsValues.length === 0) {
-            reasonsWarning.getValue().innerHTML = 'Вы не выбрали пол';
+            reasonsWarning.getValue().innerHTML = 'Вы не выбрали причины для знакомств';
+            return false;
         } else {
             reasonsWarning.getValue().innerHTML = '';
+            return true;
         }
     }
 
     const onSexInputChange = () => {
         if (sex.getValue().value === 'не выбрано') {
             sexWarning.getValue().innerHTML = 'Вы не выбрали пол';
+            return false;
         } else {
             sexWarning.getValue().innerHTML = '';
+            return true;
         }
     }
 
     const allChecks = () => {
-        onJobInputChange();
-        onCityInputChange();
-        onNameInputChange();
-        onEducationInputChange();
-        onDescriptionInputChange();
-        onZodiacInputChange();
-        onSexInputChange();
-        onPhotoInputChange();
-        onMinAgeInputChange();
-        onMaxAgeInputChange();
-        onReasonInputChange();
+        return onJobInputChange() && onCityInputChange() &&
+        onNameInputChange() &&
+        onEducationInputChange() &&
+        onDescriptionInputChange() && 
+        onZodiacInputChange() &&
+        onSexInputChange() &&
+        onPhotoInputChange() &&
+        onMinAgeInputChange() && 
+        onMaxAgeInputChange() &&
+        onReasonInputChange() &&
+        onsexSearchInputChange() &&
+        onHashTagsInputChange();
     }
     const isValidForm = () => {
         const cityError = cityWarning.getValue().innerText === '';
@@ -205,7 +239,9 @@ export const InterviewForm = () => {
     }
     const onSubmitClick = async (e) => {
         e.preventDefault();
-        allChecks();
+        if (!allChecks()) {
+            return;
+        }
         if (!isValidForm()) {
             return ;
         }
@@ -218,31 +254,57 @@ export const InterviewForm = () => {
                 "sex": sex.getValue().value,
                 "zodiac": zodiac.getValue().value,
                 "description": description.getValue().value,
-            })
+            });
             const jsonInfoUser = await respInfoUser.json()
             if (jsonInfoUser.status !== 200) {
                 warning.getValue().innerHTML = jsonInfoUser.error;
                 return
             }
+
             const respFilterUser = await Tinder.filters({
                 "minAge": minAge.getValue().valueAsNumber,
                 "maxAge": maxAge.getValue().valueAsNumber,
-                "reasons": getSelectValues(reasons.getValue())
-            })
+                "sexSearch": sexSearch.getValue().value,
+                "reason": fromOptionsToTexts(document.querySelector("#reasons"))
+            });
             const jsonFilterUser = await respFilterUser.json()
             if (jsonFilterUser.status !== 200) {
                 warning.getValue().innerHTML = jsonFilterUser.error;
                 return
             }
+
+            const respHashTags = await Tinder.addHashTags({
+                "hashtag": fromOptionsToTexts(document.querySelector("#hashTags"))
+            });
+            const jsonHashTags = await respHashTags.json()
+            if (jsonHashTags.status !== 200) {
+                warning.getValue().innerHTML = jsonHashTags.error;
+                return
+            }
+
             const respPhotoUser = await Tinder.photo({
                 "photo": getPhotoValue(photo),
                 "avatar": true,
-            })
+            });
+            const jsonPhotoUser = await respPhotoUser.json()
+            if (jsonPhotoUser.status !== 200) {
+                warning.getValue().innerHTML = jsonPhotoUser.error;
+                return
+            }
 
             Navigate({to:'/'});
         } catch (e) {
             alert(e);
         }
+    }
+
+    const fromOptionsToTexts = (select) => {
+        let options = select.querySelectorAll("option:checked");
+        let result = [];
+        options.forEach(item => {
+            result.push(item.text);
+        });
+        return result;
     }
 
     const setOptions = (id, arrOptions) => {
@@ -266,34 +328,60 @@ export const InterviewForm = () => {
     }
    respCitiesFunc();
 
-    const respZodiac = async () => {
+   const respHashTagsFunc = async () => {
+        const resp = await Tinder.getHashTags();
+        let json = await resp.json();
+        if (json.status !== 200) {
+            warning.getValue().innerHTML = json.error;
+            return;
+        }
+        setOptions("hashTags", json.body.hashtags);
+    }
+    respHashTagsFunc();
+
+    const respZodiacFunc = async () => {
         let resp = await Tinder.getZodiac();
         let json = await resp.json();
         if (json.status !== 200) {
             warning.getValue().innerHTML = json.error;
             return;
         }
-        return json.body.zodiac;
+        setOptions("zodiac", json.body.zodiac);
     }
-    const respJob = async () => {
+    respZodiacFunc();
+
+    const respJobFunc = async () => {
         let resp = await Tinder.getJob();
         let json = await resp.json();
         if (json.status !== 200) {
             warning.getValue().innerHTML = json.error;
             return;
         }
-        return json.body.jobs;
+        setOptions("job", json.body.jobs);
     }
-    const respEducation = async () => {
+    respJobFunc();
+
+    const respEducationFunc = async () => {
         let resp = await Tinder.getEducation();
         let json = await resp.json();
         if (json.status !== 200) {
             warning.getValue().innerHTML = json.error;
             return;
         }
-        let arr = Array.from(json.body.education)
-        return json.body.education;
+        setOptions("education", json.body.education);
     }
+    respEducationFunc();
+
+    const respReasonFunc = async () => {
+        let resp = await Tinder.getReason();
+        let json = await resp.json();
+        if (json.status !== 200) {
+            warning.getValue().innerHTML = json.error;
+            return;
+        }
+        setOptions("reasons", json.body.reasons);
+    }
+    respReasonFunc();
 
     return  (
         <FormContainer>
@@ -303,7 +391,7 @@ export const InterviewForm = () => {
                     name={"name"}
                     id={"name"}
                     type={"text"}
-                    placeholder={"Хасбулат"}
+                    placeholder={"Женя"}
                     labelText={"Name"}
                     ref={name}
                     required={true}
@@ -320,17 +408,8 @@ export const InterviewForm = () => {
                         required={true}
                         name={"sex"}
                         ref={sex}
-                        onChange={onSexInputChange}
+                        onchange={onSexInputChange}
                     >{["не выбрано", "М", "Ж"].map(option => <option>{option}</option>)}</Select>
-                   {/*<Select*/}
-                   {/*    arrayOptions={["не выбрано", "М", "Ж"]}*/}
-                   {/*    id={"sex"}*/}
-                   {/*    required={true}*/}
-                   {/*    name={"sex"}*/}
-                   {/*    ref={sex}*/}
-                   {/*    onChange={onSexInputChange}*/}
-                   {/*>*/}
-                   {/*</Select>*/}
                 </span>
                 <Warning
                     ref={sexWarning}
@@ -355,13 +434,13 @@ export const InterviewForm = () => {
                 <span>
                    <Label labelText={"Zodiac"} htmlFor={"zodiac"}/>
                    <Select
-                       arrayOptions={respZodiac}
                        id={"zodiac"}
                        required={true}
                        name={"zodiac"}
                        ref={zodiac}
-                       onChange={onZodiacInputChange}
-                   >{['весы', 'рак'].map(option => <option>{option}</option>)}
+                       onchange={onZodiacInputChange}
+                   >
+                    <option>не выбрано</option>
                    </Select>
                 </span>
                 <Warning
@@ -372,8 +451,8 @@ export const InterviewForm = () => {
                     name={"description"}
                     id={"description"}
                     type={"text"}
-                    placeholder={"Я живу в Москве ;)"}
-                    labelText={"Описание"}
+                    placeholder={"Я живу в Мытищах ;)"}
+                    labelText={"Description"}
                     ref={description}
                     required={true}
                     onChange={onDescriptionInputChange}
@@ -385,29 +464,45 @@ export const InterviewForm = () => {
                 <span>
                    <Label labelText={"Job"} htmlFor={"job"}/>
                    <Select
-                       arrayOptions={respJob}
                        id={"job"}
                        required={true}
                        name={"job"}
                        ref={job}
-                       onChange={onJobInputChange}
-                   >{["есть", 'нет'].map(option => <option>{option}</option>)}
+                       onchange={onJobInputChange}
+                   >
+                    <option>не выбрано</option>
                    </Select>
                 </span>
                 <Warning
                     ref={jobWarning}
-                    title={"работа должна быть быть выбран"}
+                    title={"работа должна быть быть выбрана"}
+                />
+                <span>
+                   <Label labelText={"Hash tags"} htmlFor={"hashTags"}/>
+                   <Select
+                       id={"hashTags"}
+                       required={true}
+                       name={"hashTags"}
+                       ref={hashTags}
+                       onchange={onHashTagsInputChange}
+                       multiple
+                   >
+                   </Select>
+                </span>
+                <Warning
+                    ref={hashTagsWarning}
+                    title={"Хэштеги должны быть выбраны"}
                 />
                 <span>
                    <Label labelText={"Education"} htmlFor={"education"}/>
                    <Select
-                       arrayOptions={respEducation}
                        id={"education"}
                        required={true}
                        name={"education"}
                        ref={education}
-                       onChange={onEducationInputChange}
-                   >{["есть", 'нет'].map(option => <option>{option}</option>)}
+                       onchange={onEducationInputChange}
+                   >
+                    <option>не выбрано</option>
                    </Select>
                 </span>
                 <Warning
@@ -419,7 +514,7 @@ export const InterviewForm = () => {
                     id={"minAge"}
                     type={"number"}
                     placeholder={"minAge"}
-                    labelText={"min Age"}
+                    labelText={"Min аge"}
                     required={true}
                     min={"18"}
                     onChange={onMinAgeInputChange}
@@ -427,14 +522,14 @@ export const InterviewForm = () => {
                 />
                 <Warning
                     ref={minAgeWarning}
-                    title={"пол должен быть выбран"}
+                    title={"минимальный возраст должен быть выбран"}
                 />
                 <InputWithLabel
                     name={"maxAge"}
                     id={"maxAge"}
                     type={"number"}
                     placeholder={"maxAge"}
-                    labelText={"max Age"}
+                    labelText={"Max аge"}
                     required={true}
                     min={"18"}
                     onChange={onMaxAgeInputChange}
@@ -442,20 +537,39 @@ export const InterviewForm = () => {
                 />
                 <Warning
                     ref={maxAgeWarning}
-                    title={"пол должен быть выбран"}
+                    title={"максимальный возраст должен быть выбран"}
                 />
-                <Select multiple size={2}
-                    id={"reasons"}
-                    labelText={"reasons"}
-                    required={true}
-                    name={"reasons"}
-                    ref={reasons}
-                    onChange={onReasonInputChange}
-                >{["love", 'friendship', 'relax', "love", 'friendship', 'relax'].map(option => <option>{option}</option>)}
-                </Select>
+                <span>
+                   <Label labelText={"Search sex"} htmlFor={"sexSearch"}/>
+                   <Select
+                       id={"sexSearch"}
+                       required={true}
+                       name={"sexSearch"}
+                       ref={sexSearch}
+                       onchange={onsexSearchInputChange}
+                   >
+                    {["не выбрано", "М", "Ж", "ВСЕ"].map(option => <option>{option}</option>)}
+                   </Select>
+                </span>
+                <Warning
+                    ref={sexSearchWarning}
+                    title={"Интересующий пол должен быть выбран"}
+                />
+                <span>
+                   <Label labelText={"Reasons"} htmlFor={"reasons"}/>
+                   <Select
+                       id={"reasons"}
+                       required={true}
+                       name={"reasons"}
+                       ref={reasons}
+                       onchange={onReasonInputChange}
+                       multiple
+                   >
+                   </Select>
+                </span>
                 <Warning
                     ref={reasonsWarning}
-                    title={"пол должен быть выбран"}
+                    title={"причина должна быть указана"}
                 />
                 <InputWithLabel
                     id={"photo"}
@@ -465,6 +579,10 @@ export const InterviewForm = () => {
                     ref={photo}
                     onChange={onPhotoInputChange}
                     type="file" />
+                <Warning
+                    ref={photoWarning}
+                    title={"фотография должна быть прикреплена"}
+                />
                 <SubmitButton
                     ref={submitButton}
                     onClick={onSubmitClick}

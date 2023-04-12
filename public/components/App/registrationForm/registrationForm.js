@@ -139,20 +139,7 @@ export const RegistrationForm = () => {
                     ref={emailWarning}
                     title={"http://ru.wikipedia.org/wiki/Адрес%20электронной%20почты"}
                 />
-                {/*<InputWithLabel*/}
-                {/*    name={"nickname"}*/}
-                {/*    id={"login"}*/}
-                {/*    type={"text"}*/}
-                {/*    placeholder={"yakwilik"}*/}
-                {/*    labelText={"Nickname"}*/}
-                {/*    required={true}*/}
-                {/*    onChange={onNicknameChange}*/}
-                {/*    ref={nickname}*/}
-                {/*/>*/}
-                {/*<Warning*/}
-                {/*    ref={nicknameWarning}*/}
-                {/*    title={nicknameValidationInfo}*/}
-                {/*/>*/}
+
                 <InputWithLabel
                     name={"age"}
                     id={"age"}

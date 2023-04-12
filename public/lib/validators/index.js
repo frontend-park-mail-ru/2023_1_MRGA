@@ -32,6 +32,6 @@ export const validatePassword = (password) => {
 }
 
 export const validateName = (name) => {
-    const usernameRegex = /^[a-zA-Z]{3,16}$/;
+    const usernameRegex = /^[a-zA-Zа-яА-я]{3,16}$/;
     return usernameRegex.test(name);
 }
