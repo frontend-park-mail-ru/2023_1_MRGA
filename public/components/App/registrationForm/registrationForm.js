@@ -128,9 +128,6 @@ export const RegistrationForm = () => {
             const resp = await Tinder.registration({
                 "email": email.getValue().value,
                 "birthDay": `${2023-age.getValue().valueAsNumber}-01-01`,
-                // "username": nickname.getValue().value,
-                // "age": age.getValue().valueAsNumber,
-                // "sex": sex.getValue().value,
                 "password": password.getValue().value,
             })
             const json = await resp.json()

@@ -16,7 +16,7 @@ export class Tinder {
     static async registration(registrationData) {
         return Ajax.ajax(ApiUrl+"api/register", "POST", {}, JSON.stringify(registrationData))
     }
-    static async info_user(infoUserData) {
+    static async infoUser(infoUserData) {
         infoUserData.sex = sexToNumber(infoUserData.sex)
         return Ajax.ajax(ApiUrl+"meetme/info-user", "POST", {}, JSON.stringify(infoUserData))
     }
@@ -42,6 +42,9 @@ export class Tinder {
     static async getHashTags() {
         return Ajax.ajax(ApiUrl+"api/hashtags", "GET")
     }
+    // static async getInfoUser() {
+    //     return Ajax.ajax(ApiUrl+"api/hashtags", "GET")
+    // }
 
     static async getUser() {
         return Ajax.ajax(ApiUrl+"meetme/user", "GET")
@@ -50,10 +53,10 @@ export class Tinder {
     static async logout() {
         return Ajax.ajax(ApiUrl+"meetme/logout", "POST")
     }
-    static async recommendation() {
+    static async getRecommendation() {
         return Ajax.ajax(ApiUrl+"meetme/recommendation", "GET")
     }
-    static async match() {
+    static async getMatch() {
         return Ajax.ajax(ApiUrl+"meetme/match", "GET")
     }
     static async reaction(reactionData) {
