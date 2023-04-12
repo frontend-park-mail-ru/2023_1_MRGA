@@ -53,5 +53,48 @@ export const Matches = () => {
 
             </div>
         </div>
+
+
     )
+    // return (
+    //
+    //     <div className={styles.peopleSide}>
+    //         <div className={styles.people}>
+    //             <div className={styles.singleProfile}>
+    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                     Анастасия
+    //             </div>
+    //             <div className={styles.singleProfile}>
+    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                     Анастасия
+    //             </div>
+    //             <div className={styles.singleProfile}>
+    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                     Анастасия
+    //             </div>
+    //             <div className={styles.singleProfile}>
+    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                     Анастасия
+    //             </div>
+    //             <div className={styles.singleProfile}>
+    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                     Анастасия
+    //             </div>
+    //             <div className={styles.singleProfile}>
+    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                     Анастасия
+    //             </div>
+    //             <div className={styles.singleProfile}>
+    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                     Анастасия
+    //             </div>
+    //             <div className={styles.singleProfile}>
+    //                 <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
+    //                     Анастасия
+    //             </div>
+    //
+    //
+    //         </div>
+    //     </div>
+    // )
 }

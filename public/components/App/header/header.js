@@ -17,4 +17,10 @@ export const Header = () => {
         </div>
     </HeaderContainer>)
 }
+export const HeaderAuth = () => {
+    return (
+    <HeaderContainer>
+        <img src={logo} width="203" alt={logo}/>
+    </HeaderContainer>)
+}
 

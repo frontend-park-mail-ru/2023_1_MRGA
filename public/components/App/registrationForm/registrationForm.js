@@ -8,7 +8,7 @@ import {Warning} from "components/UI/forms/warning/warning";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {FormContainer} from "components/UI/containers/formContainer/formContainer";
 import {useRef} from "@/lib/jsx/hooks/useRef";
-import {validateEmail, validatePassword, validateNickname} from "@/lib/validators";
+import {validateEmail, validatePassword} from "@/lib/validators";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 

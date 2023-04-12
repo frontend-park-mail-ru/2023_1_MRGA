@@ -325,7 +325,7 @@ a {
     background-color: #3F2FFF;
 }
 
-.matches-side {
+.matchesSide {
     display: flex;
     flex-direction: column;
     justify-items: center;
@@ -339,7 +339,7 @@ a {
     margin-right: 12px;
 }
 
-.content-matches {
+.contentMatches {
     margin-left: 12px;
     margin-right: 12px;
     min-height: 500px;
