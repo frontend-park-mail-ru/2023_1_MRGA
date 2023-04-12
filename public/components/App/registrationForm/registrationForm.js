@@ -22,12 +22,12 @@ const nicknameValidationInfo = `
 export const RegistrationForm = () => {
     const email = useRef();
     const emailWarning = useRef();
-    const nickname = useRef();
-    const nicknameWarning = useRef();
+    //const nickname = useRef();
+    //const nicknameWarning = useRef();
     const age = useRef();
     const ageWarning = useRef();
-    const sex = useRef();
-    const sexWarning = useRef();
+    // const sex = useRef();
+    // const sexWarning = useRef();
     const password = useRef();
     const passwordRepeat = useRef();
     const warning = useRef();
@@ -71,15 +71,15 @@ export const RegistrationForm = () => {
             emailWarning.getValue().innerHTML = '';
         }
     }
-    const onNicknameChange = () => {
-        const nicknameText = nickname.getValue().value;
-        const isValid = validateNickname(nicknameText);
-        if (!isValid) {
-            nicknameWarning.getValue().innerHTML = 'Некорректный nickname';
-        } else {
-            nicknameWarning.getValue().innerHTML = '';
-        }
-    }
+    // const onNicknameChange = () => {
+    //     const nicknameText = nickname.getValue().value;
+    //     const isValid = validateNickname(nicknameText);
+    //     if (!isValid) {
+    //         nicknameWarning.getValue().innerHTML = 'Некорректный nickname';
+    //     } else {
+    //         nicknameWarning.getValue().innerHTML = '';
+    //     }
+    // }
     const onAgeInputChange = () => {
         const ageNumber = age.getValue().valueAsNumber;
         if (ageNumber < 18 && ageNumber >= 0) {
@@ -92,30 +92,30 @@ export const RegistrationForm = () => {
             ageWarning.getValue().innerHTML = '';
         }
     }
-    const onSexInputChange = () => {
-        if (sex.getValue().value === 'не выбрано') {
-            sexWarning.getValue().innerHTML = 'вы не выбрали пол';
-        } else {
-            sexWarning.getValue().innerHTML = '';
-        }
-    }
+    // const onSexInputChange = () => {
+    //     if (sex.getValue().value === 'не выбрано') {
+    //         sexWarning.getValue().innerHTML = 'вы не выбрали пол';
+    //     } else {
+    //         sexWarning.getValue().innerHTML = '';
+    //     }
+    // }
     const allChecks = () => {
         onPasswordInputChange();
         onEmailChange();
-        onNicknameChange();
+        //onNicknameChange();
         onAgeInputChange();
-        onSexInputChange();
+        //onSexInputChange();
         onPasswordRepeatChange();
     }
     const isValidForm = () => {
         const emailError = emailWarning.getValue().innerText === '';
-        const nicknameError = nicknameWarning.getValue().innerText === '';
+        //const nicknameError = nicknameWarning.getValue().innerText === '';
         const ageError = ageWarning.getValue().innerText === '';
-        const sexError = sexWarning.getValue().innerText === '';
+        //const sexError = sexWarning.getValue().innerText === '';
         const passwordError = warning.getValue().innerText === '';
         return (
-            emailError && nicknameError &&
-            ageError && sexError && passwordError
+            emailError  &&
+            ageError  && passwordError
         )
     }
     const onSubmitClick = async (e) => {

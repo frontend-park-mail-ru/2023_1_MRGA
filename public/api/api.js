@@ -1,8 +1,9 @@
 import {Ajax} from "./ajax.js";
 
-const BackendHost = window.location.href.includes('localhost')
-    ? 'http://localhost:8080/'
-    : 'http://5.159.100.59:8080/';
+const BackendHost = 'http://localhost:8080/'
+    // window.location.href.includes('localhost')
+    // ? 'http://localhost:8080/'
+    // : 'http://5.159.100.59:8080/';
 
 const ApiUrl = BackendHost;
 // const fakeUrl = "https://jsonplaceholder.typicode.com/"

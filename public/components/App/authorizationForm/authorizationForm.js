@@ -9,6 +9,7 @@ import {Warning} from "components/UI/forms/warning/warning";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {FormContainer} from "components/UI/containers/formContainer/formContainer";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
+import {cityStore} from "@/store/interviewInfo";
 
 export const AuthorizationForm = () => {
     const login = useRef();
@@ -23,6 +24,7 @@ export const AuthorizationForm = () => {
         try {
             const resp = await Tinder.login({"password": password.getValue().value, "email": login.getValue().value})
             const json = await resp.json()
+
             if (json.status !== 200) {
                 error.getValue().innerHTML = json.err;
                 return
