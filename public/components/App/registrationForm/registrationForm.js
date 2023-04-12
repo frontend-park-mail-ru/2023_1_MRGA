@@ -22,12 +22,8 @@ const nicknameValidationInfo = `
 export const RegistrationForm = () => {
     const email = useRef();
     const emailWarning = useRef();
-    //const nickname = useRef();
-    //const nicknameWarning = useRef();
     const age = useRef();
     const ageWarning = useRef();
-    // const sex = useRef();
-    // const sexWarning = useRef();
     const password = useRef();
     const passwordRepeat = useRef();
     const warning = useRef();
@@ -71,15 +67,6 @@ export const RegistrationForm = () => {
             emailWarning.getValue().innerHTML = '';
         }
     }
-    // const onNicknameChange = () => {
-    //     const nicknameText = nickname.getValue().value;
-    //     const isValid = validateNickname(nicknameText);
-    //     if (!isValid) {
-    //         nicknameWarning.getValue().innerHTML = 'Некорректный nickname';
-    //     } else {
-    //         nicknameWarning.getValue().innerHTML = '';
-    //     }
-    // }
     const onAgeInputChange = () => {
         const ageNumber = age.getValue().valueAsNumber;
         if (ageNumber < 18 && ageNumber >= 0) {
@@ -92,13 +79,6 @@ export const RegistrationForm = () => {
             ageWarning.getValue().innerHTML = '';
         }
     }
-    // const onSexInputChange = () => {
-    //     if (sex.getValue().value === 'не выбрано') {
-    //         sexWarning.getValue().innerHTML = 'вы не выбрали пол';
-    //     } else {
-    //         sexWarning.getValue().innerHTML = '';
-    //     }
-    // }
     const allChecks = () => {
         onPasswordInputChange();
         onEmailChange();
@@ -128,9 +108,6 @@ export const RegistrationForm = () => {
             const resp = await Tinder.registration({
                 "email": email.getValue().value,
                 "birthDay": `${2023-age.getValue().valueAsNumber}-01-01`,
-                // "username": nickname.getValue().value,
-                // "age": age.getValue().valueAsNumber,
-                // "sex": sex.getValue().value,
                 "password": password.getValue().value,
             })
             const json = await resp.json()

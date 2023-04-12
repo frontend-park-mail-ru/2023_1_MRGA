@@ -244,12 +244,28 @@ export const InterviewForm = () => {
             alert(e);
         }
     }
-    const respCities = async () => {
-        const cities = await City.getCities()
-        console.log(cities)
-        return cities
 
+    const setOptions = (id, arrOptions) => {
+        let select = document.querySelector(`#${id}`);
+        arrOptions.forEach(item => {
+            let option = document.createElement("option");
+            option.label = item;
+            option.text = item;
+            select.appendChild(option);
+        });
     }
+
+    const respCitiesFunc = async () => {
+        const resp = await Tinder.getCities();
+        let json = await resp.json();
+        if (json.status !== 200) {
+            warning.getValue().innerHTML = json.error;
+            return;
+        }
+        setOptions("city", json.body.cities);
+    }
+   respCitiesFunc();
+
     const respZodiac = async () => {
         let resp = await Tinder.getZodiac();
         let json = await resp.json();
@@ -327,10 +343,10 @@ export const InterviewForm = () => {
                         required={true}
                         name={"city"}
                         ref={city}
-                        onChange={onCityInputChange}
-                        onClick={respCities}
-
-                    >{cityStore.getState().cities.map(option => <option>{option}</option>)}</Select>
+                        onchange={onCityInputChange}
+                    >
+                        <option>не выбрано</option>
+                    </Select>
                 </span>
                 <Warning
                     ref={cityWarning}
@@ -455,6 +471,9 @@ export const InterviewForm = () => {
                 >
                     зарегистрироваться
                 </SubmitButton>
+                <Warning
+                    ref={warning}
+                />
             </Form>
         </FormContainer>
     )
