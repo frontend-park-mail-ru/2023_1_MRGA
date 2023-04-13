@@ -6,7 +6,7 @@ export const PhotoPage = () => {
 
     return (
         <div>
-            <Header/>
+            {/* <Header/> */}
             <PhotoForm/>
         </div>
     )

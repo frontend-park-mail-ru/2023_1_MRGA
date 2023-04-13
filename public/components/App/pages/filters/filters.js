@@ -6,7 +6,7 @@ export const FiltersPage = () => {
 
     return (
         <div>
-            <Header/>
+            {/* <Header/> */}
             <FiltersForm/>
         </div>
     )

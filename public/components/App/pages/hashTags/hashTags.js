@@ -6,7 +6,7 @@ export const HashTagsPage = () => {
 
     return (
         <div>
-            <Header/>
+            {/* <Header/> */}
             <HashTagsForm/>
         </div>
     )
