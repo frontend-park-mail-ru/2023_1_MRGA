@@ -6,6 +6,9 @@ import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {FeedPage} from "components/App/pages/lenta/feed";
 import {MatchesPage} from "components/App/pages/matches/matches";
 import {InterviewPage} from "components/App/pages/interview/interview";
+import {FiltersPage} from "components/App/pages/filters/filters";
+import {PhotoPage} from "components/App/pages/photo/photo";
+import {HashTagsPage} from "components/App/pages/hashTags/hashTags";
 
 export const routes = [
     { path: '/login', component: AuthorizationPage},
@@ -14,7 +17,10 @@ export const routes = [
     { path: '/header', component: Header},
     {path: '/signup', component: RegistrationPage},
     {path: '/interview', component: InterviewPage},
-    {path: '/matches', component: MatchesPage}
+    {path: '/filters', component: FiltersPage},
+    {path: '/photo', component: PhotoPage},
+    {path: '/matches', component: MatchesPage},
+    {path: '/hashTags', component: HashTagsPage},
 
     // {path:'/', component}
 ];

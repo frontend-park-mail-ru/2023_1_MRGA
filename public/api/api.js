@@ -63,8 +63,8 @@ export class Tinder {
     static async reaction(reactionData) {
         return Ajax.ajax(ApiUrl+"meetme/reaction", "POST", {}, JSON.stringify(reactionData))
     }
-    static async photo(photoData) {
-        return Ajax.ajax(ApiUrl+`meetme/photo/${photoData.avatar}`, "POST", {}, JSON.stringify(photoData))
+    static async postPhotos(photosData) {
+        return Ajax.ajax(ApiUrl+`meetme/photos/upload`, "POST", {}, photosData)
     }
     static async addHashTags(hashTagsData) {
         return Ajax.ajax(ApiUrl+`meetme/hashtags-user`, "POST", {}, JSON.stringify(hashTagsData))

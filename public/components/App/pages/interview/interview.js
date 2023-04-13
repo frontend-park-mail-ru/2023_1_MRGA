@@ -7,7 +7,7 @@ export const InterviewPage = () => {
 
     return (
         <div>
-            <Header/>
+            {/* <Header/> */}
             <InterviewForm/>
         </div>
     )
