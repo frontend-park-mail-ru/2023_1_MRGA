@@ -5,12 +5,16 @@ import {SideBar} from "components/App/sideBar/sideBar";
 import {MatchesList} from "components/App/matchesList/matchesList";
 import {RecommendProfile} from "components/App/recommendProfile/recommendProfile";
 import styles from './feed.css'
+import {useRef} from "@/lib/jsx/hooks/useRef";
 
 export const FeedPage = () => {
     return (
         <>
             <HeaderAuth/>
-            <RecommendProfile/>
+            <div style={"display: flex;"}>
+                <SideBar/>
+                <RecommendProfile />
+            </div>
         </>
     )
 }

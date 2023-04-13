@@ -2,53 +2,72 @@ import {User} from "@/store/user";
 import {Tinder} from "@/api/api";
 import styles from './recommendProfile.module.css'
 
+import photoDot from "assets/svg/photoDot.svg"
+
+import prevPhotoArrow from "assets/svg/prevPhotoArrow.svg"
+
+import nextPhotoArrow from "assets/svg/nextPhotoArrow.svg"
+import locationPoint from "assets/svg/locationPoint.svg"
+
+import dislike from "assets/svg/dislike.svg"
+import like from "assets/svg/like.svg"
+
+import woman from "assets/img/woman.png";
+
+import {Link} from "@/lib/jsx/components/link/link";
+import {useRef} from "@/lib/jsx/hooks/useRef";
+
+
+
 
 export const RecommendProfile = () => {
-    return
-    (<>
+    return (
         <div className={styles.content}>
             <div className={styles.avatarSide}>
-                <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
+                <img className={styles.avatar} src={woman} alt=""/>
                     <div className={styles.avatarShadow}>
                         <a className={styles.swipeBtn} href="#" style="margin-right: 16px;">
-                            <object data="../../../assets/svg/dislike.svg"></object>
+                            <img src={dislike}></img>
                         </a>
-
                         <a className={styles.swipeBtn} href="#">
-                            <object data="../../../assets/svg/like.svg"></object>
+                            <img src={like}></img>
                         </a>
                     </div>
 
                     <div className={styles.photoDots}>
-                        <object data="../../../assets/svg/photoDot.svg"></object>
-                        <object data="../../../assets/svg/photoDot.svg"></object>
-                        <object data="../../../assets/svg/photoDot.svg"></object>
-                        <object data="../../../assets/svg/photoDot.svg"></object>
-                        <object data="../../../assets/svg/photoDot.svg"></object>
-                        <object data="../../../assets/svg/photoDot.svg"></object>
+                        {/*<div className={[styles.name, styles.photoDot, styles.photoDot].join(' ')}> пример стилей  </div>*/}
+                    {/*    user.photos.map(photo => {*/}
+                    {/*    <img src={photoDot} onClick={"поставь фотку эту"}></img>*/}
+                    {/*});*/}
+                        <img src={photoDot} className={styles['photo-dot']}></img>
+                        <img src={photoDot} className={styles['photo-dot']}></img>
+                        <img src={photoDot} className={styles['photo-dot']}></img>
+                        <img src={photoDot} className={styles['photo-dot']}></img>
+                        <img src={photoDot} className={styles['photo-dot']}></img>
+                        <img src={photoDot} className={styles['photo-dot']}></img>
                     </div>
 
 
-                    <a href="#" style="
+                    <Link href="/" style="
                         position: absolute;
                         left: 8px;
                         ">
-                        <object data="../../../assets/svg/prevPhotoArrow.svg"></object>
+                        <img src={prevPhotoArrow}></img>
 
-                    </a>
+                    </Link>
 
-                    <a href="#" style="
+                    <Link href="/" style="
                         position: absolute;
                         right: 8px;
                         ">
-                        <object data="../../../assets/svg/nextPhotoArrow.svg"></object>
-                    </a>
+                        <img src={nextPhotoArrow}></img>
+                    </Link>
             </div>
             <div className={styles.descSide}>
                 <div className={styles.desc}>
                     <div className={styles.name}>Анастасия, 23</div>
                     <div className={styles.distance}>
-                        <object data="../../../assets/svg/locationPoint.svg"></object>
+                        <Link src={locationPoint}></Link>
                         8 км от Вас
                     </div>
                     <div className={styles.descField}>
@@ -66,11 +85,9 @@ export const RecommendProfile = () => {
                             <div className={styles.tag}>фигурное катание</div>
                             <div className={styles.tag}>теннис</div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </>
     )
 }

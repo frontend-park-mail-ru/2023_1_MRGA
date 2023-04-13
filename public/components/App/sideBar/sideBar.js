@@ -1,48 +1,55 @@
 import styles from './sideBar.module.css'
 import {User} from "@/store/user";
 import {Tinder} from "@/api/api";
+import {Link} from "@/lib/jsx/components/link/link";
 
+import man from "assets/img/man.png";
+import home from "assets/svg/home.svg"
+import message from "assets/svg/message.svg"
+import matches from "assets/svg/matches.svg"
+import profile from "assets/svg/profile.svg"
+import {useRef} from "@/lib/jsx/hooks/useRef";
 
 export const SideBar = () => {
-    const name = Tinder.getUser()
-        .then(result => result.json())
-        .then((user) => {
-            document.getElementById("userName").innerText = user.name;
-        });
-    console.log("hello")
+    const name = useRef();
+
+    const ff = async () => {
+        const resp = await Tinder.getUser();
+        const json = await resp.json();
+        name.getValue().innerHTML = JSON.stringify(json);
+    }
+    ff();
     // console.log(name)
     // console.log(user)
 
     return (
         <div className={styles.sideBar}>
             <div className={styles.profileInfo}>
-                <img className={styles.avatar} src="../../../assets/img/man.png" alt=""/>
-                    <div id="userName" className={styles.name}>
-                        {/*Александр, 28*/}
-                        {/*{name}*/}
+                <img className={styles.avatar} src={man} alt=""/>
+                    <div id="userName" className={styles.name} ref={name}>
+                        идет загрузка...
                     </div>
             </div>
             <div className={styles.spacer}></div>
 
             <div className={styles.buttons}>
-                <a className={styles.btn} href="#">
-                    <object className={styles.icon} data="../../../assets/svg/home.svg"></object>
+                <Link className={styles.btn} href="/">
+                    <object className={styles.icon} data={home}></object>
                     Знакомства
-                </a>
+                </Link>
 
-                <a className={styles.btn} href="#">
-                    <object className={styles.icon} data="../../../assets/svg/message.svg"></object>
+                <Link className={styles.btn} href="/">
+                    <object className={styles.icon} data={message}></object>
                     Сообщения
-                </a>
-
-                <a className={styles.btn} href="#">
-                    <object className={styles.icon} data="../../../assets/svg/matches.svg"></object>
+                </Link>
+                <Link className={styles.btn} href="/">
+                    <object className={styles.icon} data={matches}></object>
                     Совпадения
-                </a>
-                <a className={styles.btn} href="#">
-                    <object className={styles.icon} data="../../../assets/svg/profile.svg"></object>
+                </Link>
+                <Link className={styles.btn} href="/">
+                    <object className={styles.icon} data={profile}></object>
                     Профиль
-                </a>
+                </Link>
 
             </div>
             <div className={styles.spacer}></div>
