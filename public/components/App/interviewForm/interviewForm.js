@@ -49,6 +49,7 @@ export const InterviewForm = () => {
     const sexSearchWarning = useRef();
     const hashTags = useRef();
     const hashTagsWarning = useRef();
+    let photoBuf = Uint8Array
 
     const onJobInputChange = () => {
         if (job.getValue().value === 'не выбрано') {
@@ -60,15 +61,7 @@ export const InterviewForm = () => {
         }
     }
 
-    const onPhotoInputChange = () => {
-        if (photo.getValue().files.length === 0) {
-            photoWarning.getValue().innerHTML = 'Вы не прикрепили фотографию';
-            return false;
-        } else {
-            photoWarning.getValue().innerHTML = '';
-            return true;
-        }
-    }
+
 
     const onHashTagsInputChange = () => {
         const hashTagsValues = document.querySelector("#hashTags").querySelectorAll('option:checked');
@@ -123,7 +116,7 @@ export const InterviewForm = () => {
         }
     }
 
-    const onsexSearchInputChange = (event) => {
+    const onSexSearchInputChange = (event) => {
         if (sexSearch.getValue().value === 'не выбрано') {
             sexSearchWarning.getValue().innerHTML = 'Вы не интересующий пол';
             return false;
@@ -175,16 +168,23 @@ export const InterviewForm = () => {
         return false;
     }
 
-    const getPhotoValue = (photoInp) => {
-        const file = photoInp.getValue().files[0];
-        const form_data = new FormData();
-        form_data.append('image', file, file.name);
-        form_data.append('title', 'www');
-        form_data.append('body', 'ghghghghgh');
-        form_data.append('tag', '123456');
-        form_data.append('lang', 'ru');
-        form_data.append('published_at', '2020-01-01 20:00:00');
-        return form_data
+    const onPhotoInputChange = () => {
+        if (photo.getValue().files.length === 0) {
+            photoWarning.getValue().innerHTML = 'Вы не прикрепили фотографию';
+            return false;
+        } else {
+            photoWarning.getValue().innerHTML = '';
+            return true;
+        }
+    }
+
+    const getPhotoValue = () => {
+        const file = photo.getValue().files[0];
+        console.log(file)
+        const formdata = new FormData();
+        formdata.append ('file', file);
+        return formdata
+
     }
 
     const onReasonInputChange = () => {
@@ -210,19 +210,21 @@ export const InterviewForm = () => {
     }
 
     const allChecks = () => {
-        return onJobInputChange() && onCityInputChange() &&
-        onNameInputChange() &&
-        onEducationInputChange() &&
-        onDescriptionInputChange() && 
-        onZodiacInputChange() &&
-        onSexInputChange() &&
-        onPhotoInputChange() &&
-        onMinAgeInputChange() && 
-        onMaxAgeInputChange() &&
-        onReasonInputChange() &&
-        onsexSearchInputChange() &&
-        onHashTagsInputChange();
+        return true
+        // return onJobInputChange() && onCityInputChange() &&
+        // onNameInputChange() &&
+        // onEducationInputChange() &&
+        // onDescriptionInputChange() &&
+        // onZodiacInputChange() &&
+        // onSexInputChange() &&
+        // onPhotoInputChange() &&
+        // onMinAgeInputChange() &&
+        // onMaxAgeInputChange() &&
+        // onReasonInputChange() &&
+        // onSexSearchInputChange() &&
+        // onHashTagsInputChange();
     }
+
     const isValidForm = () => {
         const cityError = cityWarning.getValue().innerText === '';
         const jobError = jobWarning.getValue().innerText === '';
@@ -237,6 +239,7 @@ export const InterviewForm = () => {
             zodiacError && nameError && sexError
         )
     }
+
     const onSubmitClick = async (e) => {
         e.preventDefault();
         if (!allChecks()) {
@@ -246,6 +249,7 @@ export const InterviewForm = () => {
             return ;
         }
         try {
+
             const respInfoUser = await Tinder.infoUser({
                 "name": name.getValue().value,
                 "city": city.getValue().value,
@@ -283,7 +287,7 @@ export const InterviewForm = () => {
             }
 
             const respPhotoUser = await Tinder.photo({
-                "photo": getPhotoValue(photo),
+                "photo": getPhotoValue(),
                 "avatar": true,
             });
             const jsonPhotoUser = await respPhotoUser.json()
@@ -546,7 +550,7 @@ export const InterviewForm = () => {
                        required={true}
                        name={"sexSearch"}
                        ref={sexSearch}
-                       onchange={onsexSearchInputChange}
+                       onchange={onSexSearchInputChange}
                    >
                     {["не выбрано", "М", "Ж", "ВСЕ"].map(option => <option>{option}</option>)}
                    </Select>
