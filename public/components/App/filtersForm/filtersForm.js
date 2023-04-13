@@ -95,14 +95,12 @@ export const FiltersForm = () => {
                 "sexSearch": sexSearch.getValue().value,
                 "reason": fromOptionsToTexts(document.querySelector("#reasons")),
             }
-            console.log(obj);
             const respFilterUser = await Tinder.filters(obj);
             const jsonFilterUser = await respFilterUser.json();
             if (jsonFilterUser.status !== 200) {
                 warning.getValue().innerHTML = jsonFilterUser.error;
                 return;
             }
-            console.log(jsonFilterUser);
 
             Navigate({to:'/photo'});
         } catch (e) {

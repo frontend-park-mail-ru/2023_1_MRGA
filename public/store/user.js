@@ -12,8 +12,6 @@ export class User {
     }
     static getUser = async () => {
         const user = await Tinder.getUser();
-        // console.log(user);
-        // return JSON.parse(localStorage.getItem(userToken));
     }
 }
 

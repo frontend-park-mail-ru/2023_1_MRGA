@@ -30,18 +30,6 @@ export const PhotoForm = () => {
         }
     }
 
-    const getPhotoValue = (photoInp) => {
-        const file = photoInp.getValue().files[0];
-        const form_data = new FormData();
-        form_data.append('image', file, file.name);
-        form_data.append('title', 'www');
-        form_data.append('body', 'ghghghghgh');
-        form_data.append('tag', '123456');
-        form_data.append('lang', 'ru');
-        form_data.append('published_at', '2020-01-01 20:00:00');
-        return form_data
-    }
-
     const allChecks = () => {
         return onPhotoInputChange();
     }
@@ -54,13 +42,11 @@ export const PhotoForm = () => {
 
         try {
             let files = photo.getValue().files;
-            console.log(photo.getValue().files);
-            
+
             const formData = new FormData();
             for (let i = 0; i < files.length; i++) {
                 formData.append('files[]', files[i]);
             }
-            console.log(formData);
 
             const respPhotoUser = await Tinder.postPhotos(formData);
 
@@ -69,7 +55,6 @@ export const PhotoForm = () => {
                 warning.getValue().innerHTML = jsonPhotoUser.error;
                 return
             }
-            console.log(jsonPhotoUser);
             Navigate({to:'/'});
         } catch (e) {
             alert(e);

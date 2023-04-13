@@ -41,14 +41,12 @@ export const HashTagsForm = () => {
             let obj = {
                 "hashtag": fromOptionsToTexts(document.querySelector("#hashTags")),
             }
-            console.log(obj);
             const respHashTags = await Tinder.addHashTags(obj);
             const jsonHashTags = await respHashTags.json();
             if (jsonHashTags.status !== 200) {
                 warning.getValue().innerHTML = jsonHashTags.error;
                 return;
             }
-            console.log(jsonHashTags);
             Navigate({to:'/filters'});
         } catch (e) {
             alert(e);

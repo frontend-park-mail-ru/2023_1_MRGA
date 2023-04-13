@@ -18,9 +18,6 @@ export const AuthorizationForm = () => {
     const authClick = async (e) => {
         e.preventDefault()
         error.getValue().innerHTML = '';
-        console.log(password.getValue().value);
-        console.log(login.getValue().value);
-        // Navigate({to: "/"});
         try {
             const resp = await Tinder.login({"password": password.getValue().value, "email": login.getValue().value})
             const json = await resp.json()

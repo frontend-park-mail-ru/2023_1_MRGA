@@ -7,7 +7,6 @@ const observer = new MutationObserver(function(mutationsList) {
     for (const mutation of mutationsList) {
         if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
             const newValue = mutation.target.getAttribute('disabled');
-            console.log('Attribute "disabled" has changed to:', newValue);
         }
     }
 });

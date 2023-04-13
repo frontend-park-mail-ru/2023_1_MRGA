@@ -34,7 +34,6 @@ export class City {
 
         const resp = await Tinder.getCities();
         let json = await resp.json();
-        console.log(json)
         if (json.status !== 200) {
             //warning.getValue().innerHTML = json.error;
             return [];
@@ -42,7 +41,6 @@ export class City {
         const cities = Array.from(json.body.cities);
         cityStore.dispatch(SetCities(cities))
 
-        console.log(cityStore.getState())
     }
 }
 
