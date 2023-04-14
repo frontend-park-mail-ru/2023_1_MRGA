@@ -17,10 +17,13 @@ export const HashTagsForm = () => {
     const warning = useRef();
 
     const onHashTagsInputChange = () => {
-        const hashTagsValues = document.querySelector("#hashTags").querySelectorAll('option:checked');
+        const hashTagsValues = hashTags.getValue().querySelectorAll('option:checked');
 
         if (hashTagsValues.length === 0) {
             hashTagsWarning.getValue().innerHTML = 'Вы не выбрали хэш-теги';
+            return false;
+        } else if (hashTagsValues.length > 5) {
+            hashTagsWarning.getValue().innerHTML = 'Выберите не более 5 тегов';
             return false;
         } else {
             hashTagsWarning.getValue().innerHTML = '';
@@ -39,7 +42,7 @@ export const HashTagsForm = () => {
         }
         try {
             let obj = {
-                "hashtag": fromOptionsToTexts(document.querySelector("#hashTags")),
+                "hashtag": fromOptionsToTexts(hashTags.getValue()),
             }
             const respHashTags = await Tinder.addHashTags(obj);
             const jsonHashTags = await respHashTags.json();

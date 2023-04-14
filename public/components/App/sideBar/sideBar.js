@@ -5,6 +5,8 @@ import {loading} from "@/assets/img/loading.png";
 
 
 export const SideBar = () => {
+    const loadingPhoto = "../../../assets/img/loading.png";
+
     const setPhoto = (id, file) => {
         const imageUrl = URL.createObjectURL(file);
         const img = document.querySelector(`#${id}`);
@@ -42,17 +44,14 @@ export const SideBar = () => {
         setNameAge("profileName", bodyUserInfo.name, bodyUserInfo.Age);
         setProfilePhoto(bodyUserInfo.photos[0].PhotoId);
 
-        
     }
     makePage();
 
     return (
         <div className={styles.sideBar}>
             <div className={styles.profileInfo}>
-                <img id="profileImg" className={styles.avatar} src="../../../assets/img/loading.png" alt=""/>
+                <img id="profileImg" className={styles.avatar} src={loadingPhoto} alt=""/>
                     <div id="profileName" className={styles.name}>
-                        {/*Александр, 28*/}
-                        {/*{name}*/}
                     </div>
             </div>
             <div className={styles.spacer}></div>

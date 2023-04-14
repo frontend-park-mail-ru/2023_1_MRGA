@@ -296,6 +296,14 @@ a {
     flex-wrap: wrap;
 }
 
+.descOtherData {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    color:teal;
+}
+
 .tag {
     padding: 5px 10px;
     border-radius: 20px;

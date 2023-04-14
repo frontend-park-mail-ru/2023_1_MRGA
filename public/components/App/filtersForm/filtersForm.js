@@ -68,10 +68,13 @@ export const FiltersForm = () => {
     }
 
     const onReasonInputChange = () => {
-        const reasonsValues = document.querySelector("#reasons").querySelectorAll('option:checked');
+        const reasonsValues = reasons.getValue().querySelectorAll('option:checked');
 
         if (reasonsValues.length === 0) {
             reasonsWarning.getValue().innerHTML = 'Вы не выбрали причины для знакомств';
+            return false;
+        } else if (reasonsValues.length > 0) {
+            reasonsWarning.getValue().innerHTML = 'Выберите не более 3 причин';
             return false;
         } else {
             reasonsWarning.getValue().innerHTML = '';
@@ -97,7 +100,7 @@ export const FiltersForm = () => {
                 "minAge": minAge.getValue().valueAsNumber,
                 "maxAge": maxAge.getValue().valueAsNumber,
                 "sexSearch": sexSearch.getValue().value,
-                "reason": fromOptionsToTexts(document.querySelector("#reasons")),
+                "reason": fromOptionsToTexts(reasons.getValue()),
             }
             const respFilterUser = await Tinder.filters(obj);
             const jsonFilterUser = await respFilterUser.json();
