@@ -49,7 +49,6 @@ export class Tinder {
 
     static async getUser() {
         return Ajax.ajax(ApiUrl+"meetme/user", "GET")
-        // return Ajax.ajax(fakeUrl+"users/1", "GET")
     }
     static async logout() {
         return Ajax.ajax(ApiUrl+"meetme/logout", "POST")
@@ -60,7 +59,7 @@ export class Tinder {
     static async getMatch() {
         return Ajax.ajax(ApiUrl+"meetme/match", "GET")
     }
-    static async reaction(reactionData) {
+    static async postReaction(reactionData) {
         return Ajax.ajax(ApiUrl+"meetme/reaction", "POST", {}, JSON.stringify(reactionData))
     }
     static async postPhotos(photosData) {
