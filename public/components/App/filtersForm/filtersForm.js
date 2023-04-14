@@ -73,7 +73,7 @@ export const FiltersForm = () => {
         if (reasonsValues.length === 0) {
             reasonsWarning.getValue().innerHTML = 'Вы не выбрали причины для знакомств';
             return false;
-        } else if (reasonsValues.length > 0) {
+        } else if (reasonsValues.length > 3) {
             reasonsWarning.getValue().innerHTML = 'Выберите не более 3 причин';
             return false;
         } else {

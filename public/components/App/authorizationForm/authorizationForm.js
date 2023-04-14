@@ -47,7 +47,12 @@ export const AuthorizationForm = () => {
                     ref={login}
                     required={true}
                 />
-                <PasswordInput id='pass' labelText='Password' ref={password}/>
+                <PasswordInput 
+                    id='pass' 
+                    placeholder={"Введите пароль"} 
+                    labelText='Password' 
+                    ref={password}
+                />
                 <Warning ref={error}></Warning>
                 <SubmitButton onClick={authClick}>войти</SubmitButton>
             </Form>

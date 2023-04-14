@@ -2,7 +2,7 @@ import styles from './sideBar.module.css'
 import {User} from "@/store/user";
 import {Tinder} from "@/api/api";
 import {loading} from "@/assets/img/loading.png";
-
+import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 
 export const SideBar = () => {
     const loadingPhoto = "../../../assets/img/loading.png";
@@ -32,6 +32,32 @@ export const SideBar = () => {
         });
     }
 
+    const setHandlers = () => {
+        document.querySelector("#homeButton").addEventListener("click", (event) => {
+            event.preventDefault();
+
+            Navigate({to:'/'});
+        });
+
+        document.querySelector("#messageButton").addEventListener("click", (event) => {
+            event.preventDefault();
+
+            Navigate({to:'/'});
+        });
+
+        document.querySelector("#matchesButton").addEventListener("click", (event) => {
+            event.preventDefault();
+
+            Navigate({to:'/matches'});
+        });
+
+        document.querySelector("#profileButton").addEventListener("click", (event) => {
+            event.preventDefault();
+
+            Navigate({to:'/'});
+        });
+    }
+
     const makePage = async () => {
         let respUserInfo = await Tinder.getUser();
         let jsonUserInfo = await respUserInfo.json();
@@ -45,6 +71,7 @@ export const SideBar = () => {
         setNameAge("profileName", bodyUserInfo.name, bodyUserInfo.age);
         setProfilePhoto(bodyUserInfo.avatarId);
 
+        setHandlers();
     }
     makePage();
 
@@ -58,21 +85,21 @@ export const SideBar = () => {
             <div className={styles.spacer}></div>
 
             <div className={styles.buttons}>
-                <a className={styles.btn} href="/">
+                <a id="homeButton" className={styles.btn}>
                     <img className={styles.icon} src="../../../assets/svg/home.svg"/>
                     Знакомства
                 </a>
 
-                <a className={styles.btn} href="/">
+                <a id="messageButton" className={styles.btn}>
                     <img className={styles.icon} src="../../../assets/svg/message.svg"/>
                     Сообщения
                 </a>
 
-                <a className={styles.btn} href="/matches">
+                <a id="matchesButton" className={styles.btn}>
                     <img className={styles.icon} src="../../../assets/svg/matches.svg"/>
                     Совпадения
                 </a>
-                <a className={styles.btn} href="/">
+                <a id="profileButton" className={styles.btn}>
                     <img className={styles.icon} src="../../../assets/svg/profile.svg"/>
                     Профиль
                 </a>

@@ -5,35 +5,6 @@ import {SideBar} from "components/App/sideBar/sideBar";
 import {MatchesList} from "components/App/matchesList/matchesList";
 import styles from './matches.css'
 
-// export const MatchesPage = () => {
-//     return (
-//         <>
-//             <Header/>
-//             <SideBar/>
-//             <MatchesList/>
-//
-//         </>
-// )
-// }
-// export const MatchesPage = () => {
-//     return (
-//         <>
-//             <Header/>
-//             <div>
-//                 <SideBar/>
-//                 <MatchesList/>
-//                 {/*<div className={styles.chatSide}>*/}
-//                 {/*    <div className={styles.matchesSide}>*/}
-//                 {/*        <img src="../../../assets/svg/chat-icon.svg" width="52" height="52" alt=""/>*/}
-//                 {/*            <div className={styles.openChat}>Выберите человека, чтобы начать чат</div>*/}
-//                 {/*    </div>*/}
-//                 {/*</div>*/}
-//
-//             </div>
-//         </>
-// )
-// }
-
 export const MatchesPage = () => {
     return (
         <>

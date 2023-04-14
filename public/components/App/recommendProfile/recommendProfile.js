@@ -46,6 +46,10 @@ export const RecommendProfile = () => {
         prevPhotoButton.addEventListener("click", (event) => {
             event.preventDefault();
 
+            if (currLengthPhotos <= 1) {
+                return;
+            }
+
             if (currIndexPhoto === 0) {
                 currIndexPhoto = currLengthPhotos - 1;
             } else {
@@ -57,6 +61,10 @@ export const RecommendProfile = () => {
         nextPhotoButton.addEventListener("click", (event) => {
             event.preventDefault();
 
+            if (currLengthPhotos <= 1) {
+                return;
+            }
+
             if (currIndexPhoto === currLengthPhotos - 1) {
                 currIndexPhoto = 0;
             } else {
@@ -67,14 +75,21 @@ export const RecommendProfile = () => {
 
         passButton.addEventListener("click", (event) => {
             event.preventDefault();
-            Tinder.postReaction({evaluatedUserId: currRecommendation.userId, reaction: "pass"})
-            nextProfile();
+
+            if (countRecommendations === 0) {
+                return;
+            }
+
+            Tinder.postReaction({evaluatedUserId: currRecommendation.userId, reaction: "pass"}).then(() => nextProfile());
         });
 
         likeButton.addEventListener("click", (event) => {
             event.preventDefault();
-            Tinder.postReaction({evaluatedUserId: currRecommendation.userId, reaction: "like"})         
-            nextProfile();
+
+            if (countRecommendations === 0) {
+                return;
+            }
+            Tinder.postReaction({evaluatedUserId: currRecommendation.userId, reaction: "like"}).then(() => nextProfile());
         });
     }
 
@@ -83,13 +98,17 @@ export const RecommendProfile = () => {
             makePage();
         } else {
             currIndexRecommendation = currIndexRecommendation + 1;
-            setRecProfile();
+            setRecProfileAsync();
         }
     }
 
     const setPhotoCurrentRecommendation = () => {
 
-        setPhoto("recPhoto", currPhotosUrls[currIndexPhoto]);
+        if (currLengthPhotos === 0) {
+            setPhoto("recPhoto", loadingPhoto);
+        } else {
+            setPhoto("recPhoto", currPhotosUrls[currIndexPhoto]);
+        }
 
         // Устанавливаются точки над фотографиями профиля рекомендации
         const photoDots = document.querySelector("#recPhotoDots");
@@ -107,16 +126,30 @@ export const RecommendProfile = () => {
 
     // Ассинхронно устанавливается аватарка профиля из рекомендации и получаются url всех фотографий данного профиля
     const setRecProfileAsync = async () => {
+
+        // Если нет рекоммендаций
+        if (countRecommendations === 0) {
+            clearRec();
+            currLengthPhotos = 0;
+            setPhotoCurrentRecommendation();
+            console.log("Пока не нашлось пользователей под ваши вкусы");
+            return;
+        }
+
         // Устанавливается данные о текущем пользователе в рекомендации
         currRecommendation = recommendations[currIndexRecommendation];
-        if (currRecommendation.photos === null) {
-            currRecommendation.photos = [];
-        }
-        currLengthPhotos = currRecommendation.photos.length;
         currIndexPhoto = 0;
         currPhotosUrls = [];
+        // Если нет фоток
+        if (currRecommendation.photos === null || currRecommendation.photos.length === 0) {
+            currRecommendation.photos = [];
+            currLengthPhotos = 0;
+            setPhotoCurrentRecommendation();
+        } else {
+            currLengthPhotos = currRecommendation.photos.length;
+        }
 
-        currRecommendation.photos.forEach((photoId, ind) => {
+        currRecommendation.photos.forEach((photoId, ind) => { // Работаем с фото только если они есть
             Tinder.getPhoto(photoId)
             .then(response => {
                 if (response.status !== 200) {
@@ -136,6 +169,7 @@ export const RecommendProfile = () => {
             });
         });
 
+        clearRec();
         // Устанавливается имя и возраст профиля рекомендации
         setInnerText("recNameAge", `${currRecommendation.name}, ${currRecommendation.age}`);
         // Устанавливается город профиля рекомендации
@@ -143,9 +177,8 @@ export const RecommendProfile = () => {
         // Устанавливается описание профиля рекомендации
         setInnerText("recDescription", currRecommendation.description);
         
-        // Устанавливаются хэш-теги профиля рекомендации
         const divHashtags = document.querySelector("#recHashtags");
-        divHashtags.innerHTML = '';
+        // Устанавливаются хэш-теги профиля рекомендации
         currRecommendation.hashtags.forEach((hashtag) => {
             let divHashtag = document.createElement("div");
             divHashtag.classList.add("tag");
@@ -154,17 +187,30 @@ export const RecommendProfile = () => {
             divHashtags.appendChild(divHashtag);
         });
         
-        // Устанавливается работа профиля рекомендации
-        setInnerText("recJob", currRecommendation.job);
-        // Устанавливается зодиак профиля рекомендации
-        setInnerText("recZodiac", currRecommendation.zodiac);
-        // Устанавливается образование профиля рекомендации
-        setInnerText("recEducation", currRecommendation.education);
-    }
+        // Устанавливаются другие данные профиля рекомендации
+        const otherRecInfo = [
+            {
+                id: "recJob",
+                innerText: currRecommendation.job,
+            },
+            {
+                id: "recZodiac",
+                innerText: currRecommendation.zodiac,
+            },
+            {
+                id: "recEducation",
+                innerText: currRecommendation.education,
+            },
+        ];
 
-    // Запускается установка вида профиля рекомендации
-    const setRecProfile = () => {
-        setRecProfileAsync().then(() => {
+        const divOther = document.querySelector("#recOtherInfo");
+        otherRecInfo.forEach((item) => {
+            let divRec = document.createElement("div");
+            divRec.classList.add("tag");
+            divRec.id = item.id;
+            divRec.innerText = item.innerText;
+            
+            divOther.appendChild(divRec);
         });
     }
 
@@ -186,15 +232,23 @@ export const RecommendProfile = () => {
         if (recommendations === null) {
             recommendations = [];
         }
+    
         countRecommendations = recommendations.length;
-        if (countRecommendations === 0) {
-            console.log("Пока не нашлось пользователей под ваши вкусы");
-            return;
-        }
-
-        // Вызывается отображение всего о пользователе в рекомендации
         currIndexRecommendation = 0;
-        setRecProfile();
+        // Вызывается отображение всего о пользователе в рекомендации
+        setRecProfileAsync();
+    }
+
+    const clearRec = () => {
+        const divHashtags = document.querySelector("#recHashtags");
+        divHashtags.innerHTML = '';
+
+        const divOther = document.querySelector("#recOtherInfo");
+        divOther.innerHTML = '';
+
+        setInnerText("recNameAge", '');
+        setInnerText("recCity", '');
+        setInnerText("recDescription", '');
     }
 
     const initPage = () => {
@@ -231,7 +285,7 @@ export const RecommendProfile = () => {
 
                     </a>
 
-                    <a id="nextPhotoButton" href="#" style="
+                    <a id="nextPhotoButton" style="
                         position: absolute;
                         right: 8px;
                         ">
@@ -252,10 +306,10 @@ export const RecommendProfile = () => {
                         <div id="recHashtags" className={styles.descTags}>
                         </div>
 
-                        <div className={styles.descOtherData}>
-                            <div id="recJob" className={styles.tag}></div>
+                        <div id="recOtherInfo" className={styles.descOtherData}>
+                            {/* <div id="recJob" className={styles.tag}></div>
                             <div id="recZodiac" className={styles.tag}></div>
-                            <div id="recEducation" className={styles.tag}></div>
+                            <div id="recEducation" className={styles.tag}></div> */}
                         </div>
 
                     </div>

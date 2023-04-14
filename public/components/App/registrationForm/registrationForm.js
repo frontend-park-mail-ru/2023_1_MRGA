@@ -155,24 +155,6 @@ export const RegistrationForm = () => {
                     ref={ageWarning}
                     title={"возраст должен быть больше или равен 18"}
                 />
-                {/*<span>*/}
-                {/*    <Label labelText={"Sex"} htmlFor={"sex"}/>*/}
-                {/*    <Select*/}
-                {/*        id={"sex"}*/}
-                {/*        required={true}*/}
-                {/*        name={"sex"}*/}
-                {/*        ref={sex}*/}
-                {/*        onChange={onSexInputChange}*/}
-                {/*    >*/}
-                {/*        <option>не выбрано</option>*/}
-                {/*        <option>М</option>*/}
-                {/*        <option>Ж</option>*/}
-                {/*    </Select>*/}
-                {/*</span>*/}
-                {/*<Warning*/}
-                {/*    ref={sexWarning}*/}
-                {/*    title={"возраст должен быть больше или равен 18"}*/}
-                {/*/>*/}
                 <PasswordInput
                     id="pass1"
                     labelText="Password"
