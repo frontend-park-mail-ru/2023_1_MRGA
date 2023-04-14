@@ -21,6 +21,9 @@ export const HeaderAuth = () => {
     return (
     <HeaderContainer>
         <img src={logo} width="203" alt={logo}/>
+        <div>
+            <Link className={styles.headerElement} href={"/logout"}>Logout</Link>
+        </div>
     </HeaderContainer>)
 }
 

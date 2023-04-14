@@ -39,6 +39,8 @@ export const FiltersForm = () => {
             minAgeWarning.getValue().innerHTML = 'Возраст должен быть больше или равен 18';
         } else if (ageNumber < 0) {
             minAgeWarning.getValue().innerHTML = 'Некорректный возраст';
+        } else if (ageNumber > maxAge.getValue().valueAsNumber) {
+            minAgeWarning.getValue().innerHTML = 'Минимальный допустимый возраст не может быть больше максимального';
         } else if (isNaN(ageNumber)) {
             minAgeWarning.getValue().innerHTML = 'Введите возраст';
         } else {
@@ -54,6 +56,8 @@ export const FiltersForm = () => {
             maxAgeWarning.getValue().innerHTML = 'Возраст должен быть больше или равен 18';
         } else if (ageNumber < 0) {
             maxAgeWarning.getValue().innerHTML = 'Некорректный возраст';
+        } else if (ageNumber < minAge.getValue().valueAsNumber) {
+            minAgeWarning.getValue().innerHTML = 'Максимально допустимый возраст не может быть меньше минимального';
         } else if (isNaN(ageNumber)) {
             maxAgeWarning.getValue().innerHTML = 'Введите возраст';
         } else {

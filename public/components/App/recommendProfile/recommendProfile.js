@@ -4,8 +4,7 @@ import styles from './recommendProfile.module.css'
 
 
 export const RecommendProfile = () => {
-    return
-    (<>
+    return(
         <div className={styles.content}>
             <div className={styles.avatarSide}>
                 <img className={styles.avatar} src="../../../assets/img/woman.jpeg" alt=""/>
@@ -71,6 +70,5 @@ export const RecommendProfile = () => {
                 </div>
             </div>
         </div>
-    </>
     )
 }

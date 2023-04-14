@@ -11,27 +11,28 @@ import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 
 export const PhotoForm = () => {
-    const photo = useRef();
-    const photoWarning = useRef();
+    const mainPhoto = useRef();
+    const mainPhotoWarning = useRef();
+    const photo2 = useRef();
+    const photo3 = useRef();
+    const photo4 = useRef();
+    const photo5 = useRef();
     const submitButton = useRef();
     const warning = useRef();
     
-    const onPhotoInputChange = () => {
-        let n = photo.getValue().files.length;
+    const onMainPhotoInputChange = () => {
+        let n = mainPhoto.getValue().files.length;
         if (n === 0) {
-            photoWarning.getValue().innerHTML = 'Вы не прикрепили фотографию';
-            return false;
-        } else if (n > 5) {
-            photoWarning.getValue().innerHTML = 'Прикрепите не более 5 фотографий';
+            mainPhotoWarning.getValue().innerHTML = 'Главная фотография обязательна';
             return false;
         } else {
-            photoWarning.getValue().innerHTML = '';
+            mainPhotoWarning.getValue().innerHTML = '';
             return true;
         }
     }
 
     const allChecks = () => {
-        return onPhotoInputChange();
+        return onMainPhotoInputChange();
     }
 
     const onSubmitClick = async (e) => {
@@ -41,13 +42,27 @@ export const PhotoForm = () => {
         }
 
         try {
-            let files = photo.getValue().files;
+            let mainFile = mainPhoto.getValue().files[0];
+            let file2 = photo2.getValue().files;
+            let file3 = photo3.getValue().files;
+            let file4 = photo4.getValue().files;
+            let file5 = photo5.getValue().files;
 
             const formData = new FormData();
-            for (let i = 0; i < files.length; i++) {
-                formData.append('files[]', files[i]);
+            formData.append('files[]', mainFile);
+            if (file2.length !== 0) {
+                formData.append('files[]', file2[0]);
             }
-
+            if (file3.length !== 0) {
+                formData.append('files[]', file3[0]);
+            }
+            if (file4.length !== 0) {
+                formData.append('files[]', file4[0]);
+            }
+            if (file5.length !== 0) {
+                formData.append('files[]', file5[0]);
+            }
+    
             const respPhotoUser = await Tinder.postPhotos(formData);
 
             const jsonPhotoUser = await respPhotoUser.json()
@@ -66,18 +81,46 @@ export const PhotoForm = () => {
             <Form>
                 <img src={logoMini} width="46" alt={"logo"}/>
                 <InputWithLabel
-                    id={"photo"}
-                    labelText={"Attach photos"}
+                    id={"mainPhoto"}
+                    labelText={"Attach Main photo"}
                     required={true}
-                    name={"photo[]"}
-                    ref={photo}
-                    onChange={onPhotoInputChange}
-                    type="file" 
-                    multiple/>
+                    name={"mainPhoto"}
+                    ref={mainPhoto}
+                    onChange={onMainPhotoInputChange}
+                    type="file"
+                    accept="image/jpeg,image/png"/>
                 <Warning
-                    ref={photoWarning}
-                    title={"фотография должна быть прикреплена"}
+                    ref={mainPhotoWarning}
+                    title={"Главная фотография должна быть прикреплена"}
                 />
+                <InputWithLabel
+                    id={"photo2"}
+                    labelText={"Attach other photo"}
+                    name={"photo2"}
+                    ref={photo2}
+                    type="file"
+                    accept="image/jpeg,image/png"/>
+                <InputWithLabel
+                    id={"photo3"}
+                    labelText={"Attach other photo"}
+                    name={"photo3"}
+                    ref={photo3}
+                    type="file"
+                    accept="image/jpeg,image/png"/>
+                <InputWithLabel
+                    id={"photo4"}
+                    labelText={"Attach other photo"}
+                    name={"photo4"}
+                    ref={photo4}
+                    type="file"
+                    accept="image/jpeg,image/png"/>
+                <InputWithLabel
+                    id={"photo5"}
+                    labelText={"Attach other photo"}
+                    name={"photo5"}
+                    ref={photo5}
+                    type="file"
+                    accept="image/jpeg,image/png"/>
                 <SubmitButton
                     ref={submitButton}
                     onClick={onSubmitClick}

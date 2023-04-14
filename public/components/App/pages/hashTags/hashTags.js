@@ -1,4 +1,4 @@
-import {Header} from "components/App/header/header";
+import {HeaderAuth} from "components/App/header/header";
 
 import {HashTagsForm} from "components/App/hashTagsForm/hashTagsForm";
 
@@ -6,7 +6,7 @@ export const HashTagsPage = () => {
 
     return (
         <div>
-            {/* <Header/> */}
+            <HeaderAuth/>
             <HashTagsForm/>
         </div>
     )
