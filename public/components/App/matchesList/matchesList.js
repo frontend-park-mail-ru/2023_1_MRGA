@@ -46,7 +46,11 @@ export const MatchesList = () => {
                     divProfile.setAttribute("style", "margin: 10px 15px; display: flex; flex-direction: column; align-items: center;");
 
                     let imgAvatarProfile = document.createElement("img");
-                    imgAvatarProfile.setAttribute("style", "margin-bottom: 8px; height: 120px; width: 120px; object-fit: cover; border-radius: 50%;");
+                    let imgStyle = "margin-bottom: 8px; height: 120px; width: 120px; object-fit: cover; border-radius: 50%;"
+                    if (match.shown === false) {
+                        imgStyle = `${imgStyle} border-style: solid; border-color: orange; border-width: 4px;`;
+                    }
+                    imgAvatarProfile.setAttribute("style", imgStyle);
                     imgAvatarProfile.addEventListener("error", (event) => {
                         event.src = loadingPhoto;
                     });
