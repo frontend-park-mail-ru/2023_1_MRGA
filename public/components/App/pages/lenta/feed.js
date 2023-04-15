@@ -10,9 +10,12 @@ export const FeedPage = () => {
     return (
         <>
             <HeaderAuth/>
-            <div style="display: flex;">
-                <SideBar/>
-                <RecommendProfile/>
+            <div style="
+                        margin-top: 10px;">
+                <div style="display: flex;">
+                    <SideBar/>
+                    <RecommendProfile/>
+                </div>
             </div>
         </>
     )

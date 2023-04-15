@@ -56,7 +56,7 @@ export class Tinder {
     static async getRecommendation() {
         return Ajax.ajax(ApiUrl+"meetme/recommendation", "GET")
     }
-    static async getMatch() {
+    static async getMatches() {
         return Ajax.ajax(ApiUrl+"meetme/match", "GET")
     }
     static async postReaction(reactionData) {
