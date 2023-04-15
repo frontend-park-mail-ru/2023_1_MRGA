@@ -28,8 +28,9 @@ export const routes = [
 const router = () => {
     const currentPath = window.location.pathname;
     const route = routes.find(route => route.path === currentPath);
-    const args = Object.values(route.args || []);
-    render(route.component.call(null, ...args));
+    const args = Object.values(route?.args || []);
+
+    route ? render(route.component.call(null, ...args)) : false;
 };
 
 document.addEventListener('DOMContentLoaded', () => {
