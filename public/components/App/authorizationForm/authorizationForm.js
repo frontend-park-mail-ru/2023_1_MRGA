@@ -10,6 +10,7 @@ import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {FormContainer} from "components/UI/containers/formContainer/formContainer";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {cityStore} from "@/store/interviewInfo";
+import {routes} from "@/router/router";
 
 export const AuthorizationForm = () => {
     const login = useRef();
@@ -26,6 +27,13 @@ export const AuthorizationForm = () => {
                 error.getValue().innerHTML = json.err;
                 return
             }
+            const currentPath = window.location.pathname;
+            routes = routes.filter((route) => {
+                return route.path !== "/login";
+            })
+            // routes = routes.filter((route) => {
+            //     return route.path !== "/signup  ";
+            // })
             Navigate({to: "/"});
         } catch (e) {
             alert(e)

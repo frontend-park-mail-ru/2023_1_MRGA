@@ -4,15 +4,20 @@ import styles from './header.module.css'
 import {Link} from "@/lib/jsx/components/link/link";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
+import {useState} from "@/lib/jsx/hooks/useState";
 
 export const RENDER_TYPE = {
     NUNJUCKS: 'nunjucks'
 }
 
 export const Header = () => {
+    const [state, setState] = useState(4);
+
+    console.log(state);
     return (
     <HeaderContainer>
-        <img src={logo} width="203" alt={logo}/>
+        {/*<h1>{state.toString()}</h1>*/}
+        <img src={logo} width="203" onClick={setState.bind(this, state + 2)} alt={logo}/>
         <div>
             <Link className={styles.headerElement} href={"/login"}>Login</Link>
             <Link className={styles.headerElement} href={"/signup"}>Create account</Link>

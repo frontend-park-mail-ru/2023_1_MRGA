@@ -1,4 +1,4 @@
-import {render, createElement} from "@/lib/jsx";
+import {render} from "@/lib/jsx";
 import {Header} from "components/App/header/header";
 import {AuthorizationPage} from "components/App/pages/authorization/authorization";
 import {RegistrationPage} from "components/App/pages/registration/registration";
@@ -10,7 +10,7 @@ import {FiltersPage} from "components/App/pages/filters/filters";
 import {PhotoPage} from "components/App/pages/photo/photo";
 import {HashTagsPage} from "components/App/pages/hashTags/hashTags";
 
-export const routes = [
+export let routes = [
     { path: '/login', component: AuthorizationPage},
     { path: '/hello', component: (arg) => <h1>{arg}</h1>, args: {arg: "arg"}},
     { path: '/', component: FeedPage},

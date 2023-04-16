@@ -2,61 +2,129 @@ import {isArray, isFunction} from "@/lib/jsx/utils";
 
 /** @jsx window.h */
 
+
+
+let currentVNode = null;
+let lastDomNode = null;
+
+export const setCurrentVNode = (node) =>{
+    currentVNode = node;
+}
+export const getCurrentVNode = () => {
+    return currentVNode
+}
+
 window.h = (type, props, ...children) => {
+    // console.log("type: ", type, "props: ", props, "children: ", children);
     return {type, props, children};
 }
 
-export const createElement = (virtualNode) => {
-    if (!virtualNode) {
-        return
+export const createElement = 'fragment';
+
+let textNode = 'textNode';
+let htmlElement = 'htmlElement';
+const createHTMLNode = (node) => {
+    if (typeof node === 'string') {
+        const domNode = document.createTextNode(node);
+        lastDomNode = domNode;
+        return {domNode, type: textNode};
+    } else {
+        const domNode = document.createElement(node.type);
+        lastDomNode = domNode;
+        return {domNode, type: htmlElement};
+    }
+}
+
+
+
+// export const insertAfter = (sibling, node) => {
+//     // debugger;
+//     if (sibling === null) {
+//         root.appendChild(node);
+//         return ;
+//     }
+//     if (node === 'skip') {
+//         return;
+//     }
+//     if (sibling.nodeType === Node.TEXT_NODE) {
+//         const parent = sibling.parentNode;
+//         parent.insertAfter(sibling, node);
+//     } else {
+//         sibling.insertAdjacentElement('afterend', node);
+//     }
+// }
+
+export const create = (virtualNode) => {
+    if (virtualNode.type === 'fragment') {
+        // let children = virtualNode.children;
+        // children.forEach(e => insertAfter(lastDomNode, create(e)));
+        // // console.log(lastDomNode);
+        // return 'skip';
     }
     if (isArray(virtualNode)) {
         const fragment = document.createDocumentFragment()
         virtualNode.forEach(el => {
-            fragment.appendChild(createElement(el));
+            fragment.appendChild(create(el));
         })
         return fragment;
     }
-    if (typeof virtualNode === 'string') {
-        return document.createTextNode(virtualNode);
-    }
     if (isFunction(virtualNode.type)) {
+        setCurrentVNode(virtualNode)
+        virtualNode.states = [];
+        virtualNode.stateCounter = 0;
+        let node = virtualNode;
         const vNode = virtualNode.type.call(null, virtualNode.props, virtualNode.children);
-        if (!vNode) {
+        let toReturn = null;
+        if (!vNode.type) {
             const fragment = document.createDocumentFragment()
             virtualNode.children.forEach(el => {
-                fragment.appendChild(createElement(el));
+                fragment.appendChild(create(el));
             })
-            return fragment;
+            toReturn = fragment;
         } else {
-            return createElement(vNode);
+            node.oldV = vNode;
+            toReturn = create(vNode);
+            lastDomNode = toReturn;
         }
+        node.result = toReturn;
+        return toReturn;
     }
-    const rootElement = document.createElement(virtualNode.type);
+
+    const {domNode, type} = createHTMLNode(virtualNode);
+    if (type === textNode) {
+        return domNode;
+    }
     Object.entries(virtualNode.props || {}).forEach(([attr, value]) => {
         if (attr === 'className') {
-            rootElement.setAttribute('class', value);
+            domNode.setAttribute('class', value);
         } else if (attr.startsWith('on')) {
-            rootElement.addEventListener(attr.slice(2).toLowerCase(), value);
+            domNode.addEventListener(attr.slice(2).toLowerCase(), value);
         } else if (attr === 'ref') {
-            value?.setValue(rootElement);
+            value?.setValue(domNode);
         } else if (attr === 'htmlFor') {
-            rootElement.setAttribute('for', value);
+            domNode.setAttribute('for', value);
         } else {
-            rootElement.setAttribute(attr, value);
+            domNode.setAttribute(attr, value);
         }
     });
-    virtualNode.children.map(createElement).forEach((childElement) => {
-        rootElement.appendChild(childElement);
+    virtualNode.children.map(create).forEach((childElement) => {
+        if (childElement === 'skip') {
+            return ;
+        }
+        domNode.appendChild(childElement);
     });
-    return rootElement;
+    return domNode;
 }
 
 export const update = (rootElement, currNode, nextNode, index = 0) => {
     while (rootElement.firstChild) { // проверяем, есть ли дочерние элементы
         rootElement.removeChild(rootElement.firstChild); // удаляем первый дочерний элемент
     }
-    rootElement.appendChild(createElement(nextNode));
+    const newRoot = create(nextNode);
+    if (newRoot === 'skip') {
+        return;
+    }
+    rootElement.appendChild(newRoot);
     // if (!nextNode) {
     //     rootElement.removeChild(rootElement.childNodes[index]);
     // } else if (!currNode) {
@@ -89,6 +157,9 @@ export const render = (virtualRoot) => {
     if (virtualRoot === null) {
         return ;
     }
+    if (virtualRoot === 'skip') {
+        return ;
+    }
     root.innerHTML = '';
     update(root, vRoot, virtualRoot, 0);
     vRoot = virtualRoot;
@@ -99,7 +170,10 @@ export const innerRender = (virtualRoot, root) => {
         return ;
     }
     vRoot = virtualRoot;
-    root.appendChild(createElement(virtualRoot));
+    const element = create(virtualRoot);
+    if (element) {
+        root.appendChild(element);
+    }
 }
 
 export const createRoot = (container) => {
