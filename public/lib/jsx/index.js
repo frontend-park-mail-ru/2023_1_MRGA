@@ -1,13 +1,13 @@
 import {isArray, isFunction} from "@/lib/jsx/utils";
+import {frl} from "@/lib/jsx/rerender";
 
 /** @jsx window.h */
 
 
 
 let currentVNode = null;
-let lastDomNode = null;
 
-export const setCurrentVNode = (node) =>{
+export const setCurrentVNode = (node) => {
     currentVNode = node;
 }
 export const getCurrentVNode = () => {
@@ -23,105 +23,85 @@ export const createElement = 'fragment';
 
 let textNode = 'textNode';
 let htmlElement = 'htmlElement';
-const createHTMLNode = (node) => {
-    if (typeof node === 'string') {
-        const domNode = document.createTextNode(node);
-        lastDomNode = domNode;
+const createHTMLNode = (virtualNode) => {
+    if (typeof virtualNode === 'string') {
+        const domNode = document.createTextNode(virtualNode);
         return {domNode, type: textNode};
     } else {
-        const domNode = document.createElement(node.type);
-        lastDomNode = domNode;
+        const domNode = document.createElement(virtualNode.type);
+        Object.entries(virtualNode.props || {}).forEach(([attr, value]) => {
+            if (attr === 'className') {
+                domNode.setAttribute('class', value);
+            } else if (attr.startsWith('on')) {
+                domNode.addEventListener(attr.slice(2).toLowerCase(), value);
+            } else if (attr === 'ref') {
+                value?.setValue(domNode);
+            } else if (attr === 'htmlFor') {
+                domNode.setAttribute('for', value);
+            } else {
+                domNode.setAttribute(attr, value);
+            }
+        });
+        virtualNode.children.map(create).forEach((childElement) => {
+            if (isArray(childElement)) {
+                childElement.forEach(e => domNode.appendChild(e));
+            } else {
+                domNode.appendChild(childElement);
+            }
+        });
         return {domNode, type: htmlElement};
     }
 }
 
 
 
-// export const insertAfter = (sibling, node) => {
-//     // debugger;
-//     if (sibling === null) {
-//         root.appendChild(node);
-//         return ;
-//     }
-//     if (node === 'skip') {
-//         return;
-//     }
-//     if (sibling.nodeType === Node.TEXT_NODE) {
-//         const parent = sibling.parentNode;
-//         parent.insertAfter(sibling, node);
-//     } else {
-//         sibling.insertAdjacentElement('afterend', node);
-//     }
-// }
+export const insertAfter = (sibling, node) => {
+    if (sibling === null) {
+        root.appendChild(node);
+        return ;
+    }
+    if (node === 'skip') {
+        return;
+    }
+    if (sibling.nodeType === Node.TEXT_NODE) {
+        const parent = sibling.parentNode;
+        parent.insertAfter(sibling, node);
+    } else {
+        if (node.nodeType === Node.TEXT_NODE) {
+            sibling.appendChild(node);
+        } else {
+            sibling.insertAdjacentElement('afterend', node);
+        }
+    }
+}
 
 export const create = (virtualNode) => {
     if (virtualNode.type === 'fragment') {
-        // let children = virtualNode.children;
-        // children.forEach(e => insertAfter(lastDomNode, create(e)));
-        // // console.log(lastDomNode);
-        // return 'skip';
+        return virtualNode.children.map(el => create(el));
     }
     if (isArray(virtualNode)) {
-        const fragment = document.createDocumentFragment()
-        virtualNode.forEach(el => {
-            fragment.appendChild(create(el));
-        })
-        return fragment;
+        return virtualNode.map(el => create(el));
     }
     if (isFunction(virtualNode.type)) {
-        setCurrentVNode(virtualNode)
+        setCurrentVNode(virtualNode);
         virtualNode.states = [];
         virtualNode.stateCounter = 0;
         let node = virtualNode;
         const vNode = virtualNode.type.call(null, virtualNode.props, virtualNode.children);
-        let toReturn = null;
-        if (!vNode.type) {
-            const fragment = document.createDocumentFragment()
-            virtualNode.children.forEach(el => {
-                fragment.appendChild(create(el));
-            })
-            toReturn = fragment;
-        } else {
-            node.oldV = vNode;
-            toReturn = create(vNode);
-            lastDomNode = toReturn;
-        }
-        node.result = toReturn;
-        return toReturn;
+        node.oldV = vNode;
+        let result = create(vNode);
+        node.result = result;
+        return result;
     }
 
     const {domNode, type} = createHTMLNode(virtualNode);
-    if (type === textNode) {
-        return domNode;
-    }
-    Object.entries(virtualNode.props || {}).forEach(([attr, value]) => {
-        if (attr === 'className') {
-            domNode.setAttribute('class', value);
-        } else if (attr.startsWith('on')) {
-            domNode.addEventListener(attr.slice(2).toLowerCase(), value);
-        } else if (attr === 'ref') {
-            value?.setValue(domNode);
-        } else if (attr === 'htmlFor') {
-            domNode.setAttribute('for', value);
-        } else {
-            domNode.setAttribute(attr, value);
-        }
-    });
-    virtualNode.children.map(create).forEach((childElement) => {
-        if (childElement === 'skip') {
-            return ;
-        }
-        domNode.appendChild(childElement);
-    });
     return domNode;
 }
 
 export const update = (rootElement, currNode, nextNode, index = 0) => {
-    while (rootElement.firstChild) { // проверяем, есть ли дочерние элементы
-        rootElement.removeChild(rootElement.firstChild); // удаляем первый дочерний элемент
-    }
-    const newRoot = create(nextNode);
-    if (newRoot === 'skip') {
+    const newRoot = create(nextNode, undefined);
+    if (isArray(newRoot)) {
+        newRoot.forEach(e => rootElement.appendChild(e));
         return;
     }
     rootElement.appendChild(newRoot);
@@ -155,9 +135,6 @@ let vRoot;
 
 export const render = (virtualRoot) => {
     if (virtualRoot === null) {
-        return ;
-    }
-    if (virtualRoot === 'skip') {
         return ;
     }
     root.innerHTML = '';

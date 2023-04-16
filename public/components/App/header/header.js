@@ -12,11 +12,9 @@ export const RENDER_TYPE = {
 
 export const Header = () => {
     const [state, setState] = useState(4);
-
-    console.log(state);
     return (
     <HeaderContainer>
-        {/*<h1>{state.toString()}</h1>*/}
+        <h1>{state.toString()}</h1>
         <img src={logo} width="203" onClick={setState.bind(this, state + 2)} alt={logo}/>
         <div>
             <Link className={styles.headerElement} href={"/login"}>Login</Link>

@@ -1,16 +1,22 @@
 import {getCurrentVNode} from "@/lib/jsx";
-import {rerender} from "@/lib/jsx/rerender";
+import {getTakeHere, nodeToTake, rerender} from "@/lib/jsx/rerender";
 
 const useState = (initialState) => {
-    const vNode = getCurrentVNode();
+    let vNode;
+    if (getTakeHere()) {
+        vNode = nodeToTake;
+    } else {
+        vNode = getCurrentVNode();
+    }
     const index = vNode.stateCounter;
     const states = vNode.states;
+
     const setState = (val) => {
         states[index].value = val;
         const oldV = vNode;
         vNode.stateCounter = 0;
-        const newV = vNode.type(vNode.props);
-        rerender(oldV.oldV, newV);
+        const newRender = rerender.bind(null, oldV);
+        newRender();
     }
 
     if (states[index] === undefined) {
