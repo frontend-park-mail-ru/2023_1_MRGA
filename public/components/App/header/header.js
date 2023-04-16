@@ -12,10 +12,13 @@ export const RENDER_TYPE = {
 
 export const Header = () => {
     const [state, setState] = useState(4);
+    const [state1, setState2] = useState(5);
     return (
     <HeaderContainer>
         <h1>{state.toString()}</h1>
+        <h1>{state1.toString()}</h1>
         <img src={logo} width="203" onClick={setState.bind(this, state + 2)} alt={logo}/>
+        <img src={logo} width="203" onClick={setState2.bind(this, state1 + 2)} alt={logo}/>
         <div>
             <Link className={styles.headerElement} href={"/login"}>Login</Link>
             <Link className={styles.headerElement} href={"/signup"}>Create account</Link>

@@ -11,8 +11,11 @@ import {FormContainer} from "components/UI/containers/formContainer/formContaine
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {cityStore} from "@/store/interviewInfo";
 import {routes} from "@/router/router";
+import {useState} from "@/lib/jsx/hooks/useState";
 
 export const AuthorizationForm = () => {
+    const [state, setState] = useState(4);
+
     const login = useRef();
     const password = useRef();
     const error = useRef();
@@ -42,6 +45,7 @@ export const AuthorizationForm = () => {
     return (
         <FormContainer>
             <Form>
+                <div onClick={setState.bind(null, state+1)}>{state.toString()}</div>
                 <img src={logoMini} alt="logoMini" width={46}/>
                 <span className={styles.inviteText}>
                     <p>Введите ваши данные</p>
