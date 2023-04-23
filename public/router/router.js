@@ -1,4 +1,4 @@
-import {render} from "@/lib/jsx";
+import {render} from "@/lib/jsx/index.ts";
 import {Header} from "components/App/header/header";
 import {AuthorizationPage} from "components/App/pages/authorization/authorization";
 import {RegistrationPage} from "components/App/pages/registration/registration";
