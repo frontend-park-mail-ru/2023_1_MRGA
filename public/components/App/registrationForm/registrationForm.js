@@ -11,6 +11,8 @@ import {useRef} from "@/lib/jsx/hooks/useRef";
 import {validateEmail, validatePassword} from "@/lib/validators";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
+import {rootRender} from "@/lib/jsx";
+import {InterviewPage} from "components/App/pages/interview/interview";
 
 
 const nicknameValidationInfo = `
@@ -115,7 +117,7 @@ export const RegistrationForm = () => {
                 warning.getValue().innerHTML = json.error;
                 return
             }
-            Navigate({to:'/interview'});
+            rootRender(<InterviewPage/>);
         } catch (e) {
             alert(e);
         }

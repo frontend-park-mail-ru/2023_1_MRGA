@@ -10,6 +10,8 @@ import {useRef} from "@/lib/jsx/hooks/useRef";
 import {validateName} from "@/lib/validators";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
+import {rootRender} from "@/lib/jsx";
+import {PhotoPage} from "components/App/pages/photo/photo";
 
 export const FiltersForm = () => {
     const sexSearch = useRef();
@@ -108,8 +110,7 @@ export const FiltersForm = () => {
                 warning.getValue().innerHTML = jsonFilterUser.error;
                 return;
             }
-
-            Navigate({to:'/photo'});
+            rootRender(<PhotoPage/>)
         } catch (e) {
             alert(e);
         }

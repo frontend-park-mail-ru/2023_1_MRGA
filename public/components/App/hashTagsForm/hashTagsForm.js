@@ -8,6 +8,8 @@ import {FormContainer} from "components/UI/containers/formContainer/formContaine
 import {useRef} from "@/lib/jsx/hooks/useRef";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
+import {rootRender} from "@/lib/jsx";
+import {FiltersPage} from "components/App/pages/filters/filters";
 
 
 export const HashTagsForm = () => {
@@ -50,7 +52,7 @@ export const HashTagsForm = () => {
                 warning.getValue().innerHTML = jsonHashTags.error;
                 return;
             }
-            Navigate({to:'/filters'});
+            rootRender(<FiltersPage/>)
         } catch (e) {
             alert(e);
         }
