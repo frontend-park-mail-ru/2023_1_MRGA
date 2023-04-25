@@ -4,21 +4,18 @@ import {AuthorizationPage} from "components/App/pages/authorization/authorizatio
 import {RegistrationPage} from "components/App/pages/registration/registration";
 import {FeedPage} from "components/App/pages/lenta/feed";
 import {MatchesPage} from "components/App/pages/matches/matches";
-import {InterviewPage} from "components/App/pages/interview/interview";
-import {FiltersPage} from "components/App/pages/filters/filters";
-import {PhotoPage} from "components/App/pages/photo/photo";
-import {HashTagsPage} from "components/App/pages/hashTags/hashTags";
+import {InterviewPage} from "components/App/pages/registration/interview/interview";
+import {FiltersPage} from "components/App/pages/registration/filters/filters";
+import {PhotoPage} from "components/App/pages/registration/photo/photo";
+import {HashTagsPage} from "components/App/pages/registration/hashTags/hashTags";
 import {Tinder} from "@/api/api";
 import {AboutPage} from "components/App/pages/about/aboutPage";
+import {NotFoundPage} from "components/App/pages/notFound/notFound";
 
 
 let publicRoutes = [
     {path: '/login', component: AuthorizationPage},
     {path: '/signup', component: RegistrationPage},
-    {path: '/interview', component: InterviewPage},
-    {path: '/filters', component: FiltersPage},
-    {path: '/photo', component: PhotoPage},
-    {path: '/hashTags', component: HashTagsPage},
     {path: '/', component: AboutPage},
 
 ]
@@ -49,15 +46,16 @@ const router = async () => {
         } else {
             setPublicRoutes()
         }
-        console.log(json);
         const currentPath = window.location.pathname;
-
         const route = routes.find(route => route.path === currentPath);
-        console.log("route: ", route, "currentPath: ", currentPath);
+        if (!route) {
+            rootRender(<NotFoundPage/>);
+            console.log("not found page");
+            return ;
+        }
         const args = Object.values(route?.args || []);
-        // debugger;
         const component = route?.component(...args);
-        route ? rootRender(component) : false;
+        rootRender(component);
     } catch (e) {
 
     }

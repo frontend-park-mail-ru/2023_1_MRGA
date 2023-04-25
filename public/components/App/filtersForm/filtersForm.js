@@ -11,7 +11,7 @@ import {validateName} from "@/lib/validators";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {rootRender} from "@/lib/jsx";
-import {PhotoPage} from "components/App/pages/photo/photo";
+import {PhotoPage} from "components/App/pages/registration/photo/photo";
 
 export const FiltersForm = () => {
     const sexSearch = useRef();

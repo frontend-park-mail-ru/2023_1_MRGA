@@ -9,7 +9,7 @@ import {useRef} from "@/lib/jsx/hooks/useRef";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {rootRender} from "@/lib/jsx";
-import {FiltersPage} from "components/App/pages/filters/filters";
+import {FiltersPage} from "components/App/pages/registration/filters/filters";
 
 
 export const HashTagsForm = () => {

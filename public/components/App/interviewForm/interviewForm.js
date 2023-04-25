@@ -11,7 +11,7 @@ import {validateName} from "@/lib/validators";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {rootRender} from "@/lib/jsx";
-import {HashTagsPage} from "components/App/pages/hashTags/hashTags";
+import {HashTagsPage} from "components/App/pages/registration/hashTags/hashTags";
 
 export const InterviewForm = () => {
     const name = useRef();

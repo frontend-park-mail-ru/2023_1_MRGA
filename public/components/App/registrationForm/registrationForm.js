@@ -12,7 +12,7 @@ import {validateEmail, validatePassword} from "@/lib/validators";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {rootRender} from "@/lib/jsx";
-import {InterviewPage} from "components/App/pages/interview/interview";
+import {InterviewPage} from "components/App/pages/registration/interview/interview";
 
 
 const nicknameValidationInfo = `
