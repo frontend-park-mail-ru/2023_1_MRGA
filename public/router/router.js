@@ -41,14 +41,23 @@ const router = async () => {
     try {
         const response = await Tinder.getUser();
         const json = await response.json();
+        let authorized = true;
         if (json.status === 200) {
             setPrivateRoutes()
         } else {
+            authorized = false;
             setPublicRoutes()
         }
         const currentPath = window.location.pathname;
         const route = routes.find(route => route.path === currentPath);
         if (!route) {
+            if (!authorized) {
+                let tryPrivateRoute = privateRoutes.find(route => route.path === currentPath);
+                if (tryPrivateRoute) {
+                    rootRender(<AuthorizationPage/>);
+                    return ;
+                }
+            }
             rootRender(<NotFoundPage/>);
             console.log("not found page");
             return ;
