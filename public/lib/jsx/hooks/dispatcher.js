@@ -1,16 +1,17 @@
-import {getCurrentVNode} from "@/lib/jsx";
+import {getCurrentVNode} from "@/lib/jsx/index.ts";
 import {rerender} from "@/lib/jsx/rerender";
 
 const useState = (initialState) => {
+    // debugger
+
     const vNode = getCurrentVNode();
     const index = vNode.stateCounter;
     const states = vNode.states;
+
     const setState = (val) => {
         states[index].value = val;
-        const oldV = vNode;
         vNode.stateCounter = 0;
-        const newV = vNode.type(vNode.props);
-        rerender(oldV.oldV, newV);
+        rerender(vNode);
     }
 
     if (states[index] === undefined) {

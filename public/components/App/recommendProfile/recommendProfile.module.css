@@ -215,7 +215,7 @@ a {
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: start;
+    align-items: flex-start;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
@@ -263,8 +263,8 @@ a {
     display: flex;
     flex-direction: column;
     height: 90%;
-    justify-content: start;
-    align-items: start;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .descSide .text {
@@ -382,7 +382,7 @@ a {
     position: relative;
     width: 40%;
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     justify-content: center;
 }
 

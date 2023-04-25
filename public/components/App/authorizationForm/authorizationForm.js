@@ -11,6 +11,7 @@ import {FormContainer} from "components/UI/containers/formContainer/formContaine
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {cityStore} from "@/store/interviewInfo";
 import {routes} from "@/router/router";
+import {useState} from "@/lib/jsx/hooks/useState";
 
 export const AuthorizationForm = () => {
     const login = useRef();
@@ -28,9 +29,9 @@ export const AuthorizationForm = () => {
                 return
             }
             const currentPath = window.location.pathname;
-            routes = routes.filter((route) => {
-                return route.path !== "/login";
-            })
+            // routes = routes.filter((route) => {
+            //     return route.path !== "/login";
+            // })
             // routes = routes.filter((route) => {
             //     return route.path !== "/signup  ";
             // })

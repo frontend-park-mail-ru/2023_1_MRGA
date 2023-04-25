@@ -2,9 +2,11 @@ import {User} from "@/store/user";
 import {Tinder} from "@/api/api";
 import styles from './recommendProfile.module.css'
 
+import ico from 'assets/favicon.ico';
+import loading from 'assets/img/loading.png'
 
 export const RecommendProfile = () => {
-    const loadingPhoto = "../../../assets/img/loading.png";
+    const loadingPhoto = loading;
 
     let recommendations = []; // []reccomendation
     let countRecommendations = 0; // int
@@ -310,6 +312,7 @@ export const RecommendProfile = () => {
                             {/* <div id="recJob" className={styles.tag}></div>
                             <div id="recZodiac" className={styles.tag}></div>
                             <div id="recEducation" className={styles.tag}></div> */}
+                            <img src={ico}/>
                         </div>
 
                     </div>

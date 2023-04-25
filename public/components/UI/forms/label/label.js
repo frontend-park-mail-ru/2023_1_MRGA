@@ -1,4 +1,3 @@
-import {createElement} from "@/lib/jsx";
 import styles from "components/UI/forms/formElement.module.css";
 
 export const Label = ({labelText, ...props}) => {

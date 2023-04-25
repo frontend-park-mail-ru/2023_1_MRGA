@@ -76,7 +76,7 @@ const babelOptions = (presets, plugins) => {
     const options = {
         presets: ["@babel/preset-env"],
         plugins: [["@babel/plugin-transform-react-jsx", {
-            "pragma": "window.h",
+            "pragma": "h",
             "pragmaFrag": "createElement"
         }]],
     }
@@ -128,7 +128,7 @@ module.exports = {
     },
     optimization: optimization(),
     resolve: {
-        extensions: ['.js'],
+        extensions: ['.js', '.ts'],
         alias: {
             'components': path.resolve(__dirname, 'public/components'),
             'pages': path.resolve(__dirname, 'public/components/pages'),
@@ -159,7 +159,7 @@ module.exports = {
                 use: cssLoaders({loader: 'less-loader', options: {sourceMap: isDev}})
             },
             {
-                test: /\.(png|jpg|svg|gif)$/,
+                test: /\.(png|jpg|svg|gif|ico)$/,
                 loader: 'file-loader',
                 options: {
                     name: '[name].[ext]',

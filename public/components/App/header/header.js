@@ -5,20 +5,19 @@ import {Link} from "@/lib/jsx/components/link/link";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {useState} from "@/lib/jsx/hooks/useState";
+import {TestComponent} from "@/lib/jsx/components/testComponent/testComponent";
 
 export const RENDER_TYPE = {
     NUNJUCKS: 'nunjucks'
 }
 
 export const Header = () => {
-    const [state, setState] = useState(4);
-
-    console.log(state);
+    const [counter, setter] = useState(0);
     return (
     <HeaderContainer>
-        {/*<h1>{state.toString()}</h1>*/}
-        <img src={logo} width="203" onClick={setState.bind(this, state + 2)} alt={logo}/>
         <div>
+            <div style={"border: black solid 1px; margin: 20px; text-align: center; padding: 10px;"} onClick={setter.bind(null, counter + 1)}>{counter.toString()}</div>
+            {/*<TestComponent/>*/}
             <Link className={styles.headerElement} href={"/login"}>Login</Link>
             <Link className={styles.headerElement} href={"/signup"}>Create account</Link>
         </div>
