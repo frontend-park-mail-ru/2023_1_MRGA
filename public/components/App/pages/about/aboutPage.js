@@ -3,6 +3,7 @@ import {FormContainer} from "components/UI/containers/formContainer/formContaine
 import logo from "assets/Logo.svg"
 import inLove from "assets/svg/inLove.svg"
 import styles from './aboutPage.module.css'
+import {Link} from "@/lib/jsx/components/link/link";
 export const AboutPage = () => {
     return (
         <>
@@ -16,17 +17,17 @@ export const AboutPage = () => {
                             <div>Слушайте</div>
                             <div>Общайтесь</div>
                         </div>
-                        <a href="#">
+                        <Link href="/signup">
                             <div className={styles.regBtn}>
                                 Регистрация
                             </div>
-                        </a>
+                        </Link>
                             <div className={styles.loginInvite}>
                                 Уже есть аккаунт?
 
-                                <a href="#" className={styles.loginBtn}>
+                                <Link href="/login" className={styles.loginBtn}>
                                     Войти
-                                </a>
+                                </Link>
 
                             </div>
                     </div>
