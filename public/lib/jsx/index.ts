@@ -37,17 +37,19 @@ const createHTMLNode = (virtualNode) => {
                 // domNode.setAttribute(attr, value);
             }
         });
-        virtualNode?.children.map(create).forEach((childElement) => {
-            if (Array.isArray(childElement)) {
-                childElement.forEach(e => domNode.appendChild(e));
-            } else {
-                domNode.appendChild(childElement);
-            }
-        });
+        virtualNode?.children.map(create).forEach((appendChildren.bind(null, domNode)));
         return {domNode, type: htmlElement};
     }
 }
 
+
+const appendChildren = (domNode, children) => {
+    if (Array.isArray(children)) {
+        children.forEach(e => appendChildren(domNode, e));
+    } else {
+        domNode.appendChild(children);
+    }
+}
 
 
 
@@ -89,30 +91,19 @@ export const update = (rootElement, currNode, nextNode) => {
 let root;
 let vRoot;
 
-export const render = (virtualRoot) => {
+export const rootRender = (virtualRoot) => {
     if (virtualRoot === null) {
         return ;
     }
     root.innerHTML = '';
+    vRoot = null;
     update(root, vRoot, virtualRoot);
     vRoot = virtualRoot;
 }
 
-export const innerRender = (virtualRoot, root) => {
-    if (virtualRoot === null) {
-        return ;
-    }
-    vRoot = virtualRoot;
-    const element = create(virtualRoot);
-    if (element) {
-        root.appendChild(element);
-    }
-}
-
 export const createRoot = (container) => {
     root = container;
-    const render = (virtualRoot) => {
-        innerRender(virtualRoot, root);
-    }
-    return {render};
+    root.innerHTML = '';
+
+    return {render: rootRender};
 }

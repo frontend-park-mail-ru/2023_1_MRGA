@@ -1,6 +1,8 @@
-import {create} from "@/lib/jsx/index.ts";
+import {create} from "./index";
+import {fragment, Props, VNode} from "./types";
+import {render} from "./render";
 
-export const updateProps = (domElement, oldProps, newProps) => {
+export const updateProps = (domElement: HTMLElement, oldProps: Props, newProps: Props) => {
     const allProps = { ...oldProps, ...newProps };
     for (const propName in allProps) {
         if (newProps[propName] !== oldProps[propName]) {
@@ -25,23 +27,55 @@ export const updateProps = (domElement, oldProps, newProps) => {
     }
 }
 
-export const updateComponent = (domElement, oldElement, newElement) => {
+// TODO:
+//     updateComponent(rootElement, currNode, nextNode)  // не хватает обработки случая с фрагментом
+export const updateComponent = (domElement: HTMLElement, oldElement: VNode, newElement: VNode) => {
+    if (!domElement) {
+        return;
+    }
     if (typeof newElement === 'string' && oldElement !== newElement) {
         domElement.nodeValue = newElement;
         return ;
     }
-
-    // Обновить атрибуты и свойства элемента
-    updateProps(domElement, oldElement?.props, newElement?.props);
+    if (!oldElement) {
+        render(domElement as HTMLElement, newElement);
+        return;
+    }
+    if (!newElement) {
+        if ("innerHTML" in domElement) {
+            domElement.innerHTML = '';
+        }
+    }
+    // if (oldElement?.type === fragment && newElement.type === fragment) {
+    //     updateChildren(domElement, oldElement.children, newElement.children);
+    //     // console.log("old: ", oldElement);
+    //     // console.log("new: ", newElement);
+    //     return ;
+    // }
 
 
     // Если типы элементов различаются, заменить старый элемент на новый
     if (oldElement?.type !== newElement?.type) {
-        const newDOMElement = create(newElement.type, newElement.props, ...newElement.children);
-        domElement?.replaceWith(newDOMElement);
-        // domElement.parentNode.replaceChild(newDOMElement, domElement);
+        // if (newElement.type === fragment) {
+        //     // debugger;
+        //     const oldChildren = oldElement?.children ?? [];
+        //     const newChildren = newElement?.children;
+        //     debugger;
+        //     updateChildren(domElement, oldChildren, newChildren);
+        // } else {
+        const newDOMElement = create(newElement);
+        const parent  = domElement.parentNode;
+        domElement?.replaceWith(newDOMElement[0]);
+        for (let i = 0; i < newDOMElement.length; i++) {
+            parent.appendChild(newDOMElement[i]);
+        }
+        // }
+
         return;
     }
+
+    // Обновить атрибуты и свойства элемента
+    updateProps(domElement as HTMLElement, oldElement?.props, newElement?.props);
 
 
     // Обновить дочерние элементы
@@ -53,22 +87,25 @@ export const updateComponent = (domElement, oldElement, newElement) => {
         return ;
     }
 
-    for (let i = 0; i < Math.max(oldChildren.length, newChildren.length); i++) {
+    updateChildren(domElement, oldChildren, newChildren);
+}
 
+const updateChildren = (domElement: HTMLElement, oldChildren: VNode[], newChildren: VNode[]) => {
+    for (let i = 0; i < Math.max(oldChildren.length, newChildren.length); i++) {
         if (!oldChildren[i] && newChildren[i]) {
             // Добавить новый дочерний элемент
-            const newChildElement = create(newChildren[i].type, newChildren[i].props, ...newChildren[i].children);
+            const newChildElement = create(newChildren[i]);
             domElement.appendChild(newChildElement);
         } else if (oldChildren[i] && !newChildren[i]) {
-            debugger;
             // Удалить старый дочерний элемент
             domElement.removeChild(domElement.childNodes[i]);
         } else if (oldChildren[i] && newChildren[i]) {
             // Обновить существующий дочерний элемент
-            updateComponent(domElement.childNodes[i], oldChildren[i], newChildren[i]);
+            updateComponent(domElement.childNodes[i] as HTMLElement, oldChildren[i], newChildren[i]);
         }
     }
 }
+
 
 const changedProps = (oldVNode, newVNode) => {
     if (typeof oldVNode === 'string') {

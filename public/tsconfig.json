@@ -6,8 +6,9 @@
     ],
     "lib": [
       "esnext",
-      "dom",
-    ]
+      "dom"
+    ],
+    "jsx": "react"
   },
   "exclude": ["node_modules"]
 }

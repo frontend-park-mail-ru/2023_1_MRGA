@@ -29,9 +29,9 @@ export const AuthorizationForm = () => {
                 return
             }
             const currentPath = window.location.pathname;
-            routes = routes.filter((route) => {
-                return route.path !== "/login";
-            })
+            // routes = routes.filter((route) => {
+            //     return route.path !== "/login";
+            // })
             // routes = routes.filter((route) => {
             //     return route.path !== "/signup  ";
             // })

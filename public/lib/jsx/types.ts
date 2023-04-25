@@ -1,10 +1,12 @@
+import {IUseRefResult} from "./hooks/useRef";
+
 type HTMLTag = keyof HTMLElementTagNameMap;
 
-export type Props = { [key: string]: string | {} | any };
+export type Props = { [key: string]: string | {} | IUseRefResult<any> | any };
 
 export type Child = VNode;
 
-interface FunctionalComponent {
+export interface FunctionalComponent {
     (props?: Props, children?: Child[]): any; // Замените на тип, который представляет возвращаемое значение вашего компонента
 }
 
