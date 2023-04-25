@@ -2,36 +2,16 @@ import {HeaderAuth} from "components/App/header/header";
 import {SideBar} from "components/App/sideBar/sideBar";
 import {MatchesList} from "components/App/matchesList/matchesList";
 import styles from './matches.css'
+import {PageContainer} from "components/UI/containers/pageContainer/pageContainer";
+
+import chatIcon from 'assets/svg/chat-icon.svg';
 
 export const MatchesPage = () => {
     return (
         <>
-            <div style="
-            background-color: #F0EFFF;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            width: 100%;">
                 <HeaderAuth/>
-                <div style="
-                        min-width: 928px;
-                        margin-top: 10px;
-                        display: flex;
-                        height: 87%;
-                        flex-direction: row;
-                        justify-content: space-around;">
+                <PageContainer>
                     <SideBar/>
-                    <div style="
-                        margin-left: 12px;
-                        margin-right: 12px;
-                        min-height: 500px;
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: space-evenly;
-                        width: 76%;
-                        flex: 1;
-                        height: auto;
-                        border-radius: 20px;">
                         <MatchesList/>
                         <div style="
                             background-color: white;
@@ -47,7 +27,7 @@ export const MatchesPage = () => {
                                 flex-direction: column;
                                 justify-items: center;
                                 align-items: center;">
-                                <img src="../../../assets/svg/chat-icon.svg" width="52" height="52" alt=""/>
+                                <img src={chatIcon} width="52" height="52" alt=""/>
                                     <div style="
                                         color: #867BFF;
                                         font-weight: 600;
@@ -57,9 +37,7 @@ export const MatchesPage = () => {
                                     </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                </PageContainer>
         </>
 )
 }

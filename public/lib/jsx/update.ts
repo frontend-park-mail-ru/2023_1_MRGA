@@ -1,4 +1,4 @@
-import {create} from "./index";
+import {appendChildren, create} from "./index";
 import {fragment, Props, VNode} from "./types";
 import {render} from "./render";
 
@@ -46,31 +46,17 @@ export const updateComponent = (domElement: HTMLElement, oldElement: VNode, newE
             domElement.innerHTML = '';
         }
     }
-    // if (oldElement?.type === fragment && newElement.type === fragment) {
-    //     updateChildren(domElement, oldElement.children, newElement.children);
-    //     // console.log("old: ", oldElement);
-    //     // console.log("new: ", newElement);
-    //     return ;
-    // }
-
 
     // Если типы элементов различаются, заменить старый элемент на новый
     if (oldElement?.type !== newElement?.type) {
-        // if (newElement.type === fragment) {
-        //     // debugger;
-        //     const oldChildren = oldElement?.children ?? [];
-        //     const newChildren = newElement?.children;
-        //     debugger;
-        //     updateChildren(domElement, oldChildren, newChildren);
-        // } else {
         const newDOMElement = create(newElement);
-        const parent  = domElement.parentNode;
-        domElement?.replaceWith(newDOMElement[0]);
-        for (let i = 0; i < newDOMElement.length; i++) {
-            parent.appendChild(newDOMElement[i]);
+        if (Array.isArray(newDOMElement)) {
+            const parent = domElement.parentNode;
+            parent.removeChild(domElement);
+            appendChildren(parent, newDOMElement);
+        } else {
+            domElement?.replaceWith(newDOMElement);
         }
-        // }
-
         return;
     }
 

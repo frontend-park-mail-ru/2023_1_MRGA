@@ -43,7 +43,7 @@ const createHTMLNode = (virtualNode) => {
 }
 
 
-const appendChildren = (domNode, children) => {
+export const appendChildren = (domNode, children) => {
     if (Array.isArray(children)) {
         children.forEach(e => appendChildren(domNode, e));
     } else {
@@ -77,6 +77,8 @@ export const create = (virtualNode: VNode | VNode[]) => {
 }
 
 export const update = (rootElement, currNode, nextNode) => {
+    root.innerHTML = '';
+    vRoot = null;
     const newRoot = create(nextNode);
     if (Array.isArray(newRoot)) {
         newRoot.forEach(e => rootElement.appendChild(e));
@@ -95,8 +97,6 @@ export const rootRender = (virtualRoot) => {
     if (virtualRoot === null) {
         return ;
     }
-    root.innerHTML = '';
-    vRoot = null;
     update(root, vRoot, virtualRoot);
     vRoot = virtualRoot;
 }

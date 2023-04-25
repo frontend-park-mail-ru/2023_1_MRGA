@@ -2,7 +2,11 @@ import styles from './sideBar.module.css'
 import {User} from "@/store/user";
 import {Tinder} from "@/api/api";
 import loading from "@/assets/img/loading.png";
-import {Navigate} from "@/lib/jsx/components/navigate/navigate";
+import {Link} from "@/lib/jsx/components/link/link";
+
+import home from 'assets/svg/home.svg'
+import matches from 'assets/svg/matches.svg'
+import profile from 'assets/svg/profile.svg'
 
 export const SideBar = () => {
     const loadingPhoto = loading;
@@ -32,25 +36,6 @@ export const SideBar = () => {
         });
     }
 
-    const setHandlers = () => {
-        document.querySelector("#homeButton").addEventListener("click", (event) => {
-            event.preventDefault();
-
-            Navigate({to:'/'});
-        });
-
-        document.querySelector("#matchesButton").addEventListener("click", (event) => {
-            event.preventDefault();
-
-            Navigate({to:'/matches'});
-        });
-
-        document.querySelector("#profileButton").addEventListener("click", (event) => {
-            event.preventDefault();
-
-            Navigate({to:'/'});
-        });
-    }
 
     const makePage = async () => {
         let respUserInfo = await Tinder.getUser();
@@ -64,8 +49,6 @@ export const SideBar = () => {
         let bodyUserInfo = jsonUserInfo.body;
         setNameAge("profileName", bodyUserInfo.name, bodyUserInfo.age);
         setProfilePhoto(bodyUserInfo.avatarId);
-
-        setHandlers();
     }
     makePage();
 
@@ -79,19 +62,19 @@ export const SideBar = () => {
             <div className={styles.spacer}></div>
 
             <div className={styles.buttons}>
-                <a id="homeButton" className={styles.btn}>
-                    <img className={styles.icon} src="../../../assets/svg/home.svg"/>
+                <Link href={"/"} id="homeButton" className={styles.btn}>
+                    <img className={styles.icon} src={home}/>
                     Знакомства
-                </a>
+                </Link>
 
-                <a id="matchesButton" className={styles.btn}>
-                    <img className={styles.icon} src="../../../assets/svg/matches.svg"/>
+                <Link href={"/matches"} id="matchesButton" className={styles.btn}>
+                    <img className={styles.icon} src={matches}/>
                     Совпадения
-                </a>
-                <a id="profileButton" className={styles.btn}>
-                    <img className={styles.icon} src="../../../assets/svg/profile.svg"/>
+                </Link>
+                <Link href={"/"} id="profileButton" className={styles.btn}>
+                    <img className={styles.icon} src={profile}/>
                     Профиль
-                </a>
+                </Link>
 
             </div>
             <div className={styles.spacer}></div>
