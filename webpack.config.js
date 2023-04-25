@@ -138,7 +138,7 @@ module.exports = {
         }
     },
     devServer: {
-        host: "localhost",
+        host: "192.168.0.45",
         port: "3000",
         historyApiFallback: true
     },

@@ -24,7 +24,7 @@ export const AuthorizationForm = () => {
             const json = await resp.json()
 
             if (json.status !== 200) {
-                error.getValue().innerHTML = json.err;
+                error.getValue().innerHTML = json.error;
                 return
             }
             const currentPath = window.location.pathname;
@@ -51,7 +51,7 @@ export const AuthorizationForm = () => {
                     id={"login"}
                     type={"text"}
                     placeholder={"123@mail.ru"}
-                    labelText={"Почта или login"}
+                    labelText={"Почта"}
                     ref={login}
                     required={true}
                 />

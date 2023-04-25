@@ -39,12 +39,6 @@ export const SideBar = () => {
             Navigate({to:'/'});
         });
 
-        document.querySelector("#messageButton").addEventListener("click", (event) => {
-            event.preventDefault();
-
-            Navigate({to:'/'});
-        });
-
         document.querySelector("#matchesButton").addEventListener("click", (event) => {
             event.preventDefault();
 
@@ -88,11 +82,6 @@ export const SideBar = () => {
                 <a id="homeButton" className={styles.btn}>
                     <img className={styles.icon} src="../../../assets/svg/home.svg"/>
                     Знакомства
-                </a>
-
-                <a id="messageButton" className={styles.btn}>
-                    <img className={styles.icon} src="../../../assets/svg/message.svg"/>
-                    Сообщения
                 </a>
 
                 <a id="matchesButton" className={styles.btn}>

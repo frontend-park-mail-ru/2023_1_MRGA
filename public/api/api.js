@@ -1,9 +1,10 @@
 import {Ajax} from "./ajax.js";
 
-const BackendHost = 'http://localhost:8080/'
+const BackendHost = //'http://localhost:8080/'
     // window.location.href.includes('localhost')
     // ? 'http://localhost:8080/'
     // : 'http://5.159.100.59:8080/';
+        "http://95.163.180.8:8080/"
 
 const ApiUrl = BackendHost;
 // const fakeUrl = "https://jsonplaceholder.typicode.com/"
@@ -56,7 +57,7 @@ export class Tinder {
     static async getRecommendation() {
         return Ajax.ajax(ApiUrl+"meetme/recommendation", "GET")
     }
-    static async getMatch() {
+    static async getMatches() {
         return Ajax.ajax(ApiUrl+"meetme/match", "GET")
     }
     static async postReaction(reactionData) {
