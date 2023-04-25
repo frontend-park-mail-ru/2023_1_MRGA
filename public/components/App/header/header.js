@@ -39,7 +39,7 @@ export const HeaderAuth = () => {
     <HeaderContainer>
         <img src={logo} width="203" alt={logo}/>
         <div>
-            <a className={styles.headerElement} onClick={onLogoutClick} href={"/logout"}>Logout</a>
+            <a className={styles.headerElement} onClick={onLogoutClick} href={"/logout"}>Выйти</a>
         </div>
     </HeaderContainer>)
 }

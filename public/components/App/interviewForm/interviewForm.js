@@ -228,7 +228,7 @@ export const InterviewForm = () => {
                     title={"Необходимо выбрать пол"}
                 />
                 <span>
-                   <Label labelText={"City"} htmlFor={"city"}/>
+                   <Label labelText={"Город"} htmlFor={"city"}/>
                     <Select
                         id={"city"}
                         required={true}
@@ -274,7 +274,7 @@ export const InterviewForm = () => {
                     title={"описание должно быть заполнено и не более 300 символов"}
                 />
                 <span>
-                   <Label labelText={""} htmlFor={"job"}/>
+                   <Label labelText={"Работа"} htmlFor={"job"}/>
                    <Select
                        id={"job"}
                        required={true}
