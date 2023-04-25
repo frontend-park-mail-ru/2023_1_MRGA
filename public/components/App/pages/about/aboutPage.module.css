@@ -1,0 +1,63 @@
+.test {
+    margin-top: 10px;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    /*justify-content: center;*/
+    align-items: center;
+    height: 100vh;
+    min-height: 500px;
+    min-width: 500px;
+
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.slogan {
+    font-size: 54px;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+
+}
+.left {
+    display: flex;
+    flex-direction: column;
+}
+
+.regBtn {
+    margin-top: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+    background: #867BFF;
+    border-radius: 20px;
+    padding: 10px 100px;
+    width: fit-content;
+}
+
+.right {
+
+}
+
+.loginInvite {
+    margin-top: 10px;
+
+    font-size: 24px;
+    /*font-weight: 600;*/
+    display: flex;
+}
+
+.loginBtn {
+    margin-left: 5px;
+    color: #6864FE;
+}
