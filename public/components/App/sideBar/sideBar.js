@@ -1,11 +1,11 @@
 import styles from './sideBar.module.css'
 import {User} from "@/store/user";
 import {Tinder} from "@/api/api";
-import {loading} from "@/assets/img/loading.png";
+import loading from "@/assets/img/loading.png";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 
 export const SideBar = () => {
-    const loadingPhoto = "../../../assets/img/loading.png";
+    const loadingPhoto = loading;
 
     const setPhoto = (id, imageUrl) => {
         const img = document.querySelector(`#${id}`);

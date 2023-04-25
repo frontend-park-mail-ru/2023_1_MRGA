@@ -2,10 +2,9 @@ import styles from './matchesList.module.css'
 import {User} from "@/store/user";
 import {Tinder} from "@/api/api";
 
-
+import loadingPhoto from 'assets/img/loading.png'
 export const MatchesList = () => {
-    const loadingPhoto = "../../../assets/img/loading.png";
-    
+
     let matches = []; // []match
 
     const formedMathes = () => {

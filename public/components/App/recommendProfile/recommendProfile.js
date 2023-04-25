@@ -4,6 +4,13 @@ import styles from './recommendProfile.module.css'
 
 import ico from 'assets/favicon.ico';
 import loading from 'assets/img/loading.png'
+import mainUrlPhotoDot from 'assets/svg/pressPhotoDot.svg';
+import urlPhotoDot from 'assets/svg/photoDot.svg';
+import like from 'assets/svg/like.svg';
+import dislike from 'assets/svg/dislike.svg';
+import prevPhotoArrow from 'assets/svg/prevPhotoArrow.svg';
+import nextPhotoArrow from 'assets/svg/nextPhotoArrow.svg';
+import locationPoint from 'assets/svg/locationPoint.svg';
 
 export const RecommendProfile = () => {
     const loadingPhoto = loading;
@@ -16,9 +23,6 @@ export const RecommendProfile = () => {
     let currIndexPhoto = 0; // int
     let currLengthPhotos = 0; // int
     let currPhotosUrls = []; // []urls
-
-    const mainUrlPhotoDot = "../../../assets/svg/pressPhotoDot.svg";
-    const urlPhotoDot = "../../../assets/svg/photoDot.svg";
 
     // Устанавливается фото в img по id
     const setPhoto = (id, imageUrl) => {
@@ -267,11 +271,11 @@ export const RecommendProfile = () => {
                 <img id="recPhoto" className={styles.avatar} src={loadingPhoto} alt=""/>
                     <div className={styles.avatarShadow}>
                         <a id="passButton" className={styles.swipeBtn} style="margin-right: 16px;">
-                            <img id="passObject" src="../../../assets/svg/dislike.svg"/>
+                            <img id="passObject" src={dislike}/>
                         </a>
 
                         <a id="likeButton" className={styles.swipeBtn} >
-                            <img id="likeObject" src="../../../assets/svg/like.svg"/>
+                            <img id="likeObject" src={like}/>
                         </a>
                     </div>
 
@@ -283,7 +287,7 @@ export const RecommendProfile = () => {
                         position: absolute;
                         left: 8px;
                         ">
-                        <img id="prevPhotoObject" src="../../../assets/svg/prevPhotoArrow.svg"/>
+                        <img id="prevPhotoObject" src={prevPhotoArrow}/>
 
                     </a>
 
@@ -291,14 +295,14 @@ export const RecommendProfile = () => {
                         position: absolute;
                         right: 8px;
                         ">
-                        <img id="nextPhotoObject" src="../../../assets/svg/nextPhotoArrow.svg"/>
+                        <img id="nextPhotoObject" src={nextPhotoArrow}/>
                     </a>
             </div>
             <div className={styles.descSide}>
                 <div className={styles.desc}>
                     <div id="recNameAge" className={styles.name}></div>
                     <div className={styles.distance}>
-                        <img src="../../../assets/svg/locationPoint.svg"/>
+                        <img src={locationPoint}/>
                         <span id="recCity"></span>
                     </div>
                     <div className={styles.descField}>
