@@ -9,6 +9,7 @@ import {FiltersPage} from "components/App/pages/filters/filters";
 import {PhotoPage} from "components/App/pages/photo/photo";
 import {HashTagsPage} from "components/App/pages/hashTags/hashTags";
 import {Tinder} from "@/api/api";
+import {AboutPage} from "components/App/pages/about/aboutPage";
 
 
 let publicRoutes = [
@@ -18,6 +19,8 @@ let publicRoutes = [
     {path: '/filters', component: FiltersPage},
     {path: '/photo', component: PhotoPage},
     {path: '/hashTags', component: HashTagsPage},
+    {path: '/', component: AboutPage},
+
 ]
 
 let privateRoutes = [
@@ -29,7 +32,7 @@ export let routes = [
     {path: '/matches', component: MatchesPage},
 ];
 
-export const setPublicRouter = () => {
+export const setPublicRoutes = () => {
     routes = publicRoutes;
 }
 
@@ -42,13 +45,15 @@ const router = async () => {
         const response = await Tinder.getUser();
         const json = await response.json();
         if (json.status === 200) {
-            routes = privateRoutes;
+            setPrivateRoutes()
         } else {
-            routes = publicRoutes;
+            setPublicRoutes()
         }
         console.log(json);
         const currentPath = window.location.pathname;
+
         const route = routes.find(route => route.path === currentPath);
+        console.log("route: ", route, "currentPath: ", currentPath);
         const args = Object.values(route?.args || []);
         // debugger;
         const component = route?.component(...args);
