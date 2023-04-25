@@ -131,7 +131,7 @@ export const RegistrationForm = () => {
                     id={"email"}
                     type={"text"}
                     placeholder={"123@mail.ru"}
-                    labelText={"Email Address"}
+                    labelText={"Почта"}
                     ref={email}
                     required={true}
                     onChange={onEmailChange}
@@ -147,7 +147,7 @@ export const RegistrationForm = () => {
                     id={"age"}
                     type={"number"}
                     placeholder={"18"}
-                    labelText={"Age"}
+                    labelText={"Возраст"}
                     required={true}
                     min={"18"}
                     onChange={onAgeInputChange}
@@ -159,7 +159,7 @@ export const RegistrationForm = () => {
                 />
                 <PasswordInput
                     id="pass1"
-                    labelText="Password"
+                    labelText="Пароль"
                     placeholder={"Ваш пароль"}
                     ref={password}
                     required={true}
@@ -167,8 +167,8 @@ export const RegistrationForm = () => {
                 />
                 <PasswordInput
                     id="pass2"
-                    labelText="Password repeat"
-                    placeholder={"повторите Ваш пароль"}
+                    labelText="Повторите пароль"
+                    placeholder={"Ваш пароль ещё раз"}
                     required={true}
                     ref={passwordRepeat}
                     onChange={onPasswordInputChange}
@@ -178,7 +178,7 @@ export const RegistrationForm = () => {
                     ref={submitButton}
                     onClick={onSubmitClick}
                 >
-                    зарегистрироваться
+                    Зарегистрироваться
                 </SubmitButton>
             </Form>
         </FormContainer>

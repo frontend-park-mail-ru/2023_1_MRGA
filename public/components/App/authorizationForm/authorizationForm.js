@@ -59,7 +59,7 @@ export const AuthorizationForm = () => {
                 <PasswordInput 
                     id='pass' 
                     placeholder={"Введите пароль"} 
-                    labelText='Password' 
+                    labelText='Пароль'
                     ref={password}
                 />
                 <Warning ref={error}></Warning>

@@ -125,7 +125,7 @@ export const PhotoForm = () => {
                     ref={submitButton}
                     onClick={onSubmitClick}
                 >
-                    зарегистрироваться
+                    Зарегистрироваться
                 </SubmitButton>
                 <Warning
                     ref={warning}

@@ -216,7 +216,7 @@ export const FiltersForm = () => {
                     ref={submitButton}
                     onClick={onSubmitClick}
                 >
-                    зарегистрироваться
+                    Зарегистрироваться
                 </SubmitButton>
                 <Warning
                     ref={warning}
