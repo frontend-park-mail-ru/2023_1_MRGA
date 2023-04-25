@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const public = path.join(path.resolve(__dirname, '..'), 'public');
+const public = path.join(path.resolve(__dirname, '..'), 'dist');
 
 const config = {
     PORT: 3000,
-    HOST: "localhost"
+    HOST: "192.168.0.45"
 }
 
 app.get('/', function(req, res) {
