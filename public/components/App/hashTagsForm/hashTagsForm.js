@@ -112,7 +112,7 @@ export const HashTagsForm = () => {
                     ref={submitButton}
                     onClick={onSubmitClick}
                 >
-                    зарегистрироваться
+                    Зарегистрироваться
                 </SubmitButton>
                 <Warning
                     ref={warning}

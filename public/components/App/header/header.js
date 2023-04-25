@@ -18,8 +18,8 @@ export const Header = () => {
         <div>
             <div style={"border: black solid 1px; margin: 20px; text-align: center; padding: 10px;"} onClick={setter.bind(null, counter + 1)}>{counter.toString()}</div>
             {/*<TestComponent/>*/}
-            <Link className={styles.headerElement} href={"/login"}>Login</Link>
-            <Link className={styles.headerElement} href={"/signup"}>Create account</Link>
+            <Link className={styles.headerElement} href={"/login"}>Вход</Link>
+            <Link className={styles.headerElement} href={"/signup"}>Регистрация</Link>
         </div>
     </HeaderContainer>)
 }

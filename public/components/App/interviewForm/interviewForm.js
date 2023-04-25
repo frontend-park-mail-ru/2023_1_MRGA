@@ -204,7 +204,7 @@ export const InterviewForm = () => {
                     id={"name"}
                     type={"text"}
                     placeholder={"Женя"}
-                    labelText={"Name"}
+                    labelText={"Имя"}
                     ref={name}
                     required={true}
                     onChange={onNameInputChange}
@@ -214,7 +214,7 @@ export const InterviewForm = () => {
                     title={"http://ru.wikipedia.org/wiki/Адрес%20электронной%20почты"}
                 />
                 <span>
-                   <Label labelText={"Sex"} htmlFor={"sex"}/>
+                   <Label labelText={"Пол"} htmlFor={"sex"}/>
                     <Select
                         id={"sex"}
                         required={true}
@@ -225,7 +225,7 @@ export const InterviewForm = () => {
                 </span>
                 <Warning
                     ref={sexWarning}
-                    title={"пол должен быть выбран"}
+                    title={"Необходимо выбрать пол"}
                 />
                 <span>
                    <Label labelText={"City"} htmlFor={"city"}/>
@@ -244,7 +244,7 @@ export const InterviewForm = () => {
                     title={"город должен быть выбран"}
                 />
                 <span>
-                   <Label labelText={"Zodiac"} htmlFor={"zodiac"}/>
+                   <Label labelText={"Знак зодиака"} htmlFor={"zodiac"}/>
                    <Select
                        id={"zodiac"}
                        required={true}
@@ -264,7 +264,7 @@ export const InterviewForm = () => {
                     id={"description"}
                     type={"text"}
                     placeholder={"Я живу в Мытищах ;)"}
-                    labelText={"Description"}
+                    labelText={"Описание профиля"}
                     ref={description}
                     required={true}
                     onChange={onDescriptionInputChange}
@@ -274,7 +274,7 @@ export const InterviewForm = () => {
                     title={"описание должно быть заполнено и не более 300 символов"}
                 />
                 <span>
-                   <Label labelText={"Job"} htmlFor={"job"}/>
+                   <Label labelText={""} htmlFor={"job"}/>
                    <Select
                        id={"job"}
                        required={true}
@@ -309,7 +309,7 @@ export const InterviewForm = () => {
                     ref={submitButton}
                     onClick={onSubmitClick}
                 >
-                    зарегистрироваться
+                    Зарегистрироваться
                 </SubmitButton>
                 <Warning
                     ref={warning}
