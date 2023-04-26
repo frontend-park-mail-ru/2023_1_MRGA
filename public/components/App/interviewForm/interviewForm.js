@@ -290,7 +290,7 @@ export const InterviewForm = () => {
                     title={"работа должна быть быть выбрана"}
                 />
                 <span>
-                   <Label labelText={"Education"} htmlFor={"education"}/>
+                   <Label labelText={"Образование"} htmlFor={"education"}/>
                    <Select
                        id={"education"}
                        required={true}

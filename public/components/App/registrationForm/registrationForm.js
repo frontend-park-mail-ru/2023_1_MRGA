@@ -130,7 +130,7 @@ export const RegistrationForm = () => {
                     name={"email"}
                     id={"email"}
                     type={"text"}
-                    placeholder={"123@mail.ru"}
+                    placeholder={"your.email@example.com"}
                     labelText={"Почта"}
                     ref={email}
                     required={true}
