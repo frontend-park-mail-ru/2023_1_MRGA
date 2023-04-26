@@ -1,5 +1,5 @@
 import './pragma.ts'
-import {fragment, VNode} from './types'
+import {fragment, VirtualNodeArray, VNode} from './types'
 import {IUseRefResult} from "./hooks/useRef";
 import {updateComponent} from "./update";
 
@@ -20,6 +20,9 @@ const createHTMLNode = (virtualNode) => {
     if (typeof virtualNode === 'string') {
         const domNode = document.createTextNode(virtualNode);
         return {domNode, type: textNode};
+    } else if (typeof virtualNode === 'number') {
+        const domNode = document.createTextNode(virtualNode.toString());
+        return {domNode, type: textNode};
     } else {
         const domNode = document.createElement(virtualNode.type);
         Object.entries(virtualNode.props || {}).forEach(([attr, value]) => {
@@ -31,7 +34,6 @@ const createHTMLNode = (virtualNode) => {
                 (value as IUseRefResult<any>)?.setValue(domNode);
             } else {
                 domNode[attr] = value;
-                // domNode.setAttribute(attr, value);
             }
         });
         virtualNode?.children.map(create).forEach((appendChildren.bind(null, domNode)));
@@ -48,14 +50,26 @@ export const appendChildren = (domNode, children) => {
     }
 }
 
+export const removeChildren = (domNode, children) => {
+    if (Array.isArray(children)) {
+        children.forEach(e => removeChildren(domNode, e));
+    } else {
+        domNode.removeChild(children);
+    }
+}
 
 
-export const create = (virtualNode: VNode | VNode[]) => {
+
+export const create = (virtualNode: VNode | VirtualNodeArray) => {
     if (Array.isArray(virtualNode)) {
-        return virtualNode.map(el => create(el));
+        const domElement = virtualNode.map(el => create(el));
+        virtualNode.domElement = domElement;
+        return domElement;
     }
     if (virtualNode.type === fragment) {
-        return virtualNode.children.map(el => create(el));
+        const result = virtualNode.children.map(el => create(el));
+        virtualNode.domElement = result;
+        return result;
     }
     if (typeof (virtualNode.type) === 'function') {
         setCurrentVNode(virtualNode);
@@ -74,21 +88,21 @@ export const create = (virtualNode: VNode | VNode[]) => {
 }
 
 export const update = (rootElement, currNode, nextNode) => {
-    root.innerHTML = '';
-    vRoot = null;
-    const newRoot = create(nextNode);
-    if (Array.isArray(newRoot)) {
-        newRoot.forEach(e => rootElement.appendChild(e));
-        return;
-    }
-    rootElement.appendChild(newRoot);
+    // root.innerHTML = '';
+    // vRoot = null;
+    // const newRoot = create(nextNode);
+    // if (Array.isArray(newRoot)) {
+    //     newRoot.forEach(e => rootElement.appendChild(e));
+    //     return;
+    // }
+    // rootElement.appendChild(newRoot);
    // TODO:
-   //     updateComponent(rootElement, currNode, nextNode)  // не хватает обработки случая с фрагментом
+       updateComponent(rootElement, currNode, nextNode)  // не хватает обработки случая с фрагментом
 }
 
 
-let root;
-let vRoot;
+let root = null;
+let vRoot = null;
 
 export const rootRender = (virtualRoot) => {
     if (virtualRoot === null) {

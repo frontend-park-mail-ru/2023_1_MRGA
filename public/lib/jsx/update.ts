@@ -1,4 +1,4 @@
-import {appendChildren, create} from "./index";
+import {appendChildren, create, removeChildren} from "./index";
 import {fragment, Props, VNode} from "./types";
 import {render} from "./render";
 
@@ -50,10 +50,21 @@ export const updateComponent = (domElement: HTMLElement, oldElement: VNode, newE
     // Если типы элементов различаются, заменить старый элемент на новый
     if (oldElement?.type !== newElement?.type) {
         const newDOMElement = create(newElement);
-        if (Array.isArray(newDOMElement)) {
-            const parent = domElement.parentNode;
-            parent.removeChild(domElement);
-            appendChildren(parent, newDOMElement);
+        if (oldElement.type === fragment || Array.isArray(oldElement)) {
+            const parent = domElement[0].parentNode;
+            const domArray = oldElement.domElement;
+            if (Array.isArray(domArray)) {
+                // removeChildren(parent, domArray)
+                domArray.forEach(el => {
+                    // debugger;
+                    console.log(domElement);
+                    parent.removeChild(el);
+                })
+            }
+            if (Array.isArray(newDOMElement)) {
+                appendChildren(parent, newDOMElement);
+                return;
+            }
         } else {
             domElement?.replaceWith(newDOMElement);
         }
@@ -81,12 +92,13 @@ const updateChildren = (domElement: HTMLElement, oldChildren: VNode[], newChildr
         if (!oldChildren[i] && newChildren[i]) {
             // Добавить новый дочерний элемент
             const newChildElement = create(newChildren[i]);
-            domElement.appendChild(newChildElement);
+            appendChildren(domElement, newChildElement);
         } else if (oldChildren[i] && !newChildren[i]) {
             // Удалить старый дочерний элемент
-            domElement.removeChild(domElement.childNodes[i]);
+            removeChildren(domElement, domElement.childNodes[i]);
         } else if (oldChildren[i] && newChildren[i]) {
             // Обновить существующий дочерний элемент
+            // debugger;
             updateComponent(domElement.childNodes[i] as HTMLElement, oldChildren[i], newChildren[i]);
         }
     }

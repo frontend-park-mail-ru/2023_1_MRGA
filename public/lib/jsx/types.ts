@@ -16,11 +16,15 @@ export type JSX = HTMLTag | FunctionalComponent | typeof fragment;
 
 export interface VNode {
     oldElement?: VNode;
-    domElement?: HTMLElement;
+    domElement?: HTMLElement | HTMLElement[];
     type?: JSX;
     props?: Props;
     children?: Child[];
     states?: any[];
     stateCounter?: number;
 }
+
+export type VirtualNodeArray = VNode[] & {
+    domElement?: HTMLElement[];
+};
 
