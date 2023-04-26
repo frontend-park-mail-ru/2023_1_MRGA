@@ -5,6 +5,7 @@ const public = path.join(path.resolve(__dirname, '..'), 'dist');
 
 const config = {
     PORT: 3000,
+    // HOST: "0.0.0.0"
     HOST: "192.168.0.45"
 }
 

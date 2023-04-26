@@ -27,7 +27,7 @@ export const RecommendProfile = () => {
     // Устанавливается фото в img по id
     const setPhoto = (id, imageUrl) => {
         const img = document.querySelector(`#${id}`);
-        img.src = imageUrl;
+        // img.src = imageUrl;
     };
 
     // Устанавливается текст в тег по id
@@ -138,7 +138,7 @@ export const RecommendProfile = () => {
             clearRec();
             currLengthPhotos = 0;
             setPhotoCurrentRecommendation();
-            console.log("Пока не нашлось пользователей под ваши вкусы");
+            // console.log("Пока не нашлось пользователей под ваши вкусы");
             return;
         }
 
@@ -159,7 +159,7 @@ export const RecommendProfile = () => {
             Tinder.getPhoto(photoId)
             .then(response => {
                 if (response.status !== 200) {
-                    console.log(response.statusText);
+                    // console.log(response.statusText);
                 }
                 return response.formData();
             })
@@ -226,9 +226,9 @@ export const RecommendProfile = () => {
         // Делается запрос на рекомендации
         let respRecs = await Tinder.getRecommendation();
         let jsonRecs = await respRecs.json();
-        console.log(jsonRecs);
+        // console.log(jsonRecs);
         if (jsonRecs.status !== 200) {
-            console.log(jsonRecs.error);
+            // console.log(jsonRecs.error);
             return;
         }
         

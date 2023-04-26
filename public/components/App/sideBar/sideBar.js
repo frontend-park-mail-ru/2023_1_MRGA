@@ -36,11 +36,12 @@ export const SideBar = () => {
         });
     }
 
-
+    const onPhotoError = (e) => {
+        e.target.src = loadingPhoto;
+    }
     const makePage = async () => {
         let respUserInfo = await Tinder.getUser();
         let jsonUserInfo = await respUserInfo.json();
-        console.log(jsonUserInfo);
         if (jsonUserInfo.status !== 200) {
             console.log(jsonUserInfo.error);
             return;
@@ -55,7 +56,7 @@ export const SideBar = () => {
     return (
         <div className={styles.sideBar}>
             <div className={styles.profileInfo}>
-                <img id="profileImg" className={styles.avatar} src={loadingPhoto} alt=""/>
+                <img id="profileImg" onError={onPhotoError} className={styles.avatar} src={loadingPhoto} alt=""/>
                     <div id="profileName" className={styles.name}>
                     </div>
             </div>
@@ -71,7 +72,7 @@ export const SideBar = () => {
                     <img className={styles.icon} src={matches}/>
                     Совпадения
                 </Link>
-                <Link href={"/"} id="profileButton" className={styles.btn}>
+                <Link href={"/profile"} id="profileButton" className={styles.btn}>
                     <img className={styles.icon} src={profile}/>
                     Профиль
                 </Link>

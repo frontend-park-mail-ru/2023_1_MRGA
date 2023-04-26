@@ -15,9 +15,10 @@ export const Header = () => {
     const [counter, setter] = useState(0);
     return (
     <HeaderContainer>
+        <Link href={"/"}>
+            <img src={logo} width="203" alt={logo}/>
+        </Link>
         <div>
-            <div style={"border: black solid 1px; margin: 20px; text-align: center; padding: 10px;"} onClick={setter.bind(null, counter + 1)}>{counter.toString()}</div>
-            {/*<TestComponent/>*/}
             <Link className={styles.headerElement} href={"/login"}>Вход</Link>
             <Link className={styles.headerElement} href={"/signup"}>Регистрация</Link>
         </div>
@@ -37,7 +38,9 @@ export const HeaderAuth = () => {
     }
     return (
     <HeaderContainer>
-        <img src={logo} width="203" alt={logo}/>
+        <Link href={"/"}>
+            <img src={logo} width="203" alt={logo}/>
+        </Link>
         <div>
             <a className={styles.headerElement} onClick={onLogoutClick} href={"/logout"}>Выйти</a>
         </div>

@@ -9,6 +9,7 @@ const path = require('path')
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
+const needAnalyze = process.env.NEED_ANALYZE === 'need';
 const dontNeedClean = process.env.NEED_CLEAN === 'dontNeed';
 const filename = ext => isDev ? `[name].${ext }` : `[name].[hash].${ext}`
 
@@ -110,8 +111,8 @@ const plugins = () => {
     if (!dontNeedClean) {
         plugins.push(new CleanWebpackPlugin())
     }
-    if (isProd) {
-        plugins.push(new BundleAnalyzerPlugin())
+    if (isProd && needAnalyze) {
+        plugins.push(new BundleAnalyzerPlugin({analyzerPort: 4000}))
     }
     return plugins;
 }
@@ -138,7 +139,7 @@ module.exports = {
         }
     },
     devServer: {
-        host: "localhost",
+        host: isDev ? "localhost": "192.168.0.45",
         port: "3000",
         historyApiFallback: true
     },

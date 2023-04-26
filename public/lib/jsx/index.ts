@@ -29,9 +29,6 @@ const createHTMLNode = (virtualNode) => {
                 domNode.addEventListener(attr.slice(2).toLowerCase(), value);
             } else if (attr === 'ref') {
                 (value as IUseRefResult<any>)?.setValue(domNode);
-            } else if (attr === 'htmlFor') {
-                domNode['for'] = value;
-                // domNode.setAttribute('for', value);
             } else {
                 domNode[attr] = value;
                 // domNode.setAttribute(attr, value);

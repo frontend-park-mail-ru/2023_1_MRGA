@@ -2,11 +2,11 @@
 import styles from '../formElement.module.css'
 import {Label} from "components/UI/forms/label/label";
 
-export const InputWithLabel = ({name, labelText, ref, className, ...props}) => {
+export const TextAreaWithLabel = ({name, labelText, ref, className, ...props}) => {
     return (
         <span>
             <Label labelText={labelText} htmlFor={name}/>
-            <input className={[styles.formElement, className].join(' ')}
+            <textarea className={[styles.formElement, className].join(' ')}
                    name={name}
                    ref={ref}
                    {...props}

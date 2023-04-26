@@ -26,6 +26,9 @@ export class Tinder {
         filtersData.sexSearch = sexSearchToNumber(filtersData.sexSearch)
         return Ajax.ajax(ApiUrl+"meetme/filters", "POST", {}, JSON.stringify(filtersData))
     }
+    static async getInfoUser() {
+        return Ajax.ajax(ApiUrl+"meetme/info-user", "GET");
+    }
     static async getCities() {
         return Ajax.ajax(ApiUrl+"api/cities", "GET")
     }
@@ -44,9 +47,6 @@ export class Tinder {
     static async getHashTags() {
         return Ajax.ajax(ApiUrl+"api/hashtags", "GET")
     }
-    // static async getInfoUser() {
-    //     return Ajax.ajax(ApiUrl+"api/hashtags", "GET")
-    // }
 
     static async getUser() {
         return Ajax.ajax(ApiUrl+"meetme/user", "GET")

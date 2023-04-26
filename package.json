@@ -8,7 +8,7 @@
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "build": "cross-env NODE_ENV=production NEED_CLEAN=dontNeed webpack --mode production",
     "watch": "cross-env NODE_ENV=development NEED_CLEAN=dontNeed webpack serve --mode development --open ",
-    "stats": "webpack --json > stats.json && webpack-bundle-analyzer stats.json",
+    "stats": "cross-env NEED_ANALYZE=need webpack --json > stats.json && webpack-bundle-analyzer stats.json",
     "server": "cross-env NODE_ENV=production NEED_CLEAN=dontNeed webpack serve --mode production"
   },
   "repository": {

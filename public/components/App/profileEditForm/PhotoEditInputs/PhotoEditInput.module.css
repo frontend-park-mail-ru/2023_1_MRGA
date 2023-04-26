@@ -1,0 +1,32 @@
+.photoInput {
+    margin: 3px;
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    /*max-width: 30%;*/
+    /*min-width: 30%;*/
+    margin-bottom: 10px;
+}
+
+.form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 1rem;
+    width: 100%;
+}
+
+.photoInputContainer {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.photo {
+    width: 30%;
+}

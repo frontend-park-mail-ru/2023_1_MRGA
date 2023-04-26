@@ -11,6 +11,8 @@ import {HashTagsPage} from "components/App/pages/registration/hashTags/hashTags"
 import {Tinder} from "@/api/api";
 import {AboutPage} from "components/App/pages/about/aboutPage";
 import {NotFoundPage} from "components/App/pages/notFound/notFound";
+import {ProfilePage} from "components/App/pages/profile/profile";
+import {getInfoUser, getUser, setUser, userStore} from "@/store/user";
 
 
 let publicRoutes = [
@@ -23,6 +25,9 @@ let publicRoutes = [
 let privateRoutes = [
     {path: '/matches', component: MatchesPage},
     {path: '/', component: FeedPage},
+    {path: '/profile', component: ProfilePage},
+    {path: '/interview', component: InterviewPage},
+    {path: '/photo', component: PhotoPage},
 ]
 export let routes = [
     {path: '/', component: FeedPage},
@@ -42,7 +47,9 @@ const router = async () => {
         const response = await Tinder.getUser();
         const json = await response.json();
         let authorized = true;
+
         if (json.status === 200) {
+            setUser(json.body);
             setPrivateRoutes()
         } else {
             authorized = false;
