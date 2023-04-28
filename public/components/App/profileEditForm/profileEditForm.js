@@ -10,16 +10,28 @@ import {useRef} from "@/lib/jsx/hooks/useRef";
 import {PhotoForm} from "components/App/photoForm/photoForm";
 import {PhotoEditInputs} from "components/App/profileEditForm/PhotoEditInputs/PhotoEditInputs";
 import {Label} from "components/UI/forms/label/label";
+import {Tinder} from "@/api/api";
 
 export const ProfileEditForm = () => {
     const user = getUser();
 
     const description = useRef();
 
-    const onDescriptionChange = () => {
-        console.log(description.getValue().value.length);
+    const onDescriptionChange = (e) => {
+        e.preventDefault();
+        // console.log(description.getValue().value.length);
+        userData.description = description.getValue().value;
+        Tinder.putInfoUser(userData);
     }
-    // console.log(user);
+    let userData;
+    const loadUserData = async () => {
+
+        userData = (await (await Tinder.getInfoUser()).json()).body;
+        // console.log(userData);
+        description.getValue().value = userData.description;
+    }
+
+    loadUserData().then();
     return (
             <FormContainer>
                 <Form>
@@ -45,9 +57,8 @@ export const ProfileEditForm = () => {
                         placeholder={"Я живу в Мытищах ;)"}
                         labelText={"Описание профиля"}
                         ref={description}
-                        onInput={onDescriptionChange}
                     />
-                    <Label labelText={"Фотографии профиля"}/>
+                    {/*<SubmitButton onClick={onDescriptionChange}>изменить описание</SubmitButton>*/}
                     <PhotoEditInputs/>
                 </Form>
             </FormContainer>

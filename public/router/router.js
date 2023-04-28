@@ -41,16 +41,26 @@ export const setPublicRoutes = () => {
 export const setPrivateRoutes = () => {
     routes = privateRoutes;
 }
-
+const registrationSteps = {
+    0: FeedPage,
+    1: InterviewPage,
+    2: HashTagsPage,
+    3: FiltersPage,
+    4: PhotoPage
+}
 const router = async () => {
     try {
         const response = await Tinder.getUser();
         const json = await response.json();
         let authorized = true;
-
+        // console.log(json);
         if (json.status === 200) {
             setUser(json.body);
-            setPrivateRoutes()
+            setPrivateRoutes();
+            if (json.body.step !== 0) {
+                rootRender(registrationSteps[json.body.step]());
+                return ;
+            }
         } else {
             authorized = false;
             setPublicRoutes()

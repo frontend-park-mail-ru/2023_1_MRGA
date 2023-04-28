@@ -15,12 +15,12 @@ const onLoad = () => {
     observer.observe(button.getValue(), { attributes: true, attributeFilter: ['disabled'] });
 }
 
-export const SubmitButton = (props, children) => {
+export const SubmitButton = ({style,...props}, children) => {
     const button = useRef();
 
     return (
         <button
-            className={[elementStyles.formElement, styles.submitButton].join(' ')}
+            className={[elementStyles.formElement, styles.submitButton, style].join(' ')}
             type="submit"
             ref={button}
             {...props}

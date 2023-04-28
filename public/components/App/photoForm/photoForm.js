@@ -64,7 +64,7 @@ export const PhotoForm = () => {
             }
     
             const respPhotoUser = await Tinder.postPhotos(formData);
-
+            // debugger;
             const jsonPhotoUser = await respPhotoUser.json()
             if (jsonPhotoUser.status !== 200) {
                 warning.getValue().innerHTML = jsonPhotoUser.error;

@@ -18,7 +18,7 @@ let array = [0, 1, 2, 3]
 
 const someArrayVNode = (
         array.map(el => {
-        console.log(typeof  el);
+        // console.log(typeof  el);
         return <div>{el}</div>
     })
 )
@@ -39,7 +39,7 @@ const withSpan = (
 
 // root.render(someFragmentVNode);
 
-console.log(someFragmentVNode);
+// console.log(someFragmentVNode);
 // someFragmentVNode
 // someArrayVNode
 // update(someFragmentVNode.domElement, someFragmentVNode, someArrayVNode);

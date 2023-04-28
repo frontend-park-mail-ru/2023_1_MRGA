@@ -22,6 +22,9 @@ export class Tinder {
         infoUserData.sex = sexToNumber(infoUserData.sex)
         return Ajax.ajax(ApiUrl+"meetme/info-user", "POST", {}, JSON.stringify(infoUserData))
     }
+    static async putInfoUser(infoUserData) {
+        return Ajax.ajax(ApiUrl+"meetme/info-user", "PUT", {}, JSON.stringify(infoUserData))
+    }
     static async filters(filtersData) {
         filtersData.sexSearch = sexSearchToNumber(filtersData.sexSearch)
         return Ajax.ajax(ApiUrl+"meetme/filters", "POST", {}, JSON.stringify(filtersData))
@@ -65,6 +68,12 @@ export class Tinder {
     }
     static async postPhotos(photosData) {
         return Ajax.ajax(ApiUrl+`meetme/photos/upload`, "POST", {}, photosData)
+    }
+    static async putPhoto(photosData, number) {
+        return Ajax.ajax(ApiUrl+`meetme/photo/${number}`, "PUT", {}, photosData)
+    }
+    static async deletePhoto(number) {
+        return Ajax.ajax(ApiUrl+`meetme/photo/${number}`, "DELETE", {})
     }
     static async addHashTags(hashTagsData) {
         return Ajax.ajax(ApiUrl+`meetme/hashtags-user`, "POST", {'Content-Type': 'multipart/form-data'}, JSON.stringify(hashTagsData))
