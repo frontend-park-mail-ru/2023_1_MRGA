@@ -13,6 +13,7 @@ import {AboutPage} from "components/App/pages/about/aboutPage";
 import {NotFoundPage} from "components/App/pages/notFound/notFound";
 import {ProfilePage} from "components/App/pages/profile/profile";
 import {getInfoUser, getUser, setUser, userStore} from "@/store/user";
+import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 
 
 let publicRoutes = [
@@ -28,6 +29,7 @@ let privateRoutes = [
     {path: '/profile', component: ProfilePage},
     {path: '/interview', component: InterviewPage},
     {path: '/photo', component: PhotoPage},
+    {path: '/signup', component: RegistrationPage},
 ]
 export let routes = [
     {path: '/', component: FeedPage},
@@ -58,7 +60,8 @@ const router = async () => {
             setUser(json.body);
             setPrivateRoutes();
             if (json.body.step !== 0) {
-                rootRender(registrationSteps[json.body.step]());
+                Navigate({to: "/signup"})
+                rootRender(<RegistrationPage/>);
                 return ;
             }
         } else {
