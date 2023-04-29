@@ -51,6 +51,7 @@ const registrationSteps = {
     4: PhotoPage
 }
 const router = async () => {
+    // debugger;
     try {
         const response = await Tinder.getUser();
         const json = await response.json();

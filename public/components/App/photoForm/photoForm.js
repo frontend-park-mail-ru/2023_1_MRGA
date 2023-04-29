@@ -9,8 +9,65 @@ import {FormContainer} from "components/UI/containers/formContainer/formContaine
 import {useRef} from "@/lib/jsx/hooks/useRef";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
+import styles from "components/App/profileEditForm/PhotoEditInputs/PhotoEditInput.module.css";
+import deletePhoto from "assets/svg/dislike.svg";
+import {MyPhotoInput, PhotoInput} from "components/UI/forms/photoInput/photoInput";
+import logo from "assets/LogoMini.svg";
 
 export const PhotoForm = () => {
+    const photosRef = [
+        {
+            photo: useRef(),
+            label: useRef(),
+            deleteButton: useRef(),
+            id: '0'
+        },
+        {
+            photo: useRef(),
+            label: useRef(),
+            deleteButton: useRef(),
+            id: '1'
+        },
+        {
+            photo: useRef(),
+            label: useRef(),
+            deleteButton: useRef(),
+            id: '2'
+        },
+        {
+            photo: useRef(),
+            label: useRef(),
+            deleteButton: useRef(),
+            id: '3'
+        },
+        {
+            photo: useRef(),
+            label: useRef(),
+            deleteButton: useRef(),
+            id: '4'
+        }
+    ]
+
+    const onInputChange = (photo, label, e) => {
+        e.preventDefault();
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                photo.getValue().src = event.target.result;
+                photo.getValue().classList.remove(styles.hidden);
+                label.getValue().classList.add(styles.hidden);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    const onImageClick = (label, e) => {
+        const input = label.getValue().control;
+        input.click();
+    }
+
     const mainPhoto = useRef();
     const mainPhotoWarning = useRef();
     const photo2 = useRef();
@@ -31,43 +88,27 @@ export const PhotoForm = () => {
         }
     }
 
-    const allChecks = () => {
-        return onMainPhotoInputChange();
-    }
-
     const onSubmitClick = async (e) => {
         e.preventDefault();
-        if (!allChecks()) {
-            return;
-        }
 
         try {
-            let mainFile = mainPhoto.getValue().files[0];
-            let file2 = photo2.getValue().files;
-            let file3 = photo3.getValue().files;
-            let file4 = photo4.getValue().files;
-            let file5 = photo5.getValue().files;
-
+            let photoCount = 0;
             const formData = new FormData();
-            formData.append('files[]', mainFile);
-            if (file2.length !== 0) {
-                formData.append('files[]', file2[0]);
+            for (let {label} of photosRef) {
+                const file = label.getValue().control.files[0]
+                if (file) {
+                    formData.append('files[]', file);
+                    photoCount++;
+                }
             }
-            if (file3.length !== 0) {
-                formData.append('files[]', file3[0]);
+            if (photoCount === 0) {
+                alert('загрузите хотя бы одну фотографию');
+                return ;
             }
-            if (file4.length !== 0) {
-                formData.append('files[]', file4[0]);
-            }
-            if (file5.length !== 0) {
-                formData.append('files[]', file5[0]);
-            }
-    
             const respPhotoUser = await Tinder.postPhotos(formData);
-            // debugger;
             const jsonPhotoUser = await respPhotoUser.json()
             if (jsonPhotoUser.status !== 200) {
-                warning.getValue().innerHTML = jsonPhotoUser.error;
+                alert(jsonPhotoUser.error);
                 return
             }
             Navigate({to:'/'});
@@ -75,61 +116,19 @@ export const PhotoForm = () => {
             alert(e);
         }
     }
-
     return  (
         <FormContainer>
             <Form>
                 <img src={logoMini} width="46" alt={"logo"}/>
-                <InputWithLabel
-                    id={"mainPhoto"}
-                    labelText={"Attach Main photo"}
-                    required={true}
-                    name={"mainPhoto"}
-                    ref={mainPhoto}
-                    onChange={onMainPhotoInputChange}
-                    type="file"
-                    accept="image/jpeg,image/png"/>
-                <Warning
-                    ref={mainPhotoWarning}
-                    title={"Главная фотография должна быть прикреплена"}
-                />
-                <InputWithLabel
-                    id={"photo2"}
-                    labelText={"Attach other photo"}
-                    name={"photo2"}
-                    ref={photo2}
-                    type="file"
-                    accept="image/jpeg,image/png"/>
-                <InputWithLabel
-                    id={"photo3"}
-                    labelText={"Attach other photo"}
-                    name={"photo3"}
-                    ref={photo3}
-                    type="file"
-                    accept="image/jpeg,image/png"/>
-                <InputWithLabel
-                    id={"photo4"}
-                    labelText={"Attach other photo"}
-                    name={"photo4"}
-                    ref={photo4}
-                    type="file"
-                    accept="image/jpeg,image/png"/>
-                <InputWithLabel
-                    id={"photo5"}
-                    labelText={"Attach other photo"}
-                    name={"photo5"}
-                    ref={photo5}
-                    type="file"
-                    accept="image/jpeg,image/png"/>
-                <SubmitButton
-                    ref={submitButton}
-                    onClick={onSubmitClick}
-                >
-                    Зарегистрироваться
-                </SubmitButton>
-                <Warning
-                    ref={warning}
-                />
+                <h1 style={"margin: 30px; text-align: center;"}>Загрузите минимум одну фотографию</h1>
+                <div className={styles.form}>
+                    {photosRef.map(({photo, label, id, deleteButton}) => {
+                        return (
+                        <MyPhotoInput control={label} photo={photo} id={id}></MyPhotoInput>
+                        )
+                    })}
+                <SubmitButton onClick={onSubmitClick}>Подтвердить</SubmitButton>
+                </div>
             </Form>
         </FormContainer>
     )

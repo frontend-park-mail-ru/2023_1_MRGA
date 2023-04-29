@@ -9,6 +9,7 @@ export const Link = ({href, ...props}, children) => {
         }
         Navigate({to:href});
     }
+    // debugger;
     return (
         <a href={href} onClick={linkClickHandler} {...props}>{children}</a>
     )

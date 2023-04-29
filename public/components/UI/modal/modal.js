@@ -39,11 +39,15 @@ export const ModalWindow = ({dispatcher,...props}, children) => {
         e.preventDefault();
         modal.getValue().classList.add(styles.hidden);
     }
+
+    const stopPropagation = (e) => {
+        e.stopPropagation();
+    }
     const modal = useRef();
     return (
-        <div ref={modal} className={[styles.modalOverlay, styles.hidden].join(' ')} {...props}>
+        <div ref={modal} onClick={hide} className={[styles.modalOverlay, styles.hidden].join(' ')} {...props}>
             <SubmitButton onClick={hide} style={styles.modalClose}>Закрыть</SubmitButton>
-            <div className={styles.modal}>
+            <div onClick={stopPropagation} className={styles.modal}>
             {children}
             </div>
         </div>

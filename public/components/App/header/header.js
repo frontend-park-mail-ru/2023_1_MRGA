@@ -6,6 +6,7 @@ import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {useState} from "@/lib/jsx/hooks/useState";
 import {TestComponent} from "@/lib/jsx/components/testComponent/testComponent";
+import {setUser, userStore} from "@/store/user";
 
 export const RENDER_TYPE = {
     NUNJUCKS: 'nunjucks'
@@ -30,6 +31,7 @@ export const HeaderAuth = () => {
         try {
             const resp = await Tinder.logout();
             const json = await resp.json();
+            setUser(undefined);
             Navigate({to:"/login"});
         } catch (e) {
             alert(e);
