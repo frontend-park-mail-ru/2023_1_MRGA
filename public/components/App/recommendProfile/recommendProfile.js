@@ -11,314 +11,192 @@ import dislike from 'assets/svg/dislike.svg';
 import prevPhotoArrow from 'assets/svg/prevPhotoArrow.svg';
 import nextPhotoArrow from 'assets/svg/nextPhotoArrow.svg';
 import locationPoint from 'assets/svg/locationPoint.svg';
+import {useRef} from "@/lib/jsx/hooks/useRef";
+import {render} from "@/lib/jsx/render";
+import {modalDispatcher, ModalWindow} from "components/UI/modal/modal";
+import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 
-export const RecommendProfile = () => {
+
+export const Recom = () => {
+    const info = useRef();
+    const nameAndAge = useRef();
+    const city = useRef();
+    const recDescription = useRef();
+    const recHashtags = useRef();
+    const education = useRef();
+    const zodiac = useRef();
+    const buttons = {
+        nextPhotoButton: useRef(),
+        prevPhotoButton: useRef(),
+        likeButton: useRef(),
+        passButton: useRef(),
+        reportButton: useRef()
+    }
+
+
+    const currRecPhoto = useRef();
     const loadingPhoto = loading;
+    let currentRecommendation = 0;
+    let recommendations = [];
 
-    let recommendations = []; // []reccomendation
-    let countRecommendations = 0; // int
-
-    let currRecommendation; // reccomendation
-    let currIndexRecommendation = 0; // int
-    let currIndexPhoto = 0; // int
-    let currLengthPhotos = 0; // int
-    let currPhotosUrls = []; // []urls
-
-    // Устанавливается фото в img по id
-    const setPhoto = (id, imageUrl) => {
-        const img = document.querySelector(`#${id}`);
-        // img.src = imageUrl;
-    };
-
-    // Устанавливается текст в тег по id
-    const setInnerText = (id, text) => {
-        document.querySelector(`#${id}`).innerText = text;
-    }
-
-    // Устанавливаются обработчики на кнопки у фотографий
-    const setHandlers = () => {
-        const images = document.querySelectorAll('img');
-        images.forEach(image => {
-            image.addEventListener('error', function() {
-                image.src = loadingPhoto;
-            });
-        });
-        
-        const prevPhotoButton = document.getElementById("prevPhotoButton");
-        const nextPhotoButton = document.getElementById("nextPhotoButton");
-        const passButton = document.getElementById("passButton");
-        const likeButton = document.getElementById("likeButton");
-
-        prevPhotoButton.addEventListener("click", (event) => {
-            event.preventDefault();
-
-            if (currLengthPhotos <= 1) {
-                return;
+    const getRecommendations = async () => {
+        try {
+            const recs = await (await Tinder.getRecommendation()).json();
+            if (recs.status === 200) {
+                recommendations = recs.body.recommendations;
+                console.log(recommendations);
+                return {recommendations: recs.body.recommendations};
             }
-
-            if (currIndexPhoto === 0) {
-                currIndexPhoto = currLengthPhotos - 1;
-            } else {
-                currIndexPhoto = currIndexPhoto - 1;
-            }
-            setPhotoCurrentRecommendation();
-        });
-
-        nextPhotoButton.addEventListener("click", (event) => {
-            event.preventDefault();
-
-            if (currLengthPhotos <= 1) {
-                return;
-            }
-
-            if (currIndexPhoto === currLengthPhotos - 1) {
-                currIndexPhoto = 0;
-            } else {
-                currIndexPhoto = currIndexPhoto + 1;
-            }
-            setPhotoCurrentRecommendation();
-        });
-
-        passButton.addEventListener("click", (event) => {
-            event.preventDefault();
-
-            if (countRecommendations === 0) {
-                return;
-            }
-
-            Tinder.postReaction({evaluatedUserId: currRecommendation.userId, reaction: "pass"}).then(() => nextProfile());
-        });
-
-        likeButton.addEventListener("click", (event) => {
-            event.preventDefault();
-
-            if (countRecommendations === 0) {
-                return;
-            }
-            Tinder.postReaction({evaluatedUserId: currRecommendation.userId, reaction: "like"}).then(() => nextProfile());
-        });
-    }
-
-    const nextProfile = () => {
-        if (currIndexRecommendation === countRecommendations - 1) {
-            makePage();
-        } else {
-            currIndexRecommendation = currIndexRecommendation + 1;
-            setRecProfileAsync();
+        } catch (e) {
+            return {recommendations: [], error: e}
         }
     }
-
-    const setPhotoCurrentRecommendation = () => {
-
-        if (currLengthPhotos === 0) {
-            setPhoto("recPhoto", loadingPhoto);
-        } else {
-            setPhoto("recPhoto", currPhotosUrls[currIndexPhoto]);
+    const test = async () => {
+        await getRecommendations();
+        if (!recommendations || recommendations.length === 0) {
+            info.getValue().innerHTML = "На данный момент для вас нет рекомендаций";
+            hideButtons();
+            return ;
         }
+        setCurrentRecommendation();
+    }
+    const changePhoto = async (step) => {
+        const currentRec = recommendations[currentRecommendation];
+        currentRec.photoIndex+=step;
+        if (currentRec.photoIndex > currentRec.photos.length - 1) {
+            currentRec.photoIndex = 0;
+        }
+        if (currentRec.photoIndex < 0) {
+            currentRec.photoIndex = currentRec.photos.length - 1;
+        }
+        loadRecommendationPhotos();
+    }
+    const getNextPhoto = changePhoto.bind(null, 1);
+    const getPrevPhoto = changePhoto.bind(null, -1);
 
-        // Устанавливаются точки над фотографиями профиля рекомендации
-        const photoDots = document.querySelector("#recPhotoDots");
-        photoDots.innerHTML = ""
-        for (let i = 0; i < currLengthPhotos; i++) {
-            let photoDot = document.createElement("object");
-            if (i === currIndexPhoto) {
-                photoDot.data = mainUrlPhotoDot;
-            } else {
-                photoDot.data = urlPhotoDot;
+    const setCurrentRecommendation = () => {
+        const currentRec = recommendations[currentRecommendation];
+
+        nameAndAge.getValue().innerHTML = `${currentRec.name}, ${currentRec.age}`
+        city.getValue().innerHTML = currentRec.city;
+        recDescription.getValue().innerHTML = currentRec.description;
+        const hashtags = currentRec.hashtags.map((hashtags) => {
+            return <div className={styles.hashtag}>#{hashtags}</div>
+        });
+        render(recHashtags.getValue(), hashtags);
+        education.getValue().innerHTML = `образование: ${currentRec.education}`;
+        zodiac.getValue().innerHTML = `знак зодиака: ${currentRec.zodiac}`;
+        currentRec.photoIndex = 0;
+        loadRecommendationPhotos();
+    }
+    const hideButtons = () => {
+        for (let button in buttons) {
+            buttons[button].getValue().classList.add(styles.hidden);
+        }
+    }
+    const clearRecommendations = () => {
+        nameAndAge.getValue().innerHTML = '';
+        city.getValue().innerHTML = '';
+        recDescription.getValue().innerHTML = '';
+        recHashtags.getValue().innerHTML = '';
+        education.getValue().innerHTML = '';
+        zodiac.getValue().innerHTML = '';
+        currRecPhoto.getValue().src = loadingPhoto;
+        info.getValue().innerHTML = "На данный момент для вас нет рекомендаций";
+    }
+    const next = () => {
+        if (currentRecommendation > recommendations.length - 2) {
+            clearRecommendations();
+            hideButtons();
+            return ;
+        }
+        currentRecommendation++;
+
+        setCurrentRecommendation();
+    }
+    const reactionClick = (reaction) => {
+
+        recHashtags.getValue().innerHTML = '';
+        if (currentRecommendation <= recommendations.length - 1) {
+            try {
+                Tinder.postReaction({evaluatedUserId: recommendations[currentRecommendation].userId, reaction: reaction});
+            } catch (e) {
+                alert(e);
             }
-            photoDots.appendChild(photoDot);
         }
+        next();
     }
-
-    // Ассинхронно устанавливается аватарка профиля из рекомендации и получаются url всех фотографий данного профиля
-    const setRecProfileAsync = async () => {
-
-        // Если нет рекоммендаций
-        if (countRecommendations === 0) {
-            clearRec();
-            currLengthPhotos = 0;
-            setPhotoCurrentRecommendation();
-            // console.log("Пока не нашлось пользователей под ваши вкусы");
-            return;
-        }
-
-        // Устанавливается данные о текущем пользователе в рекомендации
-        currRecommendation = recommendations[currIndexRecommendation];
-        currIndexPhoto = 0;
-        currPhotosUrls = [];
-        // Если нет фоток
-        if (currRecommendation.photos === null || currRecommendation.photos.length === 0) {
-            currRecommendation.photos = [];
-            currLengthPhotos = 0;
-            setPhotoCurrentRecommendation();
-        } else {
-            currLengthPhotos = currRecommendation.photos.length;
-        }
-
-        currRecommendation.photos.forEach((photoId, ind) => { // Работаем с фото только если они есть
-            Tinder.getPhoto(photoId)
-            .then(response => {
-                if (response.status !== 200) {
-                    // console.log(response.statusText);
-                }
-                return response.formData();
-            })
-            .then((formData) => {
-                const fileField = formData.get('file');
-                const file = new File([fileField], 'filename');
-
-                const imageUrl = URL.createObjectURL(file);
-                currPhotosUrls.push(imageUrl);
-                if (ind === currIndexPhoto) {
-                    setPhotoCurrentRecommendation();
-                }
-            });
-        });
-
-        clearRec();
-        // Устанавливается имя и возраст профиля рекомендации
-        setInnerText("recNameAge", `${currRecommendation.name}, ${currRecommendation.age}`);
-        // Устанавливается город профиля рекомендации
-        setInnerText("recCity", currRecommendation.city);
-        // Устанавливается описание профиля рекомендации
-        setInnerText("recDescription", currRecommendation.description);
-        
-        const divHashtags = document.querySelector("#recHashtags");
-        // Устанавливаются хэш-теги профиля рекомендации
-        currRecommendation.hashtags.forEach((hashtag) => {
-            let divHashtag = document.createElement("div");
-            divHashtag.classList.add("tag");
-            divHashtag.innerText = hashtag;
-
-            divHashtags.appendChild(divHashtag);
-        });
-        
-        // Устанавливаются другие данные профиля рекомендации
-        const otherRecInfo = [
-            {
-                id: "recJob",
-                innerText: currRecommendation.job,
-            },
-            {
-                id: "recZodiac",
-                innerText: currRecommendation.zodiac,
-            },
-            {
-                id: "recEducation",
-                innerText: currRecommendation.education,
-            },
-        ];
-
-        const divOther = document.querySelector("#recOtherInfo");
-        otherRecInfo.forEach((item) => {
-            let divRec = document.createElement("div");
-            divRec.classList.add("tag");
-            divRec.id = item.id;
-            divRec.innerText = item.innerText;
-            
-            divOther.appendChild(divRec);
-        });
+    let currPhoto;
+    const loadRecommendationPhotos = async () => {
+        const currentRec = recommendations[currentRecommendation];
+        currPhoto = (await (await Tinder.getPhoto(currentRec.photos[currentRec.photoIndex])).formData()).get('file');
+        currRecPhoto.getValue().src = URL.createObjectURL(currPhoto);
     }
+    const dispatcher = modalDispatcher();
 
-    // Запускается отрисовка страницы рекомендации
-    const makePage = async () => {
-
-        // Делается запрос на рекомендации
-        let respRecs = await Tinder.getRecommendation();
-        let jsonRecs = await respRecs.json();
-        // console.log(jsonRecs);
-        if (jsonRecs.status !== 200) {
-            // console.log(jsonRecs.error);
-            return;
-        }
-        
-        recommendations = jsonRecs.body.recommendations;
-
-        // Устанавливается, сколько всего профилей получилось в рекомендациях
-        if (recommendations === null) {
-            recommendations = [];
-        }
-    
-        countRecommendations = recommendations.length;
-        currIndexRecommendation = 0;
-        // Вызывается отображение всего о пользователе в рекомендации
-        setRecProfileAsync();
+    const reportUserClick = async (e) => {
+        e.preventDefault();
+        console.log(recommendations[currentRecommendation].userId);
+        const res = await (await Tinder.complainUser({UserId: recommendations[currentRecommendation].userId   })).json();
+        // Жалоба на пользователя
+        console.log(res);
+        next();
+        dispatcher.hideModal();
     }
-
-    const clearRec = () => {
-        const divHashtags = document.querySelector("#recHashtags");
-        divHashtags.innerHTML = '';
-
-        const divOther = document.querySelector("#recOtherInfo");
-        divOther.innerHTML = '';
-
-        setInnerText("recNameAge", '');
-        setInnerText("recCity", '');
-        setInnerText("recDescription", '');
-    }
-
-    const initPage = () => {
-        // Запускается отрисовка всех страницы рекомендации
-        makePage()
-        .then(() => setHandlers()); // Регистрируются обработчики
-    }
-
-    initPage();
-
-    return(
+    test()
+    return (
         <div className={styles.content}>
             <div className={styles.avatarSide}>
-                <img id="recPhoto" className={styles.avatar} src={loadingPhoto} alt=""/>
-                    <div className={styles.avatarShadow}>
-                        <a id="passButton" className={styles.swipeBtn} style="margin-right: 16px;">
-                            <img id="passObject" src={dislike}/>
-                        </a>
+                <img ref={currRecPhoto} className={styles.avatar} src={loadingPhoto} alt=""/>
+                <div className={styles.avatarShadow}>
+                    <a ref={buttons.passButton} onClick={reactionClick.bind(null, "pass")} className={styles.swipeBtn} style="margin-right: 16px;">
+                        <img src={dislike}/>
+                    </a>
 
-                        <a id="likeButton" className={styles.swipeBtn} >
-                            <img id="likeObject" src={like}/>
-                        </a>
-                    </div>
+                    <a ref={buttons.likeButton} onClick={reactionClick.bind(null, "like")} className={styles.swipeBtn} >
+                        <img src={like}/>
+                    </a>
+                </div>
 
-                    <div id="recPhotoDots" className={styles.photoDots}>
-                    </div>
-
-
-                    <a id="prevPhotoButton" style="
+                <div id="recPhotoDots" className={styles.photoDots}>
+                </div>
+                <a ref={buttons.prevPhotoButton} onClick={getPrevPhoto} style="
                         position: absolute;
                         left: 8px;
                         ">
-                        <img id="prevPhotoObject" src={prevPhotoArrow}/>
+                    <img src={prevPhotoArrow}/>
 
-                    </a>
-
-                    <a id="nextPhotoButton" style="
+                </a>
+                <a ref={buttons.nextPhotoButton} onClick={getNextPhoto} style="
                         position: absolute;
                         right: 8px;
                         ">
-                        <img id="nextPhotoObject" src={nextPhotoArrow}/>
-                    </a>
+                    <img src={nextPhotoArrow}/>
+                </a>
             </div>
             <div className={styles.descSide}>
                 <div className={styles.desc}>
-                    <div id="recNameAge" className={styles.name}></div>
+                    <div ref={nameAndAge} className={styles.name}></div>
                     <div className={styles.distance}>
                         <img src={locationPoint}/>
-                        <span id="recCity"></span>
+                        <span ref={city}></span>
                     </div>
                     <div className={styles.descField}>
-                        <div id="recDescription" className={styles.descText}>
+                        <div ref={recDescription} className={styles.descText}>
                         </div>
-
-                        <div id="recHashtags" className={styles.descTags}>
+                        <div className={styles.descText} ref={education}></div>
+                        <div className={styles.descText} ref={zodiac} ></div>
+                        <div ref={recHashtags} className={styles.descTags}>
                         </div>
 
                         <div id="recOtherInfo" className={styles.descOtherData}>
-                            {/* <div id="recJob" className={styles.tag}></div>
-                            <div id="recZodiac" className={styles.tag}></div>
-                            <div id="recEducation" className={styles.tag}></div> */}
-                            <img src={ico}/>
+                            <img width={15} src={ico}/>
+                            <div ref={info}></div>
+                            <ModalWindow dispatcher={dispatcher}>
+                                <SubmitButton onClick={reportUserClick}>Пожаловаться на пользователя?</SubmitButton>
+                            </ModalWindow>
+                            <div ref={buttons.reportButton} onClick={dispatcher.showModal} className={styles.reportButton}>пожаловаться</div>
                         </div>
-
                     </div>
                 </div>
             </div>

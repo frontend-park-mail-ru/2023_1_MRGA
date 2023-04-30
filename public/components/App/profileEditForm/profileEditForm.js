@@ -58,7 +58,7 @@ export const ProfileEditForm = () => {
                         labelText={"Описание профиля"}
                         ref={description}
                     />
-                    {/*<SubmitButton onClick={onDescriptionChange}>изменить описание</SubmitButton>*/}
+                    <SubmitButton onClick={onDescriptionChange}>изменить описание</SubmitButton>
                     <PhotoEditInputs/>
                 </Form>
             </FormContainer>

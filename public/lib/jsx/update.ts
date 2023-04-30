@@ -38,6 +38,9 @@ export const updateComponent = (domElement: HTMLElement, oldElement: VNode, newE
         return ;
     }
     if (!oldElement) {
+        if ("innerHTML" in domElement) {
+            domElement.innerHTML = '';
+        }
         render(domElement as HTMLElement, newElement);
         return;
     }

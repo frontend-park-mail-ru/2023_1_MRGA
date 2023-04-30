@@ -1,0 +1,29 @@
+# конфигурация веб-сервера
+server {
+    add_header Referrer-Policy 'strict-origin-when-cross-origin';
+    # порт, который будет слушать веб-сервер в ожидании запросов от пользователй
+    listen      80;
+    # доменное имя
+    server_name     "0.0.0.0"; # замените на собственный домен или IP адрес
+    charset     utf-8;
+
+    # максимальный размер загружаемых на сервер данных
+    client_max_body_size 75M;
+
+
+    location / {
+        root static;  # расположение статики (при необходимости измените)
+        include       /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+    }
+
+# #        TODO: кеширование
+#     #        TODO: proxy_pass
+#     # Остальные запросы перенаправляются в Django приложение
+#     location / {
+# #            uwsgi_pass  django;
+#         proxy_pass http://unix:/sock/django.sock;
+#         proxy_set_header Host $host;
+# #            include     uwsgi_params; # файл uwsgi_params, который мы только что взяли с github
+#     }
+}

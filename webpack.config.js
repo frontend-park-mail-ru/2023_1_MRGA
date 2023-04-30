@@ -32,23 +32,30 @@ const cssLoaders =  (extra) => {
     const loaders = [{
         loader: MiniCssExtractPlugin.loader,
     },
-    {
-        loader: 'css-loader',
-        options: {
-            sourceMap: isDev,
-            url: false,
-            esModule: false
-        }
-    },
-    {
-        loader: 'postcss-loader',
-        options: {
-            sourceMap: true,
-            postcssOptions: {
-                plugins: ['autoprefixer'],
+        {
+            loader: 'css-loader',
+            options: {
+                sourceMap: isDev,
+                url: false,
+                esModule: false
+            }
+        },
+        {
+            loader: 'resolve-url-loader',
+            options: {
+                sourceMap: true
+            }
+        },
+        {
+            loader: 'postcss-loader',
+            options: {
+                sourceMap: true,
+                postcssOptions: {
+                    plugins: ['autoprefixer'],
+                },
             },
         },
-    }]
+    ]
     // {
     //     loader: 'resolve-url-loader',
     //     options: {
@@ -102,7 +109,12 @@ const plugins = () => {
             patterns: [ {
                 from: path.resolve(__dirname, 'public/assets/favicon.ico'),
                 to:  path.resolve(__dirname, 'dist')
-            }],
+            },
+            {
+                from: path.resolve(__dirname, 'public/assets'),
+                to:  path.resolve(__dirname, 'dist/assets')
+            },
+            ],
         }),
         new MiniCssExtractPlugin({
             filename: filename('css')
@@ -141,7 +153,11 @@ module.exports = {
     devServer: {
         host: isDev ? "localhost": "192.168.0.45",
         port: "3000",
-        historyApiFallback: true
+        historyApiFallback: true,
+        allowedHosts: [
+            'meetme-app.ru',
+            'id.meetme-app.ru'
+        ]
     },
     devtool: isDev? 'source-map' : false,
     plugins: plugins(),
@@ -165,6 +181,15 @@ module.exports = {
                 options: {
                     name: '[name].[ext]',
                     outputPath: 'assets/',
+                    esModule: false
+                }
+            },
+            {
+                test: /\.(ttf)$/,
+                loader: 'url-loader',
+                options: {
+                    name: '[name].[ext]',
+                    outputPath: 'assets/fonts/',
                     esModule: false
                 }
             },

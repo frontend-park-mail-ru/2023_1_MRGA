@@ -10,7 +10,7 @@ import {PhotoPage} from "components/App/pages/registration/photo/photo";
 import {HashTagsPage} from "components/App/pages/registration/hashTags/hashTags";
 import {Tinder} from "@/api/api";
 import {AboutPage} from "components/App/pages/about/aboutPage";
-import {NotFoundPage} from "components/App/pages/notFound/notFound";
+import {BannedUserPage, NotFoundPage} from "components/App/pages/notFound/notFound";
 import {ProfilePage} from "components/App/pages/profile/profile";
 import {getInfoUser, getUser, setUser, userStore} from "@/store/user";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
@@ -56,13 +56,17 @@ const router = async () => {
         const response = await Tinder.getUser();
         const json = await response.json();
         let authorized = true;
-        // console.log(json);
+        console.log(json);
         if (json.status === 200) {
             setUser(json.body);
             setPrivateRoutes();
             if (json.body.step !== 0) {
                 Navigate({to: "/signup"})
                 rootRender(<RegistrationPage/>);
+                return ;
+            }
+            if (json.body.banned) {
+                rootRender(<BannedUserPage/>)
                 return ;
             }
         } else {

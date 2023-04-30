@@ -1,10 +1,10 @@
 import {Ajax} from "./ajax.js";
 
-const BackendHost = 'http://localhost:8080/'
-    // window.location.href.includes('localhost')
-    // ? 'http://localhost:8080/'
-    // : 'http://5.159.100.59:8080/';
-    //     "http://95.163.180.8:8080/"
+// const BackendHost = 'http://meetme-app.ru:8080/';
+
+const BackendHost = window.location.href.includes('localhost')
+    ? 'http://localhost:8080/'
+    : 'http://meetme-app.ru:8080/'
 
 const ApiUrl = BackendHost;
 // const fakeUrl = "https://jsonplaceholder.typicode.com/"
@@ -24,6 +24,9 @@ export class Tinder {
     }
     static async putInfoUser(infoUserData) {
         return Ajax.ajax(ApiUrl+"meetme/info-user", "PUT", {}, JSON.stringify(infoUserData))
+    }
+    static async complainUser(userId) {
+        return Ajax.ajax(ApiUrl+"meetme/complain", "POST", {}, JSON.stringify(userId))
     }
     static async filters(filtersData) {
         filtersData.sexSearch = sexSearchToNumber(filtersData.sexSearch)

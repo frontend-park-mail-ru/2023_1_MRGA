@@ -7,34 +7,14 @@ import {Link} from "@/lib/jsx/components/link/link";
 import home from 'assets/svg/home.svg'
 import matches from 'assets/svg/matches.svg'
 import profile from 'assets/svg/profile.svg'
+import {useRef} from "@/lib/jsx/hooks/useRef";
 
 export const SideBar = () => {
     const loadingPhoto = loading;
 
-    const setPhoto = (id, imageUrl) => {
-        const img = document.querySelector(`#${id}`);
-        img.src = imageUrl;
-    };
+    const nameAndAge = useRef();
 
-    const setNameAge = (id, name, age) => {
-        document.querySelector(`#${id}`).innerText = `${name}, ${age}`;
-    }
-
-    const setProfilePhoto = (photoId) => {
-        Tinder.getPhoto(photoId)
-        .then(response => {
-            if (response.status !== 200) {
-                console.log(response.statusText);
-            }
-            return response.formData();
-        }).then((formData) => {
-            const fileField = formData.get('file');
-            const file = new File([fileField], 'filename');
-
-            const imageUrl = URL.createObjectURL(file);
-            setPhoto("profileImg", imageUrl);
-        });
-    }
+    const profilePhoto = useRef();
 
     const onPhotoError = (e) => {
         e.target.src = loadingPhoto;
@@ -46,18 +26,19 @@ export const SideBar = () => {
             console.log(jsonUserInfo.error);
             return;
         }
-
         let bodyUserInfo = jsonUserInfo.body;
-        setNameAge("profileName", bodyUserInfo.name, bodyUserInfo.age);
-        setProfilePhoto(bodyUserInfo.avatarId);
+        nameAndAge.getValue().innerText = `${bodyUserInfo.name}, ${bodyUserInfo.age}`;
+        const photo = (await (await Tinder.getPhoto(bodyUserInfo.avatarId)).formData()).get('file');
+        const imageUrl = URL.createObjectURL(photo);
+        profilePhoto.getValue().src = imageUrl;
     }
     makePage();
 
     return (
         <div className={styles.sideBar}>
             <div className={styles.profileInfo}>
-                <img id="profileImg" onError={onPhotoError} className={styles.avatar} src={loadingPhoto} alt=""/>
-                    <div id="profileName" className={styles.name}>
+                <img ref={profilePhoto} id="profileImg" onError={onPhotoError} className={styles.avatar} src={loadingPhoto} alt=""/>
+                    <div ref={nameAndAge} id="profileName" className={styles.name}>
                     </div>
             </div>
             <div className={styles.spacer}></div>
