@@ -5,6 +5,7 @@ export class Ajax {
             credentials: 'include',
             headers: headers,
             body: data,
-            mode: "cors"})
+            mode: "cors"
+        })
     }
 }

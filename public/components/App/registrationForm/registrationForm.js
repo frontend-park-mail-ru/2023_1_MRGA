@@ -73,6 +73,8 @@ export const RegistrationForm = () => {
         const ageNumber = age.getValue().valueAsNumber;
         if (ageNumber < 18 && ageNumber >= 0) {
             ageWarning.getValue().innerHTML = 'Возраст должен быть больше или равен 18';
+        } else if (ageNumber > 150) {
+            ageWarning.getValue().innerHTML = 'Люди столько не живут';
         } else if (ageNumber < 0) {
             ageWarning.getValue().innerHTML = 'Некорректный возраст';
         } else if (isNaN(ageNumber)) {

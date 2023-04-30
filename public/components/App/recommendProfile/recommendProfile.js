@@ -44,7 +44,6 @@ export const Recom = () => {
             const recs = await (await Tinder.getRecommendation()).json();
             if (recs.status === 200) {
                 recommendations = recs.body.recommendations;
-                console.log(recommendations);
                 return {recommendations: recs.body.recommendations};
             }
         } catch (e) {
@@ -136,10 +135,8 @@ export const Recom = () => {
 
     const reportUserClick = async (e) => {
         e.preventDefault();
-        console.log(recommendations[currentRecommendation].userId);
         const res = await (await Tinder.complainUser({UserId: recommendations[currentRecommendation].userId   })).json();
         // Жалоба на пользователя
-        console.log(res);
         next();
         dispatcher.hideModal();
     }

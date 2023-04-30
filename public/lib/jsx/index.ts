@@ -88,16 +88,10 @@ export const create = (virtualNode: VNode | VirtualNodeArray) => {
 }
 
 export const update = (rootElement, currNode, nextNode) => {
-    // root.innerHTML = '';
-    // vRoot = null;
-    // const newRoot = create(nextNode);
-    // if (Array.isArray(newRoot)) {
-    //     newRoot.forEach(e => rootElement.appendChild(e));
-    //     return;
-    // }
-    // rootElement.appendChild(newRoot);
    // TODO:
-       updateComponent(rootElement, null, nextNode)  // не хватает обработки случая с фрагментом
+    // не хватает обработки случая с фрагментом
+       updateComponent(rootElement, null, nextNode)
+   //  updateComponent(rootElement, currNode, nextNode)
 }
 
 

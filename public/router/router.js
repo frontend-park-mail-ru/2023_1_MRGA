@@ -56,7 +56,6 @@ const router = async () => {
         const response = await Tinder.getUser();
         const json = await response.json();
         let authorized = true;
-        console.log(json);
         if (json.status === 200) {
             setUser(json.body);
             setPrivateRoutes();
