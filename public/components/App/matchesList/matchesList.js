@@ -1,10 +1,10 @@
 import styles from './matchesList.module.css'
-import {User} from "@/store/user";
 import {Tinder} from "@/api/api";
 
 import loadingPhoto from 'assets/img/loading.png'
 import {useRef} from "@/lib/jsx/hooks/useRef";
 import {render} from "@/lib/jsx/render";
+
 export const MatchesList = () => {
 
     const info = useRef();
@@ -25,15 +25,16 @@ export const MatchesList = () => {
                 info.getValue().innerHTML = "Пока не встретилось взаимной симпатии";
             }
             const domMatches = matches.map((match, index) => {
-                let imgStyle = "margin-bottom: 8px; height: 120px; width: 120px; object-fit: cover; border-radius: 50%;";
+                let imgStyle = [styles.matchImgStyle];
                 if (match.shown === false) {
-                    imgStyle = `${imgStyle} border-style: solid; border-color: orange; border-width: 4px;`;
+                    imgStyle.push(styles.notSeen);
                 }
                 matches[index].ref = useRef();
+                console.log(match);
                 return (
-                    <div style={"margin: 10px 15px; display: flex; flex-direction: column; align-items: center;"}>
-                        <img onError={onPhotoError} ref={matches[index].ref} style={imgStyle}/>
-                        <p style="text-align: center; margin-top: 0;"></p>
+                    <div className={styles.matchContainer}>
+                        <img onError={onPhotoError} ref={matches[index].ref} className={imgStyle.join(' ')}/>
+                        <p className={styles.matchName}>{match.name}</p>
                     </div>
                 )
             })

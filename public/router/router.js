@@ -14,6 +14,7 @@ import {BannedUserPage, NotFoundPage} from "components/App/pages/notFound/notFou
 import {ProfilePage} from "components/App/pages/profile/profile";
 import {getInfoUser, getUser, setUser, userStore} from "@/store/user";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
+import {ChatPage} from "components/App/pages/chat/chat";
 
 
 let publicRoutes = [
@@ -30,6 +31,7 @@ let privateRoutes = [
     {path: '/interview', component: InterviewPage},
     {path: '/photo', component: PhotoPage},
     {path: '/signup', component: RegistrationPage},
+    {path: '/chat', component: ChatPage},
 ]
 export let routes = [
     {path: '/', component: FeedPage},

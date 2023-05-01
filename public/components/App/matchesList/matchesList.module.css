@@ -9,6 +9,33 @@ a {
     text-decoration: none;
 }
 
+.matchImgStyle {
+    margin-bottom: 8px;
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.matchImgStyle.notSeen {
+    border-style: solid;
+    border-color: orange;
+    border-width: 4px;
+}
+
+.matchName {
+    text-align: center;
+    margin-top: 0;
+}
+
+.matchContainer {
+    margin: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .container {
     background-color: #F0EFFF;
     display: flex;

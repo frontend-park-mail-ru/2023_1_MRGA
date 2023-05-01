@@ -6,6 +6,7 @@ import {Link} from "@/lib/jsx/components/link/link";
 
 import home from 'assets/svg/home.svg'
 import matches from 'assets/svg/matches.svg'
+import message from 'assets/svg/message.svg'
 import profile from 'assets/svg/profile.svg'
 import {useRef} from "@/lib/jsx/hooks/useRef";
 
@@ -37,25 +38,29 @@ export const SideBar = () => {
     return (
         <div className={styles.sideBar}>
             <div className={styles.profileInfo}>
-                <img ref={profilePhoto} id="profileImg" onError={onPhotoError} className={styles.avatar} src={loadingPhoto} alt=""/>
-                    <div ref={nameAndAge} id="profileName" className={styles.name}>
+                <img ref={profilePhoto} onError={onPhotoError} className={styles.avatar} src={loadingPhoto} alt=""/>
+                    <div ref={nameAndAge} className={styles.name}>
                     </div>
             </div>
             <div className={styles.spacer}></div>
 
             <div className={styles.buttons}>
-                <Link href={"/"} id="homeButton" className={styles.btn}>
+                <Link href={"/"} className={styles.btn}>
                     <img className={styles.icon} src={home}/>
                     Знакомства
                 </Link>
 
-                <Link href={"/matches"} id="matchesButton" className={styles.btn}>
+                <Link href={"/matches"} className={styles.btn}>
                     <img className={styles.icon} src={matches}/>
                     Совпадения
                 </Link>
-                <Link href={"/profile"} id="profileButton" className={styles.btn}>
+                <Link href={"/profile"} className={styles.btn}>
                     <img className={styles.icon} src={profile}/>
                     Профиль
+                </Link>
+                <Link href={"/chat"} className={styles.btn}>
+                    <img className={styles.icon} src={message}/>
+                    Сообщения
                 </Link>
 
             </div>

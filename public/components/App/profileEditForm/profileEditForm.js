@@ -17,9 +17,14 @@ export const ProfileEditForm = () => {
 
     const description = useRef();
 
+    const email = useRef();
+
+    const job = useRef();
+
+    const education = useRef();
+
     const onDescriptionChange = (e) => {
         e.preventDefault();
-        // console.log(description.getValue().value.length);
         userData.description = description.getValue().value;
         Tinder.putInfoUser(userData);
     }
@@ -27,8 +32,11 @@ export const ProfileEditForm = () => {
     const loadUserData = async () => {
 
         userData = (await (await Tinder.getInfoUser()).json()).body;
-        // console.log(userData);
+        console.log(userData);
         description.getValue().value = userData.description;
+        email.getValue().value = userData.email;
+        job.getValue().value = userData.job;
+        education.getValue().value = userData.education;
     }
 
     loadUserData().then();
@@ -36,19 +44,33 @@ export const ProfileEditForm = () => {
             <FormContainer>
                 <Form>
                     <InputWithLabel
-                        name={"name"}
-                        id={"name"}
                         type={"text"}
                         value={user.name}
                         labelText={"Имя"}
                         readOnly={true}
                     />
                     <InputWithLabel
-                        name={"age"}
-                        id={"age"}
                         type={"number"}
                         value={user.age}
                         labelText={"Возраст"}
+                        readOnly={true}
+                    />
+                    <InputWithLabel
+                        type={"email"}
+                        labelText={"почта"}
+                        ref={email}
+                        readOnly={true}
+                    />
+                    <InputWithLabel
+                        type={"text"}
+                        labelText={"работа"}
+                        ref={job}
+                        readOnly={true}
+                    />
+                    <InputWithLabel
+                        type={"text"}
+                        labelText={"образование"}
+                        ref={education}
                         readOnly={true}
                     />
                     <TextAreaWithLabel
