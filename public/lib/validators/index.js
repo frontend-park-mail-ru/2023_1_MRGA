@@ -7,7 +7,7 @@ export const  validateEmail = (email) => {
 export const validatePassword = (password) => {
     const minLength = 6;
     const maxLength = 20;
-    const validChars = /^[a-zA-Z0-9_.]+$/;
+    const validChars = /^[a-zA-Z0-9_.-]+$/;
 
     if (!validChars.test(password)) {
         return {

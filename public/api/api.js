@@ -43,7 +43,7 @@ export class Tinder {
         return Ajax.ajax(ApiUrl+"/meetme/chats/list", "GET");
     }
     static async getMessages(id) {
-        return Ajax.ajax(ApiUrl+`/meetme/chats/${id}/list`, "GET");
+        return Ajax.ajax(ApiUrl+`/meetme/chats/${id}/messages`, "GET");
     }
     static async getCities() {
         return Ajax.ajax(ApiUrl+"/api/cities", "GET")

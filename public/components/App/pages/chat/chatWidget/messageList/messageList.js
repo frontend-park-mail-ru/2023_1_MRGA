@@ -78,7 +78,7 @@ export const MessageList = () => {
     // }
     return (
         <div className={styles.messageWidgetContainer}>
-            <MessageArea messages={setMessages().messages.chat}/>
+            {/*<MessageArea messages={setMessages().messages.chat}/>*/}
 
             <textarea className={styles.sendInput} placeholder={"Сообщение"}/>
             <SubmitButton style={styles.sendButton}>Send</SubmitButton>

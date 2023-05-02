@@ -8,10 +8,10 @@ const ChatUser = ({userID, ...props}) => {
     const name = useRef();
 
     const setAvatarImg = async () => {
-        const userInfo = await ((await Tinder.getInfoUserById(userID)).json());
+        // const userInfo = await ((await Tinder.getInfoUserById(userID)).json());
 
-        avatar.getValue().src = URL.createObjectURL((await ((await Tinder.getPhoto(userInfo.body.photos[0])).formData())).get('file'));
-        name.getValue().innerHTML = userInfo.body.name;
+        // avatar.getValue().src = URL.createObjectURL((await ((await Tinder.getPhoto(userInfo.body.photos[0])).formData())).get('file'));
+        // name.getValue().innerHTML = userInfo.body.name;
     }
     setAvatarImg();
     return (
