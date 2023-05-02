@@ -4,6 +4,7 @@ import styles from "./styles/styles.css"
 // import scss from "./styles/scss.scss"
 // import {f} from "./ts.ts"
 import {create, createRoot, rootRender, update} from "@/lib/jsx/index.ts";
+import {useState} from "@/lib/jsx/hooks/useState/useState";
 const root = createRoot(document.getElementById('root'));
 
 const someFragmentVNode =
@@ -36,11 +37,19 @@ const withSpan = (
     </div>
 )
 
+const FunctionalWithSpan = () => {
+    const [state, setState] = useState(0);
+    return (<>
+        <div onClick={setState.bind(null, state + 1)}>{state}</div>
+        <span>span</span>
+        <div>div</div>
+    </>);
+}
 
 // root.render(someFragmentVNode);
+root.render(<FunctionalWithSpan/>);
 
-// console.log(someFragmentVNode);
 // someFragmentVNode
 // someArrayVNode
-// update(someFragmentVNode.domElement, someFragmentVNode, someArrayVNode);
+// update(someFragmentVNode., someFragmentVNode, someArrayVNode);
 import {routes} from "/router/router.js";

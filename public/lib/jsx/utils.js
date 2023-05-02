@@ -10,3 +10,7 @@ export const isClass = (func) => {
     const stringRepresentation = func.toString();
     return /^class\s/.test(stringRepresentation);
 }
+
+export const cantRender = (VNode) => {
+    return (VNode === null || VNode === undefined);
+}

@@ -1,6 +1,6 @@
 import styles from './submitButton.module.css'
 import elementStyles from '../formElement.module.css'
-import {useRef} from "@/lib/jsx/hooks/useRef";
+import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 
 
 const observer = new MutationObserver(function(mutationsList) {

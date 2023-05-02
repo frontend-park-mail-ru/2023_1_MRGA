@@ -1,4 +1,4 @@
-import {useState} from "@/lib/jsx/hooks/useState";
+import {useState} from "@/lib/jsx/hooks/useState/useState";
 
 export const TestComponent = () => {
     const [state, setState] = useState(0);

@@ -1,4 +1,4 @@
-import {IUseRefResult} from "./hooks/useRef";
+import {IUseRefResult} from "./hooks/useRef/useRefImpl";
 
 type HTMLTag = keyof HTMLElementTagNameMap;
 

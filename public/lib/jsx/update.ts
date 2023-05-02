@@ -52,15 +52,16 @@ export const updateComponent = (domElement: HTMLElement, oldElement: VNode, newE
 
     // Если типы элементов различаются, заменить старый элемент на новый
     if (oldElement?.type !== newElement?.type) {
+
+        console.log(domElement);
         const newDOMElement = create(newElement);
         if (oldElement.type === fragment || Array.isArray(oldElement)) {
+            debugger;
             const parent = domElement[0].parentNode;
             const domArray = oldElement.domElement;
             if (Array.isArray(domArray)) {
                 // removeChildren(parent, domArray)
                 domArray.forEach(el => {
-                    // debugger;
-                    console.log(domElement);
                     parent.removeChild(el);
                 })
             }
@@ -91,6 +92,7 @@ export const updateComponent = (domElement: HTMLElement, oldElement: VNode, newE
 }
 
 const updateChildren = (domElement: HTMLElement, oldChildren: VNode[], newChildren: VNode[]) => {
+    // debugger;
     for (let i = 0; i < Math.max(oldChildren.length, newChildren.length); i++) {
         if (!oldChildren[i] && newChildren[i]) {
             // Добавить новый дочерний элемент

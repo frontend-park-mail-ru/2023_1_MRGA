@@ -2,7 +2,7 @@ import {FormContainer} from "components/UI/containers/formContainer/formContaine
 import styles from './PhotoEditInput.module.css'
 // import photoInputStyles from '/components/App/'
 import {MyPhotoInput, PhotoInput} from "components/UI/forms/photoInput/photoInput";
-import {useRef} from "@/lib/jsx/hooks/useRef";
+import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 
 import logo from 'assets/LogoMini.svg'
 import {Tinder} from "@/api/api";

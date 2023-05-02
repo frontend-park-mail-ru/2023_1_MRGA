@@ -8,7 +8,7 @@ import home from 'assets/svg/home.svg'
 import matches from 'assets/svg/matches.svg'
 import message from 'assets/svg/message.svg'
 import profile from 'assets/svg/profile.svg'
-import {useRef} from "@/lib/jsx/hooks/useRef";
+import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 
 export const SideBar = () => {
     const loadingPhoto = loading;

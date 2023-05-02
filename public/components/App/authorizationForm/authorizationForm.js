@@ -1,4 +1,4 @@
-import {useRef} from "@/lib/jsx/hooks/useRef";
+import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {Tinder} from "@/api/api";
 import {Form} from "components/UI/forms/form/form";
 import logoMini from "assets/LogoMini.svg";
@@ -11,7 +11,7 @@ import {FormContainer} from "components/UI/containers/formContainer/formContaine
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {cityStore} from "@/store/interviewInfo";
 import {routes} from "@/router/router";
-import {useState} from "@/lib/jsx/hooks/useState";
+import {useState} from "@/lib/jsx/hooks/useState/useState";
 
 export const AuthorizationForm = () => {
     const login = useRef();

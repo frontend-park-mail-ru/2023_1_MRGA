@@ -2,7 +2,7 @@ import styles from './matchesList.module.css'
 import {Tinder} from "@/api/api";
 
 import loadingPhoto from 'assets/img/loading.png'
-import {useRef} from "@/lib/jsx/hooks/useRef";
+import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {render} from "@/lib/jsx/render";
 
 export const MatchesList = () => {

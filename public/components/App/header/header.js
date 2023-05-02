@@ -4,7 +4,7 @@ import styles from './header.module.css'
 import {Link} from "@/lib/jsx/components/link/link";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
-import {useState} from "@/lib/jsx/hooks/useState";
+import {useState} from "@/lib/jsx/hooks/useState/useState";
 import {TestComponent} from "@/lib/jsx/components/testComponent/testComponent";
 import {setUser, userStore} from "@/store/user";
 
@@ -26,6 +26,8 @@ export const Header = () => {
     </HeaderContainer>)
 }
 export const HeaderAuth = () => {
+
+
     const onLogoutClick = async (e) => {
         e.preventDefault();
         try {

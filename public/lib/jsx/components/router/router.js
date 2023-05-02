@@ -1,7 +1,7 @@
 import {FunctionalComponent} from "../../types";
 import {rootRender} from "../../index";
 import {AuthorizationPage} from "components/App/pages/authorization/authorization";
-import {useState} from "@/lib/jsx/hooks/useState";
+import {useState} from "@/lib/jsx/hooks/useState/useState";
 import {RegistrationPage} from "components/App/pages/registration/registration";
 // interface IRouterProps {
 //     path: string;

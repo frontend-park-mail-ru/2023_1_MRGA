@@ -2,7 +2,7 @@ import styles from "components/UI/forms/formElement.module.css";
 
 import inputStyles from './photoInput.module.css'
 import logo from "assets/LogoMini.svg";
-import {useRef} from "@/lib/jsx/hooks/useRef";
+import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 
 export const PhotoInput = ({name, ref, className, ...props}) => {
     return (

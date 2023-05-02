@@ -11,7 +11,7 @@ import dislike from 'assets/svg/dislike.svg';
 import prevPhotoArrow from 'assets/svg/prevPhotoArrow.svg';
 import nextPhotoArrow from 'assets/svg/nextPhotoArrow.svg';
 import locationPoint from 'assets/svg/locationPoint.svg';
-import {useRef} from "@/lib/jsx/hooks/useRef";
+import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {render} from "@/lib/jsx/render";
 import {modalDispatcher, ModalWindow} from "components/UI/modal/modal";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";

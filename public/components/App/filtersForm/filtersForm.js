@@ -6,7 +6,7 @@ import {Select} from "components/UI/forms/select/select";
 import {Warning} from "components/UI/forms/warning/warning";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {FormContainer} from "components/UI/containers/formContainer/formContainer";
-import {useRef} from "@/lib/jsx/hooks/useRef";
+import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {validateName} from "@/lib/validators";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";

@@ -1,7 +1,8 @@
 import './pragma.ts'
 import {fragment, VirtualNodeArray, VNode} from './types'
-import {IUseRefResult} from "./hooks/useRef";
+import {IUseRefResult} from "./hooks/useRef/useRefImpl";
 import {updateComponent} from "./update";
+import {cantRender} from "./utils";
 
 
 let currentVNode = null;
@@ -61,15 +62,18 @@ export const removeChildren = (domNode, children) => {
 
 
 export const create = (virtualNode: VNode | VirtualNodeArray) => {
+    if (cantRender(virtualNode)) {
+        return ;
+    }
     if (Array.isArray(virtualNode)) {
         const domElement = virtualNode.map(el => create(el));
         virtualNode.domElement = domElement;
         return domElement;
     }
     if (virtualNode.type === fragment) {
-        const result = virtualNode.children.map(el => create(el));
-        virtualNode.domElement = result;
-        return result;
+        const domElement = virtualNode.children.map(el => create(el));
+        virtualNode.domElement = domElement;
+        return domElement;
     }
     if (typeof (virtualNode.type) === 'function') {
         setCurrentVNode(virtualNode);
@@ -78,9 +82,9 @@ export const create = (virtualNode: VNode | VirtualNodeArray) => {
         let node = virtualNode;
         const vNode = virtualNode.type.call(null, virtualNode.props, virtualNode.children);
         node.oldElement = vNode;
-        let result = create(vNode);
-        node.domElement = result;
-        return result;
+        let domElement = create(vNode);
+        node.domElement = domElement;
+        return domElement;
     }
 
     const {domNode} = createHTMLNode(virtualNode);
@@ -91,7 +95,7 @@ export const update = (rootElement, currNode, nextNode) => {
    // TODO:
     // не хватает обработки случая с фрагментом
        updateComponent(rootElement, null, nextNode)
-   //  updateComponent(rootElement, currNode, nextNode)
+    // updateComponent(rootElement, currNode, nextNode)
 }
 
 
@@ -110,5 +114,5 @@ export const createRoot = (container) => {
     root = container;
     root.innerHTML = '';
 
-    return {render: rootRender};
+    return {render: rootRender, container};
 }

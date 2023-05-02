@@ -6,11 +6,13 @@ import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {TextAreaWithLabel} from "components/UI/forms/textareaWithLabel/textareaWithLabel";
 
 import styles from './profileEditForm.module.css'
-import {useRef} from "@/lib/jsx/hooks/useRef";
+import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {PhotoForm} from "components/App/photoForm/photoForm";
 import {PhotoEditInputs} from "components/App/profileEditForm/PhotoEditInputs/PhotoEditInputs";
 import {Label} from "components/UI/forms/label/label";
 import {Tinder} from "@/api/api";
+import {TestComponent} from "@/lib/jsx/components/testComponent/testComponent";
+import {useState} from "@/lib/jsx/hooks/useState/useState";
 
 export const ProfileEditForm = () => {
     const user = getUser();
@@ -38,6 +40,7 @@ export const ProfileEditForm = () => {
         job.getValue().value = userData.job;
         education.getValue().value = userData.education;
     }
+    const [state, setState] = useState(0);
 
     loadUserData().then();
     return (

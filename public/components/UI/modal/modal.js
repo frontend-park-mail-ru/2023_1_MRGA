@@ -1,5 +1,5 @@
 import styles from './modal.module.css'
-import {useRef} from "@/lib/jsx/hooks/useRef";
+import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 export const modalDispatcher = () => {
     let subscribers = [];
