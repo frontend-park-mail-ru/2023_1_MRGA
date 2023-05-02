@@ -1,0 +1,23 @@
+.messageSpace{
+    height: 90%;
+    width: 40%;
+    background-color: white;
+    position: relative;
+    left: 5%;
+}
+
+.messageTime {
+    padding: 5px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.ownMessage{
+    position: relative;
+    left: 60%;
+}
+
+.foreignMessage{
+
+}
