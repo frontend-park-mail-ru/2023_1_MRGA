@@ -25,8 +25,11 @@ export const ChatList = () => {
     ]
     return (
         <div className={styles.chatListContainer}>
-            <OneChat chat={chatList[0]}/>
-            <OneChat chat={chatList[1]}/>
+            {chatList.map((chat) => {
+                return (
+                    <OneChat chat={chat}/>
+                )
+            })}
         </div>
     )
 
