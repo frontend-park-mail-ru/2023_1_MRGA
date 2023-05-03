@@ -4,7 +4,7 @@ import {Tinder} from "@/api/api";
 import {getUser} from "@/store/user";
 
 
-const ChatUser = ({userID, ...props}) => {
+export const ChatUser = ({userID, className, ...props}) => {
     const avatar = useRef();
     const name = useRef();
 
@@ -16,7 +16,7 @@ const ChatUser = ({userID, ...props}) => {
     }
     setAvatarImg();
     return (
-        <div className={styles.oneChatUser}>
+        <div className={[styles.oneChatUser, className].join(' ')}>
             <img className={styles.oneChatAvatar} ref={avatar} {...props}/>
             <div ref={name}></div>
         </div>
