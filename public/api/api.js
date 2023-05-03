@@ -33,6 +33,9 @@ export class Tinder {
         filtersData.sexSearch = sexSearchToNumber(filtersData.sexSearch)
         return Ajax.ajax(ApiUrl+"/meetme/filters", "POST", {}, JSON.stringify(filtersData))
     }
+    static async putFilters(filtersData) {
+        return Ajax.ajax(ApiUrl+"/meetme/filters", "PUT", {}, JSON.stringify(filtersData))
+    }
     static async getFilters() {
         return Ajax.ajax(ApiUrl+"/meetme/filters", "GET", {})
     }

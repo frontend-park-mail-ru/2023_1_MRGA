@@ -11,6 +11,14 @@ import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {rootRender} from "@/lib/jsx";
 import {FiltersPage} from "components/App/pages/registration/filters/filters";
 
+export const fromOptionsToTexts = (select) => {
+    let options = select.querySelectorAll("option:checked");
+    let result = [];
+    options.forEach(item => {
+        result.push(item.text);
+    });
+    return result;
+}
 
 export const HashTagsForm = () => {
     const hashTags = useRef();
@@ -56,15 +64,6 @@ export const HashTagsForm = () => {
         } catch (e) {
             alert(e);
         }
-    }
-
-    const fromOptionsToTexts = (select) => {
-        let options = select.querySelectorAll("option:checked");
-        let result = [];
-        options.forEach(item => {
-            result.push(item.text);
-        });
-        return result;
     }
 
     const setOptions = (id, arrOptions) => {
