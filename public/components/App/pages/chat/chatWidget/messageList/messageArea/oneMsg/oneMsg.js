@@ -1,16 +1,16 @@
 import styles from "components/App/pages/chat/chatWidget/messageList/messageArea/oneMsg/oneMsg.module.css";
 
 import rsStyle from '../../../chatList/oneChat/oneChat.module.css'
+import {getUser} from "@/store/user";
 
 const MsgContent = ({content}) => {
     const componentStyle = [styles.messageArea];
 }
 
 const MsgSpace = ({msg},) => {
-    console.log(msg)
     const componentStyle = [styles.bubbleMessage, styles.theme]
     const data = new Date(msg.sentAt);
-    if (msg.senderId === 1) {
+    if (msg.senderId === getUser().userId) {
         componentStyle.push(styles.ownMessage);
     } else {
         componentStyle.push(styles.foreignMessage);

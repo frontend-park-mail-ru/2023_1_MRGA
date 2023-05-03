@@ -26,19 +26,25 @@ export const ProfileEditForm = () => {
 
     const education = useRef();
 
+    const city = useRef();
+
+
     const onDescriptionChange = (e) => {
         e.preventDefault();
         userData.description = description.getValue().value;
+        userData.ciry = city.getValue().value;
         Tinder.putInfoUser(userData);
     }
     let userData;
     const loadUserData = async () => {
 
         userData = (await (await Tinder.getInfoUser()).json()).body;
+        console.log(userData);
         description.getValue().value = userData.description;
         email.getValue().value = userData.email;
         job.getValue().value = userData.job;
         education.getValue().value = userData.education;
+        city.getValue().value = userData.city;
     }
     const [state, setState] = useState(0);
 
@@ -62,6 +68,12 @@ export const ProfileEditForm = () => {
                         type={"email"}
                         labelText={"почта"}
                         ref={email}
+                        readOnly={true}
+                    />
+                    <InputWithLabel
+                        type={"text"}
+                        labelText={"город"}
+                        ref={city}
                         readOnly={true}
                     />
                     <InputWithLabel

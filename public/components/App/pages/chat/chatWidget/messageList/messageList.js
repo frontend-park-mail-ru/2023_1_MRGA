@@ -7,6 +7,7 @@ import {MessageArea} from "components/App/pages/chat/chatWidget/messageList/mess
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import chatIcon from "assets/svg/chat-icon.svg";
 import {render} from "@/lib/jsx/render";
+import {ChatUser} from "components/App/pages/chat/chatWidget/chatList/oneChat/oneChat";
 
 
 export const MessageList = ({messageDispatcher}) => {
@@ -25,11 +26,12 @@ export const MessageList = ({messageDispatcher}) => {
         messageDispatcher.dispatch(chat);
     }
     messageDispatcher.subscribe( async (chat) => {
-
+        console.log(chat)
         const messagesList = await ((await Tinder.getMessages(chat.chatId)).json());
         info.getValue().innerHTML = '';
         render(info.getValue(),
             <>
+                <ChatUser className={styles.companionStyle} userID={chat.chatUserIds[0]}/>
                 <MessageArea ref={messagesAreaRef} messages={messagesList.body.chat}/>
                 <textarea ref={newMessageRef} className={styles.sendInput} placeholder={"Сообщение"}/>
                 <SubmitButton onClick={onSendMessageClick.bind(null, chat)} style={styles.sendButton}>отправить</SubmitButton>

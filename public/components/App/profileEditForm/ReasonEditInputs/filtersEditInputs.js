@@ -6,6 +6,9 @@ import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {render} from "@/lib/jsx/render";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {InputWithLabel} from "components/UI/forms/inputWithLabel/inputWithLabel";
+import {fromOptionsToTexts} from "components/App/hashTagsForm/hashTagsForm";
+import {rootRender} from "@/lib/jsx";
+import {ProfilePage} from "components/App/pages/profile/profile";
 
 export const FiltersEditInputs = () => {
     let myFilters;
@@ -68,7 +71,6 @@ export const FiltersEditInputs = () => {
             allHashTags = (await ((await Tinder.getHashTags()).json())).body.hashtags;
             myFilters = (await ((await Tinder.getFilters()).json())).body.filters;
             myHashTags = (await ((await Tinder.getMyHashtags()).json())).body.hashtag;
-
             setSelected(allReasons, myFilters.reason, selectedReasons);
             setSelected(allHashTags, myHashTags, selectedHashTags);
             setSelectedGenderSearch();
@@ -91,12 +93,33 @@ export const FiltersEditInputs = () => {
             alert(e)
         }
     }
-    const onFiltersChangeSubmit = (e) => {
+    const onFiltersChangeSubmit = async (e) => {
         e.preventDefault();
+        const ss = {
+            "М": 0,
+               "Ж": 1,
+            "Все": 2
+        }
+        let obj = {
+            "minAge": minAge.getValue().valueAsNumber,
+            "maxAge": maxAge.getValue().valueAsNumber,
+            "searchSex": ss[genderSelectRef.getValue().value],
+            "reason": fromOptionsToTexts(reasonSelectRef.getValue()),
+        }
+        const respFilterUser = await (await Tinder.putFilters(obj)).json();
+
+        console.log(respFilterUser);
+        rootRender(<ProfilePage/>)
     }
 
-    const onHashTagsChangeSubmit = (e) => {
+    const onHashTagsChangeSubmit = async (e) => {
         e.preventDefault();
+
+        let obj = {
+            "hashtag": fromOptionsToTexts(hashTagsSelectRef.getValue()),
+        }
+        const respHashTags = await Tinder.addHashTags(obj);
+        rootRender(<ProfilePage/>)
     }
     getReasons();
     return (

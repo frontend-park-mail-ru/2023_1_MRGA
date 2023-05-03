@@ -32,6 +32,14 @@
     min-width: 400px;
     position: relative;
     justify-content: center;
+    position: relative;
+}
+
+.companionStyle {
+    display: flex;
+    vertical-align: top;
+    text-align: center;
+    border-bottom: 1px solid black;
 }
 
 .messagesPlaceholderContainer {
