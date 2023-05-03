@@ -8,6 +8,7 @@ import {create} from "@/lib/jsx";
 import {InputWithLabel} from "components/UI/forms/inputWithLabel/inputWithLabel";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {getUser} from "@/store/user";
+import { Navigate } from '../../../lib/jsx/components/navigate/navigate';
 
 
 const MatchNewChat = ({match}) => {
@@ -27,7 +28,8 @@ const MatchNewChat = ({match}) => {
         const response = await (await Tinder.createChat({userIds: [match.userId]})).json();
         const newChatID = response.body.chatId;
         const rspnse = await (await Tinder.sendMessage(newChatID, {content: firstMessageRef.getValue().value})).json();
-
+        // await Tinder.deleteMatch(match.userId);
+        Navigate({to: "/chat"});
     }
 
     setAvatar();

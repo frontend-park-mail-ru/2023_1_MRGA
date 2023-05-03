@@ -106,6 +106,9 @@ export class Tinder {
     static async getPhoto(photoID) {
         return Ajax.ajax(ApiUrl+`/meetme/photo/${photoID}`, "GET");
     }
+    static async deleteMatch(userID) {
+        return Ajax.ajax(ApiUrl+`/meetme/match/${userID}`, "DELETE");
+    }
 }
 
 
