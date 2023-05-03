@@ -7,12 +7,12 @@ import {MessageArea} from "components/App/pages/chat/chatWidget/messageList/mess
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 
 
-export const MessageList = () => {
-    const info = useRef()
-    let messages = []
+export const MessageList = ({chatId, messageDispatcher}) => {
+    const info = useRef();
+    let messages = [];
     const getMessages = async () => {
         try {
-            const messagesList = await ((await Tinder.getMessages(2)).json());
+            const messagesList = await ((await Tinder.getMessages(chatId)).json());
             messages = messagesList.chat;
             return {messages: messagesList.chat}
         } catch (e) {
@@ -26,112 +26,13 @@ export const MessageList = () => {
             info.getValue().innerHTML = "На данный момент для вас нет сообщений";
             return ;
         }
-        //setCurrentRecommendation();
     }
 
-        messages = [
-                {
-                    msgId: 1,
-                    msg: {
-                        senderId: 1,
-                        content: "hi",
-                        sentAt: "05:41 01.25.2023",
-                        readStatus: false,
-                    }
-                },
-                {
-                    msgId: 2,
-                    msg: {
-                        senderId: 2,
-                        content: "hi",
-                        sentAt: "05:42 01.25.2023",
-                        readStatus: false,
-                    }
-                },
-                {
-                    msgId: 3,
-                    msg: {
-                        senderId: 1,
-                        content: "hikkkkk",
-                        sentAt: "05:43 01.25.2023",
-                        readStatus: false,
-                    }
-                },
-            {
-                msgId: 2,
-                msg: {
-                    senderId: 2,
-                    content: "hi",
-                    sentAt: "05:42 01.25.2023",
-                    readStatus: false,
-                }
-            },
-            {
-                msgId: 3,
-                msg: {
-                    senderId: 1,
-                    content: "hi",
-                    sentAt: "05:43 01.25.2023",
-                    readStatus: false,
-                }
-            },
-            {
-                msgId: 2,
-                msg: {
-                    senderId: 2,
-                    content: "hikmkmkmkmkmkmkmk mkmkmkmkmkmkmkmkmkmkm",
-                    sentAt: "05:42 01.25.2023",
-                    readStatus: false,
-                }
-            },
-            {
-                msgId: 3,
-                msg: {
-                    senderId: 1,
-                    content: "hi",
-                    sentAt: "05:43 01.25.2023",
-                    readStatus: false,
-                }
-            }
+        messages = []
 
-            ]
-
-    //getMessages();
-    // const messages = {
-    //     chat: [
-    //         {
-    //             msgId: 1,
-    //             msg: {
-    //                 senderId: 1,
-    //                 content: "hi",
-    //                 sentAt: "05:41 01.25.2023",
-    //                 readStatus: false,
-    //             }
-    //         },
-    //         {
-    //             msgId: 2,
-    //             msg: {
-    //                 senderId: 2,
-    //                 content: "hi",
-    //                 sentAt: "05:42 01.25.2023",
-    //                 readStatus: false,
-    //             }
-    //         },
-    //         {
-    //             msgId: 3,
-    //             msg: {
-    //                 senderId: 1,
-    //                 content: "hi",
-    //                 sentAt: "05:43 01.25.2023",
-    //                 readStatus: false,
-    //             }
-    //         }
-    //
-    //     ]
-    // }
     return (
         <div className={styles.messageWidgetContainer}>
-            <MessageArea messages={messages}/>
+            <MessageArea/>
 
             <textarea className={styles.sendInput} placeholder={"Сообщение"}/>
             <SubmitButton style={styles.sendButton}>Send</SubmitButton>

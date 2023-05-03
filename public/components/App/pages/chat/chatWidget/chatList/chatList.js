@@ -1,7 +1,7 @@
 import styles from './chatList.module.css'
 import {OneChat} from "components/App/pages/chat/chatWidget/chatList/oneChat/oneChat";
 
-export const ChatList = () => {
+export const ChatList = ({messageDispatcher}) => {
 
     const chatList = [
         {
