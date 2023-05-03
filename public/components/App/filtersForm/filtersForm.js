@@ -7,11 +7,10 @@ import {Warning} from "components/UI/forms/warning/warning";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {FormContainer} from "components/UI/containers/formContainer/formContainer";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
-import {validateName} from "@/lib/validators";
 import {Tinder} from "@/api/api";
-import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {rootRender} from "@/lib/jsx";
 import {PhotoPage} from "components/App/pages/registration/photo/photo";
+import styles from './filters.module.css'
 
 export const FiltersForm = () => {
     const sexSearch = useRef();
@@ -27,7 +26,7 @@ export const FiltersForm = () => {
 
     const onSexSearchInputChange = (event) => {
         if (sexSearch.getValue().value === 'не выбрано') {
-            sexSearchWarning.getValue().innerHTML = 'Вы не интересующий пол';
+            sexSearchWarning.getValue().innerHTML = 'Вы не выбрали интересующий пол';
             return false;
         } else {
             sexSearchWarning.getValue().innerHTML = '';
@@ -196,7 +195,7 @@ export const FiltersForm = () => {
                     ref={maxAgeWarning}
                     title={"максимальный возраст должен быть выбран"}
                 />
-                <span>
+                <span className={styles.reasonsSelectContainer}>
                    <Label labelText={"Выберите причины"} htmlFor={"reasons"}/>
                    <Select
                        id={"reasons"}
