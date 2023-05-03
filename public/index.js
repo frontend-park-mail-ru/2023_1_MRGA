@@ -47,7 +47,7 @@ const FunctionalWithSpan = () => {
 }
 
 // root.render(someFragmentVNode);
-root.render(<FunctionalWithSpan/>);
+// root.render(<FunctionalWithSpan/>);
 
 // someFragmentVNode
 // someArrayVNode

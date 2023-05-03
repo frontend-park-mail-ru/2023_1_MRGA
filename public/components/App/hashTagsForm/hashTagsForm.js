@@ -93,7 +93,7 @@ export const HashTagsForm = () => {
             <Form>
                 <img src={logoMini} width="46" alt={"logo"}/>
                 <span>
-                   <Label labelText={"Hash tags"} htmlFor={"hashTags"}/>
+                   <Label labelText={"Выберите интересы"} htmlFor={"hashTags"}/>
                    <Select
                        id={"hashTags"}
                        required={true}
@@ -103,6 +103,7 @@ export const HashTagsForm = () => {
                        multiple
                    >
                    </Select>
+                    <Label labelText={"Зажмите CTRL/CMD, чтобы выбрать несколько"} htmlFor={"hashTags"}/>
                 </span>
                 <Warning
                     ref={hashTagsWarning}

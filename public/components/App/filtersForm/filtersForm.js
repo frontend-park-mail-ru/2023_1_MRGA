@@ -151,7 +151,7 @@ export const FiltersForm = () => {
             <Form>
                 <img src={logoMini} width="46" alt={"logo"}/>
                 <span>
-                   <Label labelText={"Search sex"} htmlFor={"sexSearch"}/>
+                   <Label labelText={"Кого вы ищете, выберите пол"} htmlFor={"sexSearch"}/>
                    <Select
                        id={"sexSearch"}
                        required={true}
@@ -170,8 +170,8 @@ export const FiltersForm = () => {
                     name={"minAge"}
                     id={"minAge"}
                     type={"number"}
-                    placeholder={"minAge"}
-                    labelText={"Min аge"}
+                    placeholder={"18"}
+                    labelText={"минимальный возраст"}
                     required={true}
                     min={"18"}
                     onChange={onMinAgeInputChange}
@@ -185,8 +185,8 @@ export const FiltersForm = () => {
                     name={"maxAge"}
                     id={"maxAge"}
                     type={"number"}
-                    placeholder={"maxAge"}
-                    labelText={"Max аge"}
+                    placeholder={"150"}
+                    labelText={"максимальный возраст"}
                     required={true}
                     min={"18"}
                     onChange={onMaxAgeInputChange}
@@ -197,7 +197,7 @@ export const FiltersForm = () => {
                     title={"максимальный возраст должен быть выбран"}
                 />
                 <span>
-                   <Label labelText={"Reasons"} htmlFor={"reasons"}/>
+                   <Label labelText={"Выберите причины"} htmlFor={"reasons"}/>
                    <Select
                        id={"reasons"}
                        required={true}
@@ -207,6 +207,7 @@ export const FiltersForm = () => {
                        multiple
                    >
                    </Select>
+                    <Label labelText={"Зажмите CTRL/CMD, чтобы выбрать несколько"} htmlFor={"hashTags"}/>
                 </span>
                 <Warning
                     ref={reasonsWarning}

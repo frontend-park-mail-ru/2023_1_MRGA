@@ -25,7 +25,13 @@ export const AuthorizationForm = () => {
             const json = await resp.json()
 
             if (json.status !== 200) {
-                error.getValue().innerHTML = json.error;
+                if (json.error.toString().includes("record not found")) {
+                    error.getValue().innerHTML = 'не существует пользователя с такой почтой';
+                } else if (json.error.toString().includes('hashedPassword is not the hash of the given password')) {
+                    error.getValue().innerHTML = 'неправильный логин или пароль';
+                } else {
+                    error.getValue().innerHTML = json.error;
+                }
                 return
             }
             const currentPath = window.location.pathname;

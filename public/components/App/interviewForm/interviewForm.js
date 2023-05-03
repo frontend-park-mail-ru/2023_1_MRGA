@@ -85,7 +85,10 @@ export const InterviewForm = () => {
     const onNameInputChange = () => {
         const nameText = name.getValue().value;
         const isValid = validateName(nameText);
-        if (!isValid) {
+        if (!isValid && nameText.split(' ').length > 1) {
+            nameWarning.getValue().innerHTML = 'Введите только имя, без пробелов';
+            return false;
+        } else if (!isValid) {
             nameWarning.getValue().innerHTML = 'Некорректное имя';
             return false;
         } else {
