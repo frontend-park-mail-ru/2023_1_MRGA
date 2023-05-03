@@ -19,7 +19,6 @@ const registrationSteps = {
 
 export const RegistrationPage = () => {
     const state = userStore.getState();
-    console.log(state);
     if (!state || !state.user) {
         return (
             <>

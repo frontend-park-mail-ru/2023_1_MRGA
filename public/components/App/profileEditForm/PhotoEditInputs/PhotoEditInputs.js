@@ -105,7 +105,7 @@ export const PhotoEditInputs = () => {
             rootRender(<ProfilePage/>);
             console.log(deletePhotoResult);
         } catch (e) {
-            console.log(e);
+            alert(e);
         }
     }
     const onDeleteClick = async (id, e) => {

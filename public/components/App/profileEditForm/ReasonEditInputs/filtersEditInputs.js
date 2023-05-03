@@ -103,12 +103,11 @@ export const FiltersEditInputs = () => {
         let obj = {
             "minAge": minAge.getValue().valueAsNumber,
             "maxAge": maxAge.getValue().valueAsNumber,
-            "searchSex": ss[genderSelectRef.getValue().value],
+            "sexSearch": ss[genderSelectRef.getValue().value],
             "reason": fromOptionsToTexts(reasonSelectRef.getValue()),
         }
         const respFilterUser = await (await Tinder.putFilters(obj)).json();
 
-        console.log(respFilterUser);
         rootRender(<ProfilePage/>)
     }
 

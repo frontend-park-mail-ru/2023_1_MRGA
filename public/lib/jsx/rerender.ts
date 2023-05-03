@@ -6,7 +6,7 @@ let counter = 0;
 let debug = process.env.NODE_ENV === 'development';
 export const rerender = (oldVNode) => {
     if (debug) {
-        console.log(counter);
+
     }
     const {domElement, oldElement} = oldVNode;
     setCurrentVNode(oldVNode);
