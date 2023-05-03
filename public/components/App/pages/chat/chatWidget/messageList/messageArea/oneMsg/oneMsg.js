@@ -6,16 +6,17 @@ const MsgContent = ({content}) => {
 
 const MsgSpace = ({msg},) => {
     console.log(msg)
-    const componentStyle = [styles.messageSpace]
+    const componentStyle = [styles.bubbleMessage, styles.theme]
     const data = new Date(msg.sentAt);
     if (msg.senderId === 1) {
         componentStyle.push(styles.ownMessage);
     } else {
         componentStyle.push(styles.foreignMessage);
     }
+    const dataTime = data.getHours()+":"+data.getMinutes()
     return (
         <div className={componentStyle.join(' ')}>
-            <div>{msg.content}</div>
+            <div className={styles.messageText}>{msg.content}</div>
             <div className={styles.messageTime}>{data.getHours()}:{data.getMinutes()}</div>
         </div>
     )

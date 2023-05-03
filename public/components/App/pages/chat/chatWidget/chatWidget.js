@@ -36,7 +36,7 @@ export const ChatWidget = () => {
     return (
         <div className={styles.chatWidgetContainer}>
             <ChatList/>
-            <MessageList/>
+            <MessageList chatId={2}/>
         </div>
     )
 }
