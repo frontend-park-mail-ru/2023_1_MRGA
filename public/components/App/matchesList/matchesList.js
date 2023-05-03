@@ -28,7 +28,7 @@ const MatchNewChat = ({match}) => {
         const response = await (await Tinder.createChat({userIds: [match.userId]})).json();
         const newChatID = response.body.chatId;
         const rspnse = await (await Tinder.sendMessage(newChatID, {content: firstMessageRef.getValue().value})).json();
-        // await Tinder.deleteMatch(match.userId);
+        await Tinder.deleteMatch(match.userId);
         Navigate({to: "/chat"});
     }
 
