@@ -33,6 +33,12 @@ export class Tinder {
         filtersData.sexSearch = sexSearchToNumber(filtersData.sexSearch)
         return Ajax.ajax(ApiUrl+"/meetme/filters", "POST", {}, JSON.stringify(filtersData))
     }
+    static async getFilters() {
+        return Ajax.ajax(ApiUrl+"/meetme/filters", "GET", {})
+    }
+    static async getMyHashtags() {
+        return Ajax.ajax(ApiUrl+"/meetme/hashtags-user", "GET", {})
+    }
     static async getInfoUser() {
         return Ajax.ajax(ApiUrl+"/meetme/info-user", "GET");
     }

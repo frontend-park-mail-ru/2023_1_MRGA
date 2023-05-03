@@ -4,12 +4,13 @@
     width: 100%;
     justify-content: flex-start;
     align-items: flex-start;
-    height: 90%;
-    gap: 10px
+    height: 60%;
+    gap: 5px;
+    overflow: auto;
 }
 
 
 .messageSpace{
-    height: 20%;
+    /*height: 20%;*/
     width: 90%;
 }

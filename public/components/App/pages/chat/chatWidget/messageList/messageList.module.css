@@ -9,12 +9,15 @@
 }
 
 .sendButton{
-    height: 10%;
+    height: 3%;
+
+    margin-top: 3%;
 }
 
 .sendInput{
-    height: 30%;
+    height: 10%;
     text-align: left;
     width: 90%;
+    margin-top: 3%;
     vertical-align: top;
 }

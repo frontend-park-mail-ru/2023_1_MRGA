@@ -13,6 +13,7 @@ import {Label} from "components/UI/forms/label/label";
 import {Tinder} from "@/api/api";
 import {TestComponent} from "@/lib/jsx/components/testComponent/testComponent";
 import {useState} from "@/lib/jsx/hooks/useState/useState";
+import {FiltersEditInputs} from "components/App/profileEditForm/ReasonEditInputs/filtersEditInputs";
 
 export const ProfileEditForm = () => {
     const user = getUser();
@@ -34,7 +35,6 @@ export const ProfileEditForm = () => {
     const loadUserData = async () => {
 
         userData = (await (await Tinder.getInfoUser()).json()).body;
-        console.log(userData);
         description.getValue().value = userData.description;
         email.getValue().value = userData.email;
         job.getValue().value = userData.job;
@@ -85,6 +85,7 @@ export const ProfileEditForm = () => {
                     />
                     <SubmitButton onClick={onDescriptionChange}>изменить описание</SubmitButton>
                     <PhotoEditInputs/>
+                    <FiltersEditInputs/>
                 </Form>
             </FormContainer>
     )
