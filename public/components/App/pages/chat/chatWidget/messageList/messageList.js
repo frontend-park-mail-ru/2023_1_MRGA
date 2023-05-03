@@ -13,7 +13,7 @@ export const MessageList = ({messageDispatcher}) => {
     const info = useRef();
 
     const newMessageRef = useRef();
-
+    const messagesAreaRef = useRef();
     const onSendMessageClick = async (chat, e) => {
         e.preventDefault();
 
@@ -22,20 +22,20 @@ export const MessageList = ({messageDispatcher}) => {
         }
 
         const resp = await (await (Tinder.sendMessage(chat.chatId, {content: newMessageRef.getValue().value}))).json();
-        console.log(resp);
+        messageDispatcher.dispatch(chat);
     }
     messageDispatcher.subscribe( async (chat) => {
 
         const messagesList = await ((await Tinder.getMessages(chat.chatId)).json());
-        console.log(messagesList);
         info.getValue().innerHTML = '';
         render(info.getValue(),
             <>
-                <MessageArea messages={messagesList.body.chat}/>
+                <MessageArea ref={messagesAreaRef} messages={messagesList.body.chat}/>
                 <textarea ref={newMessageRef} className={styles.sendInput} placeholder={"Сообщение"}/>
                 <SubmitButton onClick={onSendMessageClick.bind(null, chat)} style={styles.sendButton}>отправить</SubmitButton>
             </>
         )
+        messagesAreaRef.getValue().scrollTo(0, messagesAreaRef.getValue().scrollHeight);
     })
 
     return (<Container ref={info}/>)

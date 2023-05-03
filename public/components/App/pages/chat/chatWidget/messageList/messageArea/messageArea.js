@@ -16,9 +16,9 @@ const OneMsgSpace = ({msg},) => {
     )
 }
 
-export const MessageArea = ({messages},) => {
+export const MessageArea = ({messages, ref},) => {
     return (
-        <div className={styles.messageAreaContainer}>
+        <div  ref={ref} className={styles.messageAreaContainer}>
             {messages.map((msg) => {
                 return(
                     <OneMsgSpace msg={msg}/>
