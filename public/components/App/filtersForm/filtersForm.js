@@ -196,7 +196,7 @@ export const FiltersForm = () => {
                     title={"максимальный возраст должен быть выбран"}
                 />
                 <span className={styles.reasonsSelectContainer}>
-                   <Label labelText={"Выберите причины"} htmlFor={"reasons"}/>
+                   <Label labelText={"Выберите причины"}/>
                    <Select
                        id={"reasons"}
                        required={true}

@@ -32,6 +32,7 @@ const createHTMLNode = (virtualNode) => {
             } else if (attr.startsWith('on')) {
                 domNode.addEventListener(attr.slice(2).toLowerCase(), value);
             } else if (attr === 'ref') {
+                // debugger;
                 (value as IUseRefResult<any>)?.setValue(domNode);
             } else {
                 domNode[attr] = value;

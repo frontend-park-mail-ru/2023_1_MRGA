@@ -51,6 +51,9 @@
 }
 
 .foreignMessage{
-
     border-bottom-left-radius: 0;
+}
+
+.fsz30 {
+    font-size: 30px;
 }

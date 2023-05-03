@@ -5,15 +5,17 @@ import styles from './matches.css'
 import {PageContainer} from "components/UI/containers/pageContainer/pageContainer";
 
 import chatIcon from 'assets/svg/chat-icon.svg';
+import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 
 export const MatchesPage = () => {
+    const chatArea = useRef();
     return (
         <>
                 <HeaderAuth/>
                 <PageContainer>
                     <SideBar/>
-                    <MatchesList/>
-                    <div style="
+                    <MatchesList refToChatArea={chatArea}/>
+                    <div ref={chatArea} style="
                         background-color: white;
                         border-radius: 20px;
                         display: flex;

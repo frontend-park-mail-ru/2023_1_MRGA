@@ -5,38 +5,52 @@ import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {OneMsg} from "components/App/pages/chat/chatWidget/messageList/messageArea/oneMsg/oneMsg";
 import {MessageArea} from "components/App/pages/chat/chatWidget/messageList/messageArea/messageArea";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
+import chatIcon from "assets/svg/chat-icon.svg";
+import {render} from "@/lib/jsx/render";
 
 
-export const MessageList = ({chatId, messageDispatcher}) => {
+export const MessageList = ({messageDispatcher}) => {
     const info = useRef();
-    let messages = [];
-    const getMessages = async () => {
-        try {
-            const messagesList = await ((await Tinder.getMessages(chatId)).json());
-            messages = messagesList.chat;
-            return {messages: messagesList.chat}
-        } catch (e) {
-            return {messages: [], error: e}
-        }
-    }
 
-    const test = async () => {
-        await getMessages();
-        if (!messages || messages.length === 0) {
-            info.getValue().innerHTML = "На данный момент для вас нет сообщений";
+    const newMessageRef = useRef();
+
+    const onSendMessageClick = async (chat, e) => {
+        e.preventDefault();
+
+        if (newMessageRef.getValue().value.replaceAll(' ', '') === '') {
             return ;
         }
+
+        const resp = await (await (Tinder.sendMessage(chat.chatId, {content: newMessageRef.getValue().value}))).json();
+        console.log(resp);
     }
+    messageDispatcher.subscribe( async (chat) => {
 
-        messages = []
+        const messagesList = await ((await Tinder.getMessages(chat.chatId)).json());
+        console.log(messagesList);
+        info.getValue().innerHTML = '';
+        render(info.getValue(),
+            <>
+                <MessageArea messages={messagesList.body.chat}/>
+                <textarea ref={newMessageRef} className={styles.sendInput} placeholder={"Сообщение"}/>
+                <SubmitButton onClick={onSendMessageClick.bind(null, chat)} style={styles.sendButton}>отправить</SubmitButton>
+            </>
+        )
+    })
 
+    return (<Container ref={info}/>)
+
+}
+
+const Container = ({ref}) => {
     return (
-        <div className={styles.messageWidgetContainer}>
-            <MessageArea/>
-
-            <textarea className={styles.sendInput} placeholder={"Сообщение"}/>
-            <SubmitButton style={styles.sendButton}>Send</SubmitButton>
-
+        <div ref={ref} className={styles.messageListContainer}>
+            <div className={styles.messagesPlaceholderContainer}>
+                <img src={chatIcon} width="52" height="52" alt=""/>
+                <div className={styles.placeholder}>
+                    Выберите человека, чтобы начать чат
+                </div>
+            </div>
         </div>
     )
 }

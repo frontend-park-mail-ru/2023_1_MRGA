@@ -11,9 +11,10 @@ const messageDispatcher = () => {
     const subscribe = (listener) => {
         listeners.push(listener);
     }
-    const dispatch = (messageID) => {
+    const dispatch = (chatID) => {
+        console.log(chatID)
         listeners.forEach((listener) => {
-            listener(messageID);
+            listener(chatID);
         })
     }
 

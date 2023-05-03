@@ -5,6 +5,41 @@ body {
     margin: 0;
 }
 
+
+.matchNewChatContainer {
+    display: flex;
+    justify-content: flex-start;
+    background-color: white;
+    border-radius: 20px;
+    width: 60%;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+}
+
+.firstMessageInput {
+    position: absolute;
+    bottom: 0;
+}
+
+.matchNewChatUser {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    font-size: 30px;
+    max-height: 120px;
+    min-height: 60px;
+    align-items: center;
+    gap: 10px;
+}
+
+.matchNewChatUserAvatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 a {
     text-decoration: none;
 }

@@ -20,6 +20,7 @@
     height: 50px;
     border: #3F2FFF 1px solid;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .messageArea {
@@ -36,4 +37,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.readStatus {
+    font-size: 20px;
 }

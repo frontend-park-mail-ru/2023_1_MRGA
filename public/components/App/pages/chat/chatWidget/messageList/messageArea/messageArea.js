@@ -7,7 +7,6 @@ import {OneMsg} from "components/App/pages/chat/chatWidget/messageList/messageAr
 
 
 const OneMsgSpace = ({msg},) => {
-    console.log(msg)
     const componentStyle = [styles.messageSpace]
 
     return (
@@ -22,7 +21,6 @@ export const MessageArea = ({messages},) => {
         <div className={styles.messageAreaContainer}>
             {messages.map((msg) => {
                 return(
-                     //<div>msq</div>
                     <OneMsgSpace msg={msg}/>
                 )
             })}

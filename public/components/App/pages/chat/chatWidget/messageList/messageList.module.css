@@ -21,3 +21,29 @@
     margin-top: 3%;
     vertical-align: top;
 }
+
+.messageListContainer {
+    height: 100vh;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    min-width: 400px;
+    position: relative;
+    justify-content: center;
+}
+
+.messagesPlaceholderContainer {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+}
+
+.placeholder {
+    color: #867BFF;
+    font-weight: 600;
+    margin-left: 12px;
+    margin-right: 12px;
+}

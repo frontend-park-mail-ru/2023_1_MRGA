@@ -64,9 +64,9 @@ module.exports = function onConnect(wsClient) {
                             JSON.stringify({
                                 flag: "SEND",
                                 body: {
-                                    chatId: chatId,
+                                    chatId,
                                     senderId: wsClient.userId,
-                                    msg: msg,
+                                    msg,
                                     sendAt: getNowTime(),
                                 },
                             })
@@ -87,7 +87,7 @@ module.exports = function onConnect(wsClient) {
     
     wsClient.on('close', () => {
         let clientsByUser = userIdClients.get(wsClient.userId);
-        userIdClients.set(userId, clientsByUser.filter(client => client.id != wsClient.id));
+        userIdClients.set(userId, clientsByUser.filter(client => client.id !== wsClient.id));
         console.log('Соединение с клиентом %d закрыто', wsClient.id);
     });
 };

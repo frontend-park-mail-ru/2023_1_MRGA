@@ -8,5 +8,4 @@ export const render = (domElement: HTMLElement, virtualNode: VNode) => {
     }
     const newRoot = create(virtualNode);
     appendChildren(domElement, newRoot);
-
 }
