@@ -39,11 +39,17 @@ export class Tinder {
     static async getInfoUserById(id) {
         return Ajax.ajax(ApiUrl+`/meetme/info-user/${id}`, "GET");
     }
+    static async createChat(userIds) {
+        return Ajax.ajax(ApiUrl+"/meetme/chats/create", "POST", {}, JSON.stringify(userIds));
+    }
+    static async sendMessage(chatId, msgData) {
+        return Ajax.ajax(ApiUrl+`/meetme/chats/${chatId}/send`, "POST", {}, JSON.stringify(msgData));
+    }
     static async getChats() {
         return Ajax.ajax(ApiUrl+"/meetme/chats/list", "GET");
     }
-    static async getMessages(id) {
-        return Ajax.ajax(ApiUrl+`/meetme/chats/${id}/messages`, "GET");
+    static async getMessages(chatId) {
+        return Ajax.ajax(ApiUrl+`/meetme/chats/${chatId}/messages`, "GET");
     }
     static async getCities() {
         return Ajax.ajax(ApiUrl+"/api/cities", "GET")
