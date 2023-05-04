@@ -2,7 +2,7 @@ import styles from './oneChat.module.css'
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {Tinder} from "@/api/api";
 import {getUser} from "@/store/user";
-
+import { convertToDate } from '../../../../../../../lib/jsx/utils';
 
 export const ChatUser = ({userID, className, ...props}) => {
     const avatar = useRef();
@@ -35,7 +35,7 @@ const MessageArea = ({msg}) => {
 }
 
 export const OneChat = ({onClick, chat},) => {
-    const data = new Date(chat.msg.sentAt);
+    const data = chat.msg.sentAt;
     const arr = chat.chatUserIds.filter((val) => {
         return val !== getUser().userId;
     })
@@ -45,7 +45,7 @@ export const OneChat = ({onClick, chat},) => {
             <ChatUser userID={arr[0]}/>
             <MessageArea msg={chat.msg}/>
             <div className={styles.messageTime}>
-                {data.getHours().toString().padStart(2, '0')}:{data.getMinutes().toString().padStart(2, '0')}
+                {convertToDate(data)}
                 <b className={styles.readStatus}>{readStatus}</b>
             </div>
         </div>
