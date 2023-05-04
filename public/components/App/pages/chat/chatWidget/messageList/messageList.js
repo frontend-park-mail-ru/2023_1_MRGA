@@ -10,7 +10,7 @@ import {render} from "@/lib/jsx/render";
 import {ChatUser} from "components/App/pages/chat/chatWidget/chatList/oneChat/oneChat";
 
 
-export const MessageList = ({messageDispatcher}) => {
+export const MessageList = ({ws, messageDispatcher}) => {
     const info = useRef();
 
     const newMessageRef = useRef();
@@ -22,13 +22,23 @@ export const MessageList = ({messageDispatcher}) => {
             return ;
         }
 
-        const resp = await (await (Tinder.sendMessage(chat.chatId, {content: newMessageRef.getValue().value}))).json();
+        const msg = newMessageRef.getValue().value;
+
+        const resp = await (await (Tinder.sendMessage(chat.chatId, {content: msg}))).json();
+        ws.send(JSON.stringify({
+            flag: "SEND",
+            body: {
+                sentAt: resp.sentAt,
+                chatId: chat.chatId,
+                userIds: chat.userIds,
+                msg: msg,
+            }
+        }));
         messageDispatcher.dispatch(chat);
     }
     messageDispatcher.subscribe( async (chat) => {
-        console.log(chat)
         const messagesList = await ((await Tinder.getMessages(chat.chatId)).json());
-        info.getValue().innerHTML = '';
+        info.getValue().innerHTML = ''; // TODO: надо заменить на добавление к старому новых сообщений (чтобы не делать запрос на сервер каждый раз)
         render(info.getValue(),
             <>
                 <ChatUser className={styles.companionStyle} userID={chat.chatUserIds[0]}/>
