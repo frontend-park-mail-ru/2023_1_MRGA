@@ -52,10 +52,10 @@ export const FiltersForm = () => {
     }
 
     const onMaxAgeInputChange = () => {
-        const ageNumber = minAge.getValue().valueAsNumber;
+        const ageNumber = maxAge.getValue().valueAsNumber;
         if (ageNumber < 18 && ageNumber >= 0) {
             maxAgeWarning.getValue().innerHTML = 'Возраст должен быть больше или равен 18';
-        } else if (ageNumber < 0) {
+        } else if (ageNumber < 0 || ageNumber>150) {
             maxAgeWarning.getValue().innerHTML = 'Некорректный возраст';
         } else if (ageNumber < minAge.getValue().valueAsNumber) {
             minAgeWarning.getValue().innerHTML = 'Максимально допустимый возраст не может быть меньше минимального';
