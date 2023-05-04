@@ -11,6 +11,7 @@ import {Tinder} from "@/api/api";
 import {rootRender} from "@/lib/jsx";
 import {PhotoPage} from "components/App/pages/registration/photo/photo";
 import styles from './filters.module.css'
+import {validateMaxAge, validateMinAge, validateReasons} from "@/lib/validators";
 
 export const FiltersForm = () => {
     const sexSearch = useRef();
@@ -36,51 +37,38 @@ export const FiltersForm = () => {
 
     const onMinAgeInputChange = () => {
         const ageNumber = minAge.getValue().valueAsNumber;
-        if (ageNumber < 18 && ageNumber >= 0) {
-            minAgeWarning.getValue().innerHTML = 'Возраст должен быть больше или равен 18';
-        } else if (ageNumber < 0) {
-            minAgeWarning.getValue().innerHTML = 'Некорректный возраст';
-        } else if (ageNumber > maxAge.getValue().valueAsNumber) {
-            minAgeWarning.getValue().innerHTML = 'Минимальный допустимый возраст не может быть больше максимального';
-        } else if (isNaN(ageNumber)) {
-            minAgeWarning.getValue().innerHTML = 'Введите возраст';
-        } else {
-            minAgeWarning.getValue().innerHTML = '';
-            return true;
+        const res = validateMinAge(ageNumber);
+        if (!res.ok){
+            minAgeWarning.getValue().innerHTML = res.warning
+            return false;
         }
-        return false;
+        if (ageNumber > maxAge.getValue().valueAsNumber) {
+            minAgeWarning.getValue().innerHTML = 'Минимальный допустимый возраст не может быть больше максимального';
+            return false;
+        }
+        minAgeWarning.getValue().innerHTML = '';
+        return true;
     }
 
     const onMaxAgeInputChange = () => {
         const ageNumber = maxAge.getValue().valueAsNumber;
-        if (ageNumber < 18 && ageNumber >= 0) {
-            maxAgeWarning.getValue().innerHTML = 'Возраст должен быть больше или равен 18';
-        } else if (ageNumber < 0 || ageNumber>150) {
-            maxAgeWarning.getValue().innerHTML = 'Некорректный возраст';
-        } else if (ageNumber < minAge.getValue().valueAsNumber) {
-            minAgeWarning.getValue().innerHTML = 'Максимально допустимый возраст не может быть меньше минимального';
-        } else if (isNaN(ageNumber)) {
-            maxAgeWarning.getValue().innerHTML = 'Введите возраст';
+        const res = validateMaxAge(ageNumber);
+        if (!res.ok){
+            maxAgeWarning.getValue().innerHTML = res.warning
+        }
+        if (ageNumber < minAge.getValue().valueAsNumber) {
+            maxAgeWarning.getValue().innerHTML = 'Максимально допустимый возраст не может быть меньше минимального';
         } else {
             maxAgeWarning.getValue().innerHTML = '';
-            return true;
         }
-        return false;
+        return res.ok;
     }
 
     const onReasonInputChange = () => {
         const reasonsValues = reasons.getValue().querySelectorAll('option:checked');
-
-        if (reasonsValues.length === 0) {
-            reasonsWarning.getValue().innerHTML = 'Вы не выбрали причины для знакомств';
-            return false;
-        } else if (reasonsValues.length > 3) {
-            reasonsWarning.getValue().innerHTML = 'Выберите не более 3 причин';
-            return false;
-        } else {
-            reasonsWarning.getValue().innerHTML = '';
-            return true;
-        }
+        const res = validateReasons(reasonsValues);
+        reasonsWarning.getValue().innerHTML = res.warning
+        return res.ok
     }
 
     const allChecks = () => {

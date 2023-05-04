@@ -10,6 +10,7 @@ import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {rootRender} from "@/lib/jsx";
 import {FiltersPage} from "components/App/pages/registration/filters/filters";
+import {validateHashtags} from "@/lib/validators";
 
 export const fromOptionsToTexts = (select) => {
     let options = select.querySelectorAll("option:checked");
@@ -28,17 +29,9 @@ export const HashTagsForm = () => {
 
     const onHashTagsInputChange = () => {
         const hashTagsValues = hashTags.getValue().querySelectorAll('option:checked');
-
-        if (hashTagsValues.length === 0) {
-            hashTagsWarning.getValue().innerHTML = 'Вы не выбрали хэш-теги';
-            return false;
-        } else if (hashTagsValues.length > 5) {
-            hashTagsWarning.getValue().innerHTML = 'Выберите не более 5 тегов';
-            return false;
-        } else {
-            hashTagsWarning.getValue().innerHTML = '';
-            return true;
-        }
+        const res = validateHashtags(hashTagsValues);
+        hashTagsWarning.getValue().innerHTML = res.warning
+        return res.ok
     }
 
     const allChecks = () => {

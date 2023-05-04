@@ -35,3 +35,59 @@ export const validateName = (name) => {
     const usernameRegex = /^[a-zA-Zа-яА-я]{3,16}$/;
     return usernameRegex.test(name);
 }
+
+export const validateHashtags = (hashtags) => {
+    let warning = ""
+    let ok = false
+    if (hashtags.length === 0) {
+        warning = 'Вы не выбрали хэш-теги';
+    } else if (hashtags.length > 5) {
+        warning = 'Выберите не более 5 тегов';
+    } else {
+        ok = true;
+    }
+    return {warning: warning, ok: ok};
+}
+
+export const validateMinAge = (age) => {
+    let warning = ""
+    let ok = false
+    if (age < 18 && age >= 0) {
+        warning = 'Возраст должен быть больше или равен 18';
+    } else if (age < 0) {
+        warning = 'Некорректный возраст';
+    } else if (isNaN(age)) {
+        warning = 'Введите возраст';
+    } else {
+        ok = true;
+    }
+    return {warning: warning, ok: ok};
+}
+
+export const validateMaxAge = (age) => {
+    let warning = ""
+    let ok = false
+    if (age < 18 && age >= 0) {
+        warning = 'Возраст должен быть больше или равен 18';
+    } else if (ageNumber < 0 || ageNumber>150) {
+        warning = 'Некорректный возраст';
+    } else if (isNaN(ageNumber)) {
+        warning = 'Введите возраст';
+    } else {
+        ok = true;
+    }
+    return {warning: warning, ok: ok};
+}
+
+export const validateReasons = (reasons) => {
+    let warning = ""
+    let ok = false
+    if (reasons.length === 0) {
+        warning = 'Вы не выбрали причины для знакомств';
+    } else if (reasons > 3) {
+        warning = 'Выберите не более 3 причин';
+    } else {
+        ok = true;
+    }
+    return {warning: warning, ok: ok};
+}

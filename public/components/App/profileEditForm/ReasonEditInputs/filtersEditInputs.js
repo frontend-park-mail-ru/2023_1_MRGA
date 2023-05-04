@@ -10,6 +10,7 @@ import {fromOptionsToTexts} from "components/App/hashTagsForm/hashTagsForm";
 import {rootRender} from "@/lib/jsx";
 import {ProfilePage} from "components/App/pages/profile/profile";
 import {Warning} from "components/UI/forms/warning/warning";
+import {validateHashtags, validateMaxAge, validateMinAge, validateReasons} from "@/lib/validators";
 
 export const FiltersEditInputs = () => {
     let myFilters;
@@ -32,6 +33,7 @@ export const FiltersEditInputs = () => {
     const minAgeWarning = useRef();
     const maxAgeWarning = useRef();
     const reasonsWarning = useRef();
+    const hashTagsWarning = useRef();
 
     const setSelectedGenderSearch = () => {
         switch (myFilters.sexSearch) {
@@ -94,68 +96,48 @@ export const FiltersEditInputs = () => {
         }
     }
     const onMinAgeInputChange = () => {
-
         const ageNumber = minAge.getValue().valueAsNumber;
-
-        if (ageNumber < 18 && ageNumber >= 0) {
-            minAgeWarning.getValue().innerHTML = 'Возраст должен быть больше или равен 18';
-        } else if (ageNumber < 0) {
-            minAgeWarning.getValue().innerHTML = 'Некорректный возраст';
-        } else if (ageNumber > maxAge.getValue().valueAsNumber) {
-            minAgeWarning.getValue().innerHTML = 'Минимальный допустимый возраст не может быть больше максимального';
-        } else if (isNaN(ageNumber)) {
-            minAgeWarning.getValue().innerHTML = 'Введите возраст';
-        } else {
-            minAgeWarning.getValue().innerHTML = '';
-            return true;
+        const res = validateMinAge(ageNumber);
+        if (!res.ok){
+            minAgeWarning.getValue().innerHTML = res.warning
+            return false;
         }
-        return false;
+        if (ageNumber > maxAge.getValue().valueAsNumber) {
+            minAgeWarning.getValue().innerHTML = 'Минимальный допустимый возраст не может быть больше максимального';
+            return false;
+        }
+        minAgeWarning.getValue().innerHTML = '';
+        return true;
     }
 
     const onMaxAgeInputChange = () => {
         const ageNumber = maxAge.getValue().valueAsNumber;
-        if (ageNumber < 18 && ageNumber >= 0) {
-            maxAgeWarning.getValue().innerHTML = 'Возраст должен быть больше или равен 18';
-        } else if (ageNumber < 0 || ageNumber>150) {
-            maxAgeWarning.getValue().innerHTML = 'Некорректный возраст';
-        } else if (ageNumber < minAge.getValue().valueAsNumber) {
+        const res = validateMaxAge(ageNumber);
+        if (!res.ok){
+            maxAgeWarning.getValue().innerHTML = res.warning
+        }
+        if (ageNumber < minAge.getValue().valueAsNumber) {
             maxAgeWarning.getValue().innerHTML = 'Максимально допустимый возраст не может быть меньше минимального';
-        } else if (isNaN(ageNumber)) {
-            maxAgeWarning.getValue().innerHTML = 'Введите возраст';
         } else {
             maxAgeWarning.getValue().innerHTML = '';
-            return true;
         }
-        return false;
+        return res.ok;
     }
 
     const onReasonInputChange = () => {
         const reasonsValues = reasonSelectRef.getValue().querySelectorAll('option:checked');
-
-        if (reasonsValues.length === 0) {
-            reasonsWarning.getValue().innerHTML = 'Вы не выбрали причины для знакомств';
-            return false;
-        } else if (reasonsValues.length > 3) {
-            reasonsWarning.getValue().innerHTML = 'Выберите не более 3 причин';
-            return false;
-        } else {
-            reasonsWarning.getValue().innerHTML = '';
-            return true;
-        }
+        const res = validateReasons(reasonsValues);
+        reasonsWarning.getValue().innerHTML = res.warning
+        return res.ok
     }
+
     const onHashTagsInputChange = () => {
         const hashTagsValues = hashTagsSelectRef.getValue().querySelectorAll('option:checked');
 
-        if (hashTagsValues.length === 0) {
-            hashTagsWarning.getValue().innerHTML = 'Вы не выбрали хэш-теги';
-            return false;
-        } else if (hashTagsValues.length > 5) {
-            hashTagsWarning.getValue().innerHTML = 'Выберите не более 5 тегов';
-            return false;
-        } else {
-            hashTagsWarning.getValue().innerHTML = '';
-            return true;
-        }
+        const res = validateHashtags(hashTagsValues);
+        console.log(res)
+        hashTagsWarning.getValue().innerHTML = res.warning
+        return res.ok
     }
 
     const allFilterChecks = () => {
@@ -235,6 +217,10 @@ export const FiltersEditInputs = () => {
             <SubmitButton onClick={onFiltersChangeSubmit} >сохранить фильтры</SubmitButton>
             <Label labelText={"Выберите интересы"}/>
             <Select onChange={onHashTagsInputChange} ref={hashTagsSelectRef} multiple/>
+            <Warning
+                ref={hashTagsWarning}
+                title={"выберите интересы"}
+            />
             <SubmitButton onClick={onHashTagsChangeSubmit}>сохранить интересы</SubmitButton>
         </div>
     )
