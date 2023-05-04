@@ -12,7 +12,6 @@ const messageDispatcher = () => {
         listeners.push(listener);
     }
     const dispatch = (chatID) => {
-        console.log(chatID)
         listeners.forEach((listener) => {
             listener(chatID);
         })
@@ -21,14 +20,14 @@ const messageDispatcher = () => {
     return {subscribe, dispatch};
 }
 
-export const ChatWidget = () => {
+export const ChatWidget = ({ws, ...props}) => {
     const msgDispatcher = messageDispatcher();
         //const chats = await ((await Tinder.getChats()).json());
 
     return (
         <div className={styles.chatWidgetContainer}>
             <ChatList messageDispatcher={msgDispatcher} />
-            <MessageList messageDispatcher={msgDispatcher} chatId={2}/>
+            <MessageList ws={ws} messageDispatcher={msgDispatcher}/>
         </div>
     )
 }

@@ -2,10 +2,11 @@ let userIdClients = new Map();
 let id = 1;
 
 module.exports = function onConnect(wsClient) {
-    wsClient.send(JSON.stringify({
-        flag: "CONN+ASK",
-        status: 200,
-    }));
+    console.log('Запрос на подключение от нового клиента');
+    // wsClient.send(JSON.stringify({
+    //     flag: "CONN+ASK",
+    //     status: 200,
+    // }));
     
     wsClient.on('message', function(message) {
 
@@ -24,8 +25,7 @@ module.exports = function onConnect(wsClient) {
 
             if (clientsByUser === undefined || clientsByUser.length === 0) {
                 userIdClients.set(userId, [wsClient]);
-            }
-            if (clientsByUser.length > 0) {
+            } else if (clientsByUser.length > 0) {
                 clientsByUser.push(wsClient);
                 userIdClients.set(userId, clientsByUser);
             } else {
@@ -37,10 +37,7 @@ module.exports = function onConnect(wsClient) {
                 return;
             }
 
-            wsClient.send(JSON.stringify({
-                flag: "REG+ASK",
-                status: 200,
-            }));
+            console.log(userId, userIdClients.get(userId));
 
             break;
         case "SEND":
@@ -49,46 +46,34 @@ module.exports = function onConnect(wsClient) {
             const msg = jsonMSG.body.msg;
             const userIds = jsonMSG.body.userIds;
             const chatId = jsonMSG.body.chatId;
+            const sentAt = jsonMSG.body.sentAt;
 
+            let sentAll = true;
             userIds.forEach(userId => {
                 const clientsByUser = userIdClients.get(userId);
-                if (clientsByUser === undefined || clientsByUser.length === 0) {
-                    return;
+
+                const success = sendToClients(wsClient, clientsByUser, chatId, msg, sentAt);
+                if (!success && sentAll) {
+                    sentAll = false;
                 }
-                if (clientsByUser.length > 0) {
-                    clientsByUser.forEach(receiverWsClient => {
-                        if (receiverWsClient === undefined) {
-                            return;
-                        }
-                        receiverWsClient.send(
-                            JSON.stringify({
-                                flag: "SEND",
-                                body: {
-                                    chatId,
-                                    senderId: wsClient.userId,
-                                    msg,
-                                    sendAt: getNowTime(),
-                                },
-                            })
-                        );
-                    });
-                } else {
-                    wsClient.send(JSON.stringify({
-                        flag: "SEND+ASK",
-                        status: 500,
-                        err: `Не удалось отправить сообщение '${msg}' пользователю ${userId}`,
-                    }));
-                    return;
-                }
+
             });
+            if (sentAll) {
+                sendToClients(wsClient, userIdClients.get(wsClient.userId), chatId, msg, sentAt);
+            }
             break;
         }
     });
-    
+
     wsClient.on('close', () => {
-        let clientsByUser = userIdClients.get(wsClient.userId);
-        userIdClients.set(userId, clientsByUser.filter(client => client.id !== wsClient.id));
-        console.log('Соединение с клиентом %d закрыто', wsClient.id);
+        const userId = wsClient.userId;
+        const id = wsClient.id;
+        let clientsByUser = userIdClients.get(userId);
+        
+        if (clientsByUser !== undefined && clientsByUser.length > 0) {
+            userIdClients.set(userId, clientsByUser.filter(client => client.id !== id));
+        }
+        console.log('Соединение с клиентом %d закрыто', userId);
     });
 };
 
@@ -102,4 +87,33 @@ function getNowTime() {
     let formattedDate = `${hours}:${minutes} ${day}.${month}.${year}`;
     
     return formattedDate;
+}
+
+function sendToClients(wsClient, clients, chatId, msg, sendAt) {
+    if (clients !== undefined && clients.length > 0) {
+        clients.forEach(receiverWsClient => {
+            if (receiverWsClient === undefined) {
+                return true;
+            }
+            receiverWsClient.send(
+                JSON.stringify({
+                    flag: "SEND",
+                    body: {
+                        chatId,
+                        senderId: wsClient.userId,
+                        msg,
+                        sendAt,
+                    },
+                })
+            );
+        });
+    } else {
+        wsClient.send(JSON.stringify({
+            flag: "SEND+ASK",
+            status: 500,
+            err: `Не удалось отправить сообщение '${msg}' от пользователя ${wsClient.userId}`,
+        }));
+        return false;
+    }
+    return true;
 }
