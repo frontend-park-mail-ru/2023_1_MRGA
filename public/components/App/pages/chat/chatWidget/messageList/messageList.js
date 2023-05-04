@@ -2,12 +2,13 @@ import {Tinder} from "@/api/api";
 import styles from "components/App/pages/chat/chatWidget/messageList/messageList.module.css";
 import {InputWithLabel} from "components/UI/forms/inputWithLabel/inputWithLabel";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
-import {OneMsg} from "components/App/pages/chat/chatWidget/messageList/messageArea/oneMsg/oneMsg";
-import {MessageArea} from "components/App/pages/chat/chatWidget/messageList/messageArea/messageArea";
+import {MsgSpace, OneMsg} from "components/App/pages/chat/chatWidget/messageList/messageArea/oneMsg/oneMsg";
+import {MessageArea, OneMsgSpace} from "components/App/pages/chat/chatWidget/messageList/messageArea/messageArea";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import chatIcon from "assets/svg/chat-icon.svg";
 import {render} from "@/lib/jsx/render";
 import {ChatUser} from "components/App/pages/chat/chatWidget/chatList/oneChat/oneChat";
+import {getUser} from "@/store/user";
 
 
 export const MessageList = ({ws, messageDispatcher}) => {
@@ -21,20 +22,27 @@ export const MessageList = ({ws, messageDispatcher}) => {
         if (newMessageRef.getValue().value.replaceAll(' ', '') === '') {
             return ;
         }
-
         const msg = newMessageRef.getValue().value;
-
         const resp = await (await (Tinder.sendMessage(chat.chatId, {content: msg}))).json();
-        ws.send(JSON.stringify({
-            flag: "SEND",
-            body: {
-                sentAt: resp.sentAt,
-                chatId: chat.chatId,
-                userIds: chat.userIds,
-                msg: msg,
-            }
-        }));
-        messageDispatcher.dispatch(chat);
+        console.log(resp);
+        const msgObject = {
+            content: msg,
+            readStatus: false,
+            senderId: getUser().userId,
+            sentAt: resp.body.sentAt
+        };
+        // ws.send(JSON.stringify({
+        //     flag: "SEND",
+        //     body: {
+        //         sentAt: resp.sentAt,
+        //         chatId: chat.chatId,
+        //         userIds: chat.userIds,
+        //         msg: msg,
+        //     }
+        // }));
+
+        render(messagesAreaRef.getValue(), <OneMsgSpace msg={msgObject} />);
+        messagesAreaRef.getValue().scrollTo(0, messagesAreaRef.getValue().scrollHeight);
     }
     messageDispatcher.subscribe( async (chat) => {
         const messagesList = await ((await Tinder.getMessages(chat.chatId)).json());

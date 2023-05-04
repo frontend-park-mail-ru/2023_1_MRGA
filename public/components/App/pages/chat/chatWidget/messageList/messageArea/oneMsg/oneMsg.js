@@ -3,12 +3,11 @@ import styles from "components/App/pages/chat/chatWidget/messageList/messageArea
 import rsStyle from '../../../chatList/oneChat/oneChat.module.css'
 import {getUser} from "@/store/user";
 
-const MsgContent = ({content}) => {
-    const componentStyle = [styles.messageArea];
-}
 
-const MsgSpace = ({msg},) => {
+
+export const OneMsg = ({msg},) => {
     const componentStyle = [styles.bubbleMessage, styles.theme]
+
     const data = new Date(msg.sentAt);
     if (msg.senderId === getUser().userId) {
         componentStyle.push(styles.ownMessage);
@@ -16,7 +15,7 @@ const MsgSpace = ({msg},) => {
         componentStyle.push(styles.foreignMessage);
     }
     const readStatus = !msg.readStatus ? ' •': '';
-    const dataTime = data.getHours()+":"+data.getMinutes()
+
     return (
         <div className={componentStyle.join(' ')}>
             <div className={styles.messageText}>{msg.content}</div>
@@ -25,11 +24,5 @@ const MsgSpace = ({msg},) => {
                 <span className={[rsStyle.readStatus, styles.fsz30].join(' ')}>{readStatus}</span>
             </div>
         </div>
-    )
-}
-
-export const OneMsg = ({msg},) => {
-    return (
-        <MsgSpace  msg={msg.msg}/>
     )
 }

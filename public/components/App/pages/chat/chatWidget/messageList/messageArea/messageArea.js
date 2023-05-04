@@ -6,9 +6,8 @@ import {OneChat} from "components/App/pages/chat/chatWidget/chatList/oneChat/one
 import {OneMsg} from "components/App/pages/chat/chatWidget/messageList/messageArea/oneMsg/oneMsg";
 
 
-const OneMsgSpace = ({msg},) => {
+export const OneMsgSpace = ({msg},) => {
     const componentStyle = [styles.messageSpace]
-
     return (
         <div className={componentStyle.join(' ')}>
             <OneMsg msg={msg}/>
@@ -21,7 +20,7 @@ export const MessageArea = ({messages, ref},) => {
         <div  ref={ref} className={styles.messageAreaContainer}>
             {messages.map((msg) => {
                 return(
-                    <OneMsgSpace msg={msg}/>
+                    <OneMsgSpace msg={msg.msg}/>
                 )
             })}
         </div>

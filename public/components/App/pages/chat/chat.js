@@ -10,10 +10,10 @@ const host = "localhost";
 
 export const ChatPage = () => {
 
+    let ws = new WebSocket(`ws://${host}:9090`, "json");
+
     const initWS = async () => {
         const userId = getUser().userId;
-
-        let ws = new WebSocket(`ws://${host}:9090`, "json");
 
         ws.addEventListener("open", (event) => {
             ws.send(JSON.stringify({
