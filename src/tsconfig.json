@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "typeRoots": [
+      "public/lib/jsx/global.d.ts" // Укажите путь к вашему файлу global.d.ts
+    ],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "jsx": "react"
+  },
+  "exclude": ["node_modules"]
+}

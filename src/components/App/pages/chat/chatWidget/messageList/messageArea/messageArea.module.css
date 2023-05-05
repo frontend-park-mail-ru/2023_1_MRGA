@@ -1,0 +1,15 @@
+.messageAreaContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 60%;
+    gap: 5px;
+    overflow: auto;
+}
+
+
+.messageSpace{
+    width: 90%;
+}

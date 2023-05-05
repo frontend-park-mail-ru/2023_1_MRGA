@@ -1,0 +1,9 @@
+.submitButton {
+    margin-top: 10%;
+    background: #6864FE;
+    border: none;
+    font-family: 'Montserrat';
+    color: white;
+    /*font-size: 36px;*/
+    cursor: pointer;
+}

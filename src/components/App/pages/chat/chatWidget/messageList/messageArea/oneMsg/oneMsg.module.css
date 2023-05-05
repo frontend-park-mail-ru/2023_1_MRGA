@@ -1,0 +1,53 @@
+.bubbleMessage{
+    box-sizing: border-box;
+    text-align: justify;
+    padding: 10px;
+    color: black;
+    display: flex;
+    background-color: white;
+    min-height: 40px;
+    min-width: 20px;
+    max-width: 50%;
+    border-radius: 20px;
+
+    margin: 8px 26px 8px 0;
+    font-size: 14px;
+    line-height: 1.5em;
+    position: relative;
+    transition: width .3s ease-in-out;
+}
+
+.messageTime {
+    padding: 5px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.ownMessage{
+    border-bottom-right-radius: 0;
+    left: 50%;
+    position: relative;
+
+}
+
+.theme{
+    background-image: linear-gradient(to bottom, #d4a241, #ef4b42, #8b599e);
+    background-attachment: fixed;
+}
+
+.messageText{
+    position: relative;
+    font-size: 16px;
+    padding: 5px;
+    margin: 5px;
+    overflow-wrap: anywhere;
+}
+
+.foreignMessage{
+    border-bottom-left-radius: 0;
+}
+
+.fsz30 {
+    font-size: 30px;
+}

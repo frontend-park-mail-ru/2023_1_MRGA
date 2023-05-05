@@ -1,0 +1,7 @@
+.chatListContainer {
+    display: flex;
+    width: 30%;
+    margin: 20px;
+    flex-wrap: wrap;
+    gap: 10px
+}

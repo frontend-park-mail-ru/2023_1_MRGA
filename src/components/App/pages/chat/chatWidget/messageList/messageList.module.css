@@ -1,0 +1,55 @@
+.messageWidgetContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: white;
+    height: 100%;
+}
+
+.sendButton{
+    height: 3%;
+    margin-top: 3%;
+}
+
+.sendInput{
+    height: 10%;
+    text-align: left;
+    width: 90%;
+    margin-top: 3%;
+    vertical-align: top;
+}
+
+.messageListContainer {
+    height: 100vh;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    min-width: 400px;
+    position: relative;
+    justify-content: center;
+}
+
+.companionStyle {
+    display: flex;
+    vertical-align: top;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.messagesPlaceholderContainer {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+}
+
+.placeholder {
+    color: #867BFF;
+    font-weight: 600;
+    margin-left: 12px;
+    margin-right: 12px;
+}

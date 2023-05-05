@@ -1,0 +1,6 @@
+<svg width="48" height="48" viewBox="0 0 24 24" fill="#867BFF" xmlns="http://www.w3.org/2000/svg">
+    <path filter="invert(48%) sepia(79%) saturate(2348%) hue-rotate(219deg) brightness(103%) contrast(101%)"
+          d="M18 6L6 18" stroke="#33363F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path filter="invert(48%) sepia(79%) saturate(2348%) hue-rotate(219deg) brightness(103%) contrast(101%)"
+          d="M6 6L18 18" stroke="#33363F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

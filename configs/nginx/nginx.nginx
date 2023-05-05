@@ -1,0 +1,38 @@
+server {
+
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    add_header Referrer-Policy 'strict-origin-when-cross-origin';
+    # порт, который будет слушать веб-сервер в ожидании запросов от пользователй
+    listen      80;
+    # доменное имя
+    server_name     "0.0.0.0"; # замените на собственный домен или IP адрес
+    charset     utf-8;
+
+    # максимальный размер загружаемых на сервер данных
+    client_max_body_size 75M;
+
+    gzip on;
+    gzip_types text/html application/javascript application/json text/css;
+
+    root static;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ $uri.html /index.html;
+    }
+
+    location ~* \.(?:css|js|jpg|svg)$ {
+        expires 30d;
+        add_header Cache-Control "public";
+    }
+
+    location ~* \.(?:json)$ {
+        expires 1d;
+        add_header Cache-Control "public";
+    }
+    location ~* ^/\.well-known/acme-challenge/<AUTH TOKEN BY CERTBOT>/$ {
+        return 200;
+    }
+}

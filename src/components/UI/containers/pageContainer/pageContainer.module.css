@@ -1,0 +1,8 @@
+.pageContainer {
+    min-width: 928px;
+    margin-top: 10px;
+    display: flex;
+    height: 87%;
+    flex-direction: row;
+    justify-content: space-around;
+}

@@ -1,0 +1,403 @@
+/*body {*/
+/*    font-family: 'Montserrat', sans-serif;*/
+/*    background-color: #F0EFFF;*/
+/*    height: 100vh;*/
+/*    margin: 0;*/
+/*}*/
+
+/*a {*/
+/*    text-decoration: none;*/
+/*}*/
+
+/*.container {*/
+/*    background-color: #F0EFFF;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    height: 100vh;*/
+/*    width: 100%;*/
+/*    !* height:  *!*/
+/*    !*align-items: center;*!*/
+/*    !*width: 1440px;*!*/
+/*    !*height: 1024px;*!*/
+/*    !*flex-basis: 400px;*!*/
+/*    !*height: 500px;*!*/
+/*}*/
+
+/*.header {*/
+/*    margin-top: 10px;*/
+/*    !* position: absolute; *!*/
+/*    !* top: 0;*/
+/*    left: 0;*/
+/*    right: 0;*/
+/*    height: 50px;*/
+/*    background-color: #F0EFFF; *!*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.header .logo {*/
+/*    margin-left: 20px;*/
+/*}*/
+
+/*.header .logout-btn {*/
+/*    border-radius: 20px;*/
+/*    background-color: #6864FE;*/
+/*    padding: 10px 25px ;*/
+/*    color: white;*/
+/*    font-weight: 600;*/
+/*    margin-right: 16px;*/
+/*    !*color: #6864FE;*!*/
+/*}*/
+
+/*.header .logout-btn:hover {*/
+/*    background-color: #5855d7;*/
+/*}*/
+
+/*.main {*/
+/*    min-width: 928px;*/
+/*    margin-top: 10px;*/
+/*    display: flex;*/
+/*    height: 87%;*/
+/*    !*height: 2 * width;*!*/
+/*    flex-direction: row;*/
+/*    justify-content: space-around;*/
+/*}*/
+
+/*.sideBar {*/
+/*    margin-left: 12px;*/
+/*    width: 280px;*/
+/*    min-width: 280px;*/
+/*    min-height: 500px;*/
+/*    !* height: 100%; *!*/
+/*    !*background-color: #F0EFFF;*!*/
+/*    background-color: white;*/
+/*    border-radius: 20px;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    justify-content: space-around;*/
+/*}*/
+
+/*.sideBar .profileInfo {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    width: 100%;*/
+/*}*/
+
+/*.sideBar .profileInfo .name {*/
+/*    margin-top: 15px;*/
+/*    margin-bottom: 5px;*/
+/*}*/
+
+/*.sideBar .profileInfo .desk-side {*/
+/*    color: gray;*/
+/*}*/
+
+/*.sideBar .buttons {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    font-size: 18px;*/
+/*}*/
+
+/*.sideBar svg {*/
+/*    width: 12px;*/
+/*    height: 12px;*/
+/*}*/
+
+/*.icon {*/
+/*    margin-right: 6px;*/
+/*}*/
+
+/*.sideBar .btn:hover .icon {*/
+/*    !* ВОПРОС. как менять нормально цвета SVG?*!*/
+/*    !*color: red;*!*/
+/*    !*fill: blue;*!*/
+/*    !*color: red;*!*/
+/*    filter: invert(50%) sepia(49%) saturate(7128%) hue-rotate(226deg) brightness(100%) contrast(100%);*/
+/*    !*filter: invert(52%) sepia(28%) saturate(4537%) hue-rotate(218deg) brightness(100%) contrast(103%);*!*/
+/*}*/
+
+
+/*.profileInfo .avatar {*/
+/*    margin-top: 60px;*/
+/*    height: 120px;*/
+/*    width: 120px;*/
+/*    object-fit: cover;*/
+/*    border-radius: 50%;*/
+/*}*/
+/*.sideBar .spacer {*/
+/*    height: 140px;*/
+/*}*/
+
+/*.sideBar .buttons {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    height: 50%;*/
+/*}*/
+
+/*.sideBar .buttons .btn {*/
+/*    color: black;*/
+/*    border-radius: 20px;*/
+/*    padding: 10px 46px;*/
+/*    font-weight: 600;*/
+/*    margin-bottom: 2px;*/
+/*    !*color: #6864FE;*!*/
+/*}*/
+
+/*.sideBar .buttons .btn:hover {*/
+/*    color: #6864FE;*/
+/*    background-color: #F3F2FF;*/
+/*}*/
+
+
+
+/*.content {*/
+/*    margin-left: 12px;*/
+/*    margin-right: 12px;*/
+/*    min-height: 500px;*/
+
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    !*justify-content: space-around;*!*/
+/*    justify-content: space-evenly;*/
+/*    width: 76%;*/
+/*    flex: 1;*/
+/*    height: auto;*/
+/*    background-color: white;*/
+/*    border-radius: 20px;*/
+/*}*/
+
+/*.avatar-side {*/
+/*    margin-left: 12px;*/
+/*    margin-right: 12px;*/
+/*    min-width: 300px;*/
+/*    position: relative;*/
+/*    width: 35%;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*.photo-dots {*/
+/*    position: absolute;*/
+/*    top: 6%;*/
+
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    justify-content: space-between;*/
+/*}*/
+
+/*.photo-dot {*/
+/*    margin-top: 2px;*/
+/*    padding: 0 4px;*/
+/*}*/
+/*.photo-dot-cur circle{*/
+/*    fill: #6864FE;*/
+/*}*/
+
+
+/*.avatar-side .avatar {*/
+/*    position: absolute;*/
+/*    width: 100%;*/
+/*    height: 90%;*/
+/*    object-fit: cover;*/
+/*    border-radius: 40px;*/
+/*}*/
+/*.avatar-side .avatar-shadow {*/
+/*    position: absolute;*/
+/*    bottom: 5%;*/
+/*    padding: 32px 0;*/
+/*    border-bottom-left-radius: 40px;*/
+/*    border-bottom-right-radius: 40px;*/
+/*    height: 7%;*/
+/*    width: 100%;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: flex-start;*/
+/*    background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);*/
+/*}*/
+
+/*.swipe-btn {*/
+/*    background: white;*/
+/*    !*padding: 10px 0;*!*/
+/*    border-radius: 50px;*/
+/*    !* bottom: 10px; *!*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    height: 60px;*/
+/*    width: 60px;*/
+/*}*/
+
+/*.desk-side {*/
+/*    margin-right: 12px;*/
+/*    min-width: 300px;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    width: 55%;*/
+
+/*    position: relative;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*.distance {*/
+/*    display: flex;*/
+/*    font-size: 18px;*/
+/*    margin-top: 4px;*/
+/*    color: #8A8A8A;*/
+
+/*}*/
+
+/*.desk-side .name {*/
+
+/*    !*margin-top: 5%;*!*/
+/*    !*background-color: red;*!*/
+/*    font-size: x-large;*/
+/*    font-weight: 600;*/
+
+/*}*/
+
+/*.desc {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    height: 90%;*/
+/*    justify-content: flex-start;*/
+/*    align-items: flex-start;*/
+/*}*/
+
+/*.desk-side .text {*/
+/*    margin-top: 20px;*/
+/*}*/
+
+/*.desc-field {*/
+/*    min-width: 100%;*/
+/*    flex: 1;*/
+/*    margin-top: 12px;*/
+/*    !*margin-bottom: 5%;*!*/
+/*    !*height: 100%;*!*/
+/*    background-color: #F3F2FF;*/
+/*    border-radius: 40px;*/
+
+/*    !*color: #F3F2FF;*!*/
+/*}*/
+
+/*.desc-text {*/
+/*    margin: 24px;*/
+/*    font-size: large;*/
+/*    font-weight: 500;*/
+/*}*/
+
+/*.desc-tags {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    justify-content: center;*/
+/*    flex-wrap: wrap;*/
+/*}*/
+
+/*.tag {*/
+/*    padding: 5px 10px;*/
+/*    border-radius: 20px;*/
+/*    border: 1px solid black;*/
+/*    margin-bottom: 8px;*/
+/*    margin-left: 4px;*/
+/*    margin-right: 4px;*/
+/*}*/
+
+/*.btn-edit {*/
+/*    margin-top: 16px;*/
+/*    border-radius: 20px;*/
+/*    color: white;*/
+/*    background-color: #6864FE;*/
+/*    min-width: 300px;*/
+
+/*    font-size: 18px;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    padding: 14px 25px;*/
+/*    gap: 10px;*/
+/*}*/
+
+/*.btn-edit:hover {*/
+/*    background-color: #3F2FFF;*/
+/*}*/
+
+/*.matchesSide {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-items: center;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.openChat {*/
+/*    color: #867BFF;*/
+/*    font-weight: 600;*/
+/*    margin-left: 12px;*/
+/*    margin-right: 12px;*/
+/*}*/
+
+/*.contentMatches {*/
+/*    margin-left: 12px;*/
+/*    margin-right: 12px;*/
+/*    min-height: 500px;*/
+
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    justify-content: space-evenly;*/
+/*    !*justify-content: start;*!*/
+/*    width: 76%;*/
+/*    flex: 1;*/
+/*    height: auto;*/
+/*    border-radius: 20px;*/
+/*}*/
+
+/*.chatSide {*/
+/*    background-color: white;*/
+/*    border-radius: 20px;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    width: 60%;*/
+/*    min-width: 400px;*/
+
+/*    position: relative;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*.peopleSide {*/
+/*    background-color: white;*/
+/*    border-radius: 20px;*/
+/*    margin-right: 12px;*/
+/*    min-width: 300px;*/
+/*    position: relative;*/
+/*    width: 40%;*/
+/*    display: flex;*/
+/*    align-items: flex-start;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*.people .avatar {*/
+/*    margin-bottom: 8px;*/
+/*    height: 120px;*/
+/*    width: 120px;*/
+/*    object-fit: cover;*/
+/*    border-radius: 50%;*/
+/*}*/
+
+/*.people {*/
+/*    margin-top: 16px;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    flex-wrap: wrap;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*.singleProfile {*/
+/*    margin: 10px 15px;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*}*/
