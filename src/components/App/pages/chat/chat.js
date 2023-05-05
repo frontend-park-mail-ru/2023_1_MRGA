@@ -46,7 +46,7 @@ export const ChatPage = () => {
             <HeaderAuth/>
             <PageContainer>
                 <SideBar/>
-                <ChatWidget/>
+                <ChatWidget ws={ws}/>
             </PageContainer>
         </>
     )

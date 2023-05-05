@@ -28,7 +28,6 @@ const sendingMessageDispatcher = () => {
         listener = listen;
     }
     const dispatch = (msgData, chatId) => {
-        console.log("chatId", chatId)
         listener(msgData, chatId);
     }
 
