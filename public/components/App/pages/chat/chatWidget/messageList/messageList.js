@@ -11,41 +11,11 @@ import {ChatUser} from "components/App/pages/chat/chatWidget/chatList/oneChat/on
 import {getUser} from "@/store/user";
 
 
-export const MessageList = ({ws, messageDispatcher}) => {
+export const MessageList = ({ws, messageDispatcher, chatDispatcher}) => {
     const info = useRef();
 
     const newMessageRef = useRef();
     const messagesAreaRef = useRef();
-
-    ws.addEventListener("message", (event) => {
-        const jsonMSG = JSON.parse(event.data);
-        switch (jsonMSG.flag) {
-        case "REG+ASK":
-        case "SEND+ASK":
-            if (jsonMSG.status !== 200) {
-                console.log(jsonMSG.err);
-            }
-            break;
-        case "SEND":
-            const chatId = jsonMSG.body.chatId;
-            const msg = jsonMSG.body.msg;
-            const senderId = jsonMSG.body.senderId;
-            const sentAt = jsonMSG.body.sentAt;
-            
-            const msgData = {
-                content: msg,
-                readStatus: false,
-                senderId: senderId,
-                sentAt: sentAt,
-            };
-            console.log(msgData);
-
-            render(messagesAreaRef.getValue(), <OneMsgSpace msg={msgData} />);
-            messagesAreaRef.getValue().scrollTo(0, messagesAreaRef.getValue().scrollHeight);
-            newMessageRef.getValue().value = '';
-            break;
-        }
-    });
     
     const onSendMessageClick = async (chat, e) => {
         e.preventDefault();
@@ -58,7 +28,7 @@ export const MessageList = ({ws, messageDispatcher}) => {
 
         const resp = await (await (Tinder.sendMessage(chat.chatId, {content: msg}))).json();
         if (resp.status !== 200) {
-            console.log(resp.status);
+            console.log(resp.err);
             return;
         }
 
@@ -73,6 +43,7 @@ export const MessageList = ({ws, messageDispatcher}) => {
         };
 
         ws.send(JSON.stringify(msgObject));
+        newMessageRef.getValue().value = '';
     }
     messageDispatcher.subscribe( async (chat) => {
         const messagesList = await ((await Tinder.getMessages(chat.chatId)).json());
@@ -86,6 +57,37 @@ export const MessageList = ({ws, messageDispatcher}) => {
             </>
         )
         messagesAreaRef.getValue().scrollTo(0, messagesAreaRef.getValue().scrollHeight);
+
+        ws.addEventListener("message", (event) => {
+            const jsonMSG = JSON.parse(event.data);
+            switch (jsonMSG.flag) {
+            case "REG+ASK":
+            case "SEND+ASK":
+                if (jsonMSG.status !== 200) {
+                    console.log(jsonMSG.err);
+                }
+                break;
+            case "SEND":
+                const chatId = jsonMSG.body.chatId;
+                const msg = jsonMSG.body.msg;
+                const senderId = jsonMSG.body.senderId;
+                const sentAt = jsonMSG.body.sentAt;
+
+                const msgData = {
+                    content: msg,
+                    readStatus: false,
+                    senderId: senderId,
+                    sentAt: sentAt,
+                };
+
+                if (chat.chatId === chatId) {
+                    render(messagesAreaRef.getValue(), <OneMsgSpace msg={msgData} />);
+                    messagesAreaRef.getValue().scrollTo(0, messagesAreaRef.getValue().scrollHeight);
+                }
+
+                break;
+            }
+        });
     })
 
     return (<Container ref={info}/>)

@@ -93,23 +93,21 @@ module.exports = function onConnect(wsClient) {
 function sendToClients(wsClient, clients, chatId, msg, sentAt) {
     if (clients !== undefined && clients.length > 0) {
         clients.forEach(receiverWsClient => {
-            if (receiverWsClient === undefined) {
-                return true;
+            if (receiverWsClient !== undefined) {
+                const msgData = JSON.stringify({
+                    flag: "SEND",
+                    body: {
+                        chatId,
+                        senderId: wsClient.userId,
+                        msg,
+                        sentAt,
+                    },
+                });
+
+                receiverWsClient.send(msgData);
+
+                console.log(`SEND ${receiverWsClient.userId} (${receiverWsClient.id}) MSG ${msgData}`);
             }
-
-            const msgData = JSON.stringify({
-                flag: "SEND",
-                body: {
-                    chatId,
-                    senderId: wsClient.userId,
-                    msg,
-                    sentAt,
-                },
-            });
-
-            receiverWsClient.send(msgData);
-
-            console.log(`SEND ${receiverWsClient.userId} (${receiverWsClient.id}) MSG ${msgData}`);
         });
     } else {
         wsClient.send(JSON.stringify({

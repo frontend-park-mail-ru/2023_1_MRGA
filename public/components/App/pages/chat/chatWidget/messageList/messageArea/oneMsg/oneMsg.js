@@ -2,7 +2,7 @@ import styles from "components/App/pages/chat/chatWidget/messageList/messageArea
 
 import rsStyle from '../../../chatList/oneChat/oneChat.module.css'
 import {getUser} from "@/store/user";
-import {convertToDate} from "../../../../../../../../lib/jsx/utils";
+import {convertToDate} from "@/lib/jsx/utils";
 
 
 

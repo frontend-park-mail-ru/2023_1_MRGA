@@ -23,11 +23,9 @@ export const ChatPage = () => {
                 }
             }));
 
-            console.log('Клиент %d подключился к серверу WebSocket!', userId);
         });
 
         ws.addEventListener("close", (event) => {
-            console.log('Клиент %d отключился от сервера WebSocket!', userId);
         });
     }
     initWS();

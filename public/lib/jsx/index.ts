@@ -52,6 +52,15 @@ export const appendChildren = (domNode, children) => {
     }
 }
 
+export const prepandChildren = (domNode, children) => {
+    if (Array.isArray(children)) {
+        children.forEach(e => domNode.prepend(children, e));
+    } else {
+        domNode.appendChild(children);
+        domNode.prepend(children);
+    }
+}
+
 export const removeChildren = (domNode, children) => {
     if (Array.isArray(children)) {
         children.forEach(e => removeChildren(domNode, e));

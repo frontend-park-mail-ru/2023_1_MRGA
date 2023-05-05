@@ -2,7 +2,7 @@ import styles from './oneChat.module.css'
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {Tinder} from "@/api/api";
 import {getUser} from "@/store/user";
-import { convertToDate } from '../../../../../../../lib/jsx/utils';
+import { convertToDate } from '@/lib/jsx/utils';
 
 export const ChatUser = ({userID, className, ...props}) => {
     const avatar = useRef();
@@ -34,14 +34,14 @@ const MessageArea = ({msg}) => {
     )
 }
 
-export const OneChat = ({onClick, chat},) => {
+export const OneChat = ({onClick, chat, ref}) => {
     const data = chat.msg.sentAt;
     const arr = chat.chatUserIds.filter((val) => {
         return val !== getUser().userId;
     })
     const readStatus = !chat.msg.readStatus ? ' •': '';
     return (
-        <div onClick={onClick.bind(null, chat)} id={chat.chatId} className={styles.oneChatContainer}>
+        <div ref={ref} onClick={onClick.bind(null, chat)} id={chat.chatId} className={styles.oneChatContainer}>
             <ChatUser userID={arr[0]}/>
             <MessageArea msg={chat.msg}/>
             <div className={styles.messageTime}>
