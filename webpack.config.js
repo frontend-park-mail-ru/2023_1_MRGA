@@ -7,12 +7,13 @@ const TerserWebpackPlugin = require('terser-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path')
 const {InjectManifest} = require('workbox-webpack-plugin');
-
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 const needAnalyze = process.env.NEED_ANALYZE === 'need';
 const dontNeedClean = process.env.NEED_CLEAN === 'dontNeed';
 const filename = ext => isDev ? `[name].${ext }` : `[name].[hash].${ext}`
+
+// TODO: Добавить команду просмотра линтера и команду исправления ошибок. Опционально повесить на прекоммит
 
 const optimization = () => {
     const config =  {
@@ -98,6 +99,7 @@ const babelOptions = (presets, plugins) => {
     return options;
 }
 
+const srcRoot = 'src';
 const plugins = () => {
     const plugins = [
         new HtmlWebpackPlugin({
@@ -108,11 +110,11 @@ const plugins = () => {
         }),
         new CopyWebpackPlugin({
             patterns: [ {
-                from: path.resolve(__dirname, 'public/assets/favicon.ico'),
+                from: path.resolve(__dirname, srcRoot+ '/assets/favicon.ico'),
                 to:  path.resolve(__dirname, 'dist')
             },
             {
-                from: path.resolve(__dirname, 'public/assets'),
+                from: path.resolve(__dirname, srcRoot+'/assets'),
                 to:  path.resolve(__dirname, 'dist/assets')
             },
             { from: 'serviceWorker.js', to: 'serviceWorker.js' },
@@ -137,7 +139,7 @@ const plugins = () => {
 }
 
 module.exports = {
-    context: path.resolve(__dirname,'public'),
+    context: path.resolve(__dirname, srcRoot),
     mode: 'development',
     entry: {
         main: './index.js'
@@ -150,11 +152,11 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.ts'],
         alias: {
-            'components': path.resolve(__dirname, 'public/components'),
-            'pages': path.resolve(__dirname, 'public/components/pages'),
-            'jsx': path.resolve(__dirname, 'public/jsx'),
-            'assets': path.resolve(__dirname, 'public/assets'),
-            '@': path.resolve(__dirname, 'public')
+            'components': path.resolve(__dirname, srcRoot+'/components'),
+            'pages': path.resolve(__dirname, srcRoot+'/components/pages'),
+            'jsx': path.resolve(__dirname, srcRoot+'/jsx'),
+            'assets': path.resolve(__dirname, srcRoot+'/assets'),
+            '@': path.resolve(__dirname, srcRoot)
         }
     },
     devServer: {

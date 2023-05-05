@@ -4,6 +4,7 @@
   "description": "## [Ссылка на Golang](https://github.com/go-park-mail-ru/2023_1_MRGA)",
   "private": true,
   "scripts": {
+
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "build": "cross-env NODE_ENV=production NEED_CLEAN=need webpack --mode production",

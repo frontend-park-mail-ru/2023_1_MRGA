@@ -8,8 +8,7 @@ const BackendHost = 'http://localhost:8080';
 //     : 'http://meetme-app.ru:8080/'
 
 const ApiUrl = BackendHost;
-// const fakeUrl = "https://jsonplaceholder.typicode.com/"
-// const fakeUrl = "http://localhost:8080/"
+
 
 export class Tinder {
 

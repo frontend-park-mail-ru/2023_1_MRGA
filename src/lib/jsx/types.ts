@@ -27,3 +27,4 @@ export interface VNode {
 export type VirtualNodeArray = VNode[] & {
     domElement?: HTMLElement[];
 };
+
