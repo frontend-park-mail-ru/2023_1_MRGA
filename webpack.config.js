@@ -6,6 +6,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path')
+const {InjectManifest} = require('workbox-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
@@ -114,10 +115,16 @@ const plugins = () => {
                 from: path.resolve(__dirname, 'public/assets'),
                 to:  path.resolve(__dirname, 'dist/assets')
             },
+            { from: 'serviceWorker.js', to: 'serviceWorker.js' },
             ],
         }),
         new MiniCssExtractPlugin({
             filename: filename('css')
+        }),
+        new InjectManifest({
+            swSrc: './serviceWorker.js',
+            swDest: 'serviceWorker.js',
+            exclude: [/\.map$/, /manifest\.json$/],
         })
     ]
     if (!dontNeedClean) {
