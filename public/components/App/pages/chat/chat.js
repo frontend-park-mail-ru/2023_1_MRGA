@@ -10,25 +10,25 @@ const host = "localhost";
 
 export const ChatPage = () => {
 
-    let ws = new WebSocket(`ws://${host}:9090`, "json");
+    // let ws = new WebSocket(`ws://${host}:9090`, "json");
 
     const initWS = async () => {
         const userId = getUser().userId;
+        //
+        // ws.addEventListener("open", (event) => {
+        //     ws.send(JSON.stringify({
+        //         flag: "REG",
+        //         body: {
+        //             userId: userId,
+        //         }
+        //     }));
+        //
+        //     console.log('Клиент %d подключился к серверу WebSocket!', userId);
+        // });
 
-        ws.addEventListener("open", (event) => {
-            ws.send(JSON.stringify({
-                flag: "REG",
-                body: {
-                    userId: userId,
-                }
-            }));
-
-            console.log('Клиент %d подключился к серверу WebSocket!', userId);
-        });
-
-        ws.addEventListener("close", (event) => {
-            console.log('Клиент %d отключился от сервера WebSocket!', userId);
-        });
+        // ws.addEventListener("close", (event) => {
+        //     console.log('Клиент %d отключился от сервера WebSocket!', userId);
+        // });
     }
     initWS();
 
@@ -37,7 +37,7 @@ export const ChatPage = () => {
             <HeaderAuth/>
             <PageContainer>
                 <SideBar/>
-                <ChatWidget ws={ws}/>
+                <ChatWidget/>
             </PageContainer>
         </>
     )

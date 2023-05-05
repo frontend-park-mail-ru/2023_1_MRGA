@@ -1,7 +1,14 @@
 
+navigator?.serviceWorker.register('serviceWorker.js')
+    .then((reg) => {
+        console.log(reg);
+    })
+    .catch((e) =>{
+        alert(e);
+    });
 import styles from "./styles/styles.css"
 // import less from "./styles/less.less"
-// import scss from "./styles/scss.scss"
+// import scss from "./styles/scss.s css"
 // import {f} from "./ts.ts"
 import {create, createRoot, rootRender, update} from "@/lib/jsx/index.ts";
 import {useState} from "@/lib/jsx/hooks/useState/useState";
