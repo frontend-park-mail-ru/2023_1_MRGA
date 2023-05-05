@@ -18,6 +18,8 @@ registerRoute(
             const response = await new NetworkFirst().handle({event});
             return response || (await caches.match(OFFLINE_PAGE_URL));
         } catch (error) {
+
+
             // Если возникает ошибка или нет интернет-соединения, возвращаем закешированный offline.html
             return caches.match(OFFLINE_PAGE_URL);
         }
@@ -25,9 +27,21 @@ registerRoute(
 );
 
 // Создайте собственный маршрут кэширования для API-запросов
+// registerRoute(
+//     // Фильтр для API-запросов (замените 'your-api-url' на URL вашего API)
+//     ({url}) => url.pathname.startsWith('/meetme'),
+//     new StaleWhileRevalidate({
+//         cacheName: 'api-cache',
+//     })
+// );
+
 registerRoute(
-    // Фильтр для API-запросов (замените 'your-api-url' на URL вашего API)
-    ({url}) => url.pathname.startsWith('/meetme'),
+    // Условие для кэширования запросов к /meetme или /api
+    ({url}) => {
+        return url.pathname.startsWith('/meetme') ||
+            url.pathname.startsWith('/api');
+    },
+    // Используйте стратегию Stale-While-Revalidate
     new StaleWhileRevalidate({
         cacheName: 'api-cache',
     })

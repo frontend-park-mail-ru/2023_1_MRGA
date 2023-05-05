@@ -1,11 +1,20 @@
 
-navigator?.serviceWorker.register('serviceWorker.js')
-    .then((reg) => {
-        console.log(reg);
-    })
-    .catch((e) =>{
-        alert(e);
-    });
+const swKey = 'SW_KEY'
+
+const initServiceWorker = () => {
+    console.log(!JSON.parse(localStorage.getItem(swKey)));
+    navigator?.serviceWorker.register('serviceWorker.js')
+        .then((reg) => {
+            console.log(reg);
+        })
+        .catch((e) =>{
+            alert(e);
+        });
+        localStorage.setItem(swKey, true);
+}
+
+initServiceWorker();
+
 import styles from "./styles/styles.css"
 // import less from "./styles/less.less"
 // import scss from "./styles/scss.s css"
