@@ -116,7 +116,10 @@ export const InterviewForm = () => {
         onZodiacInputChange() &&
         onSexInputChange();
     }
-
+    const stN = {
+        "М": 0,
+        "Ж": 1
+    }
     const onSubmitClick = async (e) => {
         e.preventDefault();
         if (!allChecks()) {
@@ -128,7 +131,7 @@ export const InterviewForm = () => {
                 "city": city.getValue().value,
                 "job": job.getValue().value,
                 "education": education.getValue().value,
-                "sex": sex.getValue().value,
+                "sex": stN[sex.getValue().value],
                 "zodiac": zodiac.getValue().value,
                 "description": description.getValue().value,
             }

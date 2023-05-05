@@ -1,5 +1,4 @@
 import styles from './sideBar.module.css'
-import {User} from "@/store/user";
 import {Tinder} from "@/api/api";
 import loading from "@/assets/img/loading.png";
 import {Link} from "@/lib/jsx/components/link/link";

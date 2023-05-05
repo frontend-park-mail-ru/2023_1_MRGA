@@ -46,12 +46,11 @@ export const ProfileEditForm = () => {
         education.getValue().value = userData.education;
         city.getValue().value = userData.city;
     }
-    const [state, setState] = useState(0);
-
     loadUserData().then();
     return (
             <FormContainer>
                 <Form>
+                    {/*TODO: сделать верстку всех инпутов через цикл*/}
                     <InputWithLabel
                         type={"text"}
                         value={user.name}

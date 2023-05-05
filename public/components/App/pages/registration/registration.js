@@ -28,5 +28,4 @@ export const RegistrationPage = () => {
         )
     }
     return rootRender(registrationSteps[state.user.step]());
-
 }

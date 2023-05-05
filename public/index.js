@@ -13,7 +13,7 @@ const initServiceWorker = () => {
         localStorage.setItem(swKey, true);
 }
 
-initServiceWorker();
+// initServiceWorker();
 
 import styles from "./styles/styles.css"
 // import less from "./styles/less.less"

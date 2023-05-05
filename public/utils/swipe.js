@@ -3,21 +3,21 @@
  * @param {Object} el - элемент DOM.
  * @param {Object} settings - объект с предварительными настройками.
  */
-export const swipe = function(el, settingss) {
+export const swipe = function(el, settings) {
 
     // настройки по умолчанию
-    var settings = Object.assign({}, {
+    var completeSettings = Object.assign({}, {
         minDist: 60,  // минимальная дистанция, которую должен пройти указатель, чтобы жест считался как свайп (px)
         maxDist: 120, // максимальная дистанция, не превышая которую может пройти указатель, чтобы жест считался как свайп (px)
         maxTime: 700, // максимальное время, за которое должен быть совершен свайп (ms)
         minTime: 50   // минимальное время, за которое должен быть совершен свайп (ms)
-    }, settingss);
+    }, settings);
 
     // коррекция времени при ошибочных значениях
-    if (settings.maxTime < settings.minTime) settings.maxTime = settings.minTime + 500;
-    if (settings.maxTime < 100 || settings.minTime < 50) {
-        settings.maxTime = 700;
-        settings.minTime = 50;
+    if (completeSettings.maxTime < completeSettings.minTime) completeSettings.maxTime = completeSettings.minTime + 500;
+    if (completeSettings.maxTime < 100 || completeSettings.minTime < 50) {
+        completeSettings.maxTime = 700;
+        completeSettings.minTime = 50;
     }
 
     var dir,                // направление свайпа (horizontal, vertical)
@@ -130,17 +130,17 @@ export const swipe = function(el, settingss) {
         }
         var endTime = new Date().getTime();
         var time = endTime - startTime;
-        if (time >= settings.minTime && time <= settings.maxTime) { // проверка времени жеста
-            if (Math.abs(distX) >= settings.minDist && Math.abs(distY) <= settings.maxDist) {
+        if (time >= completeSettings.minTime && time <= completeSettings.maxTime) { // проверка времени жеста
+            if (Math.abs(distX) >= completeSettings.minDist && Math.abs(distY) <= completeSettings.maxDist) {
                 swipeType = dir; // опредление типа свайпа как "left" или "right"
-            } else if (Math.abs(distY) >= settings.minDist && Math.abs(distX) <= settings.maxDist) {
+            } else if (Math.abs(distY) >= completeSettings.minDist && Math.abs(distX) <= completeSettings.maxDist) {
                 swipeType = dir; // опредление типа свайпа как "top" или "down"
             }
         }
         dist = (dir === "left" || dir === "right") ? Math.abs(distX) : Math.abs(distY); // опредление пройденной указателем дистанции
 
         // генерация кастомного события swipe
-        if (swipeType !== "none" && dist >= settings.minDist) {
+        if (swipeType !== "none" && dist >= completeSettings.minDist) {
             var swipeEvent = new CustomEvent("swipe", {
                 bubbles: true,
                 cancelable: true,

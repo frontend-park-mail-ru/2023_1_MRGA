@@ -48,46 +48,6 @@ export const PhotoForm = () => {
         }
     ]
 
-    const onInputChange = (photo, label, e) => {
-        e.preventDefault();
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                photo.getValue().src = event.target.result;
-                photo.getValue().classList.remove(styles.hidden);
-                label.getValue().classList.add(styles.hidden);
-            };
-
-            reader.readAsDataURL(file);
-        }
-    }
-
-    const onImageClick = (label, e) => {
-        const input = label.getValue().control;
-        input.click();
-    }
-
-    const mainPhoto = useRef();
-    const mainPhotoWarning = useRef();
-    const photo2 = useRef();
-    const photo3 = useRef();
-    const photo4 = useRef();
-    const photo5 = useRef();
-    const submitButton = useRef();
-    const warning = useRef();
-    
-    const onMainPhotoInputChange = () => {
-        let n = mainPhoto.getValue().files.length;
-        if (n === 0) {
-            mainPhotoWarning.getValue().innerHTML = 'Главная фотография обязательна';
-            return false;
-        } else {
-            mainPhotoWarning.getValue().innerHTML = '';
-            return true;
-        }
-    }
-
     const onSubmitClick = async (e) => {
         e.preventDefault();
 

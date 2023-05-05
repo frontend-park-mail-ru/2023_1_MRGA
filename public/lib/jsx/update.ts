@@ -134,3 +134,4 @@ const changedProps = (oldVNode, newVNode) => {
     }
     return false;
 }
+

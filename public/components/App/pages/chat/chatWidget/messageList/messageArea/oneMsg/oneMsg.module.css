@@ -5,13 +5,9 @@
     color: black;
     display: flex;
     background-color: white;
-    /*position: fixed;*/
     min-height: 40px;
     min-width: 20px;
-     /*max-width: 60vw;*/
     max-width: 50%;
-    /* right: 200px; */
-    /* bottom: 200px; */
     border-radius: 20px;
 
     margin: 8px 26px 8px 0;
@@ -37,8 +33,6 @@
 
 .theme{
     background-image: linear-gradient(to bottom, #d4a241, #ef4b42, #8b599e);
-    /*background-size: 100vw 100vh;*/
-    /*background-position-y: 100vh;*/
     background-attachment: fixed;
 }
 

@@ -1,7 +1,6 @@
 import {HeaderAuth} from "components/App/header/header";
 import {SideBar} from "components/App/sideBar/sideBar";
-import {Recom, RecommendProfile} from "components/App/recommendProfile/recommendProfile";
-import styles from './feed.css'
+import {Recom} from "components/App/recommendProfile/recommendProfile";
 import {PageContainer} from "components/UI/containers/pageContainer/pageContainer";
 
 export const FeedPage = () => {
@@ -11,7 +10,6 @@ export const FeedPage = () => {
             <PageContainer>
                     <SideBar/>
                     <Recom/>
-                {/*<RecommendProfile/>*/}
             </PageContainer>
         </>
     )

@@ -10,7 +10,6 @@
 
 .sendButton{
     height: 3%;
-
     margin-top: 3%;
 }
 
@@ -32,7 +31,6 @@
     min-width: 400px;
     position: relative;
     justify-content: center;
-    position: relative;
 }
 
 .companionStyle {

@@ -1,11 +1,8 @@
-import {User} from "@/store/user";
 import {Tinder} from "@/api/api";
 import styles from './recommendProfile.module.css'
 
 import ico from 'assets/favicon.ico';
 import loading from 'assets/img/loading.png'
-import mainUrlPhotoDot from 'assets/svg/pressPhotoDot.svg';
-import urlPhotoDot from 'assets/svg/photoDot.svg';
 import like from 'assets/svg/like.svg';
 import dislike from 'assets/svg/dislike.svg';
 import prevPhotoArrow from 'assets/svg/prevPhotoArrow.svg';

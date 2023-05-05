@@ -5,7 +5,6 @@
 .page {
     display: flex;
     flex-direction: column;
-    /*justify-content: center;*/
     align-items: center;
     height: 100vh;
     min-height: 500px;
@@ -53,7 +52,6 @@
     margin-top: 10px;
 
     font-size: 24px;
-    /*font-weight: 600;*/
     display: flex;
 }
 

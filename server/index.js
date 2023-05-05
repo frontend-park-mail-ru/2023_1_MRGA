@@ -9,7 +9,6 @@ const public = path.join(path.resolve(__dirname, '..'), 'dist');
 const config = {
     PORT: 3000,
     WS_PORT: 9090,
-    // HOST: "0.0.0.0"
     HOST: "0.0.0.0"
 }
 

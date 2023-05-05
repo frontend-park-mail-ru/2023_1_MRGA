@@ -121,11 +121,11 @@ const plugins = () => {
         new MiniCssExtractPlugin({
             filename: filename('css')
         }),
-        new InjectManifest({
-            swSrc: './serviceWorker.js',
-            swDest: 'serviceWorker.js',
-            exclude: [/\.map$/, /manifest\.json$/],
-        })
+        // new InjectManifest({
+        //     swSrc: './serviceWorker.js',
+        //     swDest: 'serviceWorker.js',
+        //     exclude: [/\.map$/, /manifest\.json$/],
+        // })
     ]
     if (!dontNeedClean) {
         plugins.push(new CleanWebpackPlugin())

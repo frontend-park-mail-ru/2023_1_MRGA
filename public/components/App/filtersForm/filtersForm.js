@@ -78,6 +78,11 @@ export const FiltersForm = () => {
         onReasonInputChange();
     }
 
+    const sstn = {
+        "М": 0,
+        "Ж": 1,
+        "ВСЕ": 2
+    }
     const onSubmitClick = async (e) => {
         e.preventDefault();
         if (!allChecks()) {
@@ -88,7 +93,7 @@ export const FiltersForm = () => {
             let obj = {
                 "minAge": minAge.getValue().valueAsNumber,
                 "maxAge": maxAge.getValue().valueAsNumber,
-                "sexSearch": sexSearch.getValue().value,
+                "sexSearch": sstn[sexSearch.getValue().value],
                 "reason": fromOptionsToTexts(reasons.getValue()),
             }
             const respFilterUser = await Tinder.filters(obj);

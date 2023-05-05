@@ -20,7 +20,6 @@ export class Tinder {
         return Ajax.ajax(ApiUrl+"/api/register", "POST", {}, JSON.stringify(registrationData))
     }
     static async infoUser(infoUserData) {
-        infoUserData.sex = sexToNumber(infoUserData.sex)
         return Ajax.ajax(ApiUrl+"/meetme/info-user", "POST", {}, JSON.stringify(infoUserData))
     }
     static async putInfoUser(infoUserData) {
@@ -30,7 +29,6 @@ export class Tinder {
         return Ajax.ajax(ApiUrl+"/meetme/complain", "POST", {}, JSON.stringify(userId))
     }
     static async filters(filtersData) {
-        filtersData.sexSearch = sexSearchToNumber(filtersData.sexSearch)
         return Ajax.ajax(ApiUrl+"/meetme/filters", "POST", {}, JSON.stringify(filtersData))
     }
     static async putFilters(filtersData) {
@@ -114,27 +112,3 @@ export class Tinder {
     }
 }
 
-
-function sexToNumber(sex) {
-    switch (sex) {
-        case "М":
-            return 0;
-        case "Ж":
-            return 1;
-        default:
-            break;
-    }
-}
-
-function sexSearchToNumber(sex) {
-    switch (sex) {
-        case "М":
-            return 0;
-        case "Ж":
-            return 1;
-        case "ВСЕ":
-            return 2;
-        default:
-            break;
-    }
-}
