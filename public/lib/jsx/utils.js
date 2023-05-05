@@ -14,3 +14,11 @@ export const isClass = (func) => {
 export const cantRender = (VNode) => {
     return (VNode === null || VNode === undefined);
 }
+
+export const convertToDate = (dateString) => {
+    const [time, date] = dateString.split(" ");
+    const [hours, minutes] = time.split(":");
+    const [day, month, year] = date.split(".");
+    
+    return `${hours}:${minutes}`;
+}

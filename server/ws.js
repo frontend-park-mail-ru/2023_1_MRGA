@@ -2,11 +2,14 @@ let userIdClients = new Map();
 let id = 1;
 
 module.exports = function onConnect(wsClient) {
-    console.log('Запрос на подключение от нового клиента');
-    // wsClient.send(JSON.stringify({
-    //     flag: "CONN+ASK",
-    //     status: 200,
-    // }));
+    wsClient.id = id;
+    id++;
+
+    wsClient.send(JSON.stringify({
+        flag: "CONN+ASK",
+        status: 200,
+    }));
+    console.log(`CONN CLIENT ${wsClient.id}`);
     
     wsClient.on('message', function(message) {
 
@@ -16,10 +19,6 @@ module.exports = function onConnect(wsClient) {
         case "REG":
             const userId = jsonMSG.body.userId;
             wsClient.userId = userId;
-            wsClient.id = id;
-            id++;
-        
-            console.log('В запросе REG от %d получены данные: %s', wsClient.userId, jsonMSG);
 
             let clientsByUser = userIdClients.get(userId);
 
@@ -36,13 +35,15 @@ module.exports = function onConnect(wsClient) {
                 }));
                 return;
             }
+            
+            wsClient.send(JSON.stringify({
+                flag: "REG+ASK",
+                status: 200,
+            }));
 
-            console.log(userId, userIdClients.get(userId));
-
+            console.log(`REG ${wsClient.userId} ${wsClient.id}`);
             break;
         case "SEND":
-            console.log('В запросе SEND от %d получены данные: %s', wsClient.userId, jsonMSG);
-
             const msg = jsonMSG.body.msg;
             const userIds = jsonMSG.body.userIds;
             const chatId = jsonMSG.body.chatId;
@@ -59,7 +60,19 @@ module.exports = function onConnect(wsClient) {
 
             });
             if (sentAll) {
-                sendToClients(wsClient, userIdClients.get(wsClient.userId), chatId, msg, sentAt);
+                const successSelf = sendToClients(wsClient, userIdClients.get(wsClient.userId), chatId, msg, sentAt);
+                if (!successSelf) {
+                    wsClient.send(JSON.stringify({
+                        flag: "SEND+ASK",
+                        status: 500,
+                        err: "Не удалось отправить пользователю его сообщение",
+                    }));
+                } else {
+                    wsClient.send(JSON.stringify({
+                        flag: "SEND+ASK",
+                        status: 200,
+                    }));
+                }
             }
             break;
         }
@@ -73,47 +86,37 @@ module.exports = function onConnect(wsClient) {
         if (clientsByUser !== undefined && clientsByUser.length > 0) {
             userIdClients.set(userId, clientsByUser.filter(client => client.id !== id));
         }
-        console.log('Соединение с клиентом %d закрыто', userId);
+        console.log(`CLOSE ${userId} (${id})`);
     });
 };
 
-function getNowTime() {
-    let now = new Date();
-    let hours = now.getHours().toString().padStart(2, '0');
-    let minutes = now.getMinutes().toString().padStart(2, '0');
-    let day = now.getDate().toString().padStart(2, '0');
-    let month = (now.getMonth() + 1).toString().padStart(2, '0');
-    let year = now.getFullYear().toString();
-    let formattedDate = `${hours}:${minutes} ${day}.${month}.${year}`;
-    
-    return formattedDate;
-}
-
-function sendToClients(wsClient, clients, chatId, msg, sendAt) {
+function sendToClients(wsClient, clients, chatId, msg, sentAt) {
     if (clients !== undefined && clients.length > 0) {
         clients.forEach(receiverWsClient => {
             if (receiverWsClient === undefined) {
                 return true;
             }
-            receiverWsClient.send(
-                JSON.stringify({
-                    flag: "SEND",
-                    body: {
-                        chatId,
-                        senderId: wsClient.userId,
-                        msg,
-                        sendAt,
-                    },
-                })
-            );
+
+            const msgData = JSON.stringify({
+                flag: "SEND",
+                body: {
+                    chatId,
+                    senderId: wsClient.userId,
+                    msg,
+                    sentAt,
+                },
+            });
+
+            receiverWsClient.send(msgData);
+
+            console.log(`SEND ${receiverWsClient.userId} (${receiverWsClient.id}) MSG ${msgData}`);
         });
     } else {
         wsClient.send(JSON.stringify({
             flag: "SEND+ASK",
-            status: 500,
-            err: `Не удалось отправить сообщение '${msg}' от пользователя ${wsClient.userId}`,
+            status: 200,
         }));
-        return false;
+        return true;
     }
     return true;
 }
