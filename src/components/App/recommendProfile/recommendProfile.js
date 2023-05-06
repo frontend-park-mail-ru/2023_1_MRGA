@@ -1,4 +1,4 @@
-import {Tinder, BackendHost} from "@/api/api";
+import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
 import styles from './recommendProfile.module.css'
 
 import ico from 'assets/favicon.ico';
@@ -125,7 +125,7 @@ export const Recom = () => {
     let currPhoto;
     const loadRecommendationPhotos = async () => {
         const currentRec = recommendations[currentRecommendation];
-        currRecPhoto.getValue().src = `${BackendHost}/meetme/photo/${currentRec.photos[currentRec.photoIndex]}`;
+        currRecPhoto.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${currentRec.photos[currentRec.photoIndex]}`;
     }
     const dispatcher = modalDispatcher();
 

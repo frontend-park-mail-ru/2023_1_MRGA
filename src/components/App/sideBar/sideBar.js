@@ -1,5 +1,5 @@
 import styles from './sideBar.module.css'
-import {Tinder, BackendHost} from "@/api/api";
+import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
 import loading from "@/assets/img/loading.png";
 import {Link} from "@/lib/jsx/components/link/link";
 
@@ -28,7 +28,7 @@ export const SideBar = () => {
         }
         let bodyUserInfo = jsonUserInfo.body;
         nameAndAge.getValue().innerText = `${bodyUserInfo.name}, ${bodyUserInfo.age}`;
-        profilePhoto.getValue().src = `${BackendHost}/meetme/photo/${bodyUserInfo.avatarId}`;
+        profilePhoto.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${bodyUserInfo.avatarId}`;
     }
     makePage();
 
