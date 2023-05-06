@@ -5,8 +5,8 @@ import {Recom} from "components/App/recommendProfile/recommendProfile";
 import {ChatWidget} from "components/App/pages/chat/chatWidget/chatWidget";
 import {getUser} from "@/store/user";
 
-// const host = "95.163.180.8";
-const host = "localhost";
+const host = "meetme-app.ru";
+// const host = "localhost";
 
 export const ChatPage = () => {
 
