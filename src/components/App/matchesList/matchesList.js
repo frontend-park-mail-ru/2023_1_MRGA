@@ -1,5 +1,5 @@
 import styles from './matchesList.module.css'
-import {Tinder} from "@/api/api";
+import {Tinder, BackendHost} from "@/api/api";
 
 import loadingPhoto from 'assets/img/loading.png'
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
@@ -16,8 +16,7 @@ const MatchNewChat = ({match}) => {
 
     const firstMessageRef = useRef();
     const setAvatar = async () => {
-        const url = URL.createObjectURL((await ((await (Tinder.getPhoto(match.avatar))).formData())).get('file'));
-        avatarRef.getValue().src = url;
+        avatarRef.getValue().src = `${BackendHost}/meetme/photo/${match.avatar}`;
     }
 
     const onFirstMessageSend = async (e) => {

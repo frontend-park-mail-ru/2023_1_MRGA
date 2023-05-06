@@ -5,7 +5,7 @@ import {MyPhotoInput, PhotoInput} from "components/UI/forms/photoInput/photoInpu
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 
 import logo from 'assets/LogoMini.svg'
-import {Tinder} from "@/api/api";
+import {Tinder, BackendHost} from "@/api/api";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {rootRender} from "@/lib/jsx";
 import {ProfilePage} from "components/App/pages/profile/profile";
@@ -62,8 +62,7 @@ export const PhotoEditInputs = () => {
             // console.log(photos);
             for (let i = 0; i < photos.length; i++) {
                 try {
-                const photo = (await (await Tinder.getPhoto(photos[i])).formData()).get('file');
-                photosRef[i].photo.getValue().src = URL.createObjectURL(photo);
+                photosRef[i].photo.getValue().src = `${BackendHost}/meetme/photo/${photos[i]}`;
                 photosRef[i].deleteButton.getValue().classList.remove(styles.hidden);
                 } catch (e) {
                     alert(e);
