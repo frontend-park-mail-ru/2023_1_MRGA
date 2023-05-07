@@ -13,17 +13,6 @@ export const ChatPage = () => {
 
     const initWS = async () => {
         const userId = getUser().userId;
-        //
-        // ws.addEventListener("open", (event) => {
-        //     ws.send(JSON.stringify({
-        //         flag: "REG",
-        //         body: {
-        //             userId: userId,
-        //         }
-        //     }));
-        //
-        //     console.log('Клиент %d подключился к серверу WebSocket!', userId);
-        // });
 
         ws.addEventListener("open", (event) => {
             ws.send(JSON.stringify({

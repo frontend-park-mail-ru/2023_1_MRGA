@@ -11,7 +11,7 @@ import {ChatUser} from "components/App/pages/chat/chatWidget/chatList/oneChat/on
 import {getUser} from "@/store/user";
 
 
-export const MessageList = ({ws, messageDispatcher, chatDispatcher}) => {
+export const MessageList = ({ws, messageDispatcher}) => {
     const info = useRef();
 
     const newMessageRef = useRef();
