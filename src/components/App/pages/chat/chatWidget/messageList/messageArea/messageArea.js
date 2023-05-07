@@ -7,9 +7,8 @@ import {OneMsg} from "components/App/pages/chat/chatWidget/messageList/messageAr
 
 
 export const OneMsgSpace = ({msg},) => {
-    const componentStyle = [styles.messageSpace]
     return (
-        <div className={componentStyle.join(' ')}>
+        <div className={styles.messageSpace}>
             <OneMsg msg={msg}/>
         </div>
     )

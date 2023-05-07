@@ -11,7 +11,6 @@ export const ChatList = ({ws, messageDispatcher}) => {
 
     const setChatList = async () => {
         chats = (await ((await Tinder.getChats()).json())).body.chatsList;
-        console.log("После поучения данных от сервера", chats);
 
         render(chatsContainerRef.getValue(), chats.map((chat) => {
             chat.ref = useRef();
@@ -48,7 +47,6 @@ export const ChatList = ({ws, messageDispatcher}) => {
         if (chats === undefined || chats.length === 0) {
             return;
         }
-        console.log("В обработчике", chats);
 
         const parentElement = chatsContainerRef.getValue();
 
@@ -59,8 +57,8 @@ export const ChatList = ({ws, messageDispatcher}) => {
 
         let prevChatData;
         let found = false;
-        console.log(chats);
-        chats.forEach((chat, idx) => {
+        for (let idx = 0; idx < chats.length; idx++) {
+            const chat = chats[idx];
             if (idx !== 0) {
                 if (!found && chat.chatId === chatId) {
                     currChatData = chat;
@@ -69,6 +67,8 @@ export const ChatList = ({ws, messageDispatcher}) => {
                     found = true;
 
                     chats[idx] = prevChatData;
+
+                    break;
                 } else if (!found) {
                     chats[idx] = prevChatData;
                 }
@@ -79,7 +79,7 @@ export const ChatList = ({ws, messageDispatcher}) => {
             }
             
             prevChatData = chat;
-        });
+        }
 
         currChatData.msg.senderId = msgObject.senderId;
         currChatData.msg.content = msgObject.content;

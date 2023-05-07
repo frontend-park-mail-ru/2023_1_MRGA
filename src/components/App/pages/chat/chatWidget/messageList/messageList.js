@@ -45,6 +45,18 @@ export const MessageList = ({ws, messageDispatcher}) => {
         ws.send(JSON.stringify(msgObject));
         newMessageRef.getValue().value = '';
     }
+
+    const handleTextareaKeyDown = async (event, chat) => {
+        if (event.shiftKey && event.keyCode === 13) {
+          event.preventDefault();
+          const textarea = newMessageRef.getValue();
+          textarea.value += '\n';
+        } else if (event.keyCode === 13) {
+          event.preventDefault();
+          onSendMessageClick(chat, event);
+        }
+    }
+
     messageDispatcher.subscribe( async (chat) => {
         const messagesList = await ((await Tinder.getMessages(chat.chatId)).json());
         info.getValue().innerHTML = ''; // TODO: надо заменить на добавление к старому новых сообщений (чтобы не делать запрос на сервер каждый раз)
@@ -52,7 +64,7 @@ export const MessageList = ({ws, messageDispatcher}) => {
             <>
                 <ChatUser className={styles.companionStyle} userID={chat.chatUserIds[0]}/>
                 <MessageArea ref={messagesAreaRef} messages={messagesList.body.chat}/>
-                <textarea ref={newMessageRef} className={styles.sendInput} placeholder={"Сообщение"}/>
+                <textarea ref={newMessageRef} onKeyDown={(event) => handleTextareaKeyDown(event, chat)} className={styles.sendInput} placeholder={"Сообщение"}/>
                 <SubmitButton onClick={onSendMessageClick.bind(null, chat)} style={styles.sendButton}>отправить</SubmitButton>
             </>
         )

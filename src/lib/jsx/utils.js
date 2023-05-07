@@ -20,5 +20,5 @@ export const convertToDate = (dateString) => {
     const [hours, minutes] = time.split(":");
     const [day, month, year] = date.split(".");
     
-    return `${hours}:${minutes}`;
+    return `${day}.${month}.${year.slice(-2)} ${hours}:${minutes}`;
 }
