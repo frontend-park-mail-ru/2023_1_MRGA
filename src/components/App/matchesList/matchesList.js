@@ -1,5 +1,5 @@
 import styles from './matchesList.module.css'
-import {Tinder} from "@/api/api";
+import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
 
 import loadingPhoto from 'assets/img/loading.png'
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
@@ -12,13 +12,7 @@ import { Navigate } from '../../../lib/jsx/components/navigate/navigate';
 
 
 const MatchNewChat = ({match}) => {
-    const avatarRef = useRef();
-
     const firstMessageRef = useRef();
-    const setAvatar = async () => {
-        const url = URL.createObjectURL((await ((await (Tinder.getPhoto(match.avatar))).formData())).get('file'));
-        avatarRef.getValue().src = url;
-    }
 
     const onFirstMessageSend = async (e) => {
         e.preventDefault();
@@ -32,11 +26,10 @@ const MatchNewChat = ({match}) => {
         Navigate({to: "/chat"});
     }
 
-    setAvatar();
     return (
         <div className={styles.matchNewChatContainer}>
             <div className={styles.matchNewChatUser}>
-                <img className={styles.matchNewChatUserAvatar} ref={avatarRef}/>
+                <img className={styles.matchNewChatUserAvatar} src={`${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${match.avatar}`}/>
                 <span>{match.name}</span>
             </div>
             <span className={styles.firstMessageInput}>
@@ -88,10 +81,10 @@ export const MatchesList = ({refToChatArea}) => {
             })
             render(container, domMatches);
             for (let {ref, avatar} of matches) {
-                ref.getValue().src = URL.createObjectURL((await ((await Tinder.getPhoto(avatar)).formData())).get('file'));
+                ref.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${avatar}`;
             }
         } catch (e) {
-            alert(e);
+            console.log(e);
         }
 
     }

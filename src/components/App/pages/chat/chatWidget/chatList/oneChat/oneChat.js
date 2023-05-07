@@ -1,6 +1,6 @@
 import styles from './oneChat.module.css'
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
-import {Tinder} from "@/api/api";
+import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
 import {getUser} from "@/store/user";
 import { convertToDate } from '@/lib/jsx/utils';
 
@@ -11,7 +11,7 @@ export const ChatUser = ({userID, className, ...props}) => {
     const setAvatarImg = async () => {
         const userInfo = await ((await Tinder.getInfoUserById(userID)).json());
 
-        avatar.getValue().src = URL.createObjectURL((await ((await Tinder.getPhoto(userInfo.body.photos[0])).formData())).get('file'));
+        avatar.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${userInfo.body.photos[0]}`;
         name.getValue().innerHTML = userInfo.body.name;
     }
     setAvatarImg();

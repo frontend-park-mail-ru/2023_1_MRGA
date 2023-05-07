@@ -4,13 +4,12 @@ import {SideBar} from "components/App/sideBar/sideBar";
 import {Recom} from "components/App/recommendProfile/recommendProfile";
 import {ChatWidget} from "components/App/pages/chat/chatWidget/chatWidget";
 import {getUser} from "@/store/user";
+import {BackendHost} from "@/api/api";
 
-// const host = "95.163.180.8";
-const host = "localhost";
 
 export const ChatPage = () => {
 
-    let ws = new WebSocket(`ws://${host}:9090`, "json");
+    let ws = new WebSocket(`ws://${BackendHost}:9090`, "json");
 
     const initWS = async () => {
         const userId = getUser().userId;
