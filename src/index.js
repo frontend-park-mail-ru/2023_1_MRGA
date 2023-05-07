@@ -1,8 +1,5 @@
 
-const swKey = 'SW_KEY'
-
 const initServiceWorker = () => {
-    console.log(!JSON.parse(localStorage.getItem(swKey)));
     navigator?.serviceWorker.register('serviceWorker.js')
         .then((reg) => {
             console.log(reg);
@@ -10,10 +7,9 @@ const initServiceWorker = () => {
         .catch((e) =>{
             alert(e);
         });
-        localStorage.setItem(swKey, true);
 }
 
-// initServiceWorker();
+initServiceWorker();
 
 import styles from "./styles/styles.css"
 // import less from "./styles/less.less"

@@ -70,6 +70,9 @@ const router = async () => {
                 rootRender(<BannedUserPage/>)
                 return ;
             }
+        } else if (json.status === 999) {
+            rootRender(<BannedUserPage/>)
+            return ;
         } else {
             authorized = false;
             setPublicRoutes()

@@ -3,12 +3,11 @@ const OFFLINE_PAGE_URL = '/offline.html';
 
 import {precache, precacheAndRoute} from 'workbox-precaching';
 import {registerRoute} from 'workbox-routing';
-import {NetworkFirst, StaleWhileRevalidate} from 'workbox-strategies';
+import {CacheFirst, NetworkFirst, NetworkOnly, StaleWhileRevalidate} from 'workbox-strategies';
 
 // workbox-webpack-plugin автоматически генерирует список ресурсов для кэширования
-precacheAndRoute([...self.__WB_MANIFEST, {url: OFFLINE_PAGE_URL, revision: null}], {cacheName: CACHE_NAME});
+precacheAndRoute([...self.__WB_MANIFEST], {cacheName: CACHE_NAME});
 
-// Создайте собственный маршрут кэширования
 registerRoute(
     // Для всех навигационных запросов
     ({request}) => request.mode === 'navigate',
@@ -38,11 +37,49 @@ registerRoute(
 registerRoute(
     // Условие для кэширования запросов к /meetme или /api
     ({url}) => {
-        return url.pathname.startsWith('/meetme') ||
-            url.pathname.startsWith('/api');
+        return (url.pathname.startsWith('/meetme') ||
+            url.pathname.startsWith('/api')) &&
+            !url.pathname.startsWith('/meetme/user');
     },
     // Используйте стратегию Stale-While-Revalidate
     new StaleWhileRevalidate({
         cacheName: 'api-cache',
     })
 );
+
+
+self.addEventListener('fetch', (event) => {
+    const url = new URL(event.request.url);
+    if (url.pathname.startsWith('/meetme/user')) {
+        event.respondWith(
+            fetch(event.request).catch(() => {
+                // В случае ошибки или отсутствия интернет-соединения
+                // возвращаем пользовательский ответ с телом JSON
+                return new Response(
+                    JSON.stringify({status: 999, offline: true}),
+                    {headers: {'Content-Type': 'application/json'}}
+                );
+            })
+        );
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
