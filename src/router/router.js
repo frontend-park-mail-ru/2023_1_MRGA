@@ -85,7 +85,7 @@ const router = async () => {
                 }
             }
             rootRender(<NotFoundPage/>);
-            console.log("not found page");
+            // console.log("not found page");
             return ;
         }
         const args = Object.values(route?.args || []);

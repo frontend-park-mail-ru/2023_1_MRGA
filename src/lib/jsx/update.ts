@@ -52,8 +52,6 @@ export const updateComponent = (domElement: HTMLElement, oldElement: VNode, newE
 
     // Если типы элементов различаются, заменить старый элемент на новый
     if (oldElement?.type !== newElement?.type) {
-
-        console.log(domElement);
         const newDOMElement = create(newElement);
         if (oldElement.type === fragment || Array.isArray(oldElement)) {
             debugger;

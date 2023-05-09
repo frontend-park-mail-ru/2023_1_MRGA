@@ -135,7 +135,6 @@ export const FiltersEditInputs = () => {
         const hashTagsValues = hashTagsSelectRef.getValue().querySelectorAll('option:checked');
 
         const res = validateHashtags(hashTagsValues);
-        console.log(res)
         hashTagsWarning.getValue().innerHTML = res.warning
         return res.ok
     }

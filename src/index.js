@@ -2,10 +2,8 @@
 const swKey = 'SW_KEY'
 
 const initServiceWorker = () => {
-    console.log(!JSON.parse(localStorage.getItem(swKey)));
     navigator?.serviceWorker.register('serviceWorker.js')
         .then((reg) => {
-            console.log(reg);
         })
         .catch((e) =>{
             alert(e);

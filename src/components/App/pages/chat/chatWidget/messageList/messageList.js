@@ -28,7 +28,6 @@ export const MessageList = ({ws, messageDispatcher, chatDispatcher}) => {
 
         const resp = await (await (Tinder.sendMessage(chat.chatId, {content: msg}))).json();
         if (resp.status !== 200) {
-            console.log(resp.err);
             return;
         }
 
@@ -64,7 +63,6 @@ export const MessageList = ({ws, messageDispatcher, chatDispatcher}) => {
             case "REG+ASK":
             case "SEND+ASK":
                 if (jsonMSG.status !== 200) {
-                    console.log(jsonMSG.err);
                 }
                 break;
             case "SEND":

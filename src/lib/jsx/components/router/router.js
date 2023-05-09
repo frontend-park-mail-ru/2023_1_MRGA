@@ -17,7 +17,7 @@ export const BrowserRouter = ({...props}, children /*IRouterProps[]*/) => {
         const currentPath = window.location.pathname;
         const route = children.find(route => route.props.path === currentPath);
         if (!route) {
-            console.log('no route was here')
+            // console.log('no route was here')
             return;
         }
         debugger;

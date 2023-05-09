@@ -23,7 +23,6 @@ export const SideBar = () => {
         let respUserInfo = await Tinder.getUser();
         let jsonUserInfo = await respUserInfo.json();
         if (jsonUserInfo.status !== 200) {
-            console.log(jsonUserInfo.error);
             return;
         }
         let bodyUserInfo = jsonUserInfo.body;

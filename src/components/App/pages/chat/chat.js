@@ -6,7 +6,7 @@ import {ChatWidget} from "components/App/pages/chat/chatWidget/chatWidget";
 import {getUser} from "@/store/user";
 
 // const host = "95.163.180.8";
-const host = "localhost";
+const host = "meetme-app.ru";
 
 export const ChatPage = () => {
 
@@ -14,17 +14,6 @@ export const ChatPage = () => {
 
     const initWS = async () => {
         const userId = getUser().userId;
-        //
-        // ws.addEventListener("open", (event) => {
-        //     ws.send(JSON.stringify({
-        //         flag: "REG",
-        //         body: {
-        //             userId: userId,
-        //         }
-        //     }));
-        //
-        //     console.log('Клиент %d подключился к серверу WebSocket!', userId);
-        // });
 
         ws.addEventListener("open", (event) => {
             ws.send(JSON.stringify({
