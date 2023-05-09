@@ -2,9 +2,10 @@ import styles from './chatList.module.css'
 import {OneChat} from "components/App/pages/chat/chatWidget/chatList/oneChat/oneChat";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {Tinder} from "@/api/api";
+import {WSChatAPI} from "@/api/ws_chat_api";
 import {render, prerender} from "@/lib/jsx/render";
 
-export const ChatList = ({ws, messageDispatcher}) => {
+export const ChatList = ({messageDispatcher}) => {
     const chatsContainerRef = useRef();
 
     let chats;
@@ -18,26 +19,16 @@ export const ChatList = ({ws, messageDispatcher}) => {
             return <OneChat ref={chat.ref} onClick={messageDispatcher.dispatch} chat={chat}/>
         }))
 
-        ws.addEventListener("message", (event) => {
-            const jsonMSG = JSON.parse(event.data);
-            switch (jsonMSG.flag) {
-            case "SEND":
-                const msg = jsonMSG.body.msg;
-                const senderId = jsonMSG.body.senderId;
-                const sentAt = jsonMSG.body.sentAt;
-                const chatId = jsonMSG.body.chatId;
-    
-                const msgData = {
-                    content: msg,
-                    readStatus: false,
-                    senderId: senderId,
-                    sentAt: sentAt,
-                };
-    
-                if (chatId !== undefined) {
-                    changeChatsList(msgData, chatId);
-                    break;
-                }
+        WSChatAPI.getMessage((msg, senderId, sentAt, chatId) => {
+            const msgData = {
+                content: msg,
+                readStatus: false,
+                senderId: senderId,
+                sentAt: sentAt,
+            };
+
+            if (chatId !== undefined) {
+                changeChatsList(msgData, chatId);
             }
         });
     }

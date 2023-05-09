@@ -112,4 +112,3 @@ export class Tinder {
         return Ajax.ajax(ApiUrl+`/meetme/match/${userID}`, "DELETE");
     }
 }
-

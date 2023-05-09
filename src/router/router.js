@@ -15,7 +15,7 @@ import {ProfilePage} from "components/App/pages/profile/profile";
 import {getInfoUser, getUser, setUser, userStore} from "@/store/user";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {ChatPage} from "components/App/pages/chat/chat";
-
+import {WSChatAPI} from "@/api/ws_chat_api";
 
 let publicRoutes = [
     {path: '/login', component: AuthorizationPage},
@@ -60,6 +60,9 @@ const router = async () => {
         let authorized = true;
         if (json.status === 200) {
             setUser(json.body);
+
+            WSChatAPI.connect();
+
             setPrivateRoutes();
             if (json.body.step !== 0) {
                 Navigate({to: "/signup"})
@@ -72,6 +75,8 @@ const router = async () => {
             }
         } else {
             authorized = false;
+
+            WSChatAPI.disconnect();
             setPublicRoutes()
         }
         const currentPath = window.location.pathname;

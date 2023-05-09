@@ -20,13 +20,13 @@ const messageDispatcher = () => {
     return {subscribe, dispatch};
 }
 
-export const ChatWidget = ({ws, ...props}) => {
+export const ChatWidget = ({...props}) => {
     const msgDispatcher = messageDispatcher();
 
     return (
         <div className={styles.chatWidgetContainer}>
-            <ChatList ws={ws} messageDispatcher={msgDispatcher} />
-            <MessageList ws={ws} messageDispatcher={msgDispatcher} />
+            <ChatList messageDispatcher={msgDispatcher} />
+            <MessageList messageDispatcher={msgDispatcher} />
         </div>
     )
 }
