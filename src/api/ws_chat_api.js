@@ -47,19 +47,4 @@ export class WSChatAPI {
             console.log(e);
         }
     }
-
-    // static send(sentAt, chatId, userIds, msg) {
-        // const msgObject = {
-        //     flag: "SEND",
-        //     body: {
-        //         sentAt: sentAt,
-        //         chatId: chatId,
-        //         userIds: userIds,
-        //         msg: msg,
-        //     }
-        // };
-
-        // ws.send(JSON.stringify(msgObject));
-    // }
-
 }
