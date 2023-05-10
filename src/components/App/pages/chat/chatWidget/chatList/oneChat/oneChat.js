@@ -16,7 +16,7 @@ export const ChatUser = ({userID, className, ...props}) => {
     }
     setAvatarImg();
     return (
-        <div className={[styles.oneChatUser, className].join(' ')}>
+        <div className={styles.oneChatUser}>
             <img className={styles.oneChatAvatar} ref={avatar} {...props}/>
             <div ref={name}></div>
         </div>
@@ -24,13 +24,9 @@ export const ChatUser = ({userID, className, ...props}) => {
 }
 
 const MessageArea = ({msg}) => {
-    const componentStyle = [styles.messageArea];
 
-    // if (msg.readStatus === false) {
-    //     componentStyle.push(styles.unreadMessage);
-    // }
     return (
-        <div className={componentStyle.join(' ')}>{msg.content}</div>
+        <div className={styles.messageArea}>{msg.content}</div>
     )
 }
 
