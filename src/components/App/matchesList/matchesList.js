@@ -61,7 +61,7 @@ export const MatchesList = ({refToChatArea}) => {
                 return ;
             }
             matches = matchesJson.body?.matches ?? [];
-            console.log(matches);
+
             const container = info.getValue();
             if (matches.length === 0) {
                 info.getValue().innerHTML = "Пока не встретилось взаимной симпатии";

@@ -102,7 +102,6 @@ export const PhotoEditInputs = () => {
         try {
             const deletePhotoResult = await Tinder.deletePhoto(currentPhotoID);
             rootRender(<ProfilePage/>);
-            console.log(deletePhotoResult);
         } catch (e) {
             alert(e);
         }

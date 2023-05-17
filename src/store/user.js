@@ -25,7 +25,6 @@ export const getInfoUser = () => {
         try {
             const infoUser = await Tinder.getInfoUser();
             const json = await infoUser.json();
-            // console.log(json);
             dispatch({type: userActionTypes.setInfoUser, payload: json});
         } catch (e) {
           console.log(e)
@@ -55,7 +54,6 @@ export const getPhotos = () => {
             const data = await Tinder.getPhoto(getUser().avatarId);
             const formData = await data.formData();
             const file = formData.get('file');
-            console.log(file);
             // dispatch({type: userActionTypes.setPhotos, photos});
         } catch (e) {
             console.log(e);

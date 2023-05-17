@@ -16,6 +16,80 @@ export const MessageList = ({messageDispatcher}) => {
     const newMessageRef = useRef();
     const messagesAreaRef = useRef();
     
+    const recordButton = useRef();
+    let isRecording = false;
+    let mediaRecorder;
+    let recordedBlobs;
+
+    const supportedType = 'audio/mp4';
+    async function startRecording() {
+        const constraints = { audio: true, video: false };
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            mediaRecorder = new MediaRecorder(stream);
+            recordedBlobs = [];
+
+            mediaRecorder.addEventListener('dataavailable', (event) => {
+                if (event.data && event.data.size > 0) {
+                    recordedBlobs.push(event.data);
+                }
+            });
+            mediaRecorder.start();
+
+        } catch (error) {
+            console.error('Error: ', error);
+        }
+    }
+
+    async function stopRecording(chat) {
+        mediaRecorder.stop();
+        await new Promise(resolve => mediaRecorder.addEventListener('stop', resolve));
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        const blob = new Blob(recordedBlobs, { type: supportedType });
+
+        if (blob.size === 0) {
+            console.error('Error: Recorded audio has 0 size.');
+            return;
+        }
+
+        try {
+            await sendDataToServer(chat, blob);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    async function sendDataToServer(chat, blob) {
+        const formData = new FormData();
+        formData.append('files[]', blob, supportedType);
+        
+        try {
+            const responseSaveFile = await ((await Tinder.postFiles(formData)).json());
+            if (responseSaveFile.status !== 200 || responseSaveFile.body.pathToFiles.length !== 1) {
+                console.error('Error: ', responseSaveFile.error);
+                return;
+            }
+
+            const path = responseSaveFile.body.pathToFiles[0];
+
+            const msgForSending = {
+                content: "",
+                userIds: chat.chatUserIds,
+                messageType: "audio",
+                path: path,
+            };
+
+            const responseSendMessage = await (await (Tinder.sendMessage(chat.chatId, msgForSending))).json();
+
+            if (responseSendMessage.status !== 200) {
+                сonsole.error('Error: ', responseSendMessage.error);
+                return;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+    
     const onSendMessageClick = async (chat, e) => {
         e.preventDefault();
 
@@ -48,22 +122,45 @@ export const MessageList = ({messageDispatcher}) => {
     messageDispatcher.subscribe( async (chat) => {
         const messagesList = await ((await Tinder.getMessages(chat.chatId)).json());
         info.getValue().innerHTML = '';
+
         render(info.getValue(),
             <>
                 <ChatUser className={styles.companionStyle} userID={chat.chatUserIds[0]}/>
                 <MessageArea ref={messagesAreaRef} messages={messagesList.body.chat}/>
-                <textarea ref={newMessageRef} onKeyDown={(event) => handleTextareaKeyDown(event, chat)} className={styles.sendInput} placeholder={"Сообщение"}/>
-                <SubmitButton onClick={onSendMessageClick.bind(null, chat)} style={styles.sendButton}>отправить</SubmitButton>
+                <div className={styles.inputArea}>
+                    <div className={styles.messageArea}>
+                        <textarea ref={newMessageRef} onKeyDown={(event) => handleTextareaKeyDown(event, chat)} className={styles.sendInput} placeholder={"Сообщение"}/>
+                        <div>
+                            <button ref={recordButton} className={styles.recordButton}>🎙️</button>
+                        </div>
+                    </div>
+                    <SubmitButton onClick={onSendMessageClick.bind(null, chat)} style={styles.sendButton}>отправить</SubmitButton>
+                </div>
             </>
         )
+
+        recordButton.getValue().addEventListener('click', async () => {
+            if (!isRecording) {
+                startRecording();
+                recordButton.getValue().textContent = '⬆️';
+            } else {
+                await stopRecording(chat);
+                recordButton.getValue().textContent = '🎙';
+            }
+            isRecording = !isRecording;
+        });
+
         messagesAreaRef.getValue().scrollTo(0, messagesAreaRef.getValue().scrollHeight);
 
-        WSChatAPI.getMessage((msg, senderId, sentAt, chatId) => {
+        WSChatAPI.getMessage((msgId, msg, senderId, sentAt, chatId, messageType, path) => {
             const msgData = {
+                msgId: msgId,
                 content: msg,
                 readStatus: false,
                 senderId: senderId,
                 sentAt: sentAt,
+                messageType: messageType,
+                path: path,
             };
 
             if (chat.chatId === chatId) {

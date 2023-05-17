@@ -19,12 +19,14 @@ export const ChatList = ({messageDispatcher}) => {
             return <OneChat ref={chat.ref} onClick={messageDispatcher.dispatch} chat={chat}/>
         }))
 
-        WSChatAPI.getMessage((msg, senderId, sentAt, chatId) => {
+        WSChatAPI.getMessage((msgId, msg, senderId, sentAt, chatId, messageType, path) => {
             const msgData = {
                 content: msg,
                 readStatus: false,
                 senderId: senderId,
                 sentAt: sentAt,
+                messageType: messageType,
+                path: path,
             };
 
             if (chatId !== undefined) {
@@ -72,6 +74,9 @@ export const ChatList = ({messageDispatcher}) => {
             prevChatData = chat;
         }
 
+        currChatData.msg.messageType = msgObject.messageType;
+        currChatData.msg.path = msgObject.path;
+        currChatData.msg.senderId = msgObject.senderId;
         currChatData.msg.senderId = msgObject.senderId;
         currChatData.msg.content = msgObject.content;
         currChatData.msg.readStatus = msgObject.readStatus;

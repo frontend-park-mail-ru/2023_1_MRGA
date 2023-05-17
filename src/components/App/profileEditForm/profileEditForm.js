@@ -39,7 +39,7 @@ export const ProfileEditForm = () => {
     const loadUserData = async () => {
 
         userData = (await (await Tinder.getInfoUser()).json()).body;
-        console.log(userData);
+
         description.getValue().value = userData.description;
         email.getValue().value = userData.email;
         job.getValue().value = userData.job;
