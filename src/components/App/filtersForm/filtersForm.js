@@ -55,6 +55,7 @@ export const FiltersForm = () => {
         const res = validateMaxAge(ageNumber);
         if (!res.ok){
             maxAgeWarning.getValue().innerHTML = res.warning
+            return
         }
         if (ageNumber < minAge.getValue().valueAsNumber) {
             maxAgeWarning.getValue().innerHTML = 'Максимально допустимый возраст не может быть меньше минимального';

@@ -13,6 +13,7 @@ import styles from "components/App/profileEditForm/PhotoEditInputs/PhotoEditInpu
 import deletePhoto from "assets/svg/dislike.svg";
 import {MyPhotoInput, PhotoInput} from "components/UI/forms/photoInput/photoInput";
 import logo from "assets/LogoMini.svg";
+import {modalDispatcher, ModalWindow} from "components/UI/modal/modal";
 
 export const PhotoForm = () => {
     const photosRef = [
@@ -47,7 +48,7 @@ export const PhotoForm = () => {
             id: '4'
         }
     ]
-
+    const dispatcher = modalDispatcher();
     const onSubmitClick = async (e) => {
         e.preventDefault();
 
@@ -62,7 +63,7 @@ export const PhotoForm = () => {
                 }
             }
             if (photoCount === 0) {
-                alert('загрузите хотя бы одну фотографию');
+                dispatcher.showModal();
                 return ;
             }
             const respPhotoUser = await Tinder.postPhotos(formData);
@@ -79,6 +80,9 @@ export const PhotoForm = () => {
     return  (
         <FormContainer>
             <Form>
+                <ModalWindow dispatcher={dispatcher}>
+                    <div> загрузите хотя бы одну фотографию</div>
+                </ModalWindow>
                 <img src={logoMini} width="46" alt={"logo"}/>
                 <h1 style={"margin: 30px; text-align: center;"}>Загрузите минимум одну фотографию</h1>
                 <div className={styles.form}>

@@ -7,12 +7,8 @@ import {TextAreaWithLabel} from "components/UI/forms/textareaWithLabel/textareaW
 
 import styles from './profileEditForm.module.css'
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
-import {PhotoForm} from "components/App/photoForm/photoForm";
 import {PhotoEditInputs} from "components/App/profileEditForm/PhotoEditInputs/PhotoEditInputs";
-import {Label} from "components/UI/forms/label/label";
 import {Tinder} from "@/api/api";
-import {TestComponent} from "@/lib/jsx/components/testComponent/testComponent";
-import {useState} from "@/lib/jsx/hooks/useState/useState";
 import {FiltersEditInputs} from "components/App/profileEditForm/ReasonEditInputs/filtersEditInputs";
 
 export const ProfileEditForm = () => {
@@ -28,7 +24,7 @@ export const ProfileEditForm = () => {
 
     const city = useRef();
 
-
+    const zodiac = useRef();
     const onDescriptionChange = (e) => {
         e.preventDefault();
         userData.description = description.getValue().value;
@@ -45,6 +41,7 @@ export const ProfileEditForm = () => {
         job.getValue().value = userData.job;
         education.getValue().value = userData.education;
         city.getValue().value = userData.city;
+        zodiac.getValue().value = userData.zodiac;
     }
     loadUserData().then();
     return (
@@ -65,26 +62,32 @@ export const ProfileEditForm = () => {
                     />
                     <InputWithLabel
                         type={"email"}
-                        labelText={"почта"}
+                        labelText={"Почта"}
                         ref={email}
                         readOnly={true}
                     />
                     <InputWithLabel
                         type={"text"}
-                        labelText={"город"}
+                        labelText={"Город"}
                         ref={city}
                         readOnly={true}
                     />
                     <InputWithLabel
                         type={"text"}
-                        labelText={"работа"}
+                        labelText={"Работа"}
                         ref={job}
                         readOnly={true}
                     />
                     <InputWithLabel
                         type={"text"}
-                        labelText={"образование"}
+                        labelText={"Образование"}
                         ref={education}
+                        readOnly={true}
+                    />
+                    <InputWithLabel
+                        type={"text"}
+                        labelText={"Знак зодиака"}
+                        ref={zodiac}
                         readOnly={true}
                     />
                     <TextAreaWithLabel
@@ -94,7 +97,7 @@ export const ProfileEditForm = () => {
                         labelText={"Описание профиля"}
                         ref={description}
                     />
-                    <SubmitButton onClick={onDescriptionChange}>изменить описание</SubmitButton>
+                    <SubmitButton onClick={onDescriptionChange}>Изменить описание</SubmitButton>
                     <PhotoEditInputs/>
                     <FiltersEditInputs/>
                 </Form>

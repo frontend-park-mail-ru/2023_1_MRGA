@@ -22,7 +22,7 @@ export const MyPhotoInput = ({id, control, photo, className, ...props}, children
     const label = control;
     const photoRef = photo;
 
-    const onImageClick = (label, e) => {
+    const onImageClick = (label) => {
         const input = label.getValue().control;
         input.click();
     }

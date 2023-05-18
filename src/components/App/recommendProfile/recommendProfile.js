@@ -17,6 +17,7 @@ import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 export const Recom = () => {
     const info = useRef();
     const nameAndAge = useRef();
+    const locationPointRef = useRef();
     const city = useRef();
     const recDescription = useRef();
     const recHashtags = useRef();
@@ -50,6 +51,7 @@ export const Recom = () => {
     const test = async () => {
         await getRecommendations();
         if (!recommendations || recommendations.length === 0) {
+            locationPointRef.getValue().innerHTML = '';
             info.getValue().innerHTML = "На данный момент для вас нет рекомендаций";
             hideButtons();
             return ;
@@ -80,8 +82,8 @@ export const Recom = () => {
             return <div className={styles.hashtag}>#{hashtags}</div>
         });
         render(recHashtags.getValue(), hashtags);
-        education.getValue().innerHTML = `образование: ${currentRec.education}`;
-        zodiac.getValue().innerHTML = `знак зодиака: ${currentRec.zodiac}`;
+        education.getValue().innerHTML = `Образование: ${currentRec.education}`;
+        zodiac.getValue().innerHTML = `Знак зодиака: ${currentRec.zodiac}`;
         currentRec.photoIndex = 0;
         loadRecommendationPhotos();
     }
@@ -98,6 +100,7 @@ export const Recom = () => {
         education.getValue().innerHTML = '';
         zodiac.getValue().innerHTML = '';
         currRecPhoto.getValue().src = loadingPhoto;
+        locationPointRef.getValue().innerHTML = '';
         info.getValue().innerHTML = "На данный момент для вас нет рекомендаций";
     }
     const next = () => {
@@ -171,7 +174,7 @@ export const Recom = () => {
                 <div className={styles.desc}>
                     <div ref={nameAndAge} className={styles.name}></div>
                     <div className={styles.distance}>
-                        <img src={locationPoint}/>
+                        <div ref={locationPointRef}><img src={locationPoint}/></div>
                         <span ref={city}></span>
                     </div>
                     <div className={styles.descField}>
@@ -183,12 +186,11 @@ export const Recom = () => {
                         </div>
 
                         <div id="recOtherInfo" className={styles.descOtherData}>
-                            <img width={15} src={ico}/>
                             <div ref={info}></div>
                             <ModalWindow dispatcher={dispatcher}>
                                 <SubmitButton onClick={reportUserClick}>Пожаловаться на пользователя?</SubmitButton>
                             </ModalWindow>
-                            <div ref={buttons.reportButton} onClick={dispatcher.showModal} className={styles.reportButton}>пожаловаться</div>
+                            <div ref={buttons.reportButton} onClick={dispatcher.showModal} className={styles.reportButton}>Пожаловаться</div>
                         </div>
                     </div>
                 </div>

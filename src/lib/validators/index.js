@@ -12,7 +12,7 @@ export const validatePassword = (password) => {
     if (!validChars.test(password)) {
         return {
             valid: false,
-            message: "В пароле допускаются только цифры, символы латиниц, нижнее подчеркивание и точка"
+            message: "В пароле допускаются только цифры, символы латиницы, нижнее подчеркивание и точка"
         };
     }
 
@@ -32,7 +32,7 @@ export const validatePassword = (password) => {
 }
 
 export const validateName = (name) => {
-    const usernameRegex = /^[a-zA-Zа-яА-я]{3,16}$/;
+    const usernameRegex = /^[a-zA-Zа-яА-я]{3,25}$/;
     return usernameRegex.test(name);
 }
 

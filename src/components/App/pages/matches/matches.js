@@ -13,7 +13,7 @@ export const MatchesPage = () => {
         <>
             <HeaderAuth/>
             <PageContainer>
-                <SideBar/>
+                <SideBar current={'/matches'}/>
                 <MatchesList refToChatArea={chatArea}/>
                 <div ref={chatArea} style="
                     background-color: white;

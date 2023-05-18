@@ -1,9 +1,9 @@
 import {Ajax} from "./ajax.js";
 
-export const BackendProtocol = 'http';
-// export const BackendHost = 'meetme-app.ru';
-export const BackendHost = 'localhost';
-export const BackendPort = 8080;
+export const BackendProtocol = 'https';
+export const BackendHost = 'meetme-app.ru';
+// export const BackendHost = 'localhost';
+export const BackendPort = 444;
 
 // const BackendHost = window.location.href.includes('localhost')
 //     ? 'http://localhost:8080/'
@@ -34,6 +34,9 @@ export class Tinder {
     }
     static async putFilters(filtersData) {
         return Ajax.ajax(ApiUrl+"/meetme/filters", "PUT", {}, JSON.stringify(filtersData))
+    }
+    static async putHashtags(filtersData) {
+        return Ajax.ajax(ApiUrl+"/meetme/hashtags-user", "PUT", {}, JSON.stringify(filtersData))
     }
     static async getFilters() {
         return Ajax.ajax(ApiUrl+"/meetme/filters", "GET", {})
@@ -103,7 +106,7 @@ export class Tinder {
         return Ajax.ajax(ApiUrl+`/meetme/photo/${number}`, "DELETE", {})
     }
     static async addHashTags(hashTagsData) {
-        return Ajax.ajax(ApiUrl+`/meetme/hashtags-user`, "POST", {'Content-Type': 'multipart/form-data'}, JSON.stringify(hashTagsData))
+        return Ajax.ajax(ApiUrl+`/meetme/hashtags-user`, "POST", {}, JSON.stringify(hashTagsData))
     }
     static async getPhoto(photoID) {
         return Ajax.ajax(ApiUrl+`/meetme/photo/${photoID}`, "GET");

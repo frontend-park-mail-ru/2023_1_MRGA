@@ -1,6 +1,5 @@
 import {Tinder} from "@/api/api";
 import {Select} from "components/UI/forms/select/select";
-import {Link} from "@/lib/jsx/components/link/link";
 import {Label} from "components/UI/forms/label/label";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {render} from "@/lib/jsx/render";
@@ -115,6 +114,7 @@ export const FiltersEditInputs = () => {
         const res = validateMaxAge(ageNumber);
         if (!res.ok){
             maxAgeWarning.getValue().innerHTML = res.warning
+            return ;
         }
         if (ageNumber < minAge.getValue().valueAsNumber) {
             maxAgeWarning.getValue().innerHTML = 'Максимально допустимый возраст не может быть меньше минимального';
@@ -176,7 +176,7 @@ export const FiltersEditInputs = () => {
         let obj = {
             "hashtag": fromOptionsToTexts(hashTagsSelectRef.getValue()),
         }
-        const respHashTags = await Tinder.addHashTags(obj);
+        const respHashTags = await Tinder.putHashtags(obj);
         rootRender(<ProfilePage/>)
     }
     getReasons();
@@ -186,7 +186,7 @@ export const FiltersEditInputs = () => {
             <Select ref={genderSelectRef}/>
             <InputWithLabel
                 type={"number"}
-                labelText={"минимальный возраст"}
+                labelText={"Минимальный возраст"}
                 min={18}
                 max={150}
                 ref={minAge}
@@ -198,7 +198,7 @@ export const FiltersEditInputs = () => {
             />
             <InputWithLabel
                 type={"number"}
-                labelText={"максимальный возраст"}
+                labelText={"Максимальный возраст"}
                 max={"150"}
                 min={"18"}
                 ref={maxAge}
@@ -214,14 +214,14 @@ export const FiltersEditInputs = () => {
                 ref={reasonsWarning}
                 title={"выберите причины поиска"}
             />
-            <SubmitButton onClick={onFiltersChangeSubmit} >сохранить фильтры</SubmitButton>
+            <SubmitButton onClick={onFiltersChangeSubmit} >Сохранить фильтры</SubmitButton>
             <Label labelText={"Выберите интересы"}/>
             <Select onChange={onHashTagsInputChange} ref={hashTagsSelectRef} multiple/>
             <Warning
                 ref={hashTagsWarning}
                 title={"выберите интересы"}
             />
-            <SubmitButton onClick={onHashTagsChangeSubmit}>сохранить интересы</SubmitButton>
+            <SubmitButton onClick={onHashTagsChangeSubmit}>Сохранить интересы</SubmitButton>
         </div>
     )
 }

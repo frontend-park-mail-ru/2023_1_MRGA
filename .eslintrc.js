@@ -3,9 +3,16 @@ module.exports = {
         "browser": true,
         "es6": true
     },
-    "extends": "eslint:recommended",
+    "extends": ["eslint:recommended",
+    ],
+    'parserOptions': {
+        'ecmaFeatures': {
+            'jsx': true
+        }
+    },
     "parser": "babel-eslint",
     "rules": {
-        'no-unused-vars': 'warn'
+        'no-unused-vars': 0,
+        "no-debugger": 1
     },
 }

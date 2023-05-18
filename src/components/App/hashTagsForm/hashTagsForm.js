@@ -7,7 +7,6 @@ import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {FormContainer} from "components/UI/containers/formContainer/formContainer";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {Tinder} from "@/api/api";
-import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {rootRender} from "@/lib/jsx";
 import {FiltersPage} from "components/App/pages/registration/filters/filters";
 import {validateHashtags} from "@/lib/validators";
@@ -91,7 +90,7 @@ export const HashTagsForm = () => {
                        required={true}
                        name={"hashTags"}
                        ref={hashTags}
-                       onchange={onHashTagsInputChange}
+                       onChange={onHashTagsInputChange}
                        multiple
                    >
                    </Select>

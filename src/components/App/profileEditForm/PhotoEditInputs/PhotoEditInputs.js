@@ -119,7 +119,7 @@ export const PhotoEditInputs = () => {
         <Label labelText={"Фотографии профиля"}/>
             <ModalWindow dispatcher={dispatcher}>
                 Уверены, что хотите удалить фотографию?
-                <SubmitButton onClick={afterConfirm}>да</SubmitButton>
+                <SubmitButton onClick={afterConfirm}>Да</SubmitButton>
             </ModalWindow>
             <div className={styles.form}>
                 {photosRef.map(({photo, label, id, deleteButton}) => {
@@ -131,7 +131,7 @@ export const PhotoEditInputs = () => {
                     )
                 })}
             </div>
-        <SubmitButton onClick={onUpdateClick}>сохранить</SubmitButton>
+        <SubmitButton onClick={onUpdateClick}>Сохранить</SubmitButton>
         </>
   )
 }

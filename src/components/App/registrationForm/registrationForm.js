@@ -107,7 +107,7 @@ export const RegistrationForm = () => {
             const json = await resp.json()
             if (json.status !== 200) {
                 if (json.error.toString().includes('duplicate key value violates unique constraint')) {
-                    warning.getValue().innerHTML = 'такой email уже зарегистрирован';
+                    warning.getValue().innerHTML = 'Такой email уже зарегистрирован';
                 } else {
                     warning.getValue().innerHTML = json.error;
                 }

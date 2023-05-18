@@ -1,18 +1,15 @@
 import {rootRender} from "@/lib/jsx/index.ts";
-import {Header} from "components/App/header/header";
 import {AuthorizationPage} from "components/App/pages/authorization/authorization";
 import {RegistrationPage} from "components/App/pages/registration/registration";
 import {FeedPage} from "components/App/pages/lenta/feed";
 import {MatchesPage} from "components/App/pages/matches/matches";
 import {InterviewPage} from "components/App/pages/registration/interview/interview";
-import {FiltersPage} from "components/App/pages/registration/filters/filters";
 import {PhotoPage} from "components/App/pages/registration/photo/photo";
-import {HashTagsPage} from "components/App/pages/registration/hashTags/hashTags";
 import {Tinder} from "@/api/api";
 import {AboutPage} from "components/App/pages/about/aboutPage";
 import {BannedUserPage, NotFoundPage} from "components/App/pages/notFound/notFound";
 import {ProfilePage} from "components/App/pages/profile/profile";
-import {getInfoUser, getUser, setUser, userStore} from "@/store/user";
+import {setUser} from "@/store/user";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {ChatPage} from "components/App/pages/chat/chat";
 import {WSChatAPI} from "@/api/ws_chat_api";
@@ -44,13 +41,6 @@ export const setPublicRoutes = () => {
 
 export const setPrivateRoutes = () => {
     routes = privateRoutes;
-}
-const registrationSteps = {
-    0: FeedPage,
-    1: InterviewPage,
-    2: HashTagsPage,
-    3: FiltersPage,
-    4: PhotoPage
 }
 const router = async () => {
     // debugger;
@@ -97,7 +87,7 @@ const router = async () => {
         const component = route?.component(...args);
         rootRender(component);
     } catch (e) {
-
+        console.log(e)
     }
 
 };

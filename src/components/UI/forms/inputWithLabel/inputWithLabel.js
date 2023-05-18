@@ -6,7 +6,7 @@ export const InputWithLabel = ({name, labelText, ref, className, ...props}) => {
     return (
         <span>
             <Label labelText={labelText} htmlFor={name}/>
-            <input className={[styles.formElement, className].join(' ')}
+            <input className={[styles.formElement, styles.blockWithText, className].join(' ')}
                    name={name}
                    ref={ref}
                    {...props}

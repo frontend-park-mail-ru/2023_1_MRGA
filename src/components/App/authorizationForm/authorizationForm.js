@@ -43,9 +43,6 @@ export const AuthorizationForm = () => {
         <FormContainer>
             <Form>
                 <img src={logoMini} alt="logoMini" width={46}/>
-                <span className={styles.inviteText}>
-                    <p>Введите ваши данные</p>
-                </span>
                 <InputWithLabel
                     name={"email"}
                     id={"login"}

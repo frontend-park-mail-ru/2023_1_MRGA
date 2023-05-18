@@ -7,7 +7,7 @@ export class WSChatAPI {
     static connect() {
         try {
             if (ws === undefined) {
-                ws = new WebSocket(`ws://${BackendHost}:${BackendPort}/meetme/chats/subscribe`);
+                ws = new WebSocket(`wss://${BackendHost}:${BackendPort}/meetme/chats/subscribe`);
 
                 ws.addEventListener('close', (event) => {
                     console.log('WebSocket connection closed:', event);
