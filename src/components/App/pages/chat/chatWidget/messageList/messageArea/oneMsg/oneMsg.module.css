@@ -64,6 +64,31 @@
     align-items: center;
 }
 
+.transcriptionText {
+    position: relative;
+    font-size: 16px;
+    padding: 5px;
+    margin: 5px;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    width: 100%;
+}
+
+.transcriptionButton {
+    width: 30px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto 5px;
+    cursor: pointer;
+}
+
+.transcriptionButton > button {
+    background-color: #684077;
+    border-radius: 30%;
+}
+
 .progressBar {
     height: 5px;
     background-color: #eee;

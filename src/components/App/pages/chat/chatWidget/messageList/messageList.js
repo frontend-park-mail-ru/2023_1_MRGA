@@ -21,7 +21,7 @@ export const MessageList = ({messageDispatcher}) => {
     let mediaRecorder;
     let recordedBlobs;
 
-    const supportedType = 'audio/mp4';
+    const supportedType = 'audio/webm';
     async function startRecording() {
         const constraints = { audio: true, video: false };
         try {
@@ -61,7 +61,7 @@ export const MessageList = ({messageDispatcher}) => {
 
     async function sendDataToServer(chat, blob) {
         const formData = new FormData();
-        formData.append('files[]', blob, supportedType);
+        formData.append('files[]', blob, 'audio.webm');
         
         try {
             const responseSaveFile = await ((await Tinder.postFiles(formData)).json());

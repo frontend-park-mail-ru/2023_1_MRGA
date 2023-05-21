@@ -4,11 +4,31 @@ import {getUser} from "@/store/user";
 import {convertToDate} from "@/lib/jsx/utils";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import { BackendHost, BackendPort, BackendProtocol } from "../../../../../../../../api/api";
+import {Tinder} from "@/api/api";
 
 export const OneMsg = ({msg}) => {
     const audioRef = useRef();
     const playButtonRef = useRef();
     const progressRef = useRef();
+
+    const transcriptionRef = useRef();
+    const transcriptionText = useRef();
+
+    const handleTranscription = async (audioPath, e) => {
+        const transcriptionButton = transcriptionRef.getValue();
+        transcriptionButton.disabled = true;
+        transcriptionButton.style.opacity = '0.9';
+
+        const responseTranscription = await (await Tinder.getTranscription(audioPath)).json();
+
+        if (responseTranscription.status !== 200) {
+            console.error("Error: ", responseTranscription.error);
+            return;
+        }
+
+        const audioText = responseTranscription.body.text;
+        transcriptionText.getValue().innerText = audioText;
+    }
 
     const handlePlayPause = () => {
         const audio = audioRef.getValue();
@@ -68,6 +88,12 @@ export const OneMsg = ({msg}) => {
                         <div className={styles.progressBar}>
                             <div className={styles.progress} ref={progressRef}></div>
                         </div>
+                        <div className={styles.transcriptionButton} onClick={handleTranscription.bind(null, msg.path)}>
+                            <button ref={transcriptionRef}>💬</button>
+                        </div>
+                    </div>
+                    <div ref={transcriptionText} className={styles.transcriptionText}>
+
                     </div>
                 </div>
                 <div className={styles.messageTime}>

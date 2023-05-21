@@ -51,7 +51,6 @@ export class Tinder {
         return Ajax.ajax(ApiUrl+"/meetme/chats/create", "POST", {}, JSON.stringify(userIds));
     }
     static async sendMessage(chatId, msgData) {
-        console.log("sendMessage", chatId, msgData);
         return Ajax.ajax(ApiUrl+`/meetme/chats/${chatId}/send`, "POST", {}, JSON.stringify(msgData));
     }
     static async getChats() {
@@ -93,6 +92,9 @@ export class Tinder {
     }
     static async postReaction(reactionData) {
         return Ajax.ajax(ApiUrl+"/meetme/reaction", "POST", {}, JSON.stringify(reactionData))
+    }
+    static async getTranscription(path) {
+        return Ajax.ajax(ApiUrl+`/meetme/audio/transcribe/${path}`, "GET")
     }
     static async postPhotos(photosData) {
         return Ajax.ajax(ApiUrl+`/meetme/photos/upload`, "POST", {}, photosData)
