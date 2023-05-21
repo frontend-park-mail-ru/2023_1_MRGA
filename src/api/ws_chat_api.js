@@ -27,12 +27,15 @@ export class WSChatAPI {
             const jsonMSG = JSON.parse(event.data);
 
             if (jsonMSG.flag === "SEND") {
+                const msgId = jsonMSG.body.msgId;
                 const msg = jsonMSG.body.msg;
                 const senderId = jsonMSG.body.senderId;
                 const sentAt = jsonMSG.body.sentAt;
                 const chatId = jsonMSG.body.chatId;
+                const messageType = jsonMSG.body.messageType;
+                const path = jsonMSG.body.path;
                 
-                listener(msg, senderId, sentAt, chatId);
+                listener(msgId, msg, senderId, sentAt, chatId, messageType, path);
             }
         });
     }

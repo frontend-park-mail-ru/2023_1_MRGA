@@ -1,4 +1,4 @@
-.messageWidgetContainer{
+.messageWidgetContainer {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -8,16 +8,19 @@
     height: 100%;
 }
 
-.sendButton{
-    height: 3%;
+.sendButton {
+    height: 40px;
     margin-top: 3%;
+    background-image: linear-gradient(to bottom, #8b599e 15%, #5d3f68 85%);
 }
 
-.sendInput{
-    height: 10%;
+.sendInput {
+    height: 80px;
     text-align: left;
-    margin-top: 3%;
     vertical-align: top;
+    resize: none;
+    flex-grow: 1;
+    margin-right: 5px;
 }
 
 .messageListContainer {
@@ -36,7 +39,13 @@
     display: flex;
     vertical-align: top;
     text-align: center;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #5d3f68;
+}
+
+.inputArea {
+    margin: 2px 5px;
+    position: relative;
+    bottom: 0px;
 }
 
 .messagesPlaceholderContainer {
@@ -51,4 +60,26 @@
     font-weight: 600;
     margin-left: 12px;
     margin-right: 12px;
+}
+
+.messageArea {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.recordButton {
+    font-size: 24px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-image: linear-gradient(to bottom, #ef4b42 15%, #8b599e 85%);
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.recordButton:hover {
+    background-color: #867BFF;
 }
