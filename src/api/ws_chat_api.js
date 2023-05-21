@@ -40,6 +40,27 @@ export class WSChatAPI {
         });
     }
 
+    static getReadStatus(listener) {
+        ws.addEventListener("message", (event) => {
+            const jsonMSG = JSON.parse(event.data);
+
+            if (jsonMSG.flag === "READ") {
+                const readData = {
+                    chatId: jsonMSG.body.chatId,
+                };
+                listener(readData);
+            }
+        });
+    }
+
+    static sendReadStatus(readData) {
+        const readRequest = {
+            flag: "READ",
+            readData: readData,
+        }
+        ws.send(JSON.stringify(readRequest));
+    }
+
     static disconnect() {
         try {
             if (ws !== undefined) {

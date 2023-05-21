@@ -6,13 +6,22 @@ import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import { BackendHost, BackendPort, BackendProtocol } from "../../../../../../../../api/api";
 import {Tinder} from "@/api/api";
 
-export const OneMsg = ({msg}) => {
+export const OneMsg = ({chatId, msg}) => {
     const audioRef = useRef();
     const playButtonRef = useRef();
     const progressRef = useRef();
 
     const transcriptionRef = useRef();
     const transcriptionText = useRef();
+
+    const readStatusRef = useRef();
+
+    WSChatAPI.getReadStatus((readData) => {
+        const gotChatId = readData.chatId;
+        if (chatId === gotChatId && readStatusRef.getValue().innerText === ' •') {
+            readStatusRef.getValue().innerText = '';
+        }
+    });
 
     const handleTranscription = async (audioPath, e) => {
         const transcriptionButton = transcriptionRef.getValue();
@@ -71,7 +80,7 @@ export const OneMsg = ({msg}) => {
                 <div className={styles.messageText}>{msg.content}</div>
                 <div className={styles.messageTime}>
                     {convertToDate(msg.sentAt)}
-                    <span className={[rsStyle.readStatus, styles.fsz30].join(' ')}>{readStatus}</span>
+                    <span ref={readStatusRef} className={[rsStyle.readStatus, styles.fsz30].join(' ')}>{readStatus}</span>
                 </div>
             </div>
         )
@@ -98,7 +107,7 @@ export const OneMsg = ({msg}) => {
                 </div>
                 <div className={styles.messageTime}>
                     {convertToDate(msg.sentAt)}
-                    <span className={[rsStyle.readStatus, styles.fsz30].join(' ')}>{readStatus}</span>
+                    <span ref={readStatusRef} className={[rsStyle.readStatus, styles.fsz30].join(' ')}>{readStatus}</span>
                 </div>
             </div>
         )

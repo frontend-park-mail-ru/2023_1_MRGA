@@ -14,12 +14,12 @@ export const OneMsgSpace = ({msg},) => {
     )
 }
 
-export const MessageArea = ({messages, ref},) => {
+export const MessageArea = ({chatId, messages, ref},) => {
     return (
         <div  ref={ref} className={styles.messageAreaContainer}>
             {messages.map((msg) => {
                 return(
-                    <OneMsgSpace msg={msg.msg}/>
+                    <OneMsgSpace chatId={chatId} msg={msg.msg}/>
                 )
             })}
         </div>
