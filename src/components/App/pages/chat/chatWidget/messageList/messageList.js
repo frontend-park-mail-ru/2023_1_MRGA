@@ -168,7 +168,8 @@ export const MessageList = ({messageDispatcher}) => {
                 messagesAreaRef.getValue().scrollTo(0, messagesAreaRef.getValue().scrollHeight);
 
                 WSChatAPI.sendReadStatus({
-                    chatId: chatId,
+                    userIds: chat.chatUserIds,
+                    chatId:  chatId,
                 });
             }
         });
