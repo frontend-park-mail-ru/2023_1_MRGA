@@ -3,6 +3,7 @@ import {OneChat} from "components/App/pages/chat/chatWidget/chatList/oneChat/one
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {Tinder} from "@/api/api";
 import {WSChatAPI} from "@/api/ws_chat_api";
+import {getUser} from "@/store/user";
 import {render, prerender} from "@/lib/jsx/render";
 
 export const ChatList = ({messageDispatcher}) => {
@@ -72,6 +73,24 @@ export const ChatList = ({messageDispatcher}) => {
             }
             
             prevChatData = chat;
+        }
+
+        if (!found) {
+            chats.unshift({
+                msg: {
+                    senderId: msgObject.senderId,
+                    content: msgObject.content,
+                    sentAt: msgObject.sentAt,
+                    readStatus: msgObject.readStatus,
+                    messageType: msgObject.messageType,
+                    path: msgObject.path,
+                },
+                chatId: chatId,
+                chatUserIds: [msgObject.senderId],
+                ref: useRef(),
+            });
+            prerender(parentElement, <OneChat ref={chats[0].ref} onClick={messageDispatcher.dispatch} chat={chats[0]}/>);
+            return;
         }
 
         currChatData.msg.messageType = msgObject.messageType;
