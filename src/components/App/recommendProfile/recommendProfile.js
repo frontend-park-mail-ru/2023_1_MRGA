@@ -125,7 +125,6 @@ export const Recom = () => {
                 if (responseJSON.status !== 200) {
                     likesEndMessageModalDispatcher.showModal();
                 }
-                console.log(responseJSON);
             } catch (e) {
                 alert(e);
             }

@@ -36,5 +36,4 @@ const userReducer = (state, action) => {
     return state;
 }
 
-
 export const userStore = createStore(userReducer, undefined, applyMiddleware(thunkMiddleware));

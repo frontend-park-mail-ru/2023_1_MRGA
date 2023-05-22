@@ -12,6 +12,7 @@
     height: 40px;
     margin-top: 3%;
     background-image: linear-gradient(to bottom, #8b599e 15%, #5d3f68 85%);
+    width: 100%;
 }
 
 .sendInput {

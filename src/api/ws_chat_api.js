@@ -58,6 +58,7 @@ export class WSChatAPI {
             console.log(e);
         }
     }
+
     static subscribeOnReaction(callback) {
         wsReaction.Get()?.addEventListener("message", (event) => {
             const jsonMSG = JSON.parse(event.data);
@@ -87,7 +88,7 @@ export class WSChatAPI {
     }
 
     static getReadStatus(listener) {
-        ws.addEventListener("message", (event) => {
+        wsChat.Get()?.addEventListener("message", (event) => {
             const jsonMSG = JSON.parse(event.data);
 
             if (jsonMSG.flag === "READ") {
@@ -105,7 +106,7 @@ export class WSChatAPI {
             flag: "READ",
             readData: readData,
         }
-        ws.send(JSON.stringify(readRequest));
+        wsChat.Get()?.send(JSON.stringify(readRequest));
     }
 
     static disconnect() {

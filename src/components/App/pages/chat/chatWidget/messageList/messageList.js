@@ -100,7 +100,7 @@ export const MessageList = ({messageDispatcher}) => {
 
         const resp = await (await (Tinder.sendMessage(chat.chatId, {content: msg, userIds: chat.chatUserIds}))).json();
         if (resp.status !== 200) {
-            console.log(resp.err);
+            console.log(resp.error);
             return;
         }
 

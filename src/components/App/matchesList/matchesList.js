@@ -16,9 +16,7 @@ const MatchNewChat = ({match}) => {
 
     const onFirstMessageSend = async (e) => {
         e.preventDefault();
-        // console.log(firstMessageRef.getValue().value);
         const currentUser = getUser();
-        // console.log(currentUser);
         const response = await (await Tinder.createChat({userIds: [match.userId]})).json();
         const newChatID = response.body.chatId;
         const rspnse = await (await Tinder.sendMessage(newChatID, {content: firstMessageRef.getValue().value, userIds: [match.userId]})).json();

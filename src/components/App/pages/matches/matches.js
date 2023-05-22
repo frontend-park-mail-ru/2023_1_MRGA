@@ -41,9 +41,5 @@ export const MatchesPage = () => {
                     </div>
             </PageContainer>
         </>
-)
+    )
 }
-
-
-
-

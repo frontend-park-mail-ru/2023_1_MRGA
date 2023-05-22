@@ -2,16 +2,12 @@ import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {Tinder} from "@/api/api";
 import {Form} from "components/UI/forms/form/form";
 import logoMini from "assets/LogoMini.svg";
-import styles from "components/App/authorizationForm/authorizationForm.module.css";
 import {InputWithLabel} from "components/UI/forms/inputWithLabel/inputWithLabel";
 import {PasswordInput} from "components/UI/forms/passwordInput/passwordInput";
 import {Warning} from "components/UI/forms/warning/warning";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {FormContainer} from "components/UI/containers/formContainer/formContainer";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
-import {cityStore} from "@/store/interviewInfo";
-import {routes} from "@/router/router";
-import {useState} from "@/lib/jsx/hooks/useState/useState";
 
 export const AuthorizationForm = () => {
     const login = useRef();
@@ -39,6 +35,7 @@ export const AuthorizationForm = () => {
             alert(e)
         }
     }
+
     return (
         <FormContainer>
             <Form>

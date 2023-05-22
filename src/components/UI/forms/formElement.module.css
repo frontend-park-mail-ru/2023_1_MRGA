@@ -28,21 +28,6 @@
 }
 
 ::-webkit-scrollbar {
-    /*overflow: auto;*/
     border-radius: 20px;
     width: 10px;
 }
-
-/* Блок (thumb) прокрутки */
-/*::-webkit-scrollbar-thumb {*/
-/*    !*overflow: auto;*!*/
-/*    border-radius: 20px;*/
-/*}*/
-
-
-/* Дорожка (track) прокрутки */
-/*::-webkit-scrollbar-track {*/
-/*    !*overflow: auto;*!*/
-/*    border-radius: 20px;*/
-/*}*/
-

@@ -91,7 +91,7 @@ const router = async () => {
         const component = route?.component(...args);
         rootRender(component);
     } catch (e) {
-        console.log(e)
+        console.log(e);
     }
 
 };
@@ -103,5 +103,3 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('popstate', () => {
     router();
 });
-
-

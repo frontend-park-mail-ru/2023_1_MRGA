@@ -35,7 +35,6 @@ a {
     color: white;
     font-weight: 600;
     margin-right: 16px;
-    /*color: #6864FE;*/
 }
 
 .header .logout-btn:hover {
@@ -96,7 +95,6 @@ a {
 }
 
 .sideBar .btn:hover .icon {
-    /* ВОПРОС. как менять нормально цвета SVG?*/
     filter: invert(50%) sepia(49%) saturate(7128%) hue-rotate(226deg) brightness(100%) contrast(100%);
 }
 

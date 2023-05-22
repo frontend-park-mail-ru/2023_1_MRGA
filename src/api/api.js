@@ -12,7 +12,6 @@ export  const WSProtocol = 'wss';
 
 const ApiUrl = `${BackendProtocol}://${BackendHost}:${BackendPort}`;
 
-
 export class Tinder {
 
     static async login(loginData) {

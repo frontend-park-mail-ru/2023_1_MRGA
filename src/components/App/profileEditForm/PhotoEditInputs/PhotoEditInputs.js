@@ -59,14 +59,12 @@ export const PhotoEditInputs = () => {
     let photos;
     const loadUserData = async () => {
             photos = (await (await Tinder.getInfoUser()).json()).body.photos;
-            // console.log(photos);
             for (let i = 0; i < photos.length; i++) {
                 try {
                 photosRef[i].photo.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${photos[i]}`;
                 photosRef[i].deleteButton.getValue().classList.remove(styles.hidden);
                 } catch (e) {
                     alert(e);
-                    // alert('Произошла ошибка при попытке загрузить данные, попробуйте еще раз');
                 }
             }
 

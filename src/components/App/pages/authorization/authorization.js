@@ -3,9 +3,10 @@ import {AuthorizationForm} from "components/App/authorizationForm/authorizationF
 
 
 export const AuthorizationPage = () => {
-    return (<>
-        <Header/>
-        <AuthorizationForm/>
+    return (
+        <>
+            <Header/>
+            <AuthorizationForm/>
         </>
     )
 }
