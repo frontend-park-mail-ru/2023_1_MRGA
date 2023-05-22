@@ -1,0 +1,10 @@
+.notificationContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 3rem;
+}
+.notificationWrapper {
+    display: flex;
+    flex-direction: column;
+}

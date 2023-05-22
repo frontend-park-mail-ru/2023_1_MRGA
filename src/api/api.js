@@ -1,9 +1,9 @@
 import {Ajax} from "./ajax.js";
 
-export const BackendProtocol = 'https';
-export const BackendHost = 'meetme-app.ru';
-// export const BackendHost = 'localhost';
-export const BackendPort = 444;
+export const BackendProtocol = 'http';
+// export const BackendHost = 'meetme-app.ru';
+export const BackendHost = 'localhost';
+export const BackendPort = 8080;
 
 // const BackendHost = window.location.href.includes('localhost')
 //     ? 'http://localhost:8080/'

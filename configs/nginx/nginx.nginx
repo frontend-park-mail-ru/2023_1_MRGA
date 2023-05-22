@@ -31,12 +31,4 @@ server {
         expires 30d;
         add_header Cache-Control "public";
     }
-
-    location ~* \.(?:json)$ {
-        expires 1d;
-        add_header Cache-Control "public";
-    }
-    #location ~* ^/\.well-known/acme-challenge/<AUTH TOKEN BY CERTBOT>/$ {
-    #    return 200;
-    #}
 }
