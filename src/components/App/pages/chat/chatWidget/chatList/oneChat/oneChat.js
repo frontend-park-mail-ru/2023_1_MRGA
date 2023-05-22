@@ -24,7 +24,16 @@ export const ChatUser = ({userID, className, ...props}) => {
 }
 
 const MessageArea = ({msg}) => {
-
+    switch (msg.messageType) {
+    case "text", "":
+        break;
+    case "audio":
+        msg.content = "Голосовое сообщение";
+        break;
+    default:
+        msg.content = "Сообщение";
+        break;
+    }
     return (
         <div className={styles.messageArea}>{msg.content}</div>
     )
