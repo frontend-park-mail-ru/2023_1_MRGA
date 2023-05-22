@@ -1,6 +1,11 @@
 import { BackendHost, BackendPort } from "./api";
-import {notificationWrapper} from "components/App/notification/notification";
+import {NotificationPopupDispatcher, notificationWrapper} from "components/App/notification/notification";
 import {appendChildren, create} from "@/lib/jsx";
+
+export const MATCH_NOTIFICATION_TYPES = {
+    NEW_MATCH: "new_match",
+    MISSED_MATCH: "missed_match"
+}
 
 const getConnectionObject = () => {
     let connection = undefined;
@@ -56,16 +61,11 @@ export class WSChatAPI {
     static subscribeOnReaction(callback) {
         wsReaction.Get()?.addEventListener("message", (event) => {
             const jsonMSG = JSON.parse(event.data);
-            appendChildren(notificationWrapper, create(
-                <div>new notification</div>
-            ));
-            appendChildren(notificationWrapper, create(
-                <div>new notification</div>
-            ));
-            appendChildren(notificationWrapper, create(
-                <div>new notification</div>
-            ));
-            console.log(jsonMSG);
+            callback(jsonMSG);
+            NotificationPopupDispatcher.showModal();
+            setTimeout(() => {
+                NotificationPopupDispatcher.hideModal();
+            }, 3000);
         });
     }
     static getMessage(listener) {

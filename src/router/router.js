@@ -13,6 +13,8 @@ import {setUser} from "@/store/user";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {ChatPage} from "components/App/pages/chat/chat";
 import {WSChatAPI} from "@/api/ws_chat_api";
+import {render} from "@/lib/jsx/render";
+import {MatchNotification, notificationWrapper} from "components/App/notification/notification";
 
 let publicRoutes = [
     {path: '/login', component: AuthorizationPage},
@@ -52,7 +54,9 @@ const router = async () => {
             setUser(json.body);
 
             WSChatAPI.connect();
-            WSChatAPI.subscribeOnReaction(undefined);
+            WSChatAPI.subscribeOnReaction((notification) => {
+                render(notificationWrapper, <MatchNotification notification={notification}/>)
+            });
             setPrivateRoutes();
             if (json.body.step !== 0) {
                 Navigate({to: "/signup"})

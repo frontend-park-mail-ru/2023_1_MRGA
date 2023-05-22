@@ -2,9 +2,28 @@
     position: absolute;
     top: 0;
     right: 0;
-    margin: 3rem;
+    padding: 1rem;
+    /*margin-top: 1rem;*/
+
 }
 .notificationWrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
+    background-color: rgba(119, 116, 243, 0.8);
+    border-radius: 15px;
+    padding: 1rem;
+}
+
+.wrapperHideButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.notification {
+    margin: 0.5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: rgba(63, 47, 255, 0.63);
 }

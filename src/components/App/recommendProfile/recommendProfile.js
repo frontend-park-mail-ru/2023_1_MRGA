@@ -113,12 +113,19 @@ export const Recom = () => {
 
         setCurrentRecommendation();
     }
-    const reactionClick = (reaction) => {
+    const reactionClick = async (reaction) => {
 
         recHashtags.getValue().innerHTML = '';
         if (currentRecommendation <= recommendations.length - 1) {
             try {
-                Tinder.postReaction({evaluatedUserId: recommendations[currentRecommendation].userId, reaction: reaction});
+                const responseJSON = await (await Tinder.postReaction({
+                    evaluatedUserId: recommendations[currentRecommendation].userId,
+                    reaction: reaction
+                })).json();
+                if (responseJSON.status !== 200) {
+                    likesEndMessageModalDispatcher.showModal();
+                }
+                console.log(responseJSON);
             } catch (e) {
                 alert(e);
             }
@@ -139,9 +146,18 @@ export const Recom = () => {
         next();
         dispatcher.hideModal();
     }
-    test()
+    const likesEndMessageModalDispatcher = modalDispatcher();
+    test();
     return (
         <div className={styles.content}>
+            <ModalWindow dispatcher={likesEndMessageModalDispatcher}>
+                <div>Сегодня вы больше не можете ставить лайки, попробуйте завтра</div>
+                <div>Или приобретите подписку и лайкайте, сколько хотите!</div>
+                <div>Для приобретения подписки пишите в телегу нашему
+                    <u>
+                    <a href={"https://t.me/yakwilik"}> админу</a></u>
+                </div>
+            </ModalWindow>
             <div className={styles.avatarSide}>
                 <img ref={currRecPhoto} className={styles.avatar} src={loadingPhoto} alt=""/>
                 <div className={styles.avatarShadow}>
