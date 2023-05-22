@@ -51,7 +51,7 @@ export class WSChatAPI {
                 initWsHandlers(wsChat);
             }
             if (wsReaction.IsUndef()) {
-                wsReaction.Set(new WebSocket(`ws://${BackendHost}:${BackendPort}/meetme/match/subscribe`));
+                wsReaction.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/meetme/match/subscribe`));
                 initWsHandlers(wsReaction);
             }
         } catch(e) {
