@@ -3,6 +3,7 @@ import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
 import {getUser} from "@/store/user";
 import { convertToDate } from '@/lib/jsx/utils';
+import {WSChatAPI} from "@/api/ws_chat_api";
 
 export const ChatUser = ({userID, className, ...props}) => {
     const avatar = useRef();
@@ -40,6 +41,17 @@ const MessageArea = ({msg}) => {
 }
 
 export const OneChat = ({onClick, chat, ref}) => {
+    const readStatusRef = useRef();
+
+    WSChatAPI.getReadStatus((readData) => {
+        const chatId = readData.chatId;
+        const senderId = readData.senderId;
+
+        if (chat.chatId == chatId && readStatusRef.getValue().innerText === ' •' && senderId !== chat.msg.senderId) {
+            readStatusRef.getValue().innerText = '';
+        }
+    });
+
     const data = chat.msg.sentAt;
     const arr = chat.chatUserIds.filter((val) => {
         return val !== getUser().userId;
@@ -51,7 +63,7 @@ export const OneChat = ({onClick, chat, ref}) => {
             <MessageArea msg={chat.msg}/>
             <div className={styles.messageTime}>
                 {convertToDate(data)}
-                <b className={styles.readStatus}>{readStatus}</b>
+                <b ref={readStatusRef} className={styles.readStatus}>{readStatus}</b>
             </div>
         </div>
     )

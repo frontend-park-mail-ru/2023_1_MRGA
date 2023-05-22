@@ -168,7 +168,7 @@ module.exports = {
     },
     devServer: {
         host: isDev ? "localhost": "192.168.0.45",
-        port: "80",
+        port: "4545",
         historyApiFallback: true,
         allowedHosts: [
             'meetme-app.ru',

@@ -1,13 +1,14 @@
 import {Ajax} from "./ajax.js";
 
-export const BackendProtocol = 'http';
-// export const BackendHost = 'meetme-app.ru';
-export const BackendHost = 'localhost';
-export const BackendPort = 8080;
+export const BackendProtocol = 'https';
+export const BackendHost = 'meetme-app.ru';
+export const BackendPort = 444;
+export  const WSProtocol = 'wss';
 
-// const BackendHost = window.location.href.includes('localhost')
-//     ? 'http://localhost:8080/'
-//     : 'http://meetme-app.ru:8080/'
+// export const BackendProtocol = 'http';
+// export const BackendHost = 'localhost';
+// export const BackendPort = 8080;
+// export  const WSProtocol = 'ws';
 
 const ApiUrl = `${BackendProtocol}://${BackendHost}:${BackendPort}`;
 

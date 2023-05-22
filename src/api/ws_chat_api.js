@@ -1,6 +1,6 @@
-import { BackendHost, BackendPort } from "./api";
 import {NotificationPopupDispatcher, notificationWrapper} from "components/App/notification/notification";
 import {appendChildren, create} from "@/lib/jsx";
+import { WSProtocol, BackendHost, BackendPort } from "./api";
 
 export const MATCH_NOTIFICATION_TYPES = {
     NEW_MATCH: "new_match",
@@ -47,7 +47,7 @@ export class WSChatAPI {
     static connect() {
         try {
             if (wsChat.IsUndef()) {
-                wsChat.Set(new WebSocket(`ws://${BackendHost}:${BackendPort}/meetme/chats/subscribe`));
+                wsChat.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/meetme/chats/subscribe`));
                 initWsHandlers(wsChat);
             }
             if (wsReaction.IsUndef()) {
@@ -84,6 +84,28 @@ export class WSChatAPI {
                 listener(msgId, msg, senderId, sentAt, chatId, messageType, path);
             }
         });
+    }
+
+    static getReadStatus(listener) {
+        ws.addEventListener("message", (event) => {
+            const jsonMSG = JSON.parse(event.data);
+
+            if (jsonMSG.flag === "READ") {
+                const readData = {
+                    senderId: jsonMSG.body.senderId,
+                    chatId: jsonMSG.body.chatId,
+                };
+                listener(readData);
+            }
+        });
+    }
+
+    static sendReadStatus(readData) {
+        const readRequest = {
+            flag: "READ",
+            readData: readData,
+        }
+        ws.send(JSON.stringify(readRequest));
     }
 
     static disconnect() {

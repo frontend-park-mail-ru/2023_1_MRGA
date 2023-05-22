@@ -69,7 +69,6 @@ export const MessageList = ({messageDispatcher}) => {
                 console.error('Error: ', responseSaveFile.error);
                 return;
             }
-
             const path = responseSaveFile.body.pathToFiles[0];
 
             const msgForSending = {
@@ -126,7 +125,7 @@ export const MessageList = ({messageDispatcher}) => {
         render(info.getValue(),
             <>
                 <ChatUser className={styles.companionStyle} userID={chat.chatUserIds[0]}/>
-                <MessageArea ref={messagesAreaRef} messages={messagesList.body.chat}/>
+                <MessageArea ref={messagesAreaRef} chatId={chat.chatId} messages={messagesList.body.chat}/>
                 <div className={styles.inputArea}>
                     <div className={styles.messageArea}>
                         <textarea ref={newMessageRef} onKeyDown={(event) => handleTextareaKeyDown(event, chat)} className={styles.sendInput} placeholder={"Сообщение"}/>
@@ -164,8 +163,13 @@ export const MessageList = ({messageDispatcher}) => {
             };
 
             if (chat.chatId === chatId) {
-                render(messagesAreaRef.getValue(), <OneMsgSpace msg={msgData} />);
+                render(messagesAreaRef.getValue(), <OneMsgSpace chatId={chatId} msg={msgData} />);
                 messagesAreaRef.getValue().scrollTo(0, messagesAreaRef.getValue().scrollHeight);
+
+                WSChatAPI.sendReadStatus({
+                    userIds: chat.chatUserIds,
+                    chatId:  chatId,
+                });
             }
         });
     })

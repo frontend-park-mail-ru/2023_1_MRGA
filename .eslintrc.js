@@ -13,6 +13,7 @@ module.exports = {
     "parser": "babel-eslint",
     "rules": {
         'no-unused-vars': 0,
-        "no-debugger": 1
+        "no-debugger": 1,
+        "no-undef": "warn"
     },
 }
