@@ -45,7 +45,9 @@ export const OneChat = ({onClick, chat, ref}) => {
 
     WSChatAPI.getReadStatus((readData) => {
         const chatId = readData.chatId;
-        if (chat.chatId == chatId) {
+        const senderId = readData.senderId;
+
+        if (chat.chatId == chatId && readStatusRef.getValue().innerText === ' •' && senderId !== chat.msg.senderId) {
             readStatusRef.getValue().innerText = '';
         }
     });

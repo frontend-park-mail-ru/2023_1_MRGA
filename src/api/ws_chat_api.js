@@ -1,4 +1,4 @@
-import { BackendHost, BackendPort } from "./api";
+import { WSProtocol, BackendHost, BackendPort } from "./api";
 
 let ws;
 
@@ -7,7 +7,7 @@ export class WSChatAPI {
     static connect() {
         try {
             if (ws === undefined) {
-                ws = new WebSocket(`wss://${BackendHost}:${BackendPort}/meetme/chats/subscribe`);
+                ws = new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/meetme/chats/subscribe`);
 
                 ws.addEventListener('close', (event) => {
                     console.log('WebSocket connection closed:', event);
@@ -46,6 +46,7 @@ export class WSChatAPI {
 
             if (jsonMSG.flag === "READ") {
                 const readData = {
+                    senderId: jsonMSG.body.senderId,
                     chatId: jsonMSG.body.chatId,
                 };
                 listener(readData);

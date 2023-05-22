@@ -69,7 +69,6 @@ export const MessageList = ({messageDispatcher}) => {
                 console.error('Error: ', responseSaveFile.error);
                 return;
             }
-
             const path = responseSaveFile.body.pathToFiles[0];
 
             const msgForSending = {
@@ -82,7 +81,7 @@ export const MessageList = ({messageDispatcher}) => {
             const responseSendMessage = await (await (Tinder.sendMessage(chat.chatId, msgForSending))).json();
 
             if (responseSendMessage.status !== 200) {
-                сonsole.error('Error: ', responseSendMessage.error);
+                console.error('Error: ', responseSendMessage.error);
                 return;
             }
         } catch (error) {
@@ -164,7 +163,7 @@ export const MessageList = ({messageDispatcher}) => {
             };
 
             if (chat.chatId === chatId) {
-                render(messagesAreaRef.getValue(), <OneMsgSpace msg={msgData} />);
+                render(messagesAreaRef.getValue(), <OneMsgSpace chatId={chatId} msg={msgData} />);
                 messagesAreaRef.getValue().scrollTo(0, messagesAreaRef.getValue().scrollHeight);
 
                 WSChatAPI.sendReadStatus({

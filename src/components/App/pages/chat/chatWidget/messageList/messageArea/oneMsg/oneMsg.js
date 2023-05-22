@@ -5,6 +5,7 @@ import {convertToDate} from "@/lib/jsx/utils";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import { BackendHost, BackendPort, BackendProtocol } from "../../../../../../../../api/api";
 import {Tinder} from "@/api/api";
+import { WSChatAPI } from "../../../../../../../../api/ws_chat_api";
 
 export const OneMsg = ({chatId, msg}) => {
     const audioRef = useRef();
@@ -18,7 +19,9 @@ export const OneMsg = ({chatId, msg}) => {
 
     WSChatAPI.getReadStatus((readData) => {
         const gotChatId = readData.chatId;
-        if (chatId === gotChatId && readStatusRef.getValue().innerText === ' •') {
+        const senderId = readData.senderId;
+
+        if (chatId === gotChatId && readStatusRef.getValue().innerText === ' •' && senderId !== msg.senderId) {
             readStatusRef.getValue().innerText = '';
         }
     });

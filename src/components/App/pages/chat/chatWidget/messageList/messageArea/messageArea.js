@@ -6,10 +6,10 @@ import {OneChat} from "components/App/pages/chat/chatWidget/chatList/oneChat/one
 import {OneMsg} from "components/App/pages/chat/chatWidget/messageList/messageArea/oneMsg/oneMsg";
 
 
-export const OneMsgSpace = ({msg},) => {
+export const OneMsgSpace = ({chatId, msg},) => {
     return (
         <div className={styles.messageSpace}>
-            <OneMsg msg={msg}/>
+            <OneMsg chatId={chatId} msg={msg}/>
         </div>
     )
 }
