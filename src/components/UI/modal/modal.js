@@ -43,7 +43,7 @@ export const ModalWindow = ({dispatcher,...props}, children) => {
     return (
         <div ref={modal}  className={[styles.modalOverlay, styles.hidden].join(' ')} {...props}>
             <div className={styles.modal}>
-            <SubmitButton onClick={hide} style={styles.modalClose}>Х</SubmitButton>
+            <SubmitButton onClick={hide} style={styles.modalClose}>×</SubmitButton>
             {children}
             </div>
         </div>
