@@ -2,7 +2,7 @@ import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
 import styles from './recommendProfile.module.css'
 
 import ico from 'assets/favicon.ico';
-import loading from 'assets/img/loading.png'
+import loading from 'assets/img/loading_white.png'
 import like from 'assets/svg/like.svg';
 import dislike from 'assets/svg/dislike.svg';
 import prevPhotoArrow from 'assets/svg/prevPhotoArrow.svg';
@@ -52,7 +52,7 @@ export const Recom = () => {
         await getRecommendations();
         if (!recommendations || recommendations.length === 0) {
             locationPointRef.getValue().innerHTML = '';
-            info.getValue().innerHTML = "На данный момент для вас нет рекомендаций";
+            info.getValue().innerHTML = "На данный момент для Вас нет рекомендаций. Вы можете изменить критерии поиска в профиле или подождать, когда мы подберем новые рекомендации";
             hideButtons();
             return ;
         }
@@ -101,7 +101,7 @@ export const Recom = () => {
         zodiac.getValue().innerHTML = '';
         currRecPhoto.getValue().src = loadingPhoto;
         locationPointRef.getValue().innerHTML = '';
-        info.getValue().innerHTML = "На данный момент для вас нет рекомендаций";
+        info.getValue().innerHTML = "На данный момент для Вас нет рекомендаций. Вы можете изменить критерии поиска в профиле или подождать, когда мы подберем новые рекомендации";
     }
     const next = () => {
         if (currentRecommendation > recommendations.length - 2) {
@@ -151,9 +151,9 @@ export const Recom = () => {
     return (
         <div className={styles.content}>
             <ModalWindow dispatcher={likesEndMessageModalDispatcher}>
-                <div>Сегодня вы больше не можете ставить лайки, попробуйте завтра</div>
-                <div>Или приобретите подписку и лайкайте, сколько хотите!</div>
-                <div>Для приобретения подписки пишите в телегу нашему
+                <div className={styles.likeText}>Сегодня вы больше не можете ставить лайки, попробуйте завтра.
+                    Или приобретите подписку и лайкайте, сколько хотите!
+                    Для приобретения подписки пишите в telegram нашему
                     <u>
                     <a href={"https://t.me/yakwilik"}> админу</a></u>
                 </div>
@@ -194,7 +194,7 @@ export const Recom = () => {
                         <span ref={city}></span>
                     </div>
                     <div className={styles.descField}>
-                        <div ref={recDescription} className={styles.descText}>
+                        <div ref={recDescription} className={styles.descTextCenter}>
                         </div>
                         <div className={styles.descText} ref={education}></div>
                         <div className={styles.descText} ref={zodiac} ></div>
@@ -202,7 +202,7 @@ export const Recom = () => {
                         </div>
 
                         <div id="recOtherInfo" className={styles.descOtherData}>
-                            <div ref={info}></div>
+                            <div className={styles.warningEmptyRecs} ref={info}></div>
                             <ModalWindow dispatcher={dispatcher}>
                                 <SubmitButton onClick={reportUserClick}>Пожаловаться на пользователя?</SubmitButton>
                             </ModalWindow>

@@ -31,8 +31,8 @@ const MatchNewChat = ({match}) => {
                 <span>{match.name}</span>
             </div>
             <span className={styles.firstMessageInput}>
-                <InputWithLabel ref={firstMessageRef} labelText="Напишите первое сообщение" type={"text"}/>
-                <SubmitButton onClick={onFirstMessageSend}>отправить первое сообщение</SubmitButton>
+                <InputWithLabel  ref={firstMessageRef} labelText="Напишите первое сообщение" type={"text"}/>
+                <SubmitButton onClick={onFirstMessageSend}>Отправить первое сообщение</SubmitButton>
             </span>
         </div>
     )
@@ -55,7 +55,7 @@ export const MatchesList = ({refToChatArea}) => {
         try {
             const matchesJson = await ((await Tinder.getMatches()).json());
             if (matchesJson.status !== 200) {
-                info.getValue().innerHTML = 'не удалось загрузить данные';
+                info.getValue().innerHTML = 'Не удалось загрузить данные';
                 return ;
             }
             matches = matchesJson.body?.matches ?? [];

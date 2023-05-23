@@ -94,7 +94,7 @@ export const HashTagsForm = () => {
                        multiple
                    >
                    </Select>
-                    <Label labelText={"Зажмите CTRL/CMD, чтобы выбрать несколько"} htmlFor={"hashTags"}/>
+                    <Label style={"font-size: 16px; padding-left: 20px" }labelText={"Зажмите CTRL/CMD, чтобы выбрать несколько"} htmlFor={"hashTags"}/>
                 </span>
                 <Warning
                     ref={hashTagsWarning}

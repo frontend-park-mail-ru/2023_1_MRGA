@@ -20,6 +20,7 @@ body {
 .firstMessageInput {
     position: absolute;
     bottom: 0;
+/*style={"align-items:center;"}*/
 }
 
 .matchNewChatUser {

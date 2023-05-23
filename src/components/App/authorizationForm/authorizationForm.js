@@ -22,9 +22,9 @@ export const AuthorizationForm = () => {
 
             if (json.status !== 200) {
                 if (json.error.toString().includes("record not found")) {
-                    error.getValue().innerHTML = 'не существует пользователя с такой почтой';
+                    error.getValue().innerHTML = 'Не существует пользователя с такой почтой';
                 } else if (json.error.toString().includes('hashedPassword is not the hash of the given password')) {
-                    error.getValue().innerHTML = 'неправильный логин или пароль';
+                    error.getValue().innerHTML = 'Неправильный логин или пароль';
                 } else {
                     error.getValue().innerHTML = json.error;
                 }

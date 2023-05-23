@@ -27,7 +27,7 @@
     white-space: pre-wrap; /* Разрешаем перенос строк, сохраняя пробелы и табуляцию */
 }
 
-::-webkit-scrollbar {
-    border-radius: 20px;
-    width: 10px;
-}
+/*::-webkit-scrollbar {*/
+/*    border-radius: 20px;*/
+/*    width: 10px;*/
+/*}*/

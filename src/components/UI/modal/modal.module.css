@@ -12,7 +12,7 @@
 }
 .modal {
     background-color: white;
-    padding: 30px;
+    padding: 20px;
     border-radius: 4px;
     max-width: 500px;
     width: 90%;
@@ -22,6 +22,7 @@
     justify-content: center;
     flex-direction: column;
     position: relative;
+    margin: 15px;
 }
 
 .modalClose {
@@ -30,11 +31,12 @@
     position: absolute;
     top: 0%;
     right: 0%;
+    margin-top: -15px;
+    opacity: 70%;
     border: none;
     background: transparent;
-    font-size: 24px;
+    font-size: 40px;
     cursor: pointer;
-    margin: 0;
     color: black;
 }
 

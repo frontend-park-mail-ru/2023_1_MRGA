@@ -1,15 +1,15 @@
 .chatListContainer {
     display: flex;
     margin: 0px 10px;
-    flex-wrap: wrap;
     background-color: white;
     width: 350px;
     min-width: 280px;
     border-radius: 20px;
     flex-direction: column;
-    height: 628px;
+    height: 100%;
     padding: 20px 10px;
     gap: 10px;
+    overflow: auto;
     box-sizing: border-box;
 }
 

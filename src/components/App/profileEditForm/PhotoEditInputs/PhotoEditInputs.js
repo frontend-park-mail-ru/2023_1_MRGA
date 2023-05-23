@@ -112,10 +112,13 @@ export const PhotoEditInputs = () => {
     const dispatcher = modalDispatcher();
     loadUserData().then();
     return (
-        <>
-        <Label labelText={"Фотографии профиля"}/>
+        <div>
+            <Label labelText={"Фотографии профиля"}/>
             <ModalWindow dispatcher={dispatcher}>
-                Уверены, что хотите удалить фотографию?
+                <div className={styles.deletedText}>
+                    Уверены, что хотите удалить фотографию?
+                </div>
+
                 <SubmitButton onClick={afterConfirm}>Да</SubmitButton>
             </ModalWindow>
             <div className={styles.form}>
@@ -129,6 +132,6 @@ export const PhotoEditInputs = () => {
                 })}
             </div>
         <SubmitButton onClick={onUpdateClick}>Сохранить</SubmitButton>
-        </>
+        </div>
   )
 }

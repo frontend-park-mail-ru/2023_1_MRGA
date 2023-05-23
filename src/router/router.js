@@ -45,7 +45,6 @@ export const setPrivateRoutes = () => {
     routes = privateRoutes;
 }
 const router = async () => {
-    // debugger;
     try {
         const response = await Tinder.getUser();
         const json = await response.json();
