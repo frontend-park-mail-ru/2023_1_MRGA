@@ -189,8 +189,9 @@ export const FiltersForm = () => {
                     ref={maxAgeWarning}
                     title={"Максимальный возраст должен быть выбран"}
                 />
+
                 <span className={styles.reasonsSelectContainer}>
-                   <Label labelText={"Выберите причины"}/>
+                    <Label labelText={"Выберите причины"}/>
                    <Select
                        id={"reasons"}
                        required={true}
@@ -200,7 +201,7 @@ export const FiltersForm = () => {
                        multiple
                    >
                    </Select>
-                    <Label labelText={"Зажмите CTRL/CMD, чтобы выбрать несколько"} htmlFor={"hashTags"}/>
+                    <Label style={"font-size: 16px; padding-left: 20px" } labelText={"Зажмите CTRL/CMD, чтобы выбрать несколько"} htmlFor={"hashTags"}/>
                 </span>
                 <Warning
                     ref={reasonsWarning}
