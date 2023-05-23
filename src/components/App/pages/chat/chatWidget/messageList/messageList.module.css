@@ -10,8 +10,7 @@
 
 .sendButton {
     height: 40px;
-    margin-top: 3%;
-    background-image: linear-gradient(to bottom, #8b599e 15%, #5d3f68 85%);
+    background-image: linear-gradient(to bottom, #d09ae3 15%, #926ab1de 85%);
     width: 100%;
 }
 
@@ -22,10 +21,14 @@
     resize: none;
     flex-grow: 1;
     margin-right: 5px;
+    font-size: 17px;
+    padding: 5px;
+    border: #926fadde 1px solid;
+    border-radius: 10px;
 }
 
 .messageListContainer {
-    height: 100vh;
+    height: 628px;
     background-color: white;
     border-radius: 20px;
     display: flex;
@@ -34,6 +37,8 @@
     min-width: 400px;
     position: relative;
     justify-content: center;
+    flex: 1;
+    margin-right: 12px;
 }
 
 .companionStyle {
@@ -74,7 +79,7 @@
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
-    background-image: linear-gradient(to bottom, #ef4b42 15%, #8b599e 85%);
+    background-image: linear-gradient(to bottom, #d3d1f8 15%, #d8aae8 85%);
     color: white;
     cursor: pointer;
     outline: none;
@@ -83,4 +88,19 @@
 
 .recordButton:hover {
     background-color: #867BFF;
+}
+
+.oneChatUser {
+    margin: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.oneChatAvatar {
+    width: 50px;
+    height: 50px;
+    border: #3F2FFF 1px solid;
+    border-radius: 50%;
+    object-fit: cover;
 }

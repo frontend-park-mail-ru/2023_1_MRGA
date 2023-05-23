@@ -5,25 +5,6 @@ import {getUser} from "@/store/user";
 import { convertToDate } from '@/lib/jsx/utils';
 import {WSChatAPI} from "@/api/ws_chat_api";
 
-export const ChatUser = ({userID, className, ...props}) => {
-    const avatar = useRef();
-    const name = useRef();
-
-    const setAvatarImg = async () => {
-        const userInfo = await ((await Tinder.getInfoUserById(userID)).json());
-
-        avatar.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${userInfo.body.photos[0]}`;
-        name.getValue().innerHTML = userInfo.body.name;
-    }
-    setAvatarImg();
-    return (
-        <div className={styles.oneChatUser}>
-            <img className={styles.oneChatAvatar} ref={avatar} {...props}/>
-            <div ref={name}></div>
-        </div>
-    )
-}
-
 const MessageArea = ({msg}) => {
     switch (msg.messageType) {
     case "text", "":
@@ -43,6 +24,9 @@ const MessageArea = ({msg}) => {
 export const OneChat = ({onClick, chat, ref}) => {
     const readStatusRef = useRef();
 
+    const avatar = useRef();
+    const name = useRef();
+
     WSChatAPI.getReadStatus((readData) => {
         const chatId = readData.chatId;
         const senderId = readData.senderId;
@@ -55,15 +39,30 @@ export const OneChat = ({onClick, chat, ref}) => {
     const data = chat.msg.sentAt;
     const arr = chat.chatUserIds.filter((val) => {
         return val !== getUser().userId;
-    })
+    });
+
+    const setAvatarImg = async () => {
+        const userInfo = await ((await Tinder.getInfoUserById(arr[0])).json());
+
+        avatar.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${userInfo.body.photos[0]}`;
+        name.getValue().innerHTML = userInfo.body.name;
+    }
+    setAvatarImg();
+
     const readStatus = !chat.msg.readStatus ? ' •': '';
+
     return (
         <div ref={ref} onClick={onClick.bind(null, chat)} id={chat.chatId} className={styles.oneChatContainer}>
-            <ChatUser userID={arr[0]}/>
-            <MessageArea msg={chat.msg}/>
-            <div className={styles.messageTime}>
-                {convertToDate(data)}
-                <b ref={readStatusRef} className={styles.readStatus}>{readStatus}</b>
+            <div>
+                <img className={styles.oneChatAvatar} ref={avatar}/>
+            </div>
+            <div className={styles.msgWrapper}>
+                <b ref={name}></b>
+                <MessageArea msg={chat.msg}/>
+                <div className={styles.messageTime}>
+                    {convertToDate(data)}
+                    <b ref={readStatusRef} className={styles.readStatus}>{readStatus}</b>
+                </div>
             </div>
         </div>
     )

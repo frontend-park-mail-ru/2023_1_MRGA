@@ -67,7 +67,7 @@ export const OneMsg = ({chatId, msg}) => {
         }
     };
     
-    const componentStyle = [styles.bubbleMessage, styles.theme];
+    const componentStyle = [styles.bubbleMessage];
 
     if (msg.senderId === getUser().userId) {
         componentStyle.push(styles.ownMessage);

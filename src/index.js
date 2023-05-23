@@ -1,5 +1,6 @@
 import {createRoot} from "@/lib/jsx/index.ts";
 import {routes} from "/router/router.js";
+import styles from "./styles/styles.css"
 
 // const initServiceWorker = () => {
 //     navigator?.serviceWorker.register('serviceWorker.js')

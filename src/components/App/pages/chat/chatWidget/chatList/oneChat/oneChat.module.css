@@ -1,12 +1,17 @@
 .oneChatContainer {
-    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    border: #3F2FFF 1px solid;
+    border: #926fadde 1px solid;
     border-radius: 10px;
-    padding: 3px;
+    padding: 5px;
     position: relative;
+    height: 80px;
+    gap: 5px;
+}
+
+.oneChatContainer:hover {
+    background-color: #eee;
 }
 
 .messageTime {
@@ -14,39 +19,41 @@
     position: absolute;
     bottom: 0;
     right: 0;
+    font-size: 13px;
 }
+
 .oneChatAvatar {
     width: 50px;
     height: 50px;
-    border: #3F2FFF 1px solid;
+    border: #926fadde 1px solid;
     border-radius: 50%;
     object-fit: cover;
 }
 
 .messageArea {
-    margin-left: 10px;
     padding: 3px;
     display: -webkit-box; /* Используем флекс-бокс для ограничения строк */
+    max-width: 20ch; /* Устанавливаем максимальную ширину блока на основе символов (ch) */
     -webkit-box-orient: vertical; /* Устанавливаем вертикальное направление текста */
     -webkit-line-clamp: 2; /* Ограничиваем количество строк до 2 */
-    max-width: 16ch; /* Устанавливаем максимальную ширину блока на основе символов (ch) */
     overflow: hidden; /* Скрываем текст, выходящий за границы блока */
     text-overflow: ellipsis; /* Добавляем многоточие в конце, если текст обрезается */
     white-space: pre-wrap; /* Разрешаем перенос строк, сохраняя пробелы и табуляцию */
     word-wrap: break-word; /* Принудительный перенос длинных слов */
+    font-size: 15px;
 }
 
 .unreadMessage {
     background-color: #9492bf;
 }
 
-.oneChatUser {
-    margin: 3px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .readStatus {
     font-size: 20px;
+}
+
+.msgWrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex: 1;
 }

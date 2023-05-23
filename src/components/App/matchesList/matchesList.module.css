@@ -109,13 +109,14 @@ a {
     display: flex;
     height: 87%;
     flex-direction: row;
+    align-items: stretch;
     justify-content: space-around;
 }
 
 .sideBar {
     margin-left: 12px;
     width: 280px;
-    min-width: 280px;
+    width: 280px;
     min-height: 500px;
     background-color: white;
     border-radius: 20px;
@@ -398,7 +399,7 @@ a {
 .peopleSide {
     background-color: white;
     border-radius: 20px;
-    margin-right: 12px;
+    margin: 0px 12px;
     min-width: 300px;
     position: relative;
     width: 40%;
@@ -422,6 +423,7 @@ a {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    padding: 5px;
 }
 
 .singleProfile {

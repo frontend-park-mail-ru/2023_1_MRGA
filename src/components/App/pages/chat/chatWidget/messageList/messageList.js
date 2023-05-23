@@ -1,14 +1,30 @@
-import {Tinder} from "@/api/api";
 import styles from "components/App/pages/chat/chatWidget/messageList/messageList.module.css";
-import {InputWithLabel} from "components/UI/forms/inputWithLabel/inputWithLabel";
+import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
-import {MsgSpace, OneMsg} from "components/App/pages/chat/chatWidget/messageList/messageArea/oneMsg/oneMsg";
 import {MessageArea, OneMsgSpace} from "components/App/pages/chat/chatWidget/messageList/messageArea/messageArea";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import chatIcon from "assets/svg/chat-icon.svg";
 import {render} from "@/lib/jsx/render";
-import {ChatUser} from "components/App/pages/chat/chatWidget/chatList/oneChat/oneChat";
 import {WSChatAPI} from "@/api/ws_chat_api";
+
+export const ChatUser = ({userID, className, ...props}) => {
+    const avatar = useRef();
+    const name = useRef();
+
+    const setAvatarImg = async () => {
+        const userInfo = await ((await Tinder.getInfoUserById(userID)).json());
+
+        avatar.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${userInfo.body.photos[0]}`;
+        name.getValue().innerHTML = userInfo.body.name;
+    }
+    setAvatarImg();
+    return (
+        <div className={styles.oneChatUser}>
+            <img className={styles.oneChatAvatar} ref={avatar} {...props}/>
+            <div ref={name}></div>
+        </div>
+    )
+}
 
 export const MessageList = ({messageDispatcher}) => {
     const info = useRef();
@@ -128,12 +144,12 @@ export const MessageList = ({messageDispatcher}) => {
                 <MessageArea ref={messagesAreaRef} chatId={chat.chatId} messages={messagesList.body.chat}/>
                 <div className={styles.inputArea}>
                     <div className={styles.messageArea}>
-                        <textarea ref={newMessageRef} onKeyDown={(event) => handleTextareaKeyDown(event, chat)} className={styles.sendInput} placeholder={"Сообщение"}/>
+                        <textarea ref={newMessageRef} onKeyDown={(event) => handleTextareaKeyDown(event, chat)} className={styles.sendInput} placeholder={"Введите сообщение"}/>
                         <div>
                             <button ref={recordButton} className={styles.recordButton}>🎙️</button>
                         </div>
                     </div>
-                    <SubmitButton onClick={onSendMessageClick.bind(null, chat)} style={styles.sendButton}>отправить</SubmitButton>
+                    <SubmitButton onClick={onSendMessageClick.bind(null, chat)} style={styles.sendButton}>Отправить</SubmitButton>
                 </div>
             </>
         )

@@ -2,7 +2,7 @@
     box-sizing: border-box;
     text-align: justify;
     padding: 10px;
-    color: #5d3f68;
+    color: black;
     display: flex;
     background-color: white;
     min-height: 40px;
@@ -10,7 +10,7 @@
     max-width: 50%;
     border-radius: 20px;
 
-    margin: 8px 26px 8px 0;
+    margin: 8px 26px 0px 0px;
     font-size: 14px;
     line-height: 1.5em;
     position: relative;
@@ -22,18 +22,14 @@
     position: absolute;
     bottom: 0;
     right: 0;
+    font-size: 13px;
 }
 
 .ownMessage{
     border-bottom-right-radius: 0;
     left: 50%;
     position: relative;
-
-}
-
-.theme{
-    background-image: linear-gradient(to bottom, #d4a241, #ef4b42, #8b599e);
-    background-attachment: fixed;
+    background-color: #c68ef161;
 }
 
 .audioWrapper {
@@ -52,6 +48,7 @@
 }
 
 .foreignMessage{
+    background-color: #F3F2FF;
     border-bottom-left-radius: 0;
 }
 
@@ -85,8 +82,9 @@
 }
 
 .transcriptionButton > button {
-    background-color: #684077;
+    background-image: linear-gradient(to bottom, #d09ae3 15%, #926ab1de 85%);
     border-radius: 30%;
+    border: none;
 }
 
 .progressBar {
@@ -99,7 +97,7 @@
 
 .progress {
     height: 100%;
-    background-color: black;
+    background-image: linear-gradient(to right, #d09ae3 15%, #926ab1de 85%);
     position: absolute;
     left: 0;
 }
@@ -107,7 +105,7 @@
 .playPauseButton {
     width: 50px;
     height: 50px;
-    background-color: #684077;
+    background-image: linear-gradient(to bottom, #d09ae3 15%, #926ab1de 85%);
     display: flex;
     justify-content: center;
     align-items: center;

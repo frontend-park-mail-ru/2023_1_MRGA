@@ -107,7 +107,7 @@ export const Recom = () => {
         if (currentRecommendation > recommendations.length - 2) {
             clearRecommendations();
             hideButtons();
-            return ;
+            return;
         }
         currentRecommendation++;
 
@@ -120,10 +120,11 @@ export const Recom = () => {
             try {
                 const responseJSON = await (await Tinder.postReaction({
                     evaluatedUserId: recommendations[currentRecommendation].userId,
-                    reaction: reaction
+                    reaction: reaction,
                 })).json();
                 if (responseJSON.status !== 200) {
                     likesEndMessageModalDispatcher.showModal();
+                    return;
                 }
             } catch (e) {
                 alert(e);
@@ -140,7 +141,7 @@ export const Recom = () => {
 
     const reportUserClick = async (e) => {
         e.preventDefault();
-        const res = await (await Tinder.complainUser({UserId: recommendations[currentRecommendation].userId   })).json();
+        const res = await (await Tinder.complainUser({UserId: recommendations[currentRecommendation].userId})).json();
         // Жалоба на пользователя
         next();
         dispatcher.hideModal();
