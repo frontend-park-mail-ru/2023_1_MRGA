@@ -9,9 +9,9 @@ import {FormContainer} from "components/UI/containers/formContainer/formContaine
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {validateName} from "@/lib/validators";
 import {Tinder} from "@/api/api";
-import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {rootRender} from "@/lib/jsx";
 import {HashTagsPage} from "components/App/pages/registration/hashTags/hashTags";
+import {render} from "@/lib/jsx/render";
 
 export const InterviewForm = () => {
     const name = useRef();
@@ -120,6 +120,12 @@ export const InterviewForm = () => {
         "М": 0,
         "Ж": 1
     }
+    const setObjectKey = (value, object, key) => {
+        if (value === dontWannaShow) {
+            return ;
+        }
+        object[key] = value;
+    }
     const onSubmitClick = async (e) => {
         e.preventDefault();
         if (!allChecks()) {
@@ -128,13 +134,15 @@ export const InterviewForm = () => {
         try {
             let obj = {
                 "name": name.getValue().value,
-                "city": city.getValue().value,
-                "job": job.getValue().value,
-                "education": education.getValue().value,
                 "sex": stN[sex.getValue().value],
-                "zodiac": zodiac.getValue().value,
                 "description": description.getValue().value,
             }
+            setObjectKey(city.getValue().value, obj, "city");
+            setObjectKey(job.getValue().value, obj, "job");
+            setObjectKey(education.getValue().value, obj, "education");
+            setObjectKey(zodiac.getValue().value, obj, "zodiac");
+            console.log(obj);
+
             const respInfoUser = await Tinder.infoUser(obj);
             const jsonInfoUser = await respInfoUser.json()
             if (jsonInfoUser.status !== 200) {
@@ -146,15 +154,15 @@ export const InterviewForm = () => {
             alert(e);
         }
     }
-
+    const another = 'Другое';
+    const dontWannaShow = 'Не хочу указывать';
     const setOptions = (id, arrOptions) => {
         let select = document.querySelector(`#${id}`);
-        arrOptions.forEach(item => {
-            let option = document.createElement("option");
-            option.label = item;
-            option.text = item;
-            select.appendChild(option);
-        });
+        arrOptions.push(another);
+        arrOptions.push(dontWannaShow);
+        render(select, arrOptions.map((item) => {
+            return <option label={item}>{item}</option>
+        }))
     }
 
     const respCitiesFunc = async () => {

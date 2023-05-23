@@ -18,7 +18,8 @@ export const RegistrationForm = () => {
     const ageWarning = useRef();
     const password = useRef();
     const passwordRepeat = useRef();
-    const warning = useRef();
+    const passwordWarning = useRef();
+    const passwordRepeatWarning = useRef();
     const submitButton = useRef();
 
 
@@ -26,28 +27,34 @@ export const RegistrationForm = () => {
         const passwordText = password.getValue().value;
         const passwordRepeatText = passwordRepeat.getValue().value;
         const {valid, message} = validatePassword(passwordText);
+        // debugger;
         if (passwordText === '') {
-            warning.getValue().innerText = '';
+            passwordWarning.getValue().innerText = '';
+            passwordRepeatWarning.getValue().innerText = '';
         } else if (!valid) {
-            warning.getValue().innerHTML = message;
+            passwordWarning.getValue().innerHTML = message;
         } else if (passwordRepeatText === '') {
-            warning.getValue().innerText = '';
+            passwordWarning.getValue().innerText = '';
         } else if (passwordRepeatText !== '') {
             onPasswordRepeatChange();
         } else {
-            warning.getValue().innerText = '';
+            passwordWarning.getValue().innerText = '';
         }
     }
     const onPasswordRepeatChange = () => {
         const passwordText = password.getValue().value;
         const passwordRepeatText = passwordRepeat.getValue().value;
         const {valid, message} = validatePassword(passwordText);
+        if (passwordText === '') {
+            passwordWarning.getValue().innerHTML = 'Заполните поле с паролем';
+            return ;
+        }
         if (!valid) {
-            warning.getValue().innerHTML = message;
+            passwordWarning.getValue().innerHTML = message;
         } else if (passwordText !== passwordRepeatText) {
-            warning.getValue().innerHTML = 'Пароли не совпадают';
+            passwordRepeatWarning.getValue().innerHTML = 'Пароли не совпадают';
         } else {
-            warning.getValue().innerHTML = '';
+            passwordWarning.getValue().innerHTML = '';
         }
     }
     const onEmailChange = () => {
@@ -86,7 +93,7 @@ export const RegistrationForm = () => {
         //const nicknameError = nicknameWarning.getValue().innerText === '';
         const ageError = ageWarning.getValue().innerText === '';
         //const sexError = sexWarning.getValue().innerText === '';
-        const passwordError = warning.getValue().innerText === '';
+        const passwordError = passwordWarning.getValue().innerText === '';
         return (
             emailError  &&
             ageError  && passwordError
@@ -107,9 +114,9 @@ export const RegistrationForm = () => {
             const json = await resp.json()
             if (json.status !== 200) {
                 if (json.error.toString().includes('duplicate key value violates unique constraint')) {
-                    warning.getValue().innerHTML = 'Такой email уже зарегистрирован';
+                    passwordWarning.getValue().innerHTML = 'Такой email уже зарегистрирован';
                 } else {
-                    warning.getValue().innerHTML = json.error;
+                    passwordWarning.getValue().innerHTML = json.error;
                 }
                 return
             }
@@ -161,6 +168,8 @@ export const RegistrationForm = () => {
                     required={true}
                     onChange={onPasswordInputChange}
                 />
+                <Warning ref={passwordWarning}></Warning>
+
                 <PasswordInput
                     id="pass2"
                     labelText="Повторите пароль"
@@ -169,7 +178,7 @@ export const RegistrationForm = () => {
                     ref={passwordRepeat}
                     onChange={onPasswordInputChange}
                 />
-                <Warning ref={warning}></Warning>
+                <Warning ref={passwordRepeatWarning}/>
                 <SubmitButton
                     ref={submitButton}
                     onClick={onSubmitClick}

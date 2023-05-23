@@ -72,6 +72,7 @@ export const removeChildren = (domNode, children) => {
 
 
 export const create = (virtualNode: VNode | VirtualNodeArray) => {
+
     if (cantRender(virtualNode)) {
         return ;
     }

@@ -1,0 +1,28 @@
+.borderForSelect {
+    outline: 1px solid blue;
+}
+.selectWrapper {
+    display: block;
+    min-width: 414px;
+    min-height: 68px;
+    border-radius: 20px;
+    box-sizing: border-box;
+    font-size: 24px;
+    border: rgba(195, 162, 203, 1) 1px solid;
+}
+.select {
+    border: none;
+    display: block;
+    min-width: 414px;
+    min-height: 68px;
+    border-radius: 20px;
+    box-sizing: initial;
+    font-size: 24px;
+}
+.selectFocus:focus {
+    outline: none;
+}
+
+.select[multiple] {
+    margin: 1rem;
+}
