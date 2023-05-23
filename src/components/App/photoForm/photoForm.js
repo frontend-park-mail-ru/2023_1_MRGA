@@ -16,6 +16,7 @@ import logo from "assets/LogoMini.svg";
 import {modalDispatcher, ModalWindow} from "components/UI/modal/modal";
 
 export const PhotoForm = () => {
+    const photoWarning = useRef();
     const photosRef = [
         {
             photo: useRef(),
@@ -69,7 +70,13 @@ export const PhotoForm = () => {
             const respPhotoUser = await Tinder.postPhotos(formData);
             const jsonPhotoUser = await respPhotoUser.json()
             if (jsonPhotoUser.status !== 200) {
-                alert(jsonPhotoUser.error);
+                if (jsonPhotoUser.error === "there is not face"){
+                    let warningPhoto = "Лица не обнаружены на фотографии(ях) под номером(ами): "
+                    for (const photoNum of jsonPhotoUser.body.problemPhoto){
+                        warningPhoto = warningPhoto + String(photoNum+1) + " "
+                    }
+                    photoWarning.getValue().innerHTML = warningPhoto
+                }
                 return
             }
             Navigate({to:'/'});
@@ -91,8 +98,13 @@ export const PhotoForm = () => {
                         <MyPhotoInput control={label} photo={photo} id={id}></MyPhotoInput>
                         )
                     })}
+                <Warning
+                    ref={photoWarning}
+                    title={"Некоректное фото"}
+                />
                 <SubmitButton onClick={onSubmitClick}>Подтвердить</SubmitButton>
                 </div>
+
             </Form>
         </FormContainer>
     )
