@@ -52,7 +52,7 @@ export const RegistrationForm = () => {
         if (!valid) {
             passwordWarning.getValue().innerHTML = message;
         } else if (passwordText !== passwordRepeatText) {
-            passwordRepeatWarning.getValue().innerHTML = 'Пароли не совпадают';
+            passwordRepeatWarning.getValue().innerHTML = 'Пароли не совпадают' + passwordText + passwordRepeatText;
         } else {
             passwordWarning.getValue().innerHTML = '';
         }
@@ -114,9 +114,9 @@ export const RegistrationForm = () => {
             const json = await resp.json()
             if (json.status !== 200) {
                 if (json.error.toString().includes('duplicate key value violates unique constraint')) {
-                    passwordWarning.getValue().innerHTML = 'Такой email уже зарегистрирован';
+                    emailWarning.getValue().innerHTML = 'Такой email уже зарегистрирован';
                 } else {
-                    passwordWarning.getValue().innerHTML = json.error;
+                    emailWarning.getValue().innerHTML = json.error;
                 }
                 return
             }
