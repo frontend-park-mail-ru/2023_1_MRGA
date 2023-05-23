@@ -148,8 +148,10 @@ export const MessageList = ({messageDispatcher}) => {
                         <div>
                             <button ref={recordButton} className={styles.recordButton}>🎙️</button>
                         </div>
+                        <div>
+                            <button onClick={onSendMessageClick.bind(null, chat)} className={styles.sendButton}>📩</button>
+                        </div>
                     </div>
-                    <SubmitButton onClick={onSendMessageClick.bind(null, chat)} style={styles.sendButton}>Отправить</SubmitButton>
                 </div>
             </>
         )
