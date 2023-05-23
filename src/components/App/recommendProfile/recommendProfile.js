@@ -52,7 +52,7 @@ export const Recom = () => {
         await getRecommendations();
         if (!recommendations || recommendations.length === 0) {
             locationPointRef.getValue().innerHTML = '';
-            info.getValue().innerHTML = "На данный момент для вас нет рекомендаций";
+            info.getValue().innerHTML = "На данный момент для Вас нет рекомендаций. Вы можете изменить критерии поиска в профиле или подождать, когда мы подберем новые рекомендации";
             hideButtons();
             return ;
         }
@@ -101,7 +101,7 @@ export const Recom = () => {
         zodiac.getValue().innerHTML = '';
         currRecPhoto.getValue().src = loadingPhoto;
         locationPointRef.getValue().innerHTML = '';
-        info.getValue().innerHTML = "На данный момент для вас нет рекомендаций";
+        info.getValue().innerHTML = "На данный момент для Вас нет рекомендаций. Вы можете изменить критерии поиска в профиле или подождать, когда мы подберем новые рекомендации";
     }
     const next = () => {
         if (currentRecommendation > recommendations.length - 2) {
@@ -202,7 +202,7 @@ export const Recom = () => {
                         </div>
 
                         <div id="recOtherInfo" className={styles.descOtherData}>
-                            <div ref={info}></div>
+                            <div className={styles.warningEmptyRecs} ref={info}></div>
                             <ModalWindow dispatcher={dispatcher}>
                                 <SubmitButton onClick={reportUserClick}>Пожаловаться на пользователя?</SubmitButton>
                             </ModalWindow>

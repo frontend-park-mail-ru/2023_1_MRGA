@@ -55,7 +55,7 @@ export const MatchesList = ({refToChatArea}) => {
         try {
             const matchesJson = await ((await Tinder.getMatches()).json());
             if (matchesJson.status !== 200) {
-                info.getValue().innerHTML = 'не удалось загрузить данные';
+                info.getValue().innerHTML = 'Не удалось загрузить данные';
                 return ;
             }
             matches = matchesJson.body?.matches ?? [];

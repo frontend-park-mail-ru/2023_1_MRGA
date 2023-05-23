@@ -275,6 +275,17 @@ a {
     color:teal;
 }
 
+.warningEmptyRecs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 90%;
+    color: #000000;
+    font-size: 22px;
+}
+
 .tag {
     padding: 5px 10px;
     border-radius: 20px;

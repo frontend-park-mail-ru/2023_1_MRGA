@@ -158,7 +158,7 @@ export const RegistrationForm = () => {
                 />
                 <Warning
                     ref={ageWarning}
-                    title={"возраст должен быть больше или равен 18"}
+                    title={"Возраст должен быть больше или равен 18"}
                 />
                 <PasswordInput
                     id="pass1"
