@@ -3,9 +3,9 @@ import rsStyle from '../../../chatList/oneChat/oneChat.module.css';
 import {getUser} from "@/store/user";
 import {convertToDate} from "@/lib/jsx/utils";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
-import { BackendHost, BackendPort, BackendProtocol } from "../../../../../../../../api/api";
+import { BackendHost, BackendPort, BackendProtocol } from "@/api/api";
 import {Tinder} from "@/api/api";
-import { WSChatAPI } from "../../../../../../../../api/ws_chat_api";
+import { WSChatAPI } from "@/api/ws_chat_api";
 
 export const OneMsg = ({chatId, msg}) => {
     const audioRef = useRef();

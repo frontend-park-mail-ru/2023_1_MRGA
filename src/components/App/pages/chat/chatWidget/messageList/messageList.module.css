@@ -9,9 +9,16 @@
 }
 
 .sendButton {
-    height: 40px;
-    background-image: linear-gradient(to bottom, #d09ae3 15%, #926ab1de 85%);
-    width: 100%;
+    font-size: 24px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-image: linear-gradient(to bottom, #d3d1f8 15%, #d8aae8 85%);
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s;
+    margin-left: 5px;
 }
 
 .sendInput {
