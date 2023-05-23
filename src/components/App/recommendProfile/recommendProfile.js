@@ -194,7 +194,7 @@ export const Recom = () => {
                         <span ref={city}></span>
                     </div>
                     <div className={styles.descField}>
-                        <div ref={recDescription} className={styles.descText}>
+                        <div ref={recDescription} className={styles.descTextCenter}>
                         </div>
                         <div className={styles.descText} ref={education}></div>
                         <div className={styles.descText} ref={zodiac} ></div>

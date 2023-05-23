@@ -18,13 +18,11 @@
 
 .deletePhotoButton {
     position: absolute;
-    top: -10px;
-    right: -10px;
-    width: 40px;
-    height: 40px;
-    border: 1px solid black;
+    top: -7px;
+    right: -7px;
+    width: 30px;
+    height: 30px;
     z-index: 1;
-    border-radius: 50%;
 }
 
 .buttonWrapper {
@@ -53,4 +51,13 @@
     object-fit: cover;
     position: absolute;
     box-sizing: border-box;
+}
+
+.moreSpace{
+    height: 15px;
+}
+
+.deletedText{
+    font-size: 24px;
+    margin-bottom: 15px;
 }
