@@ -56,6 +56,8 @@ export const validateMinAge = (age) => {
         warning = 'Возраст должен быть больше или равен 18';
     } else if (age < 0) {
         warning = 'Некорректный возраст';
+    } else if (age > 150) {
+        warning = 'Некорректный возраст';
     } else if (isNaN(age)) {
         warning = 'Введите возраст';
     } else {
