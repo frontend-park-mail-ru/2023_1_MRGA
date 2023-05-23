@@ -62,9 +62,9 @@ export const InterviewForm = () => {
     }
 
     const onDescriptionInputChange = () => {
-        const descriptionText = name.getValue().value;
-        if (descriptionText === "") {
-           descriptionWarning.getValue().innerHTML = 'Некорректное описание';
+        const descriptionText = description.getValue().value;
+        if (descriptionText === "" || descriptionText.length > 300) {
+           descriptionWarning.getValue().innerHTML = 'Описание должно быть заполнено и не более 300 символов';
            return false;
         } else {
             descriptionWarning.getValue().innerHTML = '';
@@ -255,7 +255,7 @@ export const InterviewForm = () => {
                 </span>
                 <Warning
                     ref={cityWarning}
-                    title={"город должен быть выбран"}
+                    title={"Город должен быть выбран"}
                 />
                 <span>
                    <Label labelText={"Знак зодиака"} htmlFor={"zodiac"}/>
@@ -271,7 +271,7 @@ export const InterviewForm = () => {
                 </span>
                 <Warning
                     ref={zodiacWarning}
-                    title={"знак зодиака должен быть выбран"}
+                    title={"Знак зодиака должен быть выбран"}
                 />
                 <InputWithLabel
                     name={"description"}
@@ -285,7 +285,7 @@ export const InterviewForm = () => {
                 />
                 <Warning
                     ref={descriptionWarning}
-                    title={"описание должно быть заполнено и не более 300 символов"}
+                    title={"Описание должно быть заполнено и не более 300 символов"}
                 />
                 <span>
                    <Label labelText={"Работа"} htmlFor={"job"}/>
@@ -301,7 +301,7 @@ export const InterviewForm = () => {
                 </span>
                 <Warning
                     ref={jobWarning}
-                    title={"работа должна быть быть выбрана"}
+                    title={"Работа должна быть быть выбрана"}
                 />
                 <span>
                    <Label labelText={"Образование"} htmlFor={"education"}/>
