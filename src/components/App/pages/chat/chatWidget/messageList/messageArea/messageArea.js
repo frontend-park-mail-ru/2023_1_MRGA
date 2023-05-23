@@ -16,7 +16,7 @@ export const OneMsgSpace = ({chatId, msg},) => {
 
 export const MessageArea = ({chatId, messages, ref},) => {
     return (
-        <div  ref={ref} className={styles.messageAreaContainer}>
+        <div ref={ref} className={styles.messageAreaContainer}>
             {messages.map((msg) => {
                 return(
                     <OneMsgSpace chatId={chatId} msg={msg.msg}/>
@@ -24,5 +24,4 @@ export const MessageArea = ({chatId, messages, ref},) => {
             })}
         </div>
     )
-
 }

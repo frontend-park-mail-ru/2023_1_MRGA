@@ -48,6 +48,7 @@ a {
     height: 87%;
     flex-direction: row;
     justify-content: space-around;
+    align-items: stretch;
 }
 
 .sideBar {
@@ -129,16 +130,6 @@ a {
     background-color: #F3F2FF;
 }
 
-
-
 .current {
     background-color: rgba(35, 22, 185, 0.11);
 }
-
-
-
-
-
-
-
-

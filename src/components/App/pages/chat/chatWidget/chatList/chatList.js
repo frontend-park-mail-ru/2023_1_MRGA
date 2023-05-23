@@ -16,6 +16,7 @@ export const ChatList = ({messageDispatcher}) => {
 
         render(chatsContainerRef.getValue(), chats.map((chat) => {
             chat.ref = useRef();
+            chat.activeChat = false;
 
             return <OneChat ref={chat.ref} onClick={messageDispatcher.dispatch} chat={chat}/>
         }))
@@ -34,6 +35,18 @@ export const ChatList = ({messageDispatcher}) => {
                 changeChatsList(msgData, chatId);
             }
         });
+
+        messageDispatcher.subscribe((chat) => {
+            chats.forEach((element, idx) => {
+                if (element.chatId === chat.chatId && !element.activeChat) {
+                    chats[idx].ref.getValue().classList.add(styles.activeChat);
+                    chats[idx].activeChat = true;
+                } else if (element.chatId !== chat.chatId && element.activeChat) {
+                    chats[idx].ref.getValue().classList.remove(styles.activeChat);
+                    chats[idx].activeChat = false;
+                }
+            });
+        });
     }
     setChatList();
 
@@ -47,7 +60,6 @@ export const ChatList = ({messageDispatcher}) => {
         const firstChatData = chats[0];
 
         let currChatData = firstChatData;
-        let currChatIndex = 0;
 
         let prevChatData;
         let found = false;
@@ -56,7 +68,6 @@ export const ChatList = ({messageDispatcher}) => {
             if (idx !== 0) {
                 if (!found && chat.chatId === chatId) {
                     currChatData = chat;
-                    currChatIndex = idx;
 
                     found = true;
 
@@ -100,13 +111,23 @@ export const ChatList = ({messageDispatcher}) => {
         currChatData.msg.content = msgObject.content;
         currChatData.msg.readStatus = msgObject.readStatus;
         currChatData.msg.sentAt = msgObject.sentAt;
+        
 
         parentElement.removeChild(currChatData.ref.getValue());
 
         chats[0] = currChatData;
         chats[0].ref = useRef();
+        if (currChatData.activeChat) {
+            chats[0].activeChat = true;
+        } else {
+            chats[0].activeChat = false;
+        }
+
         prerender(parentElement, <OneChat ref={chats[0].ref} onClick={messageDispatcher.dispatch} chat={currChatData}/>);
 
+        if (chats[0].activeChat === true) {
+            chats[0].ref.getValue().classList.add(styles.activeChat);
+        }
     }
 
     return (
@@ -114,5 +135,4 @@ export const ChatList = ({messageDispatcher}) => {
 
         </div>
     )
-
 }
