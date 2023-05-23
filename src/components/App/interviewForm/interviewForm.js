@@ -121,9 +121,6 @@ export const InterviewForm = () => {
         "Ж": 1
     }
     const setObjectKey = (value, object, key) => {
-        if (value === dontWannaShow) {
-            return ;
-        }
         object[key] = value;
     }
     const onSubmitClick = async (e) => {
@@ -154,12 +151,8 @@ export const InterviewForm = () => {
             alert(e);
         }
     }
-    const another = 'Другое';
-    const dontWannaShow = 'Не хочу указывать';
     const setOptions = (id, arrOptions) => {
         let select = document.querySelector(`#${id}`);
-        arrOptions.push(another);
-        arrOptions.push(dontWannaShow);
         render(select, arrOptions.map((item) => {
             return <option label={item}>{item}</option>
         }))
