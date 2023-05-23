@@ -417,3 +417,10 @@ a {
     margin-bottom: 10px;
     cursor: pointer;
 }
+
+.likeText{
+    font-size: 16px;
+    width: 95%;
+    margin: auto;
+    line-height: 20px;
+}

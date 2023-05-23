@@ -31,8 +31,8 @@ const MatchNewChat = ({match}) => {
                 <span>{match.name}</span>
             </div>
             <span className={styles.firstMessageInput}>
-                <InputWithLabel ref={firstMessageRef} labelText="Напишите первое сообщение" type={"text"}/>
-                <SubmitButton onClick={onFirstMessageSend}>отправить первое сообщение</SubmitButton>
+                <InputWithLabel  ref={firstMessageRef} labelText="Напишите первое сообщение" type={"text"}/>
+                <SubmitButton onClick={onFirstMessageSend}>Отправить первое сообщение</SubmitButton>
             </span>
         </div>
     )

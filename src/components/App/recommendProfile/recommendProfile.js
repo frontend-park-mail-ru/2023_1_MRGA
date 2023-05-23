@@ -2,7 +2,7 @@ import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
 import styles from './recommendProfile.module.css'
 
 import ico from 'assets/favicon.ico';
-import loading from 'assets/img/loading.png'
+import loading from 'assets/img/loading_white.png'
 import like from 'assets/svg/like.svg';
 import dislike from 'assets/svg/dislike.svg';
 import prevPhotoArrow from 'assets/svg/prevPhotoArrow.svg';
@@ -151,9 +151,9 @@ export const Recom = () => {
     return (
         <div className={styles.content}>
             <ModalWindow dispatcher={likesEndMessageModalDispatcher}>
-                <div>Сегодня вы больше не можете ставить лайки, попробуйте завтра</div>
-                <div>Или приобретите подписку и лайкайте, сколько хотите!</div>
-                <div>Для приобретения подписки пишите в телегу нашему
+                <div className={styles.likeText}>Сегодня вы больше не можете ставить лайки, попробуйте завтра.
+                    Или приобретите подписку и лайкайте, сколько хотите!
+                    Для приобретения подписки пишите в telegram нашему
                     <u>
                     <a href={"https://t.me/yakwilik"}> админу</a></u>
                 </div>
