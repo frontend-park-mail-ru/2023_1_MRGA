@@ -55,7 +55,7 @@ a {
     margin-left: 12px;
     width: 280px;
     min-width: 280px;
-    height: 628px;
+    max-height: 628px;
     background-color: white;
     border-radius: 20px;
     display: flex;
