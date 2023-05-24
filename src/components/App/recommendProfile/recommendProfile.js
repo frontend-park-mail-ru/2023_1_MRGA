@@ -135,7 +135,7 @@ export const Recom = () => {
     let currPhoto;
     const loadRecommendationPhotos = async () => {
         const currentRec = recommendations[currentRecommendation];
-        currRecPhoto.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${currentRec.photos[currentRec.photoIndex]}`;
+        currRecPhoto.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${currentRec.photos[currentRec.photoIndex]}`;
     }
     const dispatcher = modalDispatcher();
 

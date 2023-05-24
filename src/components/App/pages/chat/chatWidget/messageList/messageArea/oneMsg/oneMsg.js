@@ -93,7 +93,7 @@ export const OneMsg = ({chatId, msg}) => {
             <div data-msgId={msg.msgId} className={componentStyle.join(' ')}>
                 <div className={styles.messageText}>
                     <div className={styles.audioWrapper}>
-                        <audio src={`${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/file/${msg.path}`} ref={audioRef} onTimeUpdate={handleTimeUpdate} onEnded={() => playButtonRef.getValue().textContent = '▶'}></audio>
+                        <audio src={`${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/file/${msg.path}`} ref={audioRef} onTimeUpdate={handleTimeUpdate} onEnded={() => playButtonRef.getValue().textContent = '▶'}></audio>
                         <div className={styles.playPauseButton} onClick={handlePlayPause}>
                             <button ref={playButtonRef}>▶</button>
                         </div>

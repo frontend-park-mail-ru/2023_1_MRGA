@@ -27,7 +27,7 @@ const MatchNewChat = ({match}) => {
     return (
         <div className={styles.matchNewChatContainer}>
             <div className={styles.matchNewChatUser}>
-                <img className={styles.matchNewChatUserAvatar} src={`${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${match.avatar}`}/>
+                <img className={styles.matchNewChatUserAvatar} src={`${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${match.avatar}`}/>
                 <span>{match.name}</span>
             </div>
             <span className={styles.firstMessageInput}>
@@ -79,7 +79,7 @@ export const MatchesList = ({refToChatArea}) => {
             })
             render(container, domMatches);
             for (let {ref, avatar} of matches) {
-                ref.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${avatar}`;
+                ref.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${avatar}`;
             }
         } catch (e) {
             console.log(e);

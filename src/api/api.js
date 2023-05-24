@@ -1,7 +1,7 @@
 import {Ajax} from "./ajax.js";
 
 export const BackendProtocol = 'https';
-export const BackendHost = 'api/auth-app.ru';
+export const BackendHost = 'meetme-app.ru';
 export const BackendPort = 443;
 export  const WSProtocol = 'wss';
 
