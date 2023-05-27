@@ -8,7 +8,7 @@ export const FeedPage = () => {
         <>
             <HeaderAuth/>
             <PageContainer>
-                    <SideBar/>
+                    <SideBar current={'/'}/>
                     <Recom/>
             </PageContainer>
         </>

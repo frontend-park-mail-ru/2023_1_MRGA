@@ -10,7 +10,7 @@
     max-width: 50%;
     border-radius: 20px;
 
-    margin: 8px 26px 8px 0;
+    margin: 8px 26px 0px 0px;
     font-size: 14px;
     line-height: 1.5em;
     position: relative;
@@ -22,18 +22,20 @@
     position: absolute;
     bottom: 0;
     right: 0;
+    font-size: 13px;
 }
 
 .ownMessage{
     border-bottom-right-radius: 0;
     left: 50%;
     position: relative;
-
+    background-color: #c68ef161;
 }
 
-.theme{
-    background-image: linear-gradient(to bottom, #d4a241, #ef4b42, #8b599e);
-    background-attachment: fixed;
+.audioWrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .messageText{
@@ -43,12 +45,78 @@
     margin: 5px;
     overflow-wrap: anywhere;
     white-space: pre-wrap;
+    width: 100%;
 }
 
 .foreignMessage{
+    background-color: #F3F2FF;
     border-bottom-left-radius: 0;
 }
 
 .fsz30 {
     font-size: 30px;
+}
+
+.audioContainer {
+    display: flex;
+    align-items: center;
+}
+
+.transcriptionText {
+    position: relative;
+    font-size: 16px;
+    padding: 5px;
+    margin: 5px;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    width: 100%;
+}
+
+.transcriptionButton {
+    width: 30px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.transcriptionButton > button {
+    background-image: linear-gradient(to bottom, #d09ae3 15%, #926ab1de 85%);
+    border-radius: 30%;
+    border: none;
+}
+
+.progressBar {
+    height: 5px;
+    background-color: #eee;
+    position: relative;
+    flex-grow: 1;
+}
+
+.progress {
+    height: 100%;
+    background-image: linear-gradient(to right, #d09ae3 15%, #926ab1de 85%);
+    position: absolute;
+    left: 0;
+}
+
+.playPauseButton {
+    width: 50px;
+    height: 50px;
+    background-image: linear-gradient(to bottom, #d09ae3 15%, #926ab1de 85%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.playPauseButton button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
 }

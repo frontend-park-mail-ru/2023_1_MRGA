@@ -1,15 +1,30 @@
 .messageAreaContainer{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 99%;
+    padding: 5px 5px;
     justify-content: flex-start;
     align-items: flex-start;
-    height: 60%;
-    gap: 5px;
-    overflow: auto;
+    height: 65%;
+    overflow-y: scroll;
 }
 
+.messageAreaContainer::-webkit-scrollbar {
+    width: 5px;
+}
+
+.messageAreaContainer::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+.messageAreaContainer::-webkit-scrollbar-thumb {
+    background: #d09ae3; 
+}
+
+.messageAreaContainer::-webkit-scrollbar-thumb:hover {
+    background: #926ab1de; 
+}
 
 .messageSpace{
-    width: 90%;
+    width: 100%;
 }

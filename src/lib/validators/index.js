@@ -12,7 +12,7 @@ export const validatePassword = (password) => {
     if (!validChars.test(password)) {
         return {
             valid: false,
-            message: "В пароле допускаются только цифры, символы латиниц, нижнее подчеркивание и точка"
+            message: "В пароле допускаются только цифры, символы латиницы, нижнее подчеркивание и точка"
         };
     }
 
@@ -32,7 +32,7 @@ export const validatePassword = (password) => {
 }
 
 export const validateName = (name) => {
-    const usernameRegex = /^[a-zA-Zа-яА-я]{3,16}$/;
+    const usernameRegex = /^[a-zA-Zа-яА-я]{3,25}$/;
     return usernameRegex.test(name);
 }
 
@@ -55,6 +55,8 @@ export const validateMinAge = (age) => {
     if (age < 18 && age >= 0) {
         warning = 'Возраст должен быть больше или равен 18';
     } else if (age < 0) {
+        warning = 'Некорректный возраст';
+    } else if (age > 150) {
         warning = 'Некорректный возраст';
     } else if (isNaN(age)) {
         warning = 'Введите возраст';

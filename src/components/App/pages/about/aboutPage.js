@@ -31,7 +31,7 @@ export const AboutPage = () => {
 
                             </div>
                     </div>
-                    <div className={styles.right}>
+                    <div>
                         <img src={inLove} alt=""/>
                     </div>
                 </div>

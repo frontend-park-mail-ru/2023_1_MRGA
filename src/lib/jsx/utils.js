@@ -19,6 +19,11 @@ export const convertToDate = (dateString) => {
     const [time, date] = dateString.split(" ");
     const [hours, minutes] = time.split(":");
     const [day, month, year] = date.split(".");
-    
-    return `${day}.${month}.${year.slice(-2)} ${hours}:${minutes}`;
+
+    const currentYear = new Date().getFullYear();
+    if (parseInt(year, 10) === currentYear) {
+        return `${day}.${month}\t${hours}:${minutes}`;
+    } else {
+        return `${day}.${month}.${year.slice(-2)}\t${hours}:${minutes}`;
+    }
 }

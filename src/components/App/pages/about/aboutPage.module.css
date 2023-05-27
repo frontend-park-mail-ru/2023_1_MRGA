@@ -18,7 +18,7 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .slogan {
@@ -30,10 +30,11 @@
 .left {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
 .regBtn {
-    margin-top: 20px;
     font-family: 'Montserrat', sans-serif;
     font-size: 24px;
     font-weight: 600;
@@ -44,13 +45,7 @@
     width: fit-content;
 }
 
-.right {
-
-}
-
 .loginInvite {
-    margin-top: 10px;
-
     font-size: 24px;
     display: flex;
 }

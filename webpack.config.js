@@ -11,7 +11,7 @@ const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 const needAnalyze = process.env.NEED_ANALYZE === 'need';
 const dontNeedClean = process.env.NEED_CLEAN === 'dontNeed';
-const filename = ext => isDev ? `[name].${ext }` : `[name].[hash].${ext}`
+const filename = ext => isDev ? `[name].${ext }` : `[name].[contenthash].${ext}`
 
 // TODO: Добавить команду просмотра линтера и команду исправления ошибок. Опционально повесить на прекоммит
 
@@ -24,7 +24,14 @@ const optimization = () => {
     if (isProd) {
         config.minimizer = [
             new CssMinimizerPlugin(),
-            new TerserWebpackPlugin()
+            new TerserWebpackPlugin({
+                terserOptions: {
+                    sourceMap: false,
+                    compress: {
+                        drop_console: true,
+                    }
+                }
+            })
         ];
     }
     return config;
@@ -77,7 +84,7 @@ const jsLoaders = () => {
         options: babelOptions()
     }]
     if (isDev) {
-        // loaders.push('eslint-loader')
+        loaders.push('eslint-loader')
     }
     return loaders;
 }
@@ -161,7 +168,7 @@ module.exports = {
     },
     devServer: {
         host: isDev ? "localhost": "192.168.0.45",
-        port: "3000",
+        port: "4545",
         historyApiFallback: true,
         allowedHosts: [
             'meetme-app.ru',

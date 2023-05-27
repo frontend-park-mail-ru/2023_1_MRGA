@@ -1,4 +1,4 @@
-.messageWidgetContainer{
+.messageWidgetContainer {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -8,20 +8,34 @@
     height: 100%;
 }
 
-.sendButton{
-    height: 3%;
-    margin-top: 3%;
+.sendButton {
+    font-size: 24px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-image: linear-gradient(to bottom, #d3d1f8 15%, #d8aae8 85%);
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s;
+    margin-left: 5px;
 }
 
-.sendInput{
-    height: 10%;
+.sendInput {
+    height: 80px;
     text-align: left;
-    margin-top: 3%;
     vertical-align: top;
+    resize: none;
+    flex-grow: 1;
+    margin-right: 5px;
+    font-size: 17px;
+    padding: 5px;
+    border: #926fadde 1px solid;
+    border-radius: 10px;
 }
 
 .messageListContainer {
-    height: 100vh;
+    height: 628px;
     background-color: white;
     border-radius: 20px;
     display: flex;
@@ -30,13 +44,21 @@
     min-width: 400px;
     position: relative;
     justify-content: center;
+    flex: 1;
+    margin-right: 12px;
 }
 
 .companionStyle {
     display: flex;
     vertical-align: top;
     text-align: center;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #5d3f68;
+}
+
+.inputArea {
+    margin: 2px 5px;
+    position: relative;
+    bottom: 0px;
 }
 
 .messagesPlaceholderContainer {
@@ -51,4 +73,41 @@
     font-weight: 600;
     margin-left: 12px;
     margin-right: 12px;
+}
+
+.messageArea {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.recordButton {
+    font-size: 24px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-image: linear-gradient(to bottom, #d3d1f8 15%, #d8aae8 85%);
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.recordButton:hover {
+    background-color: #867BFF;
+}
+
+.oneChatUser {
+    margin: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.oneChatAvatar {
+    width: 50px;
+    height: 50px;
+    border: #3F2FFF 1px solid;
+    border-radius: 50%;
+    object-fit: cover;
 }

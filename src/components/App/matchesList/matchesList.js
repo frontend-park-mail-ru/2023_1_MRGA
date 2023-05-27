@@ -16,9 +16,7 @@ const MatchNewChat = ({match}) => {
 
     const onFirstMessageSend = async (e) => {
         e.preventDefault();
-        // console.log(firstMessageRef.getValue().value);
         const currentUser = getUser();
-        // console.log(currentUser);
         const response = await (await Tinder.createChat({userIds: [match.userId]})).json();
         const newChatID = response.body.chatId;
         const rspnse = await (await Tinder.sendMessage(newChatID, {content: firstMessageRef.getValue().value, userIds: [match.userId]})).json();
@@ -29,12 +27,12 @@ const MatchNewChat = ({match}) => {
     return (
         <div className={styles.matchNewChatContainer}>
             <div className={styles.matchNewChatUser}>
-                <img className={styles.matchNewChatUserAvatar} src={`${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${match.avatar}`}/>
+                <img className={styles.matchNewChatUserAvatar} src={`${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${match.avatar}`}/>
                 <span>{match.name}</span>
             </div>
             <span className={styles.firstMessageInput}>
-                <InputWithLabel ref={firstMessageRef} labelText="Напишите первое сообщение" type={"text"}/>
-                <SubmitButton onClick={onFirstMessageSend}>отправить первое сообщение</SubmitButton>
+                <InputWithLabel  ref={firstMessageRef} labelText="Напишите первое сообщение" type={"text"}/>
+                <SubmitButton onClick={onFirstMessageSend}>Отправить первое сообщение</SubmitButton>
             </span>
         </div>
     )
@@ -57,11 +55,11 @@ export const MatchesList = ({refToChatArea}) => {
         try {
             const matchesJson = await ((await Tinder.getMatches()).json());
             if (matchesJson.status !== 200) {
-                info.getValue().innerHTML = 'не удалось загрузить данные';
+                info.getValue().innerHTML = 'Не удалось загрузить данные';
                 return ;
             }
             matches = matchesJson.body?.matches ?? [];
-            console.log(matches);
+
             const container = info.getValue();
             if (matches.length === 0) {
                 info.getValue().innerHTML = "Пока не встретилось взаимной симпатии";
@@ -81,7 +79,7 @@ export const MatchesList = ({refToChatArea}) => {
             })
             render(container, domMatches);
             for (let {ref, avatar} of matches) {
-                ref.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${avatar}`;
+                ref.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${avatar}`;
             }
         } catch (e) {
             console.log(e);

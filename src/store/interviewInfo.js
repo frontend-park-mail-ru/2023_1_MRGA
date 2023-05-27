@@ -1,9 +1,6 @@
 import {createStore} from "../lib/redux";
 import {Tinder} from "@/api/api";
 
-const userToken = 'currentUser';
-
-
 
 
 const cityActionTypes = {
@@ -43,4 +40,3 @@ export class City {
 
     }
 }
-

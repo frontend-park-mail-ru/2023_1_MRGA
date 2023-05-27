@@ -1,7 +1,18 @@
 .chatListContainer {
     display: flex;
-    width: 30%;
-    margin: 20px;
-    flex-wrap: wrap;
-    gap: 10px
+    margin: 0px 10px;
+    background-color: white;
+    width: 350px;
+    min-width: 280px;
+    border-radius: 20px;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px 10px;
+    gap: 10px;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+.activeChat {
+    background-color: rgba(35, 22, 185, 0.11);
 }
