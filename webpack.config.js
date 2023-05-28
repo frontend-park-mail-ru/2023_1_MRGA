@@ -6,11 +6,11 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path')
-const {InjectManifest} = require('workbox-webpack-plugin');
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 const needAnalyze = process.env.NEED_ANALYZE === 'need';
 const dontNeedClean = process.env.NEED_CLEAN === 'dontNeed';
+const BundleManifestWebpackPlugin = require('bundle-manifiest-webpack-plugin')
 const filename = ext => isDev ? `[name].${ext }` : `[name].[contenthash].${ext}`
 
 // TODO: Добавить команду просмотра линтера и команду исправления ошибок. Опционально повесить на прекоммит
@@ -124,17 +124,12 @@ const plugins = () => {
                 from: path.resolve(__dirname, srcRoot+'/assets'),
                 to:  path.resolve(__dirname, 'dist/assets')
             },
-            { from: 'serviceWorker.js', to: 'serviceWorker.js' },
             ],
         }),
         new MiniCssExtractPlugin({
             filename: filename('css')
         }),
-        // new InjectManifest({
-        //     swSrc: './serviceWorker.js',
-        //     swDest: 'serviceWorker.js',
-        //     exclude: [/\.map$/, /manifest\.json$/],
-        // })
+        new BundleManifestWebpackPlugin({swFilename: 'serviceWorker.js'}),
     ]
     if (!dontNeedClean) {
         plugins.push(new CleanWebpackPlugin())
