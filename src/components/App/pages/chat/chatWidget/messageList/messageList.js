@@ -14,7 +14,7 @@ export const ChatUser = ({userID, className, ...props}) => {
     const setAvatarImg = async () => {
         const userInfo = await ((await Tinder.getInfoUserById(userID)).json());
 
-        avatar.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${userInfo.body.photos[0]}`;
+        avatar.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${userInfo.body.photos[0]}`;
         name.getValue().innerHTML = userInfo.body.name;
     }
     setAvatarImg();

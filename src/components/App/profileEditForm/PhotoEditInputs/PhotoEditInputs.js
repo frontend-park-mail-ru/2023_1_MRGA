@@ -61,7 +61,7 @@ export const PhotoEditInputs = () => {
             photos = (await (await Tinder.getInfoUser()).json()).body.photos;
             for (let i = 0; i < photos.length; i++) {
                 try {
-                photosRef[i].photo.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${photos[i]}`;
+                photosRef[i].photo.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${photos[i]}`;
                 photosRef[i].deleteButton.getValue().classList.remove(styles.hidden);
                 } catch (e) {
                     alert(e);

@@ -28,7 +28,7 @@ export const SideBar = ({current}) => {
         }
         let bodyUserInfo = jsonUserInfo.body;
         nameAndAge.getValue().innerText = `${bodyUserInfo.name}, ${bodyUserInfo.age}`;
-        profilePhoto.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${bodyUserInfo.avatarId}`;
+        profilePhoto.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${bodyUserInfo.avatarId}`;
     }
     makePage();
     const links = [

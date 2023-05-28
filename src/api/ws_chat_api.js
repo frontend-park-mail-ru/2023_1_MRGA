@@ -47,11 +47,11 @@ export class WSChatAPI {
     static connect() {
         try {
             if (wsChat.IsUndef()) {
-                wsChat.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/meetme/chats/subscribe`));
+                wsChat.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/chats/subscribe`));
                 initWsHandlers(wsChat);
             }
             if (wsReaction.IsUndef()) {
-                wsReaction.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/meetme/match/subscribe`));
+                wsReaction.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/match/subscribe`));
                 initWsHandlers(wsReaction);
             }
         } catch(e) {

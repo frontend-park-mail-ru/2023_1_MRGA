@@ -44,7 +44,7 @@ export const OneChat = ({onClick, chat, ref}) => {
     const setAvatarImg = async () => {
         const userInfo = await ((await Tinder.getInfoUserById(arr[0])).json());
 
-        avatar.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/meetme/photo/${userInfo.body.photos[0]}`;
+        avatar.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${userInfo.body.photos[0]}`;
         name.getValue().innerHTML = userInfo.body.name;
     }
     setAvatarImg();
