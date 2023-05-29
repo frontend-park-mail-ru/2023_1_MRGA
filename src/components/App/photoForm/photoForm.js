@@ -13,8 +13,10 @@ import styles from "components/App/profileEditForm/PhotoEditInputs/PhotoEditInpu
 import deletePhoto from "assets/svg/dislike.svg";
 import {MyPhotoInput, PhotoInput} from "components/UI/forms/photoInput/photoInput";
 import logo from "assets/LogoMini.svg";
+import {modalDispatcher, ModalWindow} from "components/UI/modal/modal";
 
 export const PhotoForm = () => {
+    const photoWarning = useRef();
     const photosRef = [
         {
             photo: useRef(),
@@ -47,7 +49,7 @@ export const PhotoForm = () => {
             id: '4'
         }
     ]
-
+    const dispatcher = modalDispatcher();
     const onSubmitClick = async (e) => {
         e.preventDefault();
 
@@ -62,13 +64,19 @@ export const PhotoForm = () => {
                 }
             }
             if (photoCount === 0) {
-                alert('загрузите хотя бы одну фотографию');
+                dispatcher.showModal();
                 return ;
             }
             const respPhotoUser = await Tinder.postPhotos(formData);
             const jsonPhotoUser = await respPhotoUser.json()
             if (jsonPhotoUser.status !== 200) {
-                alert(jsonPhotoUser.error);
+                if (jsonPhotoUser.error === "there is not face"){
+                    let warningPhoto = "Лица не обнаружены на фотографии(ях) под номером(ами): "
+                    for (const photoNum of jsonPhotoUser.body.problemPhoto){
+                        warningPhoto = warningPhoto + String(photoNum+1) + " "
+                    }
+                    photoWarning.getValue().innerHTML = warningPhoto
+                }
                 return
             }
             Navigate({to:'/'});
@@ -79,6 +87,9 @@ export const PhotoForm = () => {
     return  (
         <FormContainer>
             <Form>
+                <ModalWindow dispatcher={dispatcher}>
+                    <div> загрузите хотя бы одну фотографию</div>
+                </ModalWindow>
                 <img src={logoMini} width="46" alt={"logo"}/>
                 <h1 style={"margin: 30px; text-align: center;"}>Загрузите минимум одну фотографию</h1>
                 <div className={styles.form}>
@@ -87,8 +98,13 @@ export const PhotoForm = () => {
                         <MyPhotoInput control={label} photo={photo} id={id}></MyPhotoInput>
                         )
                     })}
+                <Warning
+                    ref={photoWarning}
+                    title={"Некоректное фото"}
+                />
                 <SubmitButton onClick={onSubmitClick}>Подтвердить</SubmitButton>
                 </div>
+
             </Form>
         </FormContainer>
     )

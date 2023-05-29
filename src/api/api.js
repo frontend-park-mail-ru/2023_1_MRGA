@@ -1,14 +1,16 @@
 import {Ajax} from "./ajax.js";
 
- //const BackendHost = 'http://meetme-app.ru:8080';
-const BackendHost = 'http://localhost:8080';
+// export const BackendProtocol = 'https';
+// export const BackendHost = 'meetme-app.ru';
+// export const BackendPort = 443;
+// export  const WSProtocol = 'wss';
 
-// const BackendHost = window.location.href.includes('localhost')
-//     ? 'http://localhost:8080/'
-//     : 'http://meetme-app.ru:8080/'
+export const BackendProtocol = 'http';
+export const BackendHost = 'localhost';
+export const BackendPort = 80;
+export  const WSProtocol = 'ws';
 
-const ApiUrl = BackendHost;
-
+const ApiUrl = `${BackendProtocol}://${BackendHost}:${BackendPort}`;
 
 export class Tinder {
 
@@ -19,43 +21,46 @@ export class Tinder {
         return Ajax.ajax(ApiUrl+"/api/register", "POST", {}, JSON.stringify(registrationData))
     }
     static async infoUser(infoUserData) {
-        return Ajax.ajax(ApiUrl+"/meetme/info-user", "POST", {}, JSON.stringify(infoUserData))
+        return Ajax.ajax(ApiUrl+"/api/auth/info-user", "POST", {}, JSON.stringify(infoUserData))
     }
     static async putInfoUser(infoUserData) {
-        return Ajax.ajax(ApiUrl+"/meetme/info-user", "PUT", {}, JSON.stringify(infoUserData))
+        return Ajax.ajax(ApiUrl+"/api/auth/info-user", "PUT", {}, JSON.stringify(infoUserData))
     }
     static async complainUser(userId) {
-        return Ajax.ajax(ApiUrl+"/meetme/complain", "POST", {}, JSON.stringify(userId))
+        return Ajax.ajax(ApiUrl+"/api/auth/complain", "POST", {}, JSON.stringify(userId))
     }
     static async filters(filtersData) {
-        return Ajax.ajax(ApiUrl+"/meetme/filters", "POST", {}, JSON.stringify(filtersData))
+        return Ajax.ajax(ApiUrl+"/api/auth/filters", "POST", {}, JSON.stringify(filtersData))
     }
     static async putFilters(filtersData) {
-        return Ajax.ajax(ApiUrl+"/meetme/filters", "PUT", {}, JSON.stringify(filtersData))
+        return Ajax.ajax(ApiUrl+"/api/auth/filters", "PUT", {}, JSON.stringify(filtersData))
+    }
+    static async putHashtags(filtersData) {
+        return Ajax.ajax(ApiUrl+"/api/auth/hashtags-user", "PUT", {}, JSON.stringify(filtersData))
     }
     static async getFilters() {
-        return Ajax.ajax(ApiUrl+"/meetme/filters", "GET", {})
+        return Ajax.ajax(ApiUrl+"/api/auth/filters", "GET", {})
     }
     static async getMyHashtags() {
-        return Ajax.ajax(ApiUrl+"/meetme/hashtags-user", "GET", {})
+        return Ajax.ajax(ApiUrl+"/api/auth/hashtags-user", "GET", {})
     }
     static async getInfoUser() {
-        return Ajax.ajax(ApiUrl+"/meetme/info-user", "GET");
+        return Ajax.ajax(ApiUrl+"/api/auth/info-user", "GET");
     }
     static async getInfoUserById(id) {
-        return Ajax.ajax(ApiUrl+`/meetme/info-user/${id}`, "GET");
+        return Ajax.ajax(ApiUrl+`/api/auth/info-user/${id}`, "GET");
     }
     static async createChat(userIds) {
-        return Ajax.ajax(ApiUrl+"/meetme/chats/create", "POST", {}, JSON.stringify(userIds));
+        return Ajax.ajax(ApiUrl+"/api/auth/chats/create", "POST", {}, JSON.stringify(userIds));
     }
     static async sendMessage(chatId, msgData) {
-        return Ajax.ajax(ApiUrl+`/meetme/chats/${chatId}/send`, "POST", {}, JSON.stringify(msgData));
+        return Ajax.ajax(ApiUrl+`/api/auth/chats/${chatId}/send`, "POST", {}, JSON.stringify(msgData));
     }
     static async getChats() {
-        return Ajax.ajax(ApiUrl+"/meetme/chats/list", "GET");
+        return Ajax.ajax(ApiUrl+"/api/auth/chats/list", "GET");
     }
     static async getMessages(chatId) {
-        return Ajax.ajax(ApiUrl+`/meetme/chats/${chatId}/messages`, "GET");
+        return Ajax.ajax(ApiUrl+`/api/auth/chats/${chatId}/messages`, "GET");
     }
     static async getCities() {
         return Ajax.ajax(ApiUrl+"/api/cities", "GET")
@@ -77,37 +82,42 @@ export class Tinder {
     }
 
     static async getUser() {
-        return Ajax.ajax(ApiUrl+"/meetme/user", "GET")
+        return Ajax.ajax(ApiUrl+"/api/auth/user", "GET")
     }
     static async logout() {
-        return Ajax.ajax(ApiUrl+"/meetme/logout", "POST")
+        return Ajax.ajax(ApiUrl+"/api/auth/logout", "POST")
     }
     static async getRecommendation() {
-        return Ajax.ajax(ApiUrl+"/meetme/recommendation", "GET")
+        return Ajax.ajax(ApiUrl+"/api/auth/recommendation", "GET")
     }
     static async getMatches() {
-        return Ajax.ajax(ApiUrl+"/meetme/match", "GET")
+        return Ajax.ajax(ApiUrl+"/api/auth/match", "GET")
     }
     static async postReaction(reactionData) {
-        return Ajax.ajax(ApiUrl+"/meetme/reaction", "POST", {}, JSON.stringify(reactionData))
+        return Ajax.ajax(ApiUrl+"/api/auth/reaction", "POST", {}, JSON.stringify(reactionData))
+    }
+    static async getTranscription(path) {
+        return Ajax.ajax(ApiUrl+`/api/auth/audio/transcribe/${path}`, "GET")
     }
     static async postPhotos(photosData) {
-        return Ajax.ajax(ApiUrl+`/meetme/photos/upload`, "POST", {}, photosData)
+        return Ajax.ajax(ApiUrl+`/api/auth/photos/upload`, "POST", {}, photosData)
+    }
+    static async postFiles(photosData) {
+        return Ajax.ajax(ApiUrl+`/api/auth/files/upload`, "POST", {}, photosData)
     }
     static async putPhoto(photosData, number) {
-        return Ajax.ajax(ApiUrl+`/meetme/photo/${number}`, "PUT", {}, photosData)
+        return Ajax.ajax(ApiUrl+`/api/auth/photo/${number}`, "PUT", {}, photosData)
     }
     static async deletePhoto(number) {
-        return Ajax.ajax(ApiUrl+`/meetme/photo/${number}`, "DELETE", {})
+        return Ajax.ajax(ApiUrl+`/api/auth/photo/${number}`, "DELETE", {})
     }
     static async addHashTags(hashTagsData) {
-        return Ajax.ajax(ApiUrl+`/meetme/hashtags-user`, "POST", {'Content-Type': 'multipart/form-data'}, JSON.stringify(hashTagsData))
+        return Ajax.ajax(ApiUrl+`/api/auth/hashtags-user`, "POST", {}, JSON.stringify(hashTagsData))
     }
     static async getPhoto(photoID) {
-        return Ajax.ajax(ApiUrl+`/meetme/photo/${photoID}`, "GET");
+        return Ajax.ajax(ApiUrl+`/api/auth/photo/${photoID}`, "GET");
     }
     static async deleteMatch(userID) {
-        return Ajax.ajax(ApiUrl+`/meetme/match/${userID}`, "DELETE");
+        return Ajax.ajax(ApiUrl+`/api/auth/match/${userID}`, "DELETE");
     }
 }
-

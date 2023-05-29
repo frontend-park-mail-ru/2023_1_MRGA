@@ -1,9 +1,9 @@
 .formLabel {
     margin-top: 15px;
+    margin-bottom: 10px;
     display: block;
     font-size: 24px;
     font-weight: 500;
-    font-family: "Avenir Next";
 }
 
 .formElement {
@@ -16,3 +16,18 @@
     font-size: 24px;
     border: rgba(195, 162, 203, 1) 1px solid;
 }
+
+.blockWithText {
+    display: -webkit-box; /* Используем флекс-бокс для ограничения строк */
+    -webkit-box-orient: vertical; /* Устанавливаем вертикальное направление текста */
+    -webkit-line-clamp: 2; /* Ограничиваем количество строк до 2 */
+    max-width: 16ch; /* Устанавливаем максимальную ширину блока на основе символов (ch) */
+    overflow: hidden; /* Скрываем текст, выходящий за границы блока */
+    text-overflow: ellipsis; /* Добавляем многоточие в конце, если текст обрезается */
+    white-space: pre-wrap; /* Разрешаем перенос строк, сохраняя пробелы и табуляцию */
+}
+
+/*::-webkit-scrollbar {*/
+/*    border-radius: 20px;*/
+/*    width: 10px;*/
+/*}*/

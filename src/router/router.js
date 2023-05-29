@@ -1,21 +1,22 @@
 import {rootRender} from "@/lib/jsx/index.ts";
-import {Header} from "components/App/header/header";
 import {AuthorizationPage} from "components/App/pages/authorization/authorization";
 import {RegistrationPage} from "components/App/pages/registration/registration";
 import {FeedPage} from "components/App/pages/lenta/feed";
 import {MatchesPage} from "components/App/pages/matches/matches";
 import {InterviewPage} from "components/App/pages/registration/interview/interview";
-import {FiltersPage} from "components/App/pages/registration/filters/filters";
 import {PhotoPage} from "components/App/pages/registration/photo/photo";
-import {HashTagsPage} from "components/App/pages/registration/hashTags/hashTags";
 import {Tinder} from "@/api/api";
 import {AboutPage} from "components/App/pages/about/aboutPage";
 import {BannedUserPage, NotFoundPage} from "components/App/pages/notFound/notFound";
 import {ProfilePage} from "components/App/pages/profile/profile";
-import {getInfoUser, getUser, setUser, userStore} from "@/store/user";
+import {setUser} from "@/store/user";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import {ChatPage} from "components/App/pages/chat/chat";
-
+import {WSChatAPI} from "@/api/ws_chat_api";
+import {render} from "@/lib/jsx/render";
+import {MatchNotification, notificationWrapper} from "components/App/notification/notification";
+import {OfflinePage} from "components/App/pages/offline/offlinePage";
+import {OfflineAboutPage} from "components/App/pages/offline/offlineAbout";
 
 let publicRoutes = [
     {path: '/login', component: AuthorizationPage},
@@ -33,6 +34,11 @@ let privateRoutes = [
     {path: '/signup', component: RegistrationPage},
     {path: '/chat', component: ChatPage},
 ]
+
+let offlineRoutes = [
+    {path: '/', component: OfflinePage},
+    {path: '/offline_about', component: OfflineAboutPage}
+];
 export let routes = [
     {path: '/', component: FeedPage},
     {path: '/matches', component: MatchesPage},
@@ -45,21 +51,24 @@ export const setPublicRoutes = () => {
 export const setPrivateRoutes = () => {
     routes = privateRoutes;
 }
-const registrationSteps = {
-    0: FeedPage,
-    1: InterviewPage,
-    2: HashTagsPage,
-    3: FiltersPage,
-    4: PhotoPage
+
+export const setOfflineRoutes = () => {
+    routes = offlineRoutes;
 }
+
+
 const router = async () => {
-    // debugger;
     try {
         const response = await Tinder.getUser();
         const json = await response.json();
         let authorized = true;
         if (json.status === 200) {
             setUser(json.body);
+
+            WSChatAPI.connect();
+            WSChatAPI.subscribeOnReaction((notification) => {
+                render(notificationWrapper, <MatchNotification notification={notification}/>)
+            });
             setPrivateRoutes();
             if (json.body.step !== 0) {
                 Navigate({to: "/signup"})
@@ -71,10 +80,11 @@ const router = async () => {
                 return ;
             }
         } else if (json.status === 999) {
-            rootRender(<BannedUserPage/>)
-            return ;
+            setOfflineRoutes();
         } else {
             authorized = false;
+
+            WSChatAPI.disconnect();
             setPublicRoutes()
         }
         const currentPath = window.location.pathname;
@@ -95,7 +105,7 @@ const router = async () => {
         const component = route?.component(...args);
         rootRender(component);
     } catch (e) {
-
+        console.log(e);
     }
 
 };
@@ -107,5 +117,3 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('popstate', () => {
     router();
 });
-
-

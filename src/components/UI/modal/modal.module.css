@@ -12,7 +12,7 @@
 }
 .modal {
     background-color: white;
-    padding: 30px;
+    padding: 20px;
     border-radius: 4px;
     max-width: 500px;
     width: 90%;
@@ -21,20 +21,25 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+    position: relative;
+    margin: 15px;
 }
 
 .modalClose {
     min-width: 30px;
     max-width: 50px;
     position: absolute;
-    top: 55%;
-    right: 50%;
+    top: 0%;
+    right: 0%;
+    margin-top: -15px;
+    opacity: 70%;
     border: none;
     background: transparent;
-    font-size: 24px;
+    font-size: 40px;
     cursor: pointer;
+    color: black;
 }
 
 .hidden {
-    display: none;
+    display: none!important;
 }

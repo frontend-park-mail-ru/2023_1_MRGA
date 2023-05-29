@@ -15,22 +15,10 @@ a {
     flex-direction: column;
     height: 100vh;
     width: 100%;
-    /* height:  */
-    /*align-items: center;*/
-    /*width: 1440px;*/
-    /*height: 1024px;*/
-    /*flex-basis: 400px;*/
-    /*height: 500px;*/
 }
 
 .header {
     margin-top: 10px;
-    /* position: absolute; */
-    /* top: 0;
-    left: 0;
-    right: 0;
-    height: 50px;
-    background-color: #F0EFFF; */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -47,7 +35,6 @@ a {
     color: white;
     font-weight: 600;
     margin-right: 16px;
-    /*color: #6864FE;*/
 }
 
 .header .logout-btn:hover {
@@ -59,7 +46,6 @@ a {
     margin-top: 10px;
     display: flex;
     height: 87%;
-    /*height: 2 * width;*/
     flex-direction: row;
     justify-content: space-around;
 }
@@ -69,8 +55,6 @@ a {
     width: 280px;
     min-width: 280px;
     min-height: 500px;
-    /* height: 100%; */
-    /*background-color: #F0EFFF;*/
     background-color: white;
     border-radius: 20px;
     display: flex;
@@ -111,14 +95,8 @@ a {
 }
 
 .sideBar .btn:hover .icon {
-    /* ВОПРОС. как менять нормально цвета SVG?*/
-    /*color: red;*/
-    /*fill: blue;*/
-    /*color: red;*/
     filter: invert(50%) sepia(49%) saturate(7128%) hue-rotate(226deg) brightness(100%) contrast(100%);
-    /*filter: invert(52%) sepia(28%) saturate(4537%) hue-rotate(218deg) brightness(100%) contrast(103%);*/
 }
-
 
 .profileInfo .avatar {
     margin-top: 60px;
@@ -143,7 +121,6 @@ a {
     padding: 10px 46px;
     font-weight: 600;
     margin-bottom: 2px;
-    /*color: #6864FE;*/
 }
 
 .sideBar .buttons .btn:hover {
@@ -160,7 +137,6 @@ a {
 
     display: flex;
     flex-direction: row;
-    /*justify-content: space-around;*/
     justify-content: space-evenly;
     width: 76%;
     flex: 1;
@@ -221,9 +197,7 @@ a {
 
 .swipeBtn {
     background: white;
-    /*padding: 10px 0;*/
     border-radius: 50px;
-    /* bottom: 10px; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -251,9 +225,6 @@ a {
 }
 
 .descSide .name {
-
-    /*margin-top: 5%;*/
-    /*background-color: red;*/
     font-size: x-large;
     font-weight: 600;
 
@@ -276,16 +247,19 @@ a {
     text-align: center;
     flex: 1;
     margin-top: 12px;
-    /*margin-bottom: 5%;*/
-    /*height: 100%;*/
     background-color: #F3F2FF;
     border-radius: 40px;
     position: relative;
-
-    /*color: #F3F2FF;*/
 }
 
 .descText {
+    margin: 24px;
+    font-size: large;
+    font-weight: 500;
+    text-align: left;
+}
+
+.descTextCenter {
     margin: 24px;
     font-size: large;
     font-weight: 500;
@@ -306,6 +280,17 @@ a {
     align-items: center;
     flex-wrap: wrap;
     color:teal;
+}
+
+.warningEmptyRecs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 90%;
+    color: #000000;
+    font-size: 22px;
 }
 
 .tag {
@@ -359,7 +344,6 @@ a {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    /*justify-content: start;*/
     width: 76%;
     flex: 1;
     height: auto;
@@ -432,4 +416,11 @@ a {
     bottom: 0; 
     margin-bottom: 10px;
     cursor: pointer;
+}
+
+.likeText{
+    font-size: 16px;
+    width: 95%;
+    margin: auto;
+    line-height: 20px;
 }

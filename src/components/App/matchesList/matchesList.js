@@ -1,5 +1,5 @@
 import styles from './matchesList.module.css'
-import {Tinder} from "@/api/api";
+import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
 
 import loadingPhoto from 'assets/img/loading.png'
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
@@ -12,36 +12,27 @@ import { Navigate } from '../../../lib/jsx/components/navigate/navigate';
 
 
 const MatchNewChat = ({match}) => {
-    const avatarRef = useRef();
-
     const firstMessageRef = useRef();
-    const setAvatar = async () => {
-        const url = URL.createObjectURL((await ((await (Tinder.getPhoto(match.avatar))).formData())).get('file'));
-        avatarRef.getValue().src = url;
-    }
 
     const onFirstMessageSend = async (e) => {
         e.preventDefault();
-        // console.log(firstMessageRef.getValue().value);
         const currentUser = getUser();
-        // console.log(currentUser);
         const response = await (await Tinder.createChat({userIds: [match.userId]})).json();
         const newChatID = response.body.chatId;
-        const rspnse = await (await Tinder.sendMessage(newChatID, {content: firstMessageRef.getValue().value})).json();
+        const rspnse = await (await Tinder.sendMessage(newChatID, {content: firstMessageRef.getValue().value, userIds: [match.userId]})).json();
         await Tinder.deleteMatch(match.userId);
         Navigate({to: "/chat"});
     }
 
-    setAvatar();
     return (
         <div className={styles.matchNewChatContainer}>
             <div className={styles.matchNewChatUser}>
-                <img className={styles.matchNewChatUserAvatar} ref={avatarRef}/>
+                <img className={styles.matchNewChatUserAvatar} src={`${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${match.avatar}`}/>
                 <span>{match.name}</span>
             </div>
             <span className={styles.firstMessageInput}>
-                <InputWithLabel ref={firstMessageRef} labelText="Напишите первое сообщение" type={"text"}/>
-                <SubmitButton onClick={onFirstMessageSend}>отправить первое сообщение</SubmitButton>
+                <InputWithLabel  ref={firstMessageRef} labelText="Напишите первое сообщение" type={"text"}/>
+                <SubmitButton onClick={onFirstMessageSend}>Отправить первое сообщение</SubmitButton>
             </span>
         </div>
     )
@@ -64,11 +55,11 @@ export const MatchesList = ({refToChatArea}) => {
         try {
             const matchesJson = await ((await Tinder.getMatches()).json());
             if (matchesJson.status !== 200) {
-                info.getValue().innerHTML = 'не удалось загрузить данные';
+                info.getValue().innerHTML = 'Не удалось загрузить данные';
                 return ;
             }
             matches = matchesJson.body?.matches ?? [];
-            console.log(matches);
+
             const container = info.getValue();
             if (matches.length === 0) {
                 info.getValue().innerHTML = "Пока не встретилось взаимной симпатии";
@@ -88,10 +79,10 @@ export const MatchesList = ({refToChatArea}) => {
             })
             render(container, domMatches);
             for (let {ref, avatar} of matches) {
-                ref.getValue().src = URL.createObjectURL((await ((await Tinder.getPhoto(avatar)).formData())).get('file'));
+                ref.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${avatar}`;
             }
         } catch (e) {
-            alert(e);
+            console.log(e);
         }
 
     }

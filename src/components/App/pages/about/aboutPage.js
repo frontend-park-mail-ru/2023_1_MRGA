@@ -1,5 +1,3 @@
-import {Header} from "components/App/header/header";
-import {FormContainer} from "components/UI/containers/formContainer/formContainer";
 import logo from "assets/Logo.svg"
 import inLove from "assets/svg/inLove.svg"
 import styles from './aboutPage.module.css'
@@ -31,7 +29,7 @@ export const AboutPage = () => {
 
                             </div>
                     </div>
-                    <div className={styles.right}>
+                    <div>
                         <img src={inLove} alt=""/>
                     </div>
                 </div>

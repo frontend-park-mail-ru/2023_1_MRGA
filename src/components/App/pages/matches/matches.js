@@ -1,7 +1,6 @@
 import {HeaderAuth} from "components/App/header/header";
 import {SideBar} from "components/App/sideBar/sideBar";
 import {MatchesList} from "components/App/matchesList/matchesList";
-import styles from './matches.css'
 import {PageContainer} from "components/UI/containers/pageContainer/pageContainer";
 
 import chatIcon from 'assets/svg/chat-icon.svg';
@@ -13,7 +12,7 @@ export const MatchesPage = () => {
         <>
             <HeaderAuth/>
             <PageContainer>
-                <SideBar/>
+                <SideBar current={'/matches'}/>
                 <MatchesList refToChatArea={chatArea}/>
                 <div ref={chatArea} style="
                     background-color: white;
@@ -41,9 +40,5 @@ export const MatchesPage = () => {
                     </div>
             </PageContainer>
         </>
-)
+    )
 }
-
-
-
-

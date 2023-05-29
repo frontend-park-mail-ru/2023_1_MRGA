@@ -3,5 +3,6 @@
     width: 100%;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 10px;
+    flex: 1;
+    max-height: 628px;
 }

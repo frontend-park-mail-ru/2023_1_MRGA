@@ -55,6 +55,7 @@ export const FiltersForm = () => {
         const res = validateMaxAge(ageNumber);
         if (!res.ok){
             maxAgeWarning.getValue().innerHTML = res.warning
+            return
         }
         if (ageNumber < minAge.getValue().valueAsNumber) {
             maxAgeWarning.getValue().innerHTML = 'Максимально допустимый возраст не может быть меньше минимального';
@@ -163,7 +164,7 @@ export const FiltersForm = () => {
                     id={"minAge"}
                     type={"number"}
                     placeholder={"18"}
-                    labelText={"минимальный возраст"}
+                    labelText={"Минимальный возраст"}
                     required={true}
                     min={"18"}
                     onChange={onMinAgeInputChange}
@@ -171,14 +172,14 @@ export const FiltersForm = () => {
                 />
                 <Warning
                     ref={minAgeWarning}
-                    title={"минимальный возраст должен быть выбран"}
+                    title={"Минимальный возраст должен быть выбран"}
                 />
                 <InputWithLabel
                     name={"maxAge"}
                     id={"maxAge"}
                     type={"number"}
                     placeholder={"150"}
-                    labelText={"максимальный возраст"}
+                    labelText={"Максимальный возраст"}
                     required={true}
                     min={"18"}
                     onChange={onMaxAgeInputChange}
@@ -186,10 +187,11 @@ export const FiltersForm = () => {
                 />
                 <Warning
                     ref={maxAgeWarning}
-                    title={"максимальный возраст должен быть выбран"}
+                    title={"Максимальный возраст должен быть выбран"}
                 />
+
                 <span className={styles.reasonsSelectContainer}>
-                   <Label labelText={"Выберите причины"}/>
+                    <Label labelText={"Выберите причины"}/>
                    <Select
                        id={"reasons"}
                        required={true}
@@ -199,11 +201,11 @@ export const FiltersForm = () => {
                        multiple
                    >
                    </Select>
-                    <Label labelText={"Зажмите CTRL/CMD, чтобы выбрать несколько"} htmlFor={"hashTags"}/>
+                    <Label style={"font-size: 16px; padding-left: 20px" } labelText={"Зажмите CTRL/CMD, чтобы выбрать несколько"} htmlFor={"hashTags"}/>
                 </span>
                 <Warning
                     ref={reasonsWarning}
-                    title={"причина должна быть указана"}
+                    title={"Причина должна быть указана"}
                 />
                 <SubmitButton
                     ref={submitButton}
