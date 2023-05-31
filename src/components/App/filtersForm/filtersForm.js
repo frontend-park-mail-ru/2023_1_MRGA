@@ -44,6 +44,7 @@ export const FiltersForm = () => {
         }
         if (ageNumber > maxAge.getValue().valueAsNumber) {
             minAgeWarning.getValue().innerHTML = 'Минимальный допустимый возраст не может быть больше максимального';
+            maxAgeWarning.getValue().innerHTML = '';
             return false;
         }
         minAgeWarning.getValue().innerHTML = '';
@@ -59,6 +60,7 @@ export const FiltersForm = () => {
         }
         if (ageNumber < minAge.getValue().valueAsNumber) {
             maxAgeWarning.getValue().innerHTML = 'Максимально допустимый возраст не может быть меньше минимального';
+            minAgeWarning.getValue().innerHTML = '';
         } else {
             maxAgeWarning.getValue().innerHTML = '';
         }
@@ -211,7 +213,7 @@ export const FiltersForm = () => {
                     ref={submitButton}
                     onClick={onSubmitClick}
                 >
-                    Зарегистрироваться
+                    Продолжить
                 </SubmitButton>
                 <Warning
                     ref={warning}

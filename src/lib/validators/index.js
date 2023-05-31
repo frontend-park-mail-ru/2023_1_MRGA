@@ -12,7 +12,7 @@ export const validatePassword = (password) => {
     if (!validChars.test(password)) {
         return {
             valid: false,
-            message: "В пароле допускаются только цифры, символы латиницы, нижнее подчеркивание и точка"
+            message: "В пароле допускаются только цифры, символы латиницы, нижнее подчеркивание, дефис и точка"
         };
     }
 
@@ -20,12 +20,6 @@ export const validatePassword = (password) => {
         return {
             valid: false,
             message: `Длина пароля должна быть между ${minLength} и ${maxLength}.`
-        };
-    }
-    if (!/\d/.test(password) || !/[A-Z]/.test(password)) {
-        return {
-            valid: false,
-            message: "Пароль должен содержать как минимум одну цифру и одну заглавную букву"
         };
     }
     return { valid: true };

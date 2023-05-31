@@ -316,7 +316,7 @@ export const InterviewForm = () => {
                     ref={submitButton}
                     onClick={onSubmitClick}
                 >
-                    Зарегистрироваться
+                    Продолжить
                 </SubmitButton>
                 <Warning
                     ref={warning}

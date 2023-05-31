@@ -1,8 +1,7 @@
 import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
 import styles from './recommendProfile.module.css'
 
-import ico from 'assets/favicon.ico';
-import loading from 'assets/img/loading_white.png'
+import loading from 'assets/img/loading-loading-forever.gif'
 import like from 'assets/svg/like.svg';
 import dislike from 'assets/svg/dislike.svg';
 import prevPhotoArrow from 'assets/svg/prevPhotoArrow.svg';
@@ -54,6 +53,7 @@ export const Recom = () => {
             locationPointRef.getValue().innerHTML = '';
             info.getValue().innerHTML = "На данный момент для Вас нет рекомендаций. Вы можете изменить критерии поиска в профиле или подождать, когда мы подберем новые рекомендации";
             hideButtons();
+            currRecPhoto.getValue().src = like;
             return ;
         }
         setCurrentRecommendation();
@@ -99,6 +99,7 @@ export const Recom = () => {
         recHashtags.getValue().innerHTML = '';
         education.getValue().innerHTML = '';
         zodiac.getValue().innerHTML = '';
+        currRecPhoto.getValue().classList.add(styles.objectFitContain);
         currRecPhoto.getValue().src = loadingPhoto;
         locationPointRef.getValue().innerHTML = '';
         info.getValue().innerHTML = "На данный момент для Вас нет рекомендаций. Вы можете изменить критерии поиска в профиле или подождать, когда мы подберем новые рекомендации";
@@ -135,6 +136,8 @@ export const Recom = () => {
     let currPhoto;
     const loadRecommendationPhotos = async () => {
         const currentRec = recommendations[currentRecommendation];
+        currRecPhoto.getValue().classList.add(styles.objectFitContain);
+        currRecPhoto.getValue().src = loadingPhoto;
         currRecPhoto.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${currentRec.photos[currentRec.photoIndex]}`;
     }
     const dispatcher = modalDispatcher();
@@ -147,19 +150,25 @@ export const Recom = () => {
         dispatcher.hideModal();
     }
     const likesEndMessageModalDispatcher = modalDispatcher();
+    const onPictureLoad = (e) => {
+        if (e.target.src === loadingPhoto) {
+            e.target.classList.add(styles.objectFitContain);
+        } else {
+            e.target.classList.remove(styles.objectFitContain);
+        }
+    }
     test();
     return (
         <div className={styles.content}>
             <ModalWindow dispatcher={likesEndMessageModalDispatcher}>
                 <div className={styles.likeText}>Сегодня вы больше не можете ставить лайки, попробуйте завтра.
                     Или приобретите подписку и лайкайте, сколько хотите!
-                    Для приобретения подписки пишите в telegram нашему
-                    <u>
-                    <a href={"https://t.me/yakwilik"}> админу</a></u>
+                    Для приобретения подписки пишите в telegram нашему&nbsp;
+                    <u><a href={"https://t.me/yakwilik"}>админу</a></u>
                 </div>
             </ModalWindow>
             <div className={styles.avatarSide}>
-                <img ref={currRecPhoto} className={styles.avatar} src={loadingPhoto} alt=""/>
+                <img onLoad={onPictureLoad} ref={currRecPhoto} className={[styles.avatar, styles.objectFitContain].join(' ')} src={loadingPhoto} alt="не удалось загрузить фотографию"/>
                 <div className={styles.avatarShadow}>
                     <a ref={buttons.passButton} onClick={reactionClick.bind(null, "pass")} className={styles.swipeBtn} style="margin-right: 16px;">
                         <img src={dislike}/>

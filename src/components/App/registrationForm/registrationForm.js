@@ -52,7 +52,7 @@ export const RegistrationForm = () => {
         if (!valid) {
             passwordWarning.getValue().innerHTML = message;
         } else if (passwordText !== passwordRepeatText) {
-            passwordRepeatWarning.getValue().innerHTML = 'Пароли не совпадают: ' + passwordText + passwordRepeatText;
+            passwordRepeatWarning.getValue().innerHTML = 'Пароли не совпадают';
         } else {
             passwordWarning.getValue().innerHTML = '';
             passwordRepeatWarning.getValue().innerHTML = '';
@@ -109,7 +109,7 @@ export const RegistrationForm = () => {
         try {
             const resp = await Tinder.registration({
                 "email": email.getValue().value,
-                "birthDay": `${2023-age.getValue().valueAsNumber}-01-01`,
+                "birthday": `${2023-age.getValue().valueAsNumber}-01-01`,
                 "password": password.getValue().value,
             })
             const json = await resp.json()
@@ -184,7 +184,7 @@ export const RegistrationForm = () => {
                     ref={submitButton}
                     onClick={onSubmitClick}
                 >
-                    Зарегистрироваться
+                    Продолжить
                 </SubmitButton>
             </Form>
         </FormContainer>
