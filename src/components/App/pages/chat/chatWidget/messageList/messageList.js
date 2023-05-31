@@ -6,6 +6,10 @@ import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import chatIcon from "assets/svg/chat-icon.svg";
 import {render} from "@/lib/jsx/render";
 import {WSChatAPI} from "@/api/ws_chat_api";
+import sendIcon from "assets/img/send.png";
+import recordIcon from "assets/img/microphone.png";
+import sendDataIcon from "assets/img/sendData.png";
+import cancelIcon from "assets/img/cancel.png";
 
 export const ChatUser = ({userID, className, ...props}) => {
     const avatar = useRef();
@@ -33,6 +37,14 @@ export const MessageList = ({messageDispatcher}) => {
     const messagesAreaRef = useRef();
     
     const recordButton = useRef();
+    const sendButton = useRef();
+    const recordImg = useRef();
+    const sendImg = useRef();
+    const recordTimeRef = useRef();
+
+    let recordTime = 0;
+    let recordInterval;
+
     let isRecording = false;
     let mediaRecorder;
     let recordedBlobs;
@@ -50,6 +62,15 @@ export const MessageList = ({messageDispatcher}) => {
                     recordedBlobs.push(event.data);
                 }
             });
+
+            recordTime = 0;
+            recordTimeRef.getValue().innerText = formatRecordTime(recordTime);
+            recordTimeRef.getValue().hidden = false;
+            recordInterval = setInterval(() => {
+                recordTime += 1;
+                recordTimeRef.getValue().innerText = formatRecordTime(recordTime);
+            }, 1000);
+
             mediaRecorder.start();
 
         } catch (error) {
@@ -57,10 +78,20 @@ export const MessageList = ({messageDispatcher}) => {
         }
     }
 
-    async function stopRecording(chat) {
+    function formatRecordTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+
+    async function stopRecording(chat, isCancel) {
         mediaRecorder.stop();
         await new Promise(resolve => mediaRecorder.addEventListener('stop', resolve));
         mediaRecorder.stream.getTracks().forEach(track => track.stop());
+
+        clearInterval(recordInterval);
+        recordTimeRef.getValue().hidden = true;
+
         const blob = new Blob(recordedBlobs, { type: supportedType });
 
         if (blob.size === 0) {
@@ -68,10 +99,12 @@ export const MessageList = ({messageDispatcher}) => {
             return;
         }
 
-        try {
-            await sendDataToServer(chat, blob);
-        } catch (error) {
-            console.error('Error:', error);
+        if (!isCancel) {
+            try {
+                await sendDataToServer(chat, blob);
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
     }
 
@@ -145,27 +178,42 @@ export const MessageList = ({messageDispatcher}) => {
                 <div className={styles.inputArea}>
                     <div className={styles.messageArea}>
                         <textarea ref={newMessageRef} onKeyDown={(event) => handleTextareaKeyDown(event, chat)} className={styles.sendInput} placeholder={"Введите сообщение"}/>
-                        <div>
-                            <button ref={recordButton} className={styles.recordButton}>🎙️</button>
+                        <div className={styles.buttonsContainer}>
+                            <div>
+                                <button ref={recordButton} className={styles.buttons}>
+                                    <img src={recordIcon} alt='Записать' ref={recordImg}></img>
+                                </button>
+                            </div>
+                            <div ref={recordTimeRef} className={[styles.recordTime].join(' ')} hidden></div>
                         </div>
                         <div>
-                            <button onClick={onSendMessageClick.bind(null, chat)} className={styles.sendButton}>📩</button>
+                            <button ref={sendButton} onClick={onSendMessageClick.bind(null, chat)} className={[styles.sendButton, styles.buttons].join(' ')}>
+                                <img src={sendIcon} alt='Отправить' ref={sendImg}></img>
+                            </button>
                         </div>
                     </div>
                 </div>
             </>
         )
 
-        recordButton.getValue().addEventListener('click', async () => {
+        const recordHandler =  async (isCancel, event) => {
             if (!isRecording) {
+                sendImg.getValue().src = cancelIcon;
+                sendButton.getValue().onclick = recordHandler.bind(null, true);
+                
+                recordImg.getValue().src = sendDataIcon;
                 startRecording();
-                recordButton.getValue().textContent = '⬆️';
             } else {
-                await stopRecording(chat);
-                recordButton.getValue().textContent = '🎙';
+                sendImg.getValue().src = sendIcon;
+                sendButton.getValue().onclick = onSendMessageClick.bind(null, chat);
+            
+                recordImg.getValue().src = recordIcon;
+                await stopRecording(chat, isCancel);
             }
             isRecording = !isRecording;
-        });
+        }
+
+        recordButton.getValue().addEventListener('click', recordHandler.bind(null, false));
 
         messagesAreaRef.getValue().scrollTo(0, messagesAreaRef.getValue().scrollHeight);
 

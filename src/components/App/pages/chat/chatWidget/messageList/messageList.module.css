@@ -8,16 +8,38 @@
     height: 100%;
 }
 
-.sendButton {
-    font-size: 24px;
-    padding: 10px 20px;
+.buttonsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.recordTime {
+    position: absolute;
+    top: 55px;
+    text-align: center;
+    width: 100%;
+}
+
+.buttons {
+    padding: 10px 10px;
+    height: 50px;
+    width: 50px;
     border: none;
-    border-radius: 10px;
+    border-radius: 15px;
     background-image: linear-gradient(to bottom, #d3d1f8 15%, #d8aae8 85%);
-    color: white;
     cursor: pointer;
     outline: none;
     transition: background-color 0.3s;
+}
+
+.buttons > img {
+    width: 100%;
+    height: 100%;
+}
+
+.sendButton {
     margin-left: 5px;
 }
 
@@ -79,18 +101,6 @@
     display: flex;
     align-items: center;
     width: 100%;
-}
-
-.recordButton {
-    font-size: 24px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
-    background-image: linear-gradient(to bottom, #d3d1f8 15%, #d8aae8 85%);
-    color: white;
-    cursor: pointer;
-    outline: none;
-    transition: background-color 0.3s;
 }
 
 .recordButton:hover {
