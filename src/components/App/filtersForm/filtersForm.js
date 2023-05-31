@@ -48,6 +48,7 @@ export const FiltersForm = () => {
             return false;
         }
         minAgeWarning.getValue().innerHTML = '';
+        maxAgeWarning.getValue().innerHTML = '';
         return true;
     }
 
@@ -62,6 +63,7 @@ export const FiltersForm = () => {
             maxAgeWarning.getValue().innerHTML = 'Максимально допустимый возраст не может быть меньше минимального';
             minAgeWarning.getValue().innerHTML = '';
         } else {
+            minAgeWarning.getValue().innerHTML = '';
             maxAgeWarning.getValue().innerHTML = '';
         }
         return res.ok;

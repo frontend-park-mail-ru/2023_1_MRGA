@@ -12,6 +12,8 @@ import photoFormStyles from './photoForm.module.css'
 import {MyPhotoInput} from "components/UI/forms/photoInput/photoInput";
 import logo from "assets/LogoMini.svg";
 import {modalDispatcher, ModalWindow} from "components/UI/modal/modal";
+import deletePhoto from "assets/svg/dislike.svg";
+import inputStyles from "components/UI/forms/photoInput/photoInput.module.css";
 
 export const PhotoForm = () => {
     const photoWarning = useRef();
@@ -82,6 +84,16 @@ export const PhotoForm = () => {
             alert(e);
         }
     }
+    const onPhotoLoad = (deleteButton, e) => {
+        deleteButton.getValue().classList.remove(styles.hidden);
+    }
+    const onDeleteClick = (deleteButton, control, photo, e) => {
+        deleteButton.getValue().classList.add(styles.hidden);
+        photo.getValue().classList.add(inputStyles.hidden);
+        control.getValue().classList.remove(inputStyles.hidden);
+        const input = control.getValue().control;
+        input.value = '';
+    };
     return  (
         <FormContainer>
             <Form>
@@ -93,7 +105,10 @@ export const PhotoForm = () => {
                 <div className={styles.form}>
                     {photosRef.map(({photo, label, id, deleteButton}) => {
                         return (
-                        <MyPhotoInput control={label} photo={photo} id={id}></MyPhotoInput>
+                        <MyPhotoInput control={label} photo={photo} id={id} onPhotoLoad={onPhotoLoad.bind(null, deleteButton)}>
+                            <img ref={deleteButton} onClick={onDeleteClick.bind(null, deleteButton, label, photo)}
+                                 src={deletePhoto} className={[styles.deletePhotoButton, styles.hidden].join(' ')}/>
+                        </MyPhotoInput>
                         )
                     })}
                 <Warning

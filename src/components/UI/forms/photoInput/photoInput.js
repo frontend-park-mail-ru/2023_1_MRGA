@@ -16,7 +16,7 @@ export const PhotoInput = ({ref, className, ...props}) => {
 }
 
 
-export const MyPhotoInput = ({id, control, photo, className, ...props}, children) => {
+export const MyPhotoInput = ({id, control, photo, onPhotoLoad , className, ...props}, children) => {
 
     const label = control;
     const photoRef = photo;
@@ -44,6 +44,9 @@ export const MyPhotoInput = ({id, control, photo, className, ...props}, children
         e.preventDefault();
         photo.getValue().classList.remove(inputStyles.hidden);
         control.getValue().classList.add(inputStyles.hidden);
+        if (typeof onPhotoLoad === 'function') {
+            onPhotoLoad();
+        }
     }
     return (
         <span className={inputStyles.buttonWrapper}>
