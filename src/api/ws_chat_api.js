@@ -1,6 +1,10 @@
-import {NotificationPopupDispatcher, notificationWrapper} from "components/App/notification/notification";
-import {appendChildren, create} from "@/lib/jsx";
+import {
+    MatchNotification,
+    NotificationPopupDispatcher,
+    notificationWrapper
+} from "components/App/notification/notification";
 import { WSProtocol, BackendHost, BackendPort } from "./api";
+import {render} from "@/lib/jsx/render";
 
 export const MATCH_NOTIFICATION_TYPES = {
     NEW_MATCH: "new_match",
@@ -9,6 +13,7 @@ export const MATCH_NOTIFICATION_TYPES = {
 
 const getConnectionObject = () => {
     let connection = undefined;
+    let listeners = {};
     const Undef = () => {
         connection = undefined;
     }
@@ -21,8 +26,14 @@ const getConnectionObject = () => {
     const Get = () => {
         return connection;
     }
+    const GetListeners = () => {
+        return listeners;
+    }
+    const SetListeners = (newListeners) => {
+        listeners = newListeners;
+    }
 
-    return {connection, Undef, Set, IsUndef, Get}
+    return {connection, Undef, Set, IsUndef, Get, GetListeners, SetListeners}
 };
 
 let wsChat = getConnectionObject();
@@ -32,13 +43,18 @@ const onWsError = (event) => {
     console.log('WebSocket error:', event);
 };
 
-const onWsClose = (connectionObject, event) => {
+const onWsClose = (connectionObject, callback, event) => {
     console.log('WebSocket connection closed:', event);
     connectionObject.Undef();
+    connectionObject.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/chats/subscribe`));
+    if (typeof callback === 'function') {
+        callback();
+    }
+    initWsHandlers(connectionObject);
 };
 
-const initWsHandlers = (wsConnection) => {
-    wsConnection.Get().addEventListener('close', onWsClose.bind(null, wsConnection));
+const initWsHandlers = (wsConnection, closeCallback) => {
+    wsConnection.Get().addEventListener('close', onWsClose.bind(null, wsConnection, closeCallback));
     wsConnection.Get().addEventListener('error', onWsError);
 }
 
@@ -52,22 +68,41 @@ export class WSChatAPI {
             }
             if (wsReaction.IsUndef()) {
                 wsReaction.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/match/subscribe`));
-                initWsHandlers(wsReaction);
+                const closeCallback = () => {
+                    const values = Object.values(wsReaction.GetListeners());
+                    console.log(values);
+                    values.forEach((value) => {
+                        wsReaction.Get()?.addEventListener("message", (event) => {
+                            const jsonMSG = JSON.parse(event.data);
+                            console.log(value);
+                            value(jsonMSG);
+                            NotificationPopupDispatcher.showModal();
+                            setTimeout(() => {
+                                NotificationPopupDispatcher.hideModal();
+                            }, 3000);
+                        });
+                    })
+                };
+                initWsHandlers(wsReaction, closeCallback);
             }
         } catch(e) {
             console.log(e);
         }
     }
 
-    static subscribeOnReaction(callback) {
-        wsReaction.Get()?.addEventListener("message", (event) => {
-            const jsonMSG = JSON.parse(event.data);
-            callback(jsonMSG);
-            NotificationPopupDispatcher.showModal();
-            setTimeout(() => {
-                NotificationPopupDispatcher.hideModal();
-            }, 3000);
-        });
+    static subscribeOnReaction(callback, id) {
+        if (!wsReaction.GetListeners()[id]) {
+            wsReaction.GetListeners()[id] = callback;
+            console.log(wsReaction.GetListeners()[id]);
+            wsReaction.Get()?.addEventListener("message", (event) => {
+                const jsonMSG = JSON.parse(event.data);
+                wsReaction.GetListeners()[id](jsonMSG);
+                NotificationPopupDispatcher.showModal();
+                setTimeout(() => {
+                    NotificationPopupDispatcher.hideModal();
+                }, 3000);
+            });
+        }
     }
     static getMessage(listener) {
         wsChat.Get()?.addEventListener("message", (event) => {

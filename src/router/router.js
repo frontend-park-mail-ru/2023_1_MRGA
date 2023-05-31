@@ -68,7 +68,7 @@ const router = async () => {
             WSChatAPI.connect();
             WSChatAPI.subscribeOnReaction((notification) => {
                 render(notificationWrapper, <MatchNotification notification={notification}/>)
-            });
+            }, 1);
             setPrivateRoutes();
             if (json.body.step !== 0) {
                 Navigate({to: "/signup"})
