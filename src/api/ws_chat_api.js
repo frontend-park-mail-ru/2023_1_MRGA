@@ -50,7 +50,26 @@ const onWsClose = (connectionObject, callback, event) => {
     if (typeof callback === 'function') {
         callback();
     }
-    initWsHandlers(connectionObject);
+    if (connectionObject === wsReaction) {
+        initWsHandlers(connectionObject, closeCallback);
+    }
+
+};
+
+const closeCallback = () => {
+    const values = Object.entries(wsReaction.GetListeners());
+    values.forEach(([key, value]) => {
+        // console.log(value);
+        console.log('ws connection:', wsReaction.Get());
+        wsReaction.Get()?.addEventListener("message", (event) => {
+            const jsonMSG = JSON.parse(event.data);
+            value(jsonMSG);
+            NotificationPopupDispatcher.showModal();
+            setTimeout(() => {
+                NotificationPopupDispatcher.hideModal();
+            }, 3000);
+        });
+    })
 };
 
 const initWsHandlers = (wsConnection, closeCallback) => {
@@ -68,21 +87,6 @@ export class WSChatAPI {
             }
             if (wsReaction.IsUndef()) {
                 wsReaction.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/match/subscribe`));
-                const closeCallback = () => {
-                    const values = Object.values(wsReaction.GetListeners());
-                    console.log(values);
-                    values.forEach((value) => {
-                        wsReaction.Get()?.addEventListener("message", (event) => {
-                            const jsonMSG = JSON.parse(event.data);
-                            console.log(value);
-                            value(jsonMSG);
-                            NotificationPopupDispatcher.showModal();
-                            setTimeout(() => {
-                                NotificationPopupDispatcher.hideModal();
-                            }, 3000);
-                        });
-                    })
-                };
                 initWsHandlers(wsReaction, closeCallback);
             }
         } catch(e) {
@@ -98,9 +102,9 @@ export class WSChatAPI {
                 const jsonMSG = JSON.parse(event.data);
                 wsReaction.GetListeners()[id](jsonMSG);
                 NotificationPopupDispatcher.showModal();
-                setTimeout(() => {
-                    NotificationPopupDispatcher.hideModal();
-                }, 3000);
+                // setTimeout(() => {
+                //     NotificationPopupDispatcher.hideModal();
+                // }, 3000);
             });
         }
     }
