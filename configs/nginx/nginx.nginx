@@ -1,6 +1,6 @@
 upstream golang_backend {
-#     server meetme-app.ru:444;
-    server host.docker.internal:8080;
+    server meetme-app.ru:444;
+#     server host.docker.internal:8080;
 }
 
 

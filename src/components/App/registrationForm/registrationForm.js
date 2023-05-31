@@ -52,9 +52,10 @@ export const RegistrationForm = () => {
         if (!valid) {
             passwordWarning.getValue().innerHTML = message;
         } else if (passwordText !== passwordRepeatText) {
-            passwordRepeatWarning.getValue().innerHTML = 'Пароли не совпадают' + passwordText + passwordRepeatText;
+            passwordRepeatWarning.getValue().innerHTML = 'Пароли не совпадают: ' + passwordText + passwordRepeatText;
         } else {
             passwordWarning.getValue().innerHTML = '';
+            passwordRepeatWarning.getValue().innerHTML = '';
         }
     }
     const onEmailChange = () => {

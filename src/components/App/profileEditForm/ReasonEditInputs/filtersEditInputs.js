@@ -180,7 +180,7 @@ export const FiltersEditInputs = () => {
     }
     getReasons();
     return (
-        <div>
+        <>
             <Label labelText={"Кого вы ищете, выберите пол"} htmlFor={"sexSearch"}/>
             <Select ref={genderSelectRef}/>
             <InputWithLabel
@@ -207,20 +207,20 @@ export const FiltersEditInputs = () => {
                 ref={maxAgeWarning}
                 title={"максимальный возраст должен быть введен"}
             />
-            <Label labelText={"Выберите причины"}/>
+            <Label labelText={"Изменить причины"}/>
             <Select onChange={onReasonInputChange} ref={reasonSelectRef} multiple/>
             <Warning
                 ref={reasonsWarning}
                 title={"выберите причины поиска"}
             />
             <SubmitButton onClick={onFiltersChangeSubmit} >Сохранить фильтры</SubmitButton>
-            <Label labelText={"Выберите интересы"}/>
+            <Label labelText={"Изменить интересы"}/>
             <Select onChange={onHashTagsInputChange} ref={hashTagsSelectRef} multiple/>
             <Warning
                 ref={hashTagsWarning}
                 title={"выберите интересы"}
             />
             <SubmitButton onClick={onHashTagsChangeSubmit}>Сохранить интересы</SubmitButton>
-        </div>
+        </>
     )
 }

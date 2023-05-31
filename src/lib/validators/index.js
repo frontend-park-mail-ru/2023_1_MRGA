@@ -53,11 +53,11 @@ export const validateMinAge = (age) => {
     let warning = ""
     let ok = false
     if (age < 18 && age >= 0) {
-        warning = 'Возраст должен быть больше или равен 18';
+        warning = 'Возраст должен быть не менее 18';
     } else if (age < 0) {
         warning = 'Некорректный возраст';
     } else if (age > 150) {
-        warning = 'Некорректный возраст';
+        warning = 'Люди столько не живут';
     } else if (isNaN(age)) {
         warning = 'Введите возраст';
     } else {
@@ -70,9 +70,9 @@ export const validateMaxAge = (age) => {
     let warning = ""
     let ok = false
     if (age < 18 && age >= 0) {
-        warning = 'Возраст должен быть больше или равен 18';
+        warning = 'Возраст должен быть не менее 18';
     } else if (age < 0 || age>150) {
-        warning = 'Некорректный возраст';
+        warning = 'Люди столько не живут';
     } else if (isNaN(age)) {
         warning = 'Введите возраст';
     } else {

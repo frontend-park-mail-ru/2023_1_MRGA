@@ -4,10 +4,9 @@ import inputStyles from './photoInput.module.css'
 import logo from "assets/LogoMini.svg";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 
-export const PhotoInput = ({name, ref, className, ...props}) => {
+export const PhotoInput = ({ref, className, ...props}) => {
     return (
         <input className={[inputStyles.photoInput, className].join(' ')}
-               name={name}
                ref={ref}
                type={"file"}
                accept="image/jpeg,image/png"
@@ -52,7 +51,6 @@ export const MyPhotoInput = ({id, control, photo, className, ...props}, children
             <div className={inputStyles.photoInputContainer}>
                 <PhotoInput className={[inputStyles.photoInput, className].join(' ')}
                     onChange={onInputChange.bind(null, photoRef, label)}
-                    name={name}
                     type={"file"}
                     id={id}
                     accept="image/jpeg,image/png"

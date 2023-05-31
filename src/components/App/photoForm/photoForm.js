@@ -1,8 +1,6 @@
 import {Form} from "components/UI/forms/form/form";
 import logoMini from "assets/LogoMini.svg";
-import {InputWithLabel} from "components/UI/forms/inputWithLabel/inputWithLabel";
-import {Label} from "components/UI/forms/label/label";
-import {Select} from "components/UI/forms/select/select";
+
 import {Warning} from "components/UI/forms/warning/warning";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {FormContainer} from "components/UI/containers/formContainer/formContainer";
@@ -10,8 +8,8 @@ import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
 import styles from "components/App/profileEditForm/PhotoEditInputs/PhotoEditInput.module.css";
-import deletePhoto from "assets/svg/dislike.svg";
-import {MyPhotoInput, PhotoInput} from "components/UI/forms/photoInput/photoInput";
+import photoFormStyles from './photoForm.module.css'
+import {MyPhotoInput} from "components/UI/forms/photoInput/photoInput";
 import logo from "assets/LogoMini.svg";
 import {modalDispatcher, ModalWindow} from "components/UI/modal/modal";
 
@@ -99,6 +97,7 @@ export const PhotoForm = () => {
                         )
                     })}
                 <Warning
+                    className={photoFormStyles.warningWidth}
                     ref={photoWarning}
                     title={"Некоректное фото"}
                 />
