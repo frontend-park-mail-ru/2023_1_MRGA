@@ -43,37 +43,41 @@ const onWsError = (event) => {
     console.log('WebSocket error:', event);
 };
 
-const onWsClose = (connectionObject, callback, event) => {
+const onWsClose = (connectionObject, callback, url, event) => {
     console.log('WebSocket connection closed:', event);
     connectionObject.Undef();
-    connectionObject.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/chats/subscribe`));
+    connectionObject.Set(new WebSocket(url));
     if (typeof callback === 'function') {
         callback();
     }
     if (connectionObject === wsReaction) {
-        initWsHandlers(connectionObject, closeCallback);
+        initWsHandlers(connectionObject, closeCallback, url);
     }
 
 };
 
 const closeCallback = () => {
     const values = Object.entries(wsReaction.GetListeners());
-    values.forEach(([key, value]) => {
-        // console.log(value);
-        console.log('ws connection:', wsReaction.Get());
-        wsReaction.Get()?.addEventListener("message", (event) => {
-            const jsonMSG = JSON.parse(event.data);
-            value(jsonMSG);
-            NotificationPopupDispatcher.showModal();
-            setTimeout(() => {
-                NotificationPopupDispatcher.hideModal();
-            }, 3000);
-        });
-    })
+    wsReaction.Get().addEventListener('open', () => {
+        console.log('connection opened for reaction');
+        values.forEach(([key, value]) => {
+            // console.log(value);
+            console.log('ws connection:', wsReaction.Get());
+            wsReaction.Get()?.addEventListener("message", (event) => {
+                const jsonMSG = JSON.parse(event.data);
+                value(jsonMSG);
+                NotificationPopupDispatcher.showModal();
+                setTimeout(() => {
+                    NotificationPopupDispatcher.hideModal();
+                }, 3000);
+            });
+        })
+    });
+
 };
 
-const initWsHandlers = (wsConnection, closeCallback) => {
-    wsConnection.Get().addEventListener('close', onWsClose.bind(null, wsConnection, closeCallback));
+const initWsHandlers = (wsConnection, closeCallback, url) => {
+    wsConnection.Get().addEventListener('close', onWsClose.bind(null, wsConnection, closeCallback, url));
     wsConnection.Get().addEventListener('error', onWsError);
 }
 
@@ -86,8 +90,9 @@ export class WSChatAPI {
                 initWsHandlers(wsChat);
             }
             if (wsReaction.IsUndef()) {
-                wsReaction.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/match/subscribe`));
-                initWsHandlers(wsReaction, closeCallback);
+                const reactionURL = `${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/match/subscribe`;
+                wsReaction.Set(new WebSocket(reactionURL));
+                initWsHandlers(wsReaction, closeCallback, reactionURL);
             }
         } catch(e) {
             console.log(e);
