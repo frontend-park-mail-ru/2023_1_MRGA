@@ -6,5 +6,5 @@ export const TestComponent = () => {
 
     return (
         <div style={"border: black solid 1px; margin: 20px; text-align: center; padding: 10px;"} onClick={setState.bind(null, state + 1)}>{state.toString()}</div>
-    )
-}
+    );
+};

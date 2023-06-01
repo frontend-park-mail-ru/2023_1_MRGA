@@ -13,5 +13,5 @@ export const OfflinePage = () => {
                 <Link style={"flex: 0 0 100%; text-align: center; font-weight: 800"} href={"/offline_about"}>О приложении</Link>
             </PageContainer>
         </>
-    )
-}
+    );
+};

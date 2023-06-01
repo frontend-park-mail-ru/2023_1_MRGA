@@ -8,9 +8,9 @@ export const Link = ({href, ...props}, children) => {
             return ;
         }
         Navigate({to:href});
-    }
+    };
     // debugger;
     return (
         <a href={href} onClick={linkClickHandler} {...props}>{children}</a>
-    )
-}
+    );
+};

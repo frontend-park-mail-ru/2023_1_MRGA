@@ -1,53 +1,50 @@
 import {
-    MatchNotification,
     NotificationPopupDispatcher,
-    notificationWrapper
 } from "components/App/notification/notification";
 import { WSProtocol, BackendHost, BackendPort } from "./api";
-import {render} from "@/lib/jsx/render";
 
 export const MATCH_NOTIFICATION_TYPES = {
     NEW_MATCH: "new_match",
-    MISSED_MATCH: "missed_match"
-}
+    MISSED_MATCH: "missed_match",
+};
 
 const getConnectionObject = () => {
     let connection = undefined;
     let listeners = {};
     const Undef = () => {
         connection = undefined;
-    }
+    };
     const Set = (newConnection) => {
         connection = newConnection;
-    }
+    };
     const IsUndef = () => {
         return connection === undefined;
-    }
+    };
     const Get = () => {
         return connection;
-    }
+    };
     const GetListeners = () => {
         return listeners;
-    }
+    };
     const SetListeners = (newListeners) => {
         listeners = newListeners;
-    }
+    };
 
-    return {connection, Undef, Set, IsUndef, Get, GetListeners, SetListeners}
+    return {connection, Undef, Set, IsUndef, Get, GetListeners, SetListeners};
 };
 
-let wsChat = getConnectionObject();
-let wsReaction = getConnectionObject();
+const wsChat = getConnectionObject();
+const wsReaction = getConnectionObject();
 
 const onWsError = (event) => {
-    console.log('WebSocket error:', event);
+    console.log("WebSocket error:", event);
 };
 
 const onWsClose = (connectionObject, callback, url, event) => {
-    console.log('WebSocket connection closed:', event);
+    console.log("WebSocket connection closed:", event);
     connectionObject.Undef();
     connectionObject.Set(new WebSocket(url));
-    if (typeof callback === 'function') {
+    if (typeof callback === "function") {
         callback();
     }
     if (connectionObject === wsReaction) {
@@ -58,11 +55,11 @@ const onWsClose = (connectionObject, callback, url, event) => {
 
 const closeCallback = () => {
     const values = Object.entries(wsReaction.GetListeners());
-    wsReaction.Get().addEventListener('open', () => {
-        console.log('connection opened for reaction');
+    wsReaction.Get().addEventListener("open", () => {
+        console.log("connection opened for reaction");
         values.forEach(([key, value]) => {
             // console.log(value);
-            console.log('ws connection:', wsReaction.Get());
+            console.log("ws connection:", wsReaction.Get());
             wsReaction.Get()?.addEventListener("message", (event) => {
                 const jsonMSG = JSON.parse(event.data);
                 value(jsonMSG);
@@ -71,15 +68,15 @@ const closeCallback = () => {
                     NotificationPopupDispatcher.hideModal();
                 }, 3000);
             });
-        })
+        });
     });
 
 };
 
 const initWsHandlers = (wsConnection, closeCallback, url) => {
-    wsConnection.Get().addEventListener('close', onWsClose.bind(null, wsConnection, closeCallback, url));
-    wsConnection.Get().addEventListener('error', onWsError);
-}
+    wsConnection.Get().addEventListener("close", onWsClose.bind(null, wsConnection, closeCallback, url));
+    wsConnection.Get().addEventListener("error", onWsError);
+};
 
 export class WSChatAPI {
 
@@ -125,7 +122,7 @@ export class WSChatAPI {
                 const chatId = jsonMSG.body.chatId;
                 const messageType = jsonMSG.body.messageType;
                 const path = jsonMSG.body.path;
-                
+
                 listener(msgId, msg, senderId, sentAt, chatId, messageType, path);
             }
         });
@@ -149,7 +146,7 @@ export class WSChatAPI {
         const readRequest = {
             flag: "READ",
             readData: readData,
-        }
+        };
         wsChat.Get()?.send(JSON.stringify(readRequest));
     }
 

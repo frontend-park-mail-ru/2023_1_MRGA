@@ -1,12 +1,12 @@
 import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
-import styles from './recommendProfile.module.css'
+import styles from "./recommendProfile.module.css";
 
-import loading from 'assets/img/loading-loading-forever.gif'
-import like from 'assets/svg/like.svg';
-import dislike from 'assets/svg/dislike.svg';
-import prevPhotoArrow from 'assets/svg/prevPhotoArrow.svg';
-import nextPhotoArrow from 'assets/svg/nextPhotoArrow.svg';
-import locationPoint from 'assets/svg/locationPoint.svg';
+import loading from "assets/img/loading-loading-forever.gif";
+import like from "assets/svg/like.svg";
+import dislike from "assets/svg/dislike.svg";
+import prevPhotoArrow from "assets/svg/prevPhotoArrow.svg";
+import nextPhotoArrow from "assets/svg/nextPhotoArrow.svg";
+import locationPoint from "assets/svg/locationPoint.svg";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {render} from "@/lib/jsx/render";
 import {modalDispatcher, ModalWindow} from "components/UI/modal/modal";
@@ -27,8 +27,8 @@ export const Recom = () => {
         prevPhotoButton: useRef(),
         likeButton: useRef(),
         passButton: useRef(),
-        reportButton: useRef()
-    }
+        reportButton: useRef(),
+    };
 
 
     const currRecPhoto = useRef();
@@ -44,20 +44,20 @@ export const Recom = () => {
                 return {recommendations: recs.body.recommendations};
             }
         } catch (e) {
-            return {recommendations: [], error: e}
+            return {recommendations: [], error: e};
         }
-    }
+    };
     const test = async () => {
         await getRecommendations();
         if (!recommendations || recommendations.length === 0) {
-            locationPointRef.getValue().innerHTML = '';
+            locationPointRef.getValue().innerHTML = "";
             info.getValue().innerHTML = "На данный момент для Вас нет рекомендаций. Вы можете изменить критерии поиска в профиле или подождать, когда мы подберем новые рекомендации";
             hideButtons();
             currRecPhoto.getValue().src = like;
             return ;
         }
         setCurrentRecommendation();
-    }
+    };
     const changePhoto = async (step) => {
         const currentRec = recommendations[currentRecommendation];
         currentRec.photoIndex+=step;
@@ -68,42 +68,42 @@ export const Recom = () => {
             currentRec.photoIndex = currentRec.photos.length - 1;
         }
         loadRecommendationPhotos();
-    }
+    };
     const getNextPhoto = changePhoto.bind(null, 1);
     const getPrevPhoto = changePhoto.bind(null, -1);
 
     const setCurrentRecommendation = () => {
         const currentRec = recommendations[currentRecommendation];
 
-        nameAndAge.getValue().innerHTML = `${currentRec.name}, ${currentRec.age}`
+        nameAndAge.getValue().innerHTML = `${currentRec.name}, ${currentRec.age}`;
         city.getValue().innerHTML = currentRec.city;
         recDescription.getValue().innerHTML = currentRec.description;
         const hashtags = currentRec.hashtags.map((hashtags) => {
-            return <div className={styles.hashtag}>#{hashtags}</div>
+            return <div className={styles.hashtag}>#{hashtags}</div>;
         });
         render(recHashtags.getValue(), hashtags);
         education.getValue().innerHTML = `Образование: ${currentRec.education}`;
         zodiac.getValue().innerHTML = `Знак зодиака: ${currentRec.zodiac}`;
         currentRec.photoIndex = 0;
         loadRecommendationPhotos();
-    }
+    };
     const hideButtons = () => {
-        for (let button in buttons) {
+        for (const button in buttons) {
             buttons[button].getValue().classList.add(styles.hidden);
         }
-    }
+    };
     const clearRecommendations = () => {
-        nameAndAge.getValue().innerHTML = '';
-        city.getValue().innerHTML = '';
-        recDescription.getValue().innerHTML = '';
-        recHashtags.getValue().innerHTML = '';
-        education.getValue().innerHTML = '';
-        zodiac.getValue().innerHTML = '';
+        nameAndAge.getValue().innerHTML = "";
+        city.getValue().innerHTML = "";
+        recDescription.getValue().innerHTML = "";
+        recHashtags.getValue().innerHTML = "";
+        education.getValue().innerHTML = "";
+        zodiac.getValue().innerHTML = "";
         currRecPhoto.getValue().classList.add(styles.objectFitContain);
         currRecPhoto.getValue().src = loadingPhoto;
-        locationPointRef.getValue().innerHTML = '';
+        locationPointRef.getValue().innerHTML = "";
         info.getValue().innerHTML = "На данный момент для Вас нет рекомендаций. Вы можете изменить критерии поиска в профиле или подождать, когда мы подберем новые рекомендации";
-    }
+    };
     const next = () => {
         if (currentRecommendation > recommendations.length - 2) {
             clearRecommendations();
@@ -113,10 +113,10 @@ export const Recom = () => {
         currentRecommendation++;
 
         setCurrentRecommendation();
-    }
+    };
     const reactionClick = async (reaction) => {
 
-        recHashtags.getValue().innerHTML = '';
+        recHashtags.getValue().innerHTML = "";
         if (currentRecommendation <= recommendations.length - 1) {
             try {
                 const responseJSON = await (await Tinder.postReaction({
@@ -132,14 +132,14 @@ export const Recom = () => {
             }
         }
         next();
-    }
+    };
     let currPhoto;
     const loadRecommendationPhotos = async () => {
         const currentRec = recommendations[currentRecommendation];
         currRecPhoto.getValue().classList.add(styles.objectFitContain);
         currRecPhoto.getValue().src = loadingPhoto;
         currRecPhoto.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${currentRec.photos[currentRec.photoIndex]}`;
-    }
+    };
     const dispatcher = modalDispatcher();
 
     const reportUserClick = async (e) => {
@@ -148,7 +148,7 @@ export const Recom = () => {
         // Жалоба на пользователя
         next();
         dispatcher.hideModal();
-    }
+    };
     const likesEndMessageModalDispatcher = modalDispatcher();
     const onPictureLoad = (e) => {
         if (e.target.src === loadingPhoto) {
@@ -156,7 +156,7 @@ export const Recom = () => {
         } else {
             e.target.classList.remove(styles.objectFitContain);
         }
-    }
+    };
     test();
     return (
         <div className={styles.content}>
@@ -168,7 +168,7 @@ export const Recom = () => {
                 </div>
             </ModalWindow>
             <div className={styles.avatarSide}>
-                <img onLoad={onPictureLoad} ref={currRecPhoto} className={[styles.avatar, styles.objectFitContain].join(' ')} src={loadingPhoto} alt="не удалось загрузить фотографию"/>
+                <img onLoad={onPictureLoad} ref={currRecPhoto} className={[styles.avatar, styles.objectFitContain].join(" ")} src={loadingPhoto} alt="не удалось загрузить фотографию"/>
                 <div className={styles.avatarShadow}>
                     <a ref={buttons.passButton} onClick={reactionClick.bind(null, "pass")} className={styles.swipeBtn} style="margin-right: 16px;">
                         <img src={dislike}/>
@@ -221,5 +221,5 @@ export const Recom = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};

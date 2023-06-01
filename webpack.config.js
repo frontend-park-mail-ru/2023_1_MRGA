@@ -20,7 +20,6 @@ const optimization = () => {
         splitChunks: {
             chunks: "all",
         },
-        minimize: false
     };
     if (isProd) {
         config.minimizer = [

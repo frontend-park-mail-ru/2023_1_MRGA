@@ -10,7 +10,7 @@ import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {Tinder} from "@/api/api";
 import {rootRender} from "@/lib/jsx";
 import {PhotoPage} from "components/App/pages/registration/photo/photo";
-import styles from './filters.module.css'
+import styles from "./filters.module.css";
 import {validateMaxAge, validateMinAge, validateReasons} from "@/lib/validators";
 
 export const FiltersForm = () => {
@@ -26,68 +26,68 @@ export const FiltersForm = () => {
     const warning = useRef();
 
     const onSexSearchInputChange = (event) => {
-        if (sexSearch.getValue().value === 'не выбрано') {
-            sexSearchWarning.getValue().innerHTML = 'Вы не выбрали интересующий пол';
+        if (sexSearch.getValue().value === "не выбрано") {
+            sexSearchWarning.getValue().innerHTML = "Вы не выбрали интересующий пол";
             return false;
         } else {
-            sexSearchWarning.getValue().innerHTML = '';
+            sexSearchWarning.getValue().innerHTML = "";
             return true;
         }
-    }
+    };
 
     const onMinAgeInputChange = () => {
         const ageNumber = minAge.getValue().valueAsNumber;
         const res = validateMinAge(ageNumber);
         if (!res.ok){
-            minAgeWarning.getValue().innerHTML = res.warning
+            minAgeWarning.getValue().innerHTML = res.warning;
             return false;
         }
         if (ageNumber > maxAge.getValue().valueAsNumber) {
-            minAgeWarning.getValue().innerHTML = 'Минимальный допустимый возраст не может быть больше максимального';
-            maxAgeWarning.getValue().innerHTML = '';
+            minAgeWarning.getValue().innerHTML = "Минимальный допустимый возраст не может быть больше максимального";
+            maxAgeWarning.getValue().innerHTML = "";
             return false;
         }
-        minAgeWarning.getValue().innerHTML = '';
-        maxAgeWarning.getValue().innerHTML = '';
+        minAgeWarning.getValue().innerHTML = "";
+        maxAgeWarning.getValue().innerHTML = "";
         return true;
-    }
+    };
 
     const onMaxAgeInputChange = () => {
         const ageNumber = maxAge.getValue().valueAsNumber;
         const res = validateMaxAge(ageNumber);
         if (!res.ok){
-            maxAgeWarning.getValue().innerHTML = res.warning
-            return
+            maxAgeWarning.getValue().innerHTML = res.warning;
+            return;
         }
         if (ageNumber < minAge.getValue().valueAsNumber) {
-            maxAgeWarning.getValue().innerHTML = 'Максимально допустимый возраст не может быть меньше минимального';
-            minAgeWarning.getValue().innerHTML = '';
+            maxAgeWarning.getValue().innerHTML = "Максимально допустимый возраст не может быть меньше минимального";
+            minAgeWarning.getValue().innerHTML = "";
         } else {
-            minAgeWarning.getValue().innerHTML = '';
-            maxAgeWarning.getValue().innerHTML = '';
+            minAgeWarning.getValue().innerHTML = "";
+            maxAgeWarning.getValue().innerHTML = "";
         }
         return res.ok;
-    }
+    };
 
     const onReasonInputChange = () => {
-        const reasonsValues = reasons.getValue().querySelectorAll('option:checked');
+        const reasonsValues = reasons.getValue().querySelectorAll("option:checked");
         const res = validateReasons(reasonsValues);
-        reasonsWarning.getValue().innerHTML = res.warning
-        return res.ok
-    }
+        reasonsWarning.getValue().innerHTML = res.warning;
+        return res.ok;
+    };
 
     const allChecks = () => {
         return onSexSearchInputChange() &&
-        onMinAgeInputChange() && 
+        onMinAgeInputChange() &&
         onMaxAgeInputChange() &&
         onReasonInputChange();
-    }
+    };
 
     const sstn = {
         "М": 0,
         "Ж": 1,
-        "ВСЕ": 2
-    }
+        "ВСЕ": 2,
+    };
     const onSubmitClick = async (e) => {
         e.preventDefault();
         if (!allChecks()) {
@@ -95,55 +95,55 @@ export const FiltersForm = () => {
         }
 
         try {
-            let obj = {
+            const obj = {
                 "minAge": minAge.getValue().valueAsNumber,
                 "maxAge": maxAge.getValue().valueAsNumber,
                 "sexSearch": sstn[sexSearch.getValue().value],
                 "reason": fromOptionsToTexts(reasons.getValue()),
-            }
+            };
             const respFilterUser = await Tinder.filters(obj);
             const jsonFilterUser = await respFilterUser.json();
             if (jsonFilterUser.status !== 200) {
                 warning.getValue().innerHTML = jsonFilterUser.error;
                 return;
             }
-            rootRender(<PhotoPage/>)
+            rootRender(<PhotoPage/>);
         } catch (e) {
             alert(e);
         }
-    }
+    };
 
     const fromOptionsToTexts = (select) => {
-        let options = select.querySelectorAll("option:checked");
-        let result = [];
+        const options = select.querySelectorAll("option:checked");
+        const result = [];
         options.forEach(item => {
             result.push(item.text);
         });
         return result;
-    }
+    };
 
     const setOptions = (id, arrOptions) => {
-        let select = document.querySelector(`#${id}`);
+        const select = document.querySelector(`#${id}`);
         arrOptions.forEach(item => {
-            let option = document.createElement("option");
+            const option = document.createElement("option");
             option.label = item;
             option.text = item;
             select.appendChild(option);
         });
-    }
+    };
 
     const respReasonFunc = async () => {
-        let resp = await Tinder.getReason();
-        let json = await resp.json();
+        const resp = await Tinder.getReason();
+        const json = await resp.json();
         if (json.status !== 200) {
             warning.getValue().innerHTML = json.error;
             return;
         }
         setOptions("reasons", json.body.reasons);
-    }
+    };
     respReasonFunc();
 
-    return  (
+    return (
         <FormContainer>
             <Form>
                 <img src={logoMini} width="46" alt={"logo"}/>
@@ -222,5 +222,5 @@ export const FiltersForm = () => {
                 />
             </Form>
         </FormContainer>
-    )
-}
+    );
+};

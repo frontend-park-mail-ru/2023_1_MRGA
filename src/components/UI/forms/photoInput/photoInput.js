@@ -1,19 +1,19 @@
 import styles from "components/UI/forms/formElement.module.css";
 
-import inputStyles from './photoInput.module.css'
+import inputStyles from "./photoInput.module.css";
 import logo from "assets/LogoMini.svg";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 
 export const PhotoInput = ({ref, className, ...props}) => {
     return (
-        <input className={[inputStyles.photoInput, className].join(' ')}
+        <input className={[inputStyles.photoInput, className].join(" ")}
                ref={ref}
                type={"file"}
                accept="image/jpeg,image/png"
                {...props}
         />
-    )
-}
+    );
+};
 
 
 export const MyPhotoInput = ({id, control, photo, onPhotoLoad , className, ...props}, children) => {
@@ -24,7 +24,7 @@ export const MyPhotoInput = ({id, control, photo, onPhotoLoad , className, ...pr
     const onImageClick = (label) => {
         const input = label.getValue().control;
         input.click();
-    }
+    };
 
     const onInputChange = (photo, label, e) => {
         e.preventDefault();
@@ -39,20 +39,20 @@ export const MyPhotoInput = ({id, control, photo, onPhotoLoad , className, ...pr
 
             reader.readAsDataURL(file);
         }
-    }
+    };
     const onLoad = (e) => {
         e.preventDefault();
         photo.getValue().classList.remove(inputStyles.hidden);
         control.getValue().classList.add(inputStyles.hidden);
-        if (typeof onPhotoLoad === 'function') {
+        if (typeof onPhotoLoad === "function") {
             onPhotoLoad();
         }
-    }
+    };
     return (
         <span className={inputStyles.buttonWrapper}>
             {children}
             <div className={inputStyles.photoInputContainer}>
-                <PhotoInput className={[inputStyles.photoInput, className].join(' ')}
+                <PhotoInput className={[inputStyles.photoInput, className].join(" ")}
                     onChange={onInputChange.bind(null, photoRef, label)}
                     type={"file"}
                     id={id}
@@ -60,10 +60,10 @@ export const MyPhotoInput = ({id, control, photo, onPhotoLoad , className, ...pr
                     {...props}
                 />
                 <label ref={control} htmlFor={id}>
-                    <img className={[inputStyles.photo].join(' ')} src={logo}/>
+                    <img className={[inputStyles.photo].join(" ")} src={logo}/>
                 </label>
-                <img onLoad={onLoad} onClick={onImageClick.bind(null, label)} className={[inputStyles.hidden, inputStyles.photo].join(' ')} ref={photo}/>
+                <img onLoad={onLoad} onClick={onImageClick.bind(null, label)} className={[inputStyles.hidden, inputStyles.photo].join(" ")} ref={photo}/>
             </div>
         </span>
-    )
-}
+    );
+};

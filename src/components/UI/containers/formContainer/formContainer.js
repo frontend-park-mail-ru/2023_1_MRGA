@@ -1,8 +1,8 @@
-import styles from './formContainer.module.css'
+import styles from "./formContainer.module.css";
 export const FormContainer = (props, children) => {
     return (
-        <div className={[styles.formContainer, props.className].join(' ')} {...props}>
+        <div className={[styles.formContainer, props.className].join(" ")} {...props}>
             {children}
         </div>
-    )
-}
+    );
+};

@@ -1,10 +1,9 @@
 import styles from "components/App/pages/chat/chatWidget/messageList/messageArea/oneMsg/oneMsg.module.css";
-import rsStyle from '../../../chatList/oneChat/oneChat.module.css';
+import rsStyle from "../../../chatList/oneChat/oneChat.module.css";
 import {getUser} from "@/store/user";
 import {convertToDate} from "@/lib/jsx/utils";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
-import { BackendHost, BackendPort, BackendProtocol } from "@/api/api";
-import {Tinder} from "@/api/api";
+import { Tinder, BackendHost, BackendPort, BackendProtocol } from "@/api/api";
 import { WSChatAPI } from "@/api/ws_chat_api";
 import playIcon from "assets/img/play.png";
 import pauseIcon from "assets/img/pause.png";
@@ -24,33 +23,33 @@ export const OneMsg = ({chatId, msg}) => {
         const gotChatId = readData.chatId;
         const senderId = readData.senderId;
 
-        if (chatId === gotChatId && readStatusRef.getValue().innerText === ' •' && senderId !== msg.senderId) {
-            readStatusRef.getValue().innerText = '';
+        if (chatId === gotChatId && readStatusRef.getValue().innerText === " •" && senderId !== msg.senderId) {
+            readStatusRef.getValue().innerText = "";
         }
     });
 
-    const handleTranscription = async (audioPath, e) => {
+    const handleTranscription = async (audioPath) => {
         const transcriptionButton = transcriptionRef.getValue();
         transcriptionButton.disabled = true;
-        transcriptionButton.style.opacity = '0.9';
+        transcriptionButton.style.opacity = "0.9";
 
         const responseTranscription = await (await Tinder.getTranscription(audioPath)).json();
 
         if (responseTranscription.status !== 200) {
-            console.error('Error: ', responseTranscription.error);
-            transcriptionText.getValue().innerText = 'Не удалось рашсифровать сообщение.';
+            console.error("Error: ", responseTranscription.error);
+            transcriptionText.getValue().innerText = "Не удалось рашсифровать сообщение.";
             return;
         }
 
         const audioText = responseTranscription.body.text;
 
-        if (audioText === '') {
-            transcriptionText.getValue().innerText = 'Пустое сообщение.';
+        if (audioText === "") {
+            transcriptionText.getValue().innerText = "Пустое сообщение.";
             return;
         }
 
         transcriptionText.getValue().innerText = audioText;
-    }
+    };
 
     const handlePlayPause = () => {
         const audio = audioRef.getValue();
@@ -76,7 +75,7 @@ export const OneMsg = ({chatId, msg}) => {
             progressDiv.style.width = `${progress}%`;
         }
     };
-    
+
     const componentStyle = [styles.bubbleMessage];
 
     if (msg.senderId === getUser().userId) {
@@ -84,23 +83,23 @@ export const OneMsg = ({chatId, msg}) => {
     } else {
         componentStyle.push(styles.foreignMessage);
     }
-    const readStatus = !msg.readStatus ? ' •': '';
+    const readStatus = !msg.readStatus ? " •": "";
 
     switch (msg.messageType) {
     case "text", "" :
         return (
-            <div data-msgId={msg.msgId} className={componentStyle.join(' ')}>
+            <div data-msgId={msg.msgId} className={componentStyle.join(" ")}>
                 <div className={styles.messageText}>{msg.content}</div>
                 <div className={styles.messageTime}>
                     {convertToDate(msg.sentAt)}
-                    <span ref={readStatusRef} className={[rsStyle.readStatus, styles.fsz30].join(' ')}>{readStatus}</span>
+                    <span ref={readStatusRef} className={[rsStyle.readStatus, styles.fsz30].join(" ")}>{readStatus}</span>
                 </div>
             </div>
-        )
+        );
     case "audio":
         componentStyle.push(styles.audioContainer);
         return (
-            <div data-msgId={msg.msgId} className={componentStyle.join(' ')}>
+            <div data-msgId={msg.msgId} className={componentStyle.join(" ")}>
                 <div className={styles.messageText}>
                     <div className={styles.audioWrapper}>
                         <audio src={`${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/file/${msg.path}`} ref={audioRef} onTimeUpdate={handleTimeUpdate} onEnded={() => playImgRef.getValue().src = playIcon}></audio>
@@ -124,9 +123,9 @@ export const OneMsg = ({chatId, msg}) => {
                 </div>
                 <div className={styles.messageTime}>
                     {convertToDate(msg.sentAt)}
-                    <span ref={readStatusRef} className={[rsStyle.readStatus, styles.fsz30].join(' ')}>{readStatus}</span>
+                    <span ref={readStatusRef} className={[rsStyle.readStatus, styles.fsz30].join(" ")}>{readStatus}</span>
                 </div>
             </div>
-        )
+        );
     }
-}
+};

@@ -11,9 +11,9 @@ export const ChatPage = () => {
         <>
             <HeaderAuth/>
             <PageContainer>
-                <SideBar current={'/chat'}/>
+                <SideBar current={"/chat"}/>
                 <ChatWidget/>
             </PageContainer>
         </>
-    )
-}
+    );
+};

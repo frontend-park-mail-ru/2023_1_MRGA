@@ -8,5 +8,5 @@ export const AuthorizationPage = () => {
             <Header/>
             <AuthorizationForm/>
         </>
-    )
-}
+    );
+};

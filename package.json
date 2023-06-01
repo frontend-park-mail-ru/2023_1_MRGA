@@ -5,6 +5,9 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./src/",
+    "lint:fix": "eslint ./src/ --fix",
+    "prebuild": "npm run lint",
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "build": "cross-env NODE_ENV=production NEED_CLEAN=need webpack --mode production",
     "watch": "cross-env NODE_ENV=development NEED_CLEAN=dontNeed webpack serve --mode development --open ",

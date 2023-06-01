@@ -1,4 +1,4 @@
-import styles from './chatList.module.css'
+import styles from "./chatList.module.css";
 import {OneChat} from "components/App/pages/chat/chatWidget/chatList/oneChat/oneChat";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {Tinder} from "@/api/api";
@@ -18,8 +18,8 @@ export const ChatList = ({messageDispatcher}) => {
             chat.ref = useRef();
             chat.activeChat = false;
 
-            return <OneChat ref={chat.ref} onClick={messageDispatcher.dispatch} chat={chat}/>
-        }))
+            return <OneChat ref={chat.ref} onClick={messageDispatcher.dispatch} chat={chat}/>;
+        }));
 
         WSChatAPI.getMessage((msgId, msg, senderId, sentAt, chatId, messageType, path) => {
             const msgData = {
@@ -47,7 +47,7 @@ export const ChatList = ({messageDispatcher}) => {
                 }
             });
         });
-    }
+    };
     setChatList();
 
     const changeChatsList = (msgObject, chatId) => {
@@ -82,7 +82,7 @@ export const ChatList = ({messageDispatcher}) => {
                     found = true;
                 }
             }
-            
+
             prevChatData = chat;
         }
 
@@ -111,7 +111,7 @@ export const ChatList = ({messageDispatcher}) => {
         currChatData.msg.content = msgObject.content;
         currChatData.msg.readStatus = msgObject.readStatus;
         currChatData.msg.sentAt = msgObject.sentAt;
-        
+
 
         parentElement.removeChild(currChatData.ref.getValue());
 
@@ -128,11 +128,11 @@ export const ChatList = ({messageDispatcher}) => {
         if (chats[0].activeChat === true) {
             chats[0].ref.getValue().classList.add(styles.activeChat);
         }
-    }
+    };
 
     return (
         <div ref={chatsContainerRef} className={styles.chatListContainer}>
 
         </div>
-    )
-}
+    );
+};

@@ -1,11 +1,9 @@
-import logo from "assets/Logo.svg"
+import logo from "assets/Logo.svg";
 import {HeaderContainer} from "components/UI/containers/headerContainer/headerContainer";
-import styles from './header.module.css'
+import styles from "./header.module.css";
 import {Link} from "@/lib/jsx/components/link/link";
 import {Tinder} from "@/api/api";
 import {Navigate} from "@/lib/jsx/components/navigate/navigate";
-import {useState} from "@/lib/jsx/hooks/useState/useState";
-import {TestComponent} from "@/lib/jsx/components/testComponent/testComponent";
 import {setUser, userStore} from "@/store/user";
 
 export const Header = () => {
@@ -19,8 +17,8 @@ export const Header = () => {
             <Link className={styles.headerElement} href={"/signup"}>Регистрация</Link>
         </div>
     </HeaderContainer>
-    )
-}
+    );
+};
 
 export const OfflineHeader = () => {
     return (
@@ -32,8 +30,8 @@ export const OfflineHeader = () => {
                 <Link className={styles.headerElement} href={"/offline_about"}>О приложении</Link>
             </div>
         </HeaderContainer>
-    )
-}
+    );
+};
 
 export const HeaderAuth = () => {
 
@@ -49,7 +47,7 @@ export const HeaderAuth = () => {
             alert(e);
         }
 
-    }
+    };
     return (
     <HeaderContainer>
         <Link href={"/"}>
@@ -59,5 +57,5 @@ export const HeaderAuth = () => {
             <a className={styles.headerElement} onClick={onLogoutClick} href={"/logout"}>Выйти</a>
         </div>
     </HeaderContainer>
-    )
-}
+    );
+};

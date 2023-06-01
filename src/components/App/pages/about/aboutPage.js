@@ -1,6 +1,6 @@
-import logo from "assets/Logo.svg"
-import inLove from "assets/svg/inLove.svg"
-import styles from './aboutPage.module.css'
+import logo from "assets/Logo.svg";
+import inLove from "assets/svg/inLove.svg";
+import styles from "./aboutPage.module.css";
 import {Link} from "@/lib/jsx/components/link/link";
 export const AboutPage = () => {
     return (
@@ -35,5 +35,5 @@ export const AboutPage = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};

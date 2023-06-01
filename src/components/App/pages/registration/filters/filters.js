@@ -9,5 +9,5 @@ export const FiltersPage = () => {
             <HeaderAuth/>
             <FiltersForm/>
         </div>
-    )
-}
+    );
+};

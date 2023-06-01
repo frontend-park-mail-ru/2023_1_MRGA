@@ -14,27 +14,27 @@ export const AuthorizationForm = () => {
     const password = useRef();
     const error = useRef();
     const authClick = async (e) => {
-        e.preventDefault()
-        error.getValue().innerHTML = '';
+        e.preventDefault();
+        error.getValue().innerHTML = "";
         try {
-            const resp = await Tinder.login({"password": password.getValue().value, "email": login.getValue().value})
-            const json = await resp.json()
+            const resp = await Tinder.login({"password": password.getValue().value, "email": login.getValue().value});
+            const json = await resp.json();
 
             if (json.status !== 200) {
                 if (json.error.toString().includes("record not found")) {
-                    error.getValue().innerHTML = 'Не существует пользователя с такой почтой';
-                } else if (json.error.toString().includes('hashedPassword is not the hash of the given password')) {
-                    error.getValue().innerHTML = 'Неправильный логин или пароль';
+                    error.getValue().innerHTML = "Не существует пользователя с такой почтой";
+                } else if (json.error.toString().includes("hashedPassword is not the hash of the given password")) {
+                    error.getValue().innerHTML = "Неправильный логин или пароль";
                 } else {
                     error.getValue().innerHTML = json.error;
                 }
-                return
+                return;
             }
             Navigate({to: "/"});
         } catch (e) {
-            alert(e)
+            alert(e);
         }
-    }
+    };
 
     return (
         <FormContainer>
@@ -49,9 +49,9 @@ export const AuthorizationForm = () => {
                     ref={login}
                     required={true}
                 />
-                <PasswordInput 
-                    id='pass' 
-                    placeholder={"Введите пароль"} 
+                <PasswordInput
+                    id='pass'
+                    placeholder={"Введите пароль"}
                     labelText='Пароль'
                     ref={password}
                 />
@@ -59,5 +59,5 @@ export const AuthorizationForm = () => {
                 <SubmitButton onClick={authClick}>войти</SubmitButton>
             </Form>
         </FormContainer>
-    )
-}
+    );
+};

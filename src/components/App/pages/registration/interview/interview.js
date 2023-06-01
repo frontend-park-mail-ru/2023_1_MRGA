@@ -10,5 +10,5 @@ export const InterviewPage = () => {
             <HeaderAuth/>
             <InterviewForm/>
         </div>
-    )
-}
+    );
+};

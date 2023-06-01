@@ -28,59 +28,59 @@ export const RegistrationForm = () => {
         const passwordRepeatText = passwordRepeat.getValue().value;
         const {valid, message} = validatePassword(passwordText);
         // debugger;
-        if (passwordText === '') {
-            passwordWarning.getValue().innerText = '';
-            passwordRepeatWarning.getValue().innerText = '';
+        if (passwordText === "") {
+            passwordWarning.getValue().innerText = "";
+            passwordRepeatWarning.getValue().innerText = "";
         } else if (!valid) {
             passwordWarning.getValue().innerHTML = message;
-        } else if (passwordRepeatText === '') {
-            passwordWarning.getValue().innerText = '';
-        } else if (passwordRepeatText !== '') {
+        } else if (passwordRepeatText === "") {
+            passwordWarning.getValue().innerText = "";
+        } else if (passwordRepeatText !== "") {
             onPasswordRepeatChange();
         } else {
-            passwordWarning.getValue().innerText = '';
+            passwordWarning.getValue().innerText = "";
         }
-    }
+    };
     const onPasswordRepeatChange = () => {
         const passwordText = password.getValue().value;
         const passwordRepeatText = passwordRepeat.getValue().value;
         const {valid, message} = validatePassword(passwordText);
-        if (passwordText === '') {
-            passwordWarning.getValue().innerHTML = 'Заполните поле с паролем';
+        if (passwordText === "") {
+            passwordWarning.getValue().innerHTML = "Заполните поле с паролем";
             return ;
         }
         if (!valid) {
             passwordWarning.getValue().innerHTML = message;
         } else if (passwordText !== passwordRepeatText) {
-            passwordRepeatWarning.getValue().innerHTML = 'Пароли не совпадают';
+            passwordRepeatWarning.getValue().innerHTML = "Пароли не совпадают";
         } else {
-            passwordWarning.getValue().innerHTML = '';
-            passwordRepeatWarning.getValue().innerHTML = '';
+            passwordWarning.getValue().innerHTML = "";
+            passwordRepeatWarning.getValue().innerHTML = "";
         }
-    }
+    };
     const onEmailChange = () => {
         const emailText = email.getValue().value;
         const isValid = validateEmail(emailText);
         if (!isValid) {
-            emailWarning.getValue().innerHTML = 'Некорректный email-адрес';
+            emailWarning.getValue().innerHTML = "Некорректный email-адрес";
         } else {
-            emailWarning.getValue().innerHTML = '';
+            emailWarning.getValue().innerHTML = "";
         }
-    }
+    };
     const onAgeInputChange = () => {
         const ageNumber = age.getValue().valueAsNumber;
         if (ageNumber < 18 && ageNumber >= 0) {
-            ageWarning.getValue().innerHTML = 'Возраст должен быть больше или равен 18';
+            ageWarning.getValue().innerHTML = "Возраст должен быть больше или равен 18";
         } else if (ageNumber > 150) {
-            ageWarning.getValue().innerHTML = 'Люди столько не живут';
+            ageWarning.getValue().innerHTML = "Люди столько не живут";
         } else if (ageNumber < 0) {
-            ageWarning.getValue().innerHTML = 'Некорректный возраст';
+            ageWarning.getValue().innerHTML = "Некорректный возраст";
         } else if (isNaN(ageNumber)) {
-            ageWarning.getValue().innerHTML = 'Введите возраст';
+            ageWarning.getValue().innerHTML = "Введите возраст";
         } else {
-            ageWarning.getValue().innerHTML = '';
+            ageWarning.getValue().innerHTML = "";
         }
-    }
+    };
     const allChecks = () => {
         onPasswordInputChange();
         onEmailChange();
@@ -88,18 +88,18 @@ export const RegistrationForm = () => {
         onAgeInputChange();
         //onSexInputChange();
         onPasswordRepeatChange();
-    }
+    };
     const isValidForm = () => {
-        const emailError = emailWarning.getValue().innerText === '';
+        const emailError = emailWarning.getValue().innerText === "";
         //const nicknameError = nicknameWarning.getValue().innerText === '';
-        const ageError = ageWarning.getValue().innerText === '';
+        const ageError = ageWarning.getValue().innerText === "";
         //const sexError = sexWarning.getValue().innerText === '';
-        const passwordError = passwordWarning.getValue().innerText === '';
+        const passwordError = passwordWarning.getValue().innerText === "";
         return (
-            emailError  &&
-            ageError  && passwordError
-        )
-    }
+            emailError &&
+            ageError && passwordError
+        );
+    };
     const onSubmitClick = async (e) => {
         e.preventDefault();
         allChecks();
@@ -111,21 +111,21 @@ export const RegistrationForm = () => {
                 "email": email.getValue().value,
                 "birthday": `${2023-age.getValue().valueAsNumber}-01-01`,
                 "password": password.getValue().value,
-            })
-            const json = await resp.json()
+            });
+            const json = await resp.json();
             if (json.status !== 200) {
-                if (json.error.toString().includes('duplicate key value violates unique constraint')) {
-                    emailWarning.getValue().innerHTML = 'Такой email уже зарегистрирован';
+                if (json.error.toString().includes("duplicate key value violates unique constraint")) {
+                    emailWarning.getValue().innerHTML = "Такой email уже зарегистрирован";
                 } else {
                     emailWarning.getValue().innerHTML = json.error;
                 }
-                return
+                return;
             }
             rootRender(<InterviewPage/>);
         } catch (e) {
             alert(e);
         }
-    }
+    };
     return(
         <FormContainer>
             <Form>
@@ -188,5 +188,5 @@ export const RegistrationForm = () => {
                 </SubmitButton>
             </Form>
         </FormContainer>
-    )
-}
+    );
+};
