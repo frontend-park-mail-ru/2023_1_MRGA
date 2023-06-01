@@ -44,6 +44,7 @@ const onWsClose = (connectionObject, callback, url, event) => {
     console.log("WebSocket connection closed:", event);
     connectionObject.Undef();
     connectionObject.Set(new WebSocket(url));
+    console.log("ws connection:", connectionObject.Get());
     if (typeof callback === "function") {
         callback();
     }
@@ -58,8 +59,6 @@ const closeCallback = () => {
     wsReaction.Get().addEventListener("open", () => {
         console.log("connection opened for reaction");
         values.forEach(([key, value]) => {
-            // console.log(value);
-            console.log("ws connection:", wsReaction.Get());
             wsReaction.Get()?.addEventListener("message", (event) => {
                 const jsonMSG = JSON.parse(event.data);
                 value(jsonMSG);
@@ -83,8 +82,9 @@ export class WSChatAPI {
     static connect() {
         try {
             if (wsChat.IsUndef()) {
-                wsChat.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/chats/subscribe`));
-                initWsHandlers(wsChat);
+                const chatURL = `${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/chats/subscribe`;
+                wsChat.Set(new WebSocket(chatURL));
+                initWsHandlers(wsChat, undefined, chatURL);
             }
             if (wsReaction.IsUndef()) {
                 const reactionURL = `${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/match/subscribe`;
