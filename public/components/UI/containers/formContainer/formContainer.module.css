@@ -1,0 +1,9 @@
+.formContainer {
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    max-width: 50%;
+    background-color: #FFFFFF;
+    margin: 1rem auto;
+    border-radius: 3%;
+}

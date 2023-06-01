@@ -1,0 +1,18 @@
+.formLabel {
+    margin-top: 15px;
+    display: block;
+    font-size: 24px;
+    font-weight: 500;
+    font-family: "Avenir Next";
+}
+
+.formElement {
+    display: block;
+    min-width: 414px;
+    min-height: 68px;
+    border-radius: 20px;
+    padding: 1rem;
+    box-sizing: border-box;
+    font-size: 24px;
+    border: rgba(195, 162, 203, 1) 1px solid;
+}

@@ -1,15 +1,11 @@
 module.exports = {
     "env": {
         "browser": true,
-        "es2021": true
+        "es6": true
     },
     "extends": "eslint:recommended",
-    "overrides": [
-    ],
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
-    },
+    "parser": "babel-eslint",
     "rules": {
-    }
+        'no-unused-vars': 'warn'
+    },
 }

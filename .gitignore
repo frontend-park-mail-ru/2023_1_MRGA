@@ -1,3 +1,6 @@
 **/.DS*
 **/*.idea
 **/node_modules
+**/.vscode*
+**/dist*
+stats.json
