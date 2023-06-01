@@ -12,13 +12,13 @@ import {FiltersPage} from "components/App/pages/registration/filters/filters";
 import {validateHashtags} from "@/lib/validators";
 
 export const fromOptionsToTexts = (select) => {
-    let options = select.querySelectorAll("option:checked");
-    let result = [];
+    const options = select.querySelectorAll("option:checked");
+    const result = [];
     options.forEach(item => {
         result.push(item.text);
     });
     return result;
-}
+};
 
 export const HashTagsForm = () => {
     const hashTags = useRef();
@@ -27,15 +27,15 @@ export const HashTagsForm = () => {
     const warning = useRef();
 
     const onHashTagsInputChange = () => {
-        const hashTagsValues = hashTags.getValue().querySelectorAll('option:checked');
+        const hashTagsValues = hashTags.getValue().querySelectorAll("option:checked");
         const res = validateHashtags(hashTagsValues);
-        hashTagsWarning.getValue().innerHTML = res.warning
-        return res.ok
-    }
+        hashTagsWarning.getValue().innerHTML = res.warning;
+        return res.ok;
+    };
 
     const allChecks = () => {
         return onHashTagsInputChange();
-    }
+    };
 
     const onSubmitClick = async (e) => {
         e.preventDefault();
@@ -43,43 +43,43 @@ export const HashTagsForm = () => {
             return;
         }
         try {
-            let obj = {
+            const obj = {
                 "hashtag": fromOptionsToTexts(hashTags.getValue()),
-            }
+            };
             const respHashTags = await Tinder.addHashTags(obj);
             const jsonHashTags = await respHashTags.json();
             if (jsonHashTags.status !== 200) {
                 warning.getValue().innerHTML = jsonHashTags.error;
                 return;
             }
-            rootRender(<FiltersPage/>)
+            rootRender(<FiltersPage/>);
         } catch (e) {
             alert(e);
         }
-    }
+    };
 
     const setOptions = (id, arrOptions) => {
-        let select = document.querySelector(`#${id}`);
+        const select = document.querySelector(`#${id}`);
         arrOptions.forEach(item => {
-            let option = document.createElement("option");
+            const option = document.createElement("option");
             option.label = item;
             option.text = item;
             select.appendChild(option);
         });
-    }
+    };
 
    const respHashTagsFunc = async () => {
         const resp = await Tinder.getHashTags();
-        let json = await resp.json();
+        const json = await resp.json();
         if (json.status !== 200) {
             warning.getValue().innerHTML = json.error;
             return;
         }
         setOptions("hashTags", json.body.hashtags);
-    }
+    };
     respHashTagsFunc();
 
-    return  (
+    return (
         <FormContainer>
             <Form>
                 <img src={logoMini} width="46" alt={"logo"}/>
@@ -104,12 +104,12 @@ export const HashTagsForm = () => {
                     ref={submitButton}
                     onClick={onSubmitClick}
                 >
-                    Зарегистрироваться
+                    Продолжить
                 </SubmitButton>
                 <Warning
                     ref={warning}
                 />
             </Form>
         </FormContainer>
-    )
-}
+    );
+};

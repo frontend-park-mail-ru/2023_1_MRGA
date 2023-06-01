@@ -9,9 +9,9 @@ export const ProfilePage = () => {
         <>
             <HeaderAuth/>
             <PageContainer>
-                <SideBar current={'/profile'}/>
+                <SideBar current={"/profile"}/>
                 <ProfileEditForm/>
             </PageContainer>
         </>
-    )
-}
+    );
+};

@@ -3,4 +3,4 @@ import {useRef} from "@/lib/jsx/hooks/useRef/useRefImpl";
 
 export const resolveDispatcher = () => {
     return {useState, useRef};
-}
+};

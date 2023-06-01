@@ -15,35 +15,48 @@ import {ChatPage} from "components/App/pages/chat/chat";
 import {WSChatAPI} from "@/api/ws_chat_api";
 import {render} from "@/lib/jsx/render";
 import {MatchNotification, notificationWrapper} from "components/App/notification/notification";
+import {OfflinePage} from "components/App/pages/offline/offlinePage";
+import {OfflineAboutPage} from "components/App/pages/offline/offlineAbout";
 
-let publicRoutes = [
-    {path: '/login', component: AuthorizationPage},
-    {path: '/signup', component: RegistrationPage},
-    {path: '/', component: AboutPage},
+const publicRoutes = [
+    {path: "/login", component: AuthorizationPage},
+    {path: "/signup", component: RegistrationPage},
+    {path: "/", component: AboutPage},
 
-]
+];
 
-let privateRoutes = [
-    {path: '/matches', component: MatchesPage},
-    {path: '/', component: FeedPage},
-    {path: '/profile', component: ProfilePage},
-    {path: '/interview', component: InterviewPage},
-    {path: '/photo', component: PhotoPage},
-    {path: '/signup', component: RegistrationPage},
-    {path: '/chat', component: ChatPage},
-]
+const privateRoutes = [
+    {path: "/matches", component: MatchesPage},
+    {path: "/", component: FeedPage},
+    {path: "/profile", component: ProfilePage},
+    {path: "/interview", component: InterviewPage},
+    {path: "/photo", component: PhotoPage},
+    {path: "/signup", component: RegistrationPage},
+    {path: "/chat", component: ChatPage},
+];
+
+const offlineRoutes = [
+    {path: "/", component: OfflinePage},
+    {path: "/offline_about", component: OfflineAboutPage},
+];
 export let routes = [
-    {path: '/', component: FeedPage},
-    {path: '/matches', component: MatchesPage},
+    {path: "/", component: FeedPage},
+    {path: "/matches", component: MatchesPage},
 ];
 
 export const setPublicRoutes = () => {
     routes = publicRoutes;
-}
+};
 
 export const setPrivateRoutes = () => {
     routes = privateRoutes;
-}
+};
+
+export const setOfflineRoutes = () => {
+    routes = offlineRoutes;
+};
+
+
 const router = async () => {
     try {
         const response = await Tinder.getUser();
@@ -54,29 +67,31 @@ const router = async () => {
 
             WSChatAPI.connect();
             WSChatAPI.subscribeOnReaction((notification) => {
-                render(notificationWrapper, <MatchNotification notification={notification}/>)
-            });
+                render(notificationWrapper, <MatchNotification notification={notification}/>);
+            }, 1);
             setPrivateRoutes();
             if (json.body.step !== 0) {
-                Navigate({to: "/signup"})
+                Navigate({to: "/signup"});
                 rootRender(<RegistrationPage/>);
                 return ;
             }
             if (json.body.banned) {
-                rootRender(<BannedUserPage/>)
+                rootRender(<BannedUserPage/>);
                 return ;
             }
+        } else if (json.status === 999) {
+            setOfflineRoutes();
         } else {
             authorized = false;
 
             WSChatAPI.disconnect();
-            setPublicRoutes()
+            setPublicRoutes();
         }
         const currentPath = window.location.pathname;
         const route = routes.find(route => route.path === currentPath);
         if (!route) {
             if (!authorized) {
-                let tryPrivateRoute = privateRoutes.find(route => route.path === currentPath);
+                const tryPrivateRoute = privateRoutes.find(route => route.path === currentPath);
                 if (tryPrivateRoute) {
                     rootRender(<AuthorizationPage/>);
                     return ;
@@ -95,10 +110,10 @@ const router = async () => {
 
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     router();
 });
 
-window.addEventListener('popstate', () => {
+window.addEventListener("popstate", () => {
     router();
 });

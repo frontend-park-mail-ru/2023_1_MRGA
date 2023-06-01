@@ -9,5 +9,5 @@ export const HashTagsPage = () => {
             <HeaderAuth/>
             <HashTagsForm/>
         </div>
-    )
-}
+    );
+};

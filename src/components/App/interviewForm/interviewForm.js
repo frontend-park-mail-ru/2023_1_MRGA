@@ -32,108 +32,108 @@ export const InterviewForm = () => {
     const warning = useRef();
 
     const onJobInputChange = () => {
-        if (job.getValue().value === 'не выбрано') {
-            jobWarning.getValue().innerHTML = 'Вы не выбрали работу';
+        if (job.getValue().value === "не выбрано") {
+            jobWarning.getValue().innerHTML = "Вы не выбрали работу";
             return false;
         } else {
-            jobWarning.getValue().innerHTML = '';
+            jobWarning.getValue().innerHTML = "";
             return true;
         }
-    }
+    };
 
     const onCityInputChange = () => {
-        if (city.getValue().value === 'не выбрано') {
-            cityWarning.getValue().innerHTML = 'Вы не выбрали город';
+        if (city.getValue().value === "не выбрано") {
+            cityWarning.getValue().innerHTML = "Вы не выбрали город";
             return false;
         } else {
-            cityWarning.getValue().innerHTML = '';
+            cityWarning.getValue().innerHTML = "";
             return true;
         }
-    }
+    };
 
     const onEducationInputChange = () => {
-        if (education.getValue().value === 'не выбрано') {
-            educationWarning.getValue().innerHTML = 'Вы не выбрали образование';
+        if (education.getValue().value === "не выбрано") {
+            educationWarning.getValue().innerHTML = "Вы не выбрали образование";
             return false;
         } else {
-            educationWarning.getValue().innerHTML = '';
+            educationWarning.getValue().innerHTML = "";
             return true;
         }
-    }
+    };
 
     const onDescriptionInputChange = () => {
         const descriptionText = description.getValue().value;
         if (descriptionText === "" || descriptionText.length > 300) {
-           descriptionWarning.getValue().innerHTML = 'Описание должно быть заполнено и не более 300 символов';
+           descriptionWarning.getValue().innerHTML = "Описание должно быть заполнено и не более 300 символов";
            return false;
         } else {
-            descriptionWarning.getValue().innerHTML = '';
+            descriptionWarning.getValue().innerHTML = "";
             return true;
         }
-    }
+    };
 
     const onZodiacInputChange = () => {
-        if (zodiac.getValue().value === 'не выбрано') {
-            zodiacWarning.getValue().innerHTML = 'Вы не выбрали знак зодиака';
+        if (zodiac.getValue().value === "не выбрано") {
+            zodiacWarning.getValue().innerHTML = "Вы не выбрали знак зодиака";
             return false;
         } else {
-            zodiacWarning.getValue().innerHTML = '';
+            zodiacWarning.getValue().innerHTML = "";
             return true;
         }
-    }
+    };
 
     const onNameInputChange = () => {
         const nameText = name.getValue().value;
         const isValid = validateName(nameText);
-        if (!isValid && nameText.split(' ').length > 1) {
-            nameWarning.getValue().innerHTML = 'Введите только имя, без пробелов';
+        if (!isValid && nameText.split(" ").length > 1) {
+            nameWarning.getValue().innerHTML = "Введите только имя, без пробелов";
             return false;
         } else if (!isValid) {
-            nameWarning.getValue().innerHTML = 'Некорректное имя';
+            nameWarning.getValue().innerHTML = "Некорректное имя";
             return false;
         } else {
-            nameWarning.getValue().innerHTML = '';
+            nameWarning.getValue().innerHTML = "";
             return true;
         }
-    }
+    };
 
     const onSexInputChange = () => {
-        if (sex.getValue().value === 'не выбрано') {
-            sexWarning.getValue().innerHTML = 'Вы не выбрали пол';
+        if (sex.getValue().value === "не выбрано") {
+            sexWarning.getValue().innerHTML = "Вы не выбрали пол";
             return false;
         } else {
-            sexWarning.getValue().innerHTML = '';
+            sexWarning.getValue().innerHTML = "";
             return true;
         }
-    }
+    };
 
     const allChecks = () => {
         return onJobInputChange() &&
         onCityInputChange() &&
         onNameInputChange() &&
         onEducationInputChange() &&
-        onDescriptionInputChange() && 
+        onDescriptionInputChange() &&
         onZodiacInputChange() &&
         onSexInputChange();
-    }
+    };
     const stN = {
         "М": 0,
-        "Ж": 1
-    }
+        "Ж": 1,
+    };
     const setObjectKey = (value, object, key) => {
         object[key] = value;
-    }
+    };
     const onSubmitClick = async (e) => {
         e.preventDefault();
         if (!allChecks()) {
             return;
         }
         try {
-            let obj = {
+            const obj = {
                 "name": name.getValue().value,
                 "sex": stN[sex.getValue().value],
                 "description": description.getValue().value,
-            }
+            };
             setObjectKey(city.getValue().value, obj, "city");
             setObjectKey(job.getValue().value, obj, "job");
             setObjectKey(education.getValue().value, obj, "education");
@@ -141,68 +141,68 @@ export const InterviewForm = () => {
             console.log(obj);
 
             const respInfoUser = await Tinder.infoUser(obj);
-            const jsonInfoUser = await respInfoUser.json()
+            const jsonInfoUser = await respInfoUser.json();
             if (jsonInfoUser.status !== 200) {
                 warning.getValue().innerHTML = jsonInfoUser.error;
-                return
+                return;
             }
-            rootRender(<HashTagsPage/>)
+            rootRender(<HashTagsPage/>);
         } catch (e) {
             alert(e);
         }
-    }
+    };
     const setOptions = (id, arrOptions) => {
-        let select = document.querySelector(`#${id}`);
+        const select = document.querySelector(`#${id}`);
         render(select, arrOptions.map((item) => {
-            return <option label={item}>{item}</option>
-        }))
-    }
+            return <option label={item}>{item}</option>;
+        }));
+    };
 
     const respCitiesFunc = async () => {
         const resp = await Tinder.getCities();
-        let json = await resp.json();
+        const json = await resp.json();
         if (json.status !== 200) {
             warning.getValue().innerHTML = json.error;
             return;
         }
         setOptions("city", json.body.cities);
-    }
+    };
    respCitiesFunc();
 
     const respZodiacFunc = async () => {
-        let resp = await Tinder.getZodiac();
-        let json = await resp.json();
+        const resp = await Tinder.getZodiac();
+        const json = await resp.json();
         if (json.status !== 200) {
             warning.getValue().innerHTML = json.error;
             return;
         }
         setOptions("zodiac", json.body.zodiac);
-    }
+    };
     respZodiacFunc();
 
     const respJobFunc = async () => {
-        let resp = await Tinder.getJob();
-        let json = await resp.json();
+        const resp = await Tinder.getJob();
+        const json = await resp.json();
         if (json.status !== 200) {
             warning.getValue().innerHTML = json.error;
             return;
         }
         setOptions("job", json.body.jobs);
-    }
+    };
     respJobFunc();
 
     const respEducationFunc = async () => {
-        let resp = await Tinder.getEducation();
-        let json = await resp.json();
+        const resp = await Tinder.getEducation();
+        const json = await resp.json();
         if (json.status !== 200) {
             warning.getValue().innerHTML = json.error;
             return;
         }
         setOptions("education", json.body.education);
-    }
+    };
     respEducationFunc();
 
-    return  (
+    return (
         <FormContainer>
             <Form>
                 <img src={logoMini} width="46" alt={"logo"}/>
@@ -316,12 +316,12 @@ export const InterviewForm = () => {
                     ref={submitButton}
                     onClick={onSubmitClick}
                 >
-                    Зарегистрироваться
+                    Продолжить
                 </SubmitButton>
                 <Warning
                     ref={warning}
                 />
             </Form>
         </FormContainer>
-    )
-}
+    );
+};

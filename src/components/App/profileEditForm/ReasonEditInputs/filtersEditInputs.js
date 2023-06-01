@@ -14,15 +14,15 @@ import {validateHashtags, validateMaxAge, validateMinAge, validateReasons} from 
 export const FiltersEditInputs = () => {
     let myFilters;
     let myHashTags;
-    let allReasons = []
-    let allHashTags = []
-    let selectedReasons = [];
-    let selectedHashTags = [];
-    let selectedGender = {
+    let allReasons = [];
+    let allHashTags = [];
+    const selectedReasons = [];
+    const selectedHashTags = [];
+    const selectedGender = {
         "М": false,
         "Ж": false,
-        "Все": false
-    }
+        "Все": false,
+    };
 
     const reasonSelectRef = useRef();
     const genderSelectRef = useRef();
@@ -37,34 +37,34 @@ export const FiltersEditInputs = () => {
     const setSelectedGenderSearch = () => {
         switch (myFilters.sexSearch) {
             case 0: {
-                selectedGender['М'] = true;
+                selectedGender["М"] = true;
                 return ;
             }
             case 1: {
-                selectedGender['Ж'] = true;
+                selectedGender["Ж"] = true;
                 return ;
             }
             case 2: {
-                selectedGender['Все'] = true;
+                selectedGender["Все"] = true;
                 return ;
             }
             default: {
                 return ;
             }
         }
-    }
+    };
     const setSelected = (allVariants, selectedVariants, resultArray) => {
-        for (let index in allVariants) {
-            let selected = false
+        for (const index in allVariants) {
+            let selected = false;
             if (selectedVariants.includes(allVariants[index])) {
                 selected = true;
             }
             resultArray.push({
                 reason: allVariants[index],
-                selected
-            })
+                selected,
+            });
         }
-    }
+    };
 
     const getReasons = async () => {
         try {
@@ -77,73 +77,73 @@ export const FiltersEditInputs = () => {
             setSelectedGenderSearch();
             render(genderSelectRef.getValue(),
                 Object.entries(selectedGender).map(([key, value]) => {
-                    return <option selected={value}>{key}</option>
+                    return <option selected={value}>{key}</option>;
                 })
             );
             render(reasonSelectRef.getValue(), selectedReasons.map(({reason, selected}) => {
-                return <option selected={selected}>{reason}</option>
-            }))
+                return <option selected={selected}>{reason}</option>;
+            }));
             render(hashTagsSelectRef.getValue(), selectedHashTags.map(({reason, selected}) => {
-                return <option selected={selected}>{reason}</option>
-            }))
+                return <option selected={selected}>{reason}</option>;
+            }));
             minAge.getValue().value = myFilters.minAge;
             maxAge.getValue().value = myFilters.maxAge;
 
 
         } catch (e) {
-            alert(e)
+            alert(e);
         }
-    }
+    };
     const onMinAgeInputChange = () => {
         const ageNumber = minAge.getValue().valueAsNumber;
         const res = validateMinAge(ageNumber);
         if (!res.ok){
-            minAgeWarning.getValue().innerHTML = res.warning
+            minAgeWarning.getValue().innerHTML = res.warning;
             return false;
         }
         if (ageNumber > maxAge.getValue().valueAsNumber) {
-            minAgeWarning.getValue().innerHTML = 'Минимальный допустимый возраст не может быть больше максимального';
+            minAgeWarning.getValue().innerHTML = "Минимальный допустимый возраст не может быть больше максимального";
             return false;
         }
-        minAgeWarning.getValue().innerHTML = '';
+        minAgeWarning.getValue().innerHTML = "";
         return true;
-    }
+    };
 
     const onMaxAgeInputChange = () => {
         const ageNumber = maxAge.getValue().valueAsNumber;
         const res = validateMaxAge(ageNumber);
         if (!res.ok){
-            maxAgeWarning.getValue().innerHTML = res.warning
+            maxAgeWarning.getValue().innerHTML = res.warning;
             return ;
         }
         if (ageNumber < minAge.getValue().valueAsNumber) {
-            maxAgeWarning.getValue().innerHTML = 'Максимально допустимый возраст не может быть меньше минимального';
+            maxAgeWarning.getValue().innerHTML = "Максимально допустимый возраст не может быть меньше минимального";
         } else {
-            maxAgeWarning.getValue().innerHTML = '';
+            maxAgeWarning.getValue().innerHTML = "";
         }
         return res.ok;
-    }
+    };
 
     const onReasonInputChange = () => {
-        const reasonsValues = reasonSelectRef.getValue().querySelectorAll('option:checked');
+        const reasonsValues = reasonSelectRef.getValue().querySelectorAll("option:checked");
         const res = validateReasons(reasonsValues);
-        reasonsWarning.getValue().innerHTML = res.warning
-        return res.ok
-    }
+        reasonsWarning.getValue().innerHTML = res.warning;
+        return res.ok;
+    };
 
     const onHashTagsInputChange = () => {
-        const hashTagsValues = hashTagsSelectRef.getValue().querySelectorAll('option:checked');
+        const hashTagsValues = hashTagsSelectRef.getValue().querySelectorAll("option:checked");
 
         const res = validateHashtags(hashTagsValues);
-        hashTagsWarning.getValue().innerHTML = res.warning
-        return res.ok
-    }
+        hashTagsWarning.getValue().innerHTML = res.warning;
+        return res.ok;
+    };
 
     const allFilterChecks = () => {
         return onMinAgeInputChange() &&
             onMaxAgeInputChange() &&
             onReasonInputChange();
-    }
+    };
 
 
     const onFiltersChangeSubmit = async (e) => {
@@ -154,33 +154,33 @@ export const FiltersEditInputs = () => {
         const ss = {
             "М": 0,
             "Ж": 1,
-            "Все": 2
-        }
-        let obj = {
+            "Все": 2,
+        };
+        const obj = {
             "minAge": minAge.getValue().valueAsNumber,
             "maxAge": maxAge.getValue().valueAsNumber,
             "sexSearch": ss[genderSelectRef.getValue().value],
             "reason": fromOptionsToTexts(reasonSelectRef.getValue()),
-        }
+        };
         const respFilterUser = await (await Tinder.putFilters(obj)).json();
 
-        rootRender(<ProfilePage/>)
-    }
+        rootRender(<ProfilePage/>);
+    };
 
     const onHashTagsChangeSubmit = async (e) => {
         e.preventDefault();
         if (!onHashTagsInputChange()){
             return ;
         }
-        let obj = {
+        const obj = {
             "hashtag": fromOptionsToTexts(hashTagsSelectRef.getValue()),
-        }
+        };
         const respHashTags = await Tinder.putHashtags(obj);
-        rootRender(<ProfilePage/>)
-    }
+        rootRender(<ProfilePage/>);
+    };
     getReasons();
     return (
-        <div>
+        <>
             <Label labelText={"Кого вы ищете, выберите пол"} htmlFor={"sexSearch"}/>
             <Select ref={genderSelectRef}/>
             <InputWithLabel
@@ -207,20 +207,20 @@ export const FiltersEditInputs = () => {
                 ref={maxAgeWarning}
                 title={"максимальный возраст должен быть введен"}
             />
-            <Label labelText={"Выберите причины"}/>
+            <Label labelText={"Изменить причины"}/>
             <Select onChange={onReasonInputChange} ref={reasonSelectRef} multiple/>
             <Warning
                 ref={reasonsWarning}
                 title={"выберите причины поиска"}
             />
             <SubmitButton onClick={onFiltersChangeSubmit} >Сохранить фильтры</SubmitButton>
-            <Label labelText={"Выберите интересы"}/>
+            <Label labelText={"Изменить интересы"}/>
             <Select onChange={onHashTagsInputChange} ref={hashTagsSelectRef} multiple/>
             <Warning
                 ref={hashTagsWarning}
                 title={"выберите интересы"}
             />
             <SubmitButton onClick={onHashTagsChangeSubmit}>Сохранить интересы</SubmitButton>
-        </div>
-    )
-}
+        </>
+    );
+};

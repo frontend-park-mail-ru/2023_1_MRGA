@@ -9,8 +9,8 @@ export const NotFoundPage = () => {
                 <h1 style={"margin: 30px;"}>Страница не найдена</h1>
             </FormContainer>
         </>
-    )
-}
+    );
+};
 
 export const BannedUserPage = () => {
     return (
@@ -20,5 +20,5 @@ export const BannedUserPage = () => {
                 <h1 style={"margin: 30px;"}>Вы были забанены</h1>
             </FormContainer>
         </>
-    )
-}
+    );
+};

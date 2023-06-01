@@ -1,4 +1,4 @@
-import pi from './passwordInput.module.css'
+import pi from "./passwordInput.module.css";
 import {InputWithLabel} from "components/UI/forms/inputWithLabel/inputWithLabel";
 
 export const PasswordInput = ({id, labelText, ref, ...props}) => {
@@ -15,7 +15,7 @@ export const PasswordInput = ({id, labelText, ref, ...props}) => {
             default:
                 input.type = "password";
         }
-    }
+    };
     return (
         <span className={pi.password}>
             <InputWithLabel
@@ -25,7 +25,7 @@ export const PasswordInput = ({id, labelText, ref, ...props}) => {
                 ref={ref}
                 {...props}
             />
-            <a className={pi['password-control']} id="view-pass2" onClick={onEyeClick}></a>
+            <a className={pi["password-control"]} id="view-pass2" onClick={onEyeClick}></a>
         </span>
-    )
-}
+    );
+};

@@ -3,7 +3,7 @@ import {SideBar} from "components/App/sideBar/sideBar";
 import {MatchesList} from "components/App/matchesList/matchesList";
 import {PageContainer} from "components/UI/containers/pageContainer/pageContainer";
 
-import chatIcon from 'assets/svg/chat-icon.svg';
+import chatIcon from "assets/svg/chat-icon.svg";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 
 export const MatchesPage = () => {
@@ -12,7 +12,7 @@ export const MatchesPage = () => {
         <>
             <HeaderAuth/>
             <PageContainer>
-                <SideBar current={'/matches'}/>
+                <SideBar current={"/matches"}/>
                 <MatchesList refToChatArea={chatArea}/>
                 <div ref={chatArea} style="
                     background-color: white;
@@ -40,5 +40,5 @@ export const MatchesPage = () => {
                     </div>
             </PageContainer>
         </>
-    )
-}
+    );
+};

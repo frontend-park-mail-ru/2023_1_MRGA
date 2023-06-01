@@ -3,7 +3,7 @@ export const Navigate = ({to}) => {
     if (currentPath === to) {
         return ;
     }
-    window.history.pushState({}, to,  to);
+    window.history.pushState({}, to, to);
     const popStateEvent = new PopStateEvent("popstate", { state: history.state });
     window.dispatchEvent(popStateEvent);
-}
+};

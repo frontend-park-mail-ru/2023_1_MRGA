@@ -1,11 +1,11 @@
 export class Ajax {
     static async ajax(url, method, headers, data) {
-        return await fetch(url, {
+        return fetch(url, {
             method: method,
-            credentials: 'include',
+            credentials: "include",
             headers: headers,
             body: data,
-            mode: "cors"
-        })
+            mode: "cors",
+        });
     }
 }

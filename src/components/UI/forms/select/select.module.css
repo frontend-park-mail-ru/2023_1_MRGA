@@ -2,7 +2,8 @@
     outline: 1px solid blue;
 }
 .selectWrapper {
-    display: block;
+    display: flex;
+    flex-direction: column;
     min-width: 414px;
     min-height: 68px;
     border-radius: 20px;
@@ -13,7 +14,6 @@
 .select {
     border: none;
     display: block;
-    min-width: 414px;
     min-height: 68px;
     border-radius: 20px;
     box-sizing: initial;
@@ -25,4 +25,13 @@
 
 .select[multiple] {
     margin: 1rem;
+}
+
+.select:not([multiple]) {
+    padding-left: 1rem;
+    margin-right: 1rem;
+}
+
+.select[multiple] > option {
+    padding-left: 1rem;
 }

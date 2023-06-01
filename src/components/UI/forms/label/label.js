@@ -6,8 +6,8 @@ export const Label = ({labelText, ...props}) => {
         <>
             {labelText?
                 <label className={styles.formLabel} {...props}>{labelText}</label>
-                : ' '
+                : " "
             }
         </>
-    )
-}
+    );
+};

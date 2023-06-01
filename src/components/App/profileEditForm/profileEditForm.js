@@ -5,7 +5,7 @@ import {Form} from "components/UI/forms/form/form";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {TextAreaWithLabel} from "components/UI/forms/textareaWithLabel/textareaWithLabel";
 
-import styles from './profileEditForm.module.css'
+import styles from "./profileEditForm.module.css";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {PhotoEditInputs} from "components/App/profileEditForm/PhotoEditInputs/PhotoEditInputs";
 import {Tinder} from "@/api/api";
@@ -30,7 +30,7 @@ export const ProfileEditForm = () => {
         userData.description = description.getValue().value;
         userData.ciry = city.getValue().value;
         Tinder.putInfoUser(userData);
-    }
+    };
     let userData;
     const loadUserData = async () => {
 
@@ -42,7 +42,7 @@ export const ProfileEditForm = () => {
         education.getValue().value = userData.education;
         city.getValue().value = userData.city;
         zodiac.getValue().value = userData.zodiac;
-    }
+    };
     loadUserData().then();
     return (
             <FormContainer>
@@ -102,5 +102,5 @@ export const ProfileEditForm = () => {
                     <FiltersEditInputs/>
                 </Form>
             </FormContainer>
-    )
-}
+    );
+};

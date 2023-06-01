@@ -10,13 +10,13 @@ export const useState = (initialState) => {
         states[index].value = val;
         vNode.stateCounter = 0;
         rerender(vNode);
-    }
+    };
 
     if (states[index] === undefined) {
-        states[index] = {value: initialState, setState}
+        states[index] = {value: initialState, setState};
     }
     vNode.stateCounter = vNode.stateCounter + 1;
 
-    return [states[index].value, states[index].setState]
+    return [states[index].value, states[index].setState];
 
-}
+};

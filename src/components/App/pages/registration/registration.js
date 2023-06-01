@@ -14,8 +14,8 @@ const registrationSteps = {
     1: InterviewPage,
     2: HashTagsPage,
     3: FiltersPage,
-    4: PhotoPage
-}
+    4: PhotoPage,
+};
 
 export const RegistrationPage = () => {
     const state = userStore.getState();
@@ -25,7 +25,7 @@ export const RegistrationPage = () => {
                 <Header/>
                 <RegistrationForm/>
             </>
-        )
+        );
     }
     return rootRender(registrationSteps[state.user.step]());
-}
+};

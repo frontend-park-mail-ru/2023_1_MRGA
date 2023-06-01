@@ -102,7 +102,6 @@ a {
     margin-top: 60px;
     height: 120px;
     width: 120px;
-    object-fit: cover;
     border-radius: 50%;
 }
 .sideBar .spacer {
@@ -174,6 +173,9 @@ a {
 }
 
 
+.objectFitContain {
+    object-fit: contain !important;
+}
 .avatarSide .avatar {
     position: absolute;
     width: 100%;

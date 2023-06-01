@@ -1,48 +1,73 @@
-const CACHE_NAME = '0.1.0';
-const OFFLINE_PAGE_URL = '/offline.html';
+const CACHE_NAME = "0.1.0";
 
-import {precache, precacheAndRoute} from 'workbox-precaching';
-import {registerRoute} from 'workbox-routing';
-import {NetworkFirst, StaleWhileRevalidate} from 'workbox-strategies';
+self.__BMWP_MANIFEST.push("/");
 
-// workbox-webpack-plugin автоматически генерирует список ресурсов для кэширования
-precacheAndRoute([...self.__WB_MANIFEST, {url: OFFLINE_PAGE_URL, revision: null}], {cacheName: CACHE_NAME});
+self.addEventListener("install", (event) => {
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then((cache) => {
+                return cache.addAll(self.__BMWP_MANIFEST);
+            })
+    );
+});
 
-// Создайте собственный маршрут кэширования
-registerRoute(
-    // Для всех навигационных запросов
-    ({request}) => request.mode === 'navigate',
-    async ({event}) => {
-        try {
-            // Сначала пытаемся получить ресурс из сети
-            const response = await new NetworkFirst().handle({event});
-            return response || (await caches.match(OFFLINE_PAGE_URL));
-        } catch (error) {
+self.addEventListener("fetch", event => {
+    const request = event.request;
+    const url = new URL(request.url);
 
-
-            // Если возникает ошибка или нет интернет-соединения, возвращаем закешированный offline.html
-            return caches.match(OFFLINE_PAGE_URL);
-        }
+    if (self.__BMWP_MANIFEST.includes(url.pathname)) {
+        event.respondWith(
+            fetchFromCache(request)
+                .catch(() => fetch(request))
+                .catch(() => returnOfflineResponse())
+        );
     }
-);
+    if (url.pathname.startsWith("/api/auth/user")) {
+        event.respondWith(
+            fetch(event.request).catch(() => {
+                // В случае ошибки или отсутствия интернет-соединения
+                // возвращаем пользовательский ответ с телом JSON
+                return new Response(
+                    JSON.stringify({status: 999, offline: true}),
+                    {headers: {"Content-Type": "application/json"}}
+                );
+            })
+        );
+    }
+});
 
-// Создайте собственный маршрут кэширования для API-запросов
-// registerRoute(
-//     // Фильтр для API-запросов (замените 'your-api-url' на URL вашего API)
-//     ({url}) => url.pathname.startsWith('/meetme'),
-//     new StaleWhileRevalidate({
-//         cacheName: 'api-cache',
-//     })
-// );
+function fetchFromCache(request) {
+    return caches.open(CACHE_NAME)
+        .then(cache => cache.match(request))
+        .then(response => {
+            if (!response) {
+                throw new Error("Resource not found in cache");
+            }
+            return response;
+        });
+}
 
-registerRoute(
-    // Условие для кэширования запросов к /meetme или /api
-    ({url}) => {
-        return url.pathname.startsWith('/meetme') ||
-            url.pathname.startsWith('/api');
-    },
-    // Используйте стратегию Stale-While-Revalidate
-    new StaleWhileRevalidate({
-        cacheName: 'api-cache',
-    })
-);
+function returnOfflineResponse() {
+    return new Response("Offline mode. Please check your internet connection.");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

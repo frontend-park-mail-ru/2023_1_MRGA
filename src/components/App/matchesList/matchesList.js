@@ -1,14 +1,14 @@
-import styles from './matchesList.module.css'
+import styles from "./matchesList.module.css";
 import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
 
-import loadingPhoto from 'assets/img/loading.png'
+import loadingPhoto from "assets/img/loading.png";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import {render} from "@/lib/jsx/render";
 import {create} from "@/lib/jsx";
 import {InputWithLabel} from "components/UI/forms/inputWithLabel/inputWithLabel";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {getUser} from "@/store/user";
-import { Navigate } from '../../../lib/jsx/components/navigate/navigate';
+import { Navigate } from "../../../lib/jsx/components/navigate/navigate";
 
 
 const MatchNewChat = ({match}) => {
@@ -22,7 +22,7 @@ const MatchNewChat = ({match}) => {
         const rspnse = await (await Tinder.sendMessage(newChatID, {content: firstMessageRef.getValue().value, userIds: [match.userId]})).json();
         await Tinder.deleteMatch(match.userId);
         Navigate({to: "/chat"});
-    }
+    };
 
     return (
         <div className={styles.matchNewChatContainer}>
@@ -31,12 +31,12 @@ const MatchNewChat = ({match}) => {
                 <span>{match.name}</span>
             </div>
             <span className={styles.firstMessageInput}>
-                <InputWithLabel  ref={firstMessageRef} labelText="Напишите первое сообщение" type={"text"}/>
+                <InputWithLabel ref={firstMessageRef} labelText="Напишите первое сообщение" type={"text"}/>
                 <SubmitButton onClick={onFirstMessageSend}>Отправить первое сообщение</SubmitButton>
             </span>
         </div>
-    )
-}
+    );
+};
 
 export const MatchesList = ({refToChatArea}) => {
 
@@ -44,18 +44,18 @@ export const MatchesList = ({refToChatArea}) => {
     let matches = []; // []match
     const onPhotoError = (e) => {
         e.target.src = loadingPhoto;
-    }
+    };
     const onMatchClick = (match) => {
 
         const newDom = create(<MatchNewChat match={match}/>);
         refToChatArea.getValue().replaceWith(newDom);
         refToChatArea.setValue(newDom);
-    }
+    };
     const formedMathes = async () => {
         try {
             const matchesJson = await ((await Tinder.getMatches()).json());
             if (matchesJson.status !== 200) {
-                info.getValue().innerHTML = 'Не удалось загрузить данные';
+                info.getValue().innerHTML = "Не удалось загрузить данные";
                 return ;
             }
             matches = matchesJson.body?.matches ?? [];
@@ -65,27 +65,27 @@ export const MatchesList = ({refToChatArea}) => {
                 info.getValue().innerHTML = "Пока не встретилось взаимной симпатии";
             }
             const domMatches = matches.map((match, index) => {
-                let imgStyle = [styles.matchImgStyle];
+                const imgStyle = [styles.matchImgStyle];
                 if (match.shown === false) {
                     imgStyle.push(styles.notSeen);
                 }
                 matches[index].ref = useRef();
                 return (
                     <div onClick={onMatchClick.bind(null, match)} className={styles.matchContainer}>
-                        <img onError={onPhotoError} ref={matches[index].ref} className={imgStyle.join(' ')}/>
+                        <img onError={onPhotoError} ref={matches[index].ref} className={imgStyle.join(" ")}/>
                         <p className={styles.matchName}>{match.name}</p>
                     </div>
-                )
-            })
+                );
+            });
             render(container, domMatches);
-            for (let {ref, avatar} of matches) {
+            for (const {ref, avatar} of matches) {
                 ref.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${avatar}`;
             }
         } catch (e) {
             console.log(e);
         }
 
-    }
+    };
     formedMathes();
 
     return (
@@ -94,5 +94,5 @@ export const MatchesList = ({refToChatArea}) => {
             <div ref={info} className={styles.people}>
             </div>
         </div>
-    )
-}
+    );
+};

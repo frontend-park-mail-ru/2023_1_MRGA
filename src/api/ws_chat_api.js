@@ -1,73 +1,114 @@
-import {NotificationPopupDispatcher, notificationWrapper} from "components/App/notification/notification";
-import {appendChildren, create} from "@/lib/jsx";
+import {
+    NotificationPopupDispatcher,
+} from "components/App/notification/notification";
 import { WSProtocol, BackendHost, BackendPort } from "./api";
 
 export const MATCH_NOTIFICATION_TYPES = {
     NEW_MATCH: "new_match",
-    MISSED_MATCH: "missed_match"
-}
+    MISSED_MATCH: "missed_match",
+};
 
 const getConnectionObject = () => {
     let connection = undefined;
+    let listeners = {};
     const Undef = () => {
         connection = undefined;
-    }
+    };
     const Set = (newConnection) => {
         connection = newConnection;
-    }
+    };
     const IsUndef = () => {
         return connection === undefined;
-    }
+    };
     const Get = () => {
         return connection;
-    }
+    };
+    const GetListeners = () => {
+        return listeners;
+    };
+    const SetListeners = (newListeners) => {
+        listeners = newListeners;
+    };
 
-    return {connection, Undef, Set, IsUndef, Get}
+    return {connection, Undef, Set, IsUndef, Get, GetListeners, SetListeners};
 };
 
-let wsChat = getConnectionObject();
-let wsReaction = getConnectionObject();
+const wsChat = getConnectionObject();
+const wsReaction = getConnectionObject();
 
 const onWsError = (event) => {
-    console.log('WebSocket error:', event);
+    console.log("WebSocket error:", event);
 };
 
-const onWsClose = (connectionObject, event) => {
-    console.log('WebSocket connection closed:', event);
+const onWsClose = (connectionObject, callback, url, event) => {
+    console.log("WebSocket connection closed:", event);
     connectionObject.Undef();
+    connectionObject.Set(new WebSocket(url));
+    console.log("ws connection:", connectionObject.Get());
+    if (typeof callback === "function") {
+        callback();
+    }
+    if (connectionObject === wsReaction) {
+        initWsHandlers(connectionObject, closeCallback, url);
+    }
+
 };
 
-const initWsHandlers = (wsConnection) => {
-    wsConnection.Get().addEventListener('close', onWsClose.bind(null, wsConnection));
-    wsConnection.Get().addEventListener('error', onWsError);
-}
+const closeCallback = () => {
+    const values = Object.entries(wsReaction.GetListeners());
+    wsReaction.Get().addEventListener("open", () => {
+        console.log("connection opened for reaction");
+        values.forEach(([key, value]) => {
+            wsReaction.Get()?.addEventListener("message", (event) => {
+                const jsonMSG = JSON.parse(event.data);
+                value(jsonMSG);
+                NotificationPopupDispatcher.showModal();
+                setTimeout(() => {
+                    NotificationPopupDispatcher.hideModal();
+                }, 3000);
+            });
+        });
+    });
+
+};
+
+const initWsHandlers = (wsConnection, closeCallback, url) => {
+    wsConnection.Get().addEventListener("close", onWsClose.bind(null, wsConnection, closeCallback, url));
+    wsConnection.Get().addEventListener("error", onWsError);
+};
 
 export class WSChatAPI {
 
     static connect() {
         try {
             if (wsChat.IsUndef()) {
-                wsChat.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/chats/subscribe`));
-                initWsHandlers(wsChat);
+                const chatURL = `${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/chats/subscribe`;
+                wsChat.Set(new WebSocket(chatURL));
+                initWsHandlers(wsChat, undefined, chatURL);
             }
             if (wsReaction.IsUndef()) {
-                wsReaction.Set(new WebSocket(`${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/match/subscribe`));
-                initWsHandlers(wsReaction);
+                const reactionURL = `${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/match/subscribe`;
+                wsReaction.Set(new WebSocket(reactionURL));
+                initWsHandlers(wsReaction, closeCallback, reactionURL);
             }
         } catch(e) {
             console.log(e);
         }
     }
 
-    static subscribeOnReaction(callback) {
-        wsReaction.Get()?.addEventListener("message", (event) => {
-            const jsonMSG = JSON.parse(event.data);
-            callback(jsonMSG);
-            NotificationPopupDispatcher.showModal();
-            setTimeout(() => {
-                NotificationPopupDispatcher.hideModal();
-            }, 3000);
-        });
+    static subscribeOnReaction(callback, id) {
+        if (!wsReaction.GetListeners()[id]) {
+            wsReaction.GetListeners()[id] = callback;
+            console.log(wsReaction.GetListeners()[id]);
+            wsReaction.Get()?.addEventListener("message", (event) => {
+                const jsonMSG = JSON.parse(event.data);
+                wsReaction.GetListeners()[id](jsonMSG);
+                NotificationPopupDispatcher.showModal();
+                // setTimeout(() => {
+                //     NotificationPopupDispatcher.hideModal();
+                // }, 3000);
+            });
+        }
     }
     static getMessage(listener) {
         wsChat.Get()?.addEventListener("message", (event) => {
@@ -81,7 +122,7 @@ export class WSChatAPI {
                 const chatId = jsonMSG.body.chatId;
                 const messageType = jsonMSG.body.messageType;
                 const path = jsonMSG.body.path;
-                
+
                 listener(msgId, msg, senderId, sentAt, chatId, messageType, path);
             }
         });
@@ -105,7 +146,7 @@ export class WSChatAPI {
         const readRequest = {
             flag: "READ",
             readData: readData,
-        }
+        };
         wsChat.Get()?.send(JSON.stringify(readRequest));
     }
 

@@ -1,5 +1,6 @@
 upstream golang_backend {
     server meetme-app.ru:444;
+#     server host.docker.internal:8080;
 }
 
 
@@ -16,7 +17,7 @@ server {
     # порт, который будет слушать веб-сервер в ожидании запросов от пользователй
     listen      80;
     # доменное имя
-    server_name     "0.0.0.0"; # замените на собственный домен или IP адрес
+    server_name     "0.0.0.0";
     charset     utf-8;
 
     # максимальный размер загружаемых на сервер данных

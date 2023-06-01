@@ -1,3 +1,15 @@
+/*.pageContainer {*/
+/*    min-width: 928px;*/
+/*    margin-top: 10px;*/
+/*    display: flex;*/
+/*    height: 87%;*/
+/*    flex-direction: row;*/
+/*    flex-wrap: wrap;*/
+/*    justify-content: center;*/
+/*    !*align-items: center;*!*/
+/*    text-align: center;*/
+/*}*/
+
 .pageContainer {
     min-width: 928px;
     margin-top: 10px;

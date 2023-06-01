@@ -1,23 +1,22 @@
 import styles from "components/UI/forms/formElement.module.css";
 
-import inputStyles from './photoInput.module.css'
+import inputStyles from "./photoInput.module.css";
 import logo from "assets/LogoMini.svg";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 
-export const PhotoInput = ({name, ref, className, ...props}) => {
+export const PhotoInput = ({ref, className, ...props}) => {
     return (
-        <input className={[inputStyles.photoInput, className].join(' ')}
-               name={name}
+        <input className={[inputStyles.photoInput, className].join(" ")}
                ref={ref}
                type={"file"}
                accept="image/jpeg,image/png"
                {...props}
         />
-    )
-}
+    );
+};
 
 
-export const MyPhotoInput = ({id, control, photo, className, ...props}, children) => {
+export const MyPhotoInput = ({id, control, photo, onPhotoLoad , className, ...props}, children) => {
 
     const label = control;
     const photoRef = photo;
@@ -25,7 +24,7 @@ export const MyPhotoInput = ({id, control, photo, className, ...props}, children
     const onImageClick = (label) => {
         const input = label.getValue().control;
         input.click();
-    }
+    };
 
     const onInputChange = (photo, label, e) => {
         e.preventDefault();
@@ -40,29 +39,31 @@ export const MyPhotoInput = ({id, control, photo, className, ...props}, children
 
             reader.readAsDataURL(file);
         }
-    }
+    };
     const onLoad = (e) => {
         e.preventDefault();
         photo.getValue().classList.remove(inputStyles.hidden);
         control.getValue().classList.add(inputStyles.hidden);
-    }
+        if (typeof onPhotoLoad === "function") {
+            onPhotoLoad();
+        }
+    };
     return (
         <span className={inputStyles.buttonWrapper}>
             {children}
             <div className={inputStyles.photoInputContainer}>
-                <PhotoInput className={[inputStyles.photoInput, className].join(' ')}
+                <PhotoInput className={[inputStyles.photoInput, className].join(" ")}
                     onChange={onInputChange.bind(null, photoRef, label)}
-                    name={name}
                     type={"file"}
                     id={id}
                     accept="image/jpeg,image/png"
                     {...props}
                 />
                 <label ref={control} htmlFor={id}>
-                    <img className={[inputStyles.photo].join(' ')} src={logo}/>
+                    <img className={[inputStyles.photo].join(" ")} src={logo}/>
                 </label>
-                <img onLoad={onLoad} onClick={onImageClick.bind(null, label)} className={[inputStyles.hidden, inputStyles.photo].join(' ')} ref={photo}/>
+                <img onLoad={onLoad} onClick={onImageClick.bind(null, label)} className={[inputStyles.hidden, inputStyles.photo].join(" ")} ref={photo}/>
             </div>
         </span>
-    )
-}
+    );
+};

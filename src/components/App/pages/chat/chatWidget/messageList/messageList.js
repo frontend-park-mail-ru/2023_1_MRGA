@@ -6,6 +6,10 @@ import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 import chatIcon from "assets/svg/chat-icon.svg";
 import {render} from "@/lib/jsx/render";
 import {WSChatAPI} from "@/api/ws_chat_api";
+import sendIcon from "assets/img/send.png";
+import recordIcon from "assets/img/microphone.png";
+import sendDataIcon from "assets/img/sendData.png";
+import cancelIcon from "assets/img/cancel.png";
 
 export const ChatUser = ({userID, className, ...props}) => {
     const avatar = useRef();
@@ -16,28 +20,36 @@ export const ChatUser = ({userID, className, ...props}) => {
 
         avatar.getValue().src = `${BackendProtocol}://${BackendHost}:${BackendPort}/api/auth/photo/${userInfo.body.photos[0]}`;
         name.getValue().innerHTML = userInfo.body.name;
-    }
+    };
     setAvatarImg();
     return (
         <div className={styles.oneChatUser}>
             <img className={styles.oneChatAvatar} ref={avatar} {...props}/>
             <div ref={name}></div>
         </div>
-    )
-}
+    );
+};
 
 export const MessageList = ({messageDispatcher}) => {
     const info = useRef();
 
     const newMessageRef = useRef();
     const messagesAreaRef = useRef();
-    
+
     const recordButton = useRef();
+    const sendButton = useRef();
+    const recordImg = useRef();
+    const sendImg = useRef();
+    const recordTimeRef = useRef();
+
+    let recordTime = 0;
+    let recordInterval;
+
     let isRecording = false;
     let mediaRecorder;
     let recordedBlobs;
 
-    const supportedType = 'audio/webm';
+    const supportedType = "audio/webm";
     async function startRecording() {
         const constraints = { audio: true, video: false };
         try {
@@ -45,44 +57,65 @@ export const MessageList = ({messageDispatcher}) => {
             mediaRecorder = new MediaRecorder(stream);
             recordedBlobs = [];
 
-            mediaRecorder.addEventListener('dataavailable', (event) => {
+            mediaRecorder.addEventListener("dataavailable", (event) => {
                 if (event.data && event.data.size > 0) {
                     recordedBlobs.push(event.data);
                 }
             });
+
+            recordTime = 0;
+            recordTimeRef.getValue().innerText = formatRecordTime(recordTime);
+            recordTimeRef.getValue().hidden = false;
+            recordInterval = setInterval(() => {
+                recordTime += 1;
+                recordTimeRef.getValue().innerText = formatRecordTime(recordTime);
+            }, 1000);
+
             mediaRecorder.start();
 
         } catch (error) {
-            console.error('Error: ', error);
+            console.error("Error: ", error);
         }
     }
 
-    async function stopRecording(chat) {
+    function formatRecordTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+    }
+
+    async function stopRecording(chat, isCancel) {
         mediaRecorder.stop();
-        await new Promise(resolve => mediaRecorder.addEventListener('stop', resolve));
+        await new Promise(resolve => mediaRecorder.addEventListener("stop", resolve));
         mediaRecorder.stream.getTracks().forEach(track => track.stop());
+
+        clearInterval(recordInterval);
+        recordTimeRef.getValue().hidden = true;
+
         const blob = new Blob(recordedBlobs, { type: supportedType });
 
         if (blob.size === 0) {
-            console.error('Error: Recorded audio has 0 size.');
+            console.error("Error: Recorded audio has 0 size.");
             return;
         }
 
-        try {
-            await sendDataToServer(chat, blob);
-        } catch (error) {
-            console.error('Error:', error);
+        if (!isCancel) {
+            try {
+                await sendDataToServer(chat, blob);
+            } catch (error) {
+                console.error("Error:", error);
+            }
         }
     }
 
     async function sendDataToServer(chat, blob) {
         const formData = new FormData();
-        formData.append('files[]', blob, 'audio.webm');
-        
+        formData.append("files[]", blob, "audio.webm");
+
         try {
             const responseSaveFile = await ((await Tinder.postFiles(formData)).json());
             if (responseSaveFile.status !== 200 || responseSaveFile.body.pathToFiles.length !== 1) {
-                console.error('Error: ', responseSaveFile.error);
+                console.error("Error: ", responseSaveFile.error);
                 return;
             }
             const path = responseSaveFile.body.pathToFiles[0];
@@ -97,20 +130,20 @@ export const MessageList = ({messageDispatcher}) => {
             const responseSendMessage = await (await (Tinder.sendMessage(chat.chatId, msgForSending))).json();
 
             if (responseSendMessage.status !== 200) {
-                console.error('Error: ', responseSendMessage.error);
+                console.error("Error: ", responseSendMessage.error);
                 return;
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error("Error:", error);
         }
     }
-    
+
     const onSendMessageClick = async (chat, e) => {
         e.preventDefault();
 
         const msg = newMessageRef.getValue().value;
 
-        if (msg.replaceAll(' ', '') === '') {
+        if (msg.replaceAll(" ", "") === "") {
             return ;
         }
 
@@ -120,23 +153,23 @@ export const MessageList = ({messageDispatcher}) => {
             return;
         }
 
-        newMessageRef.getValue().value = '';
-    }
+        newMessageRef.getValue().value = "";
+    };
 
     const handleTextareaKeyDown = async (event, chat) => {
         if (event.shiftKey && event.keyCode === 13) {
           event.preventDefault();
           const textarea = newMessageRef.getValue();
-          textarea.value += '\n';
+          textarea.value += "\n";
         } else if (event.keyCode === 13) {
           event.preventDefault();
           onSendMessageClick(chat, event);
         }
-    }
+    };
 
     messageDispatcher.subscribe( async (chat) => {
         const messagesList = await ((await Tinder.getMessages(chat.chatId)).json());
-        info.getValue().innerHTML = '';
+        info.getValue().innerHTML = "";
 
         render(info.getValue(),
             <>
@@ -145,27 +178,42 @@ export const MessageList = ({messageDispatcher}) => {
                 <div className={styles.inputArea}>
                     <div className={styles.messageArea}>
                         <textarea ref={newMessageRef} onKeyDown={(event) => handleTextareaKeyDown(event, chat)} className={styles.sendInput} placeholder={"Введите сообщение"}/>
-                        <div>
-                            <button ref={recordButton} className={styles.recordButton}>🎙️</button>
+                        <div className={styles.buttonsContainer}>
+                            <div>
+                                <button ref={recordButton} className={styles.buttons}>
+                                    <img src={recordIcon} alt='Записать' ref={recordImg}></img>
+                                </button>
+                            </div>
+                            <div ref={recordTimeRef} className={[styles.recordTime].join(" ")} hidden></div>
                         </div>
                         <div>
-                            <button onClick={onSendMessageClick.bind(null, chat)} className={styles.sendButton}>📩</button>
+                            <button ref={sendButton} onClick={onSendMessageClick.bind(null, chat)} className={[styles.sendButton, styles.buttons].join(" ")}>
+                                <img src={sendIcon} alt='Отправить' ref={sendImg}></img>
+                            </button>
                         </div>
                     </div>
                 </div>
             </>
-        )
+        );
 
-        recordButton.getValue().addEventListener('click', async () => {
+        const recordHandler = async (isCancel) => {
             if (!isRecording) {
+                sendImg.getValue().src = cancelIcon;
+                sendButton.getValue().onclick = recordHandler.bind(null, true);
+
+                recordImg.getValue().src = sendDataIcon;
                 startRecording();
-                recordButton.getValue().textContent = '⬆️';
             } else {
-                await stopRecording(chat);
-                recordButton.getValue().textContent = '🎙';
+                sendImg.getValue().src = sendIcon;
+                sendButton.getValue().onclick = onSendMessageClick.bind(null, chat);
+
+                recordImg.getValue().src = recordIcon;
+                await stopRecording(chat, isCancel);
             }
             isRecording = !isRecording;
-        });
+        };
+
+        recordButton.getValue().addEventListener("click", recordHandler.bind(null, false));
 
         messagesAreaRef.getValue().scrollTo(0, messagesAreaRef.getValue().scrollHeight);
 
@@ -190,11 +238,11 @@ export const MessageList = ({messageDispatcher}) => {
                 });
             }
         });
-    })
+    });
 
-    return (<Container ref={info}/>)
+    return (<Container ref={info}/>);
 
-}
+};
 
 const Container = ({ref}) => {
     return (
@@ -206,5 +254,5 @@ const Container = ({ref}) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
