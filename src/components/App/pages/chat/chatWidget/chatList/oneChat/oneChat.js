@@ -34,7 +34,7 @@ export const OneChat = ({onClick, chat, ref}) => {
         if (chat.chatId === chatId && readStatusRef.getValue().innerText === " •" && senderId !== chat.msg.senderId) {
             readStatusRef.getValue().innerText = "";
         }
-    });
+    }, "4");
 
     const data = chat.msg.sentAt;
     const arr = chat.chatUserIds.filter((val) => {
