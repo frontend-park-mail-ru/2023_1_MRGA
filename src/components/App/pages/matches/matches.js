@@ -3,17 +3,20 @@ import {SideBar} from "components/App/sideBar/sideBar";
 import {MatchesList} from "components/App/matchesList/matchesList";
 import {PageContainer} from "components/UI/containers/pageContainer/pageContainer";
 
-import chatIcon from "assets/svg/chat-icon.svg";
+import chatIcon from "assets/img/chat.png";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 
 export const MatchesPage = () => {
     const chatArea = useRef();
+    const matchIcon = useRef();
+    const matchText = useRef();
+
     return (
         <>
             <HeaderAuth/>
             <PageContainer>
                 <SideBar current={"/matches"}/>
-                <MatchesList refToChatArea={chatArea}/>
+                <MatchesList refToChatArea={chatArea} matchText={matchText} matchIcon={matchIcon} hasBeenRedirected={false}/>
                 <div ref={chatArea} style="
                     background-color: white;
                     border-radius: 20px;
@@ -28,12 +31,10 @@ export const MatchesPage = () => {
                         flex-direction: column;
                         justify-items: center;
                         align-items: center;">
-                        <img src={chatIcon} width="52" height="52" alt=""/>
-                            <div style="
-                                color: #867BFF;
-                                font-weight: 600;
-                                margin-left: 12px;
-                                margin-right: 12px;">
+                        <img ref={matchIcon} src={chatIcon} width="52" height="52" alt=""/>
+                            <div ref={matchText} style="
+                                color: rgb(116 106 228);
+                                margin: 7px 12px;">
                                 Выберите человека, чтобы начать чат
                             </div>
                     </div>

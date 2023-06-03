@@ -27,7 +27,8 @@ const publicRoutes = [
 
 const privateRoutes = [
     {path: "/matches", component: MatchesPage},
-    {path: "/", component: FeedPage},
+    {path: "/likes", component: FeedPage.bind(null, {isLikes:true})},
+    {path: "/", component: FeedPage.bind(null, {isLikes: false})},
     {path: "/profile", component: ProfilePage},
     {path: "/interview", component: InterviewPage},
     {path: "/photo", component: PhotoPage},

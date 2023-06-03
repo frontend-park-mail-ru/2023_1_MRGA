@@ -13,7 +13,7 @@ import {modalDispatcher, ModalWindow} from "components/UI/modal/modal";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 
 
-export const Recom = () => {
+export const Recom = ({isLikes}) => {
     const info = useRef();
     const nameAndAge = useRef();
     const locationPointRef = useRef();
@@ -36,6 +36,9 @@ export const Recom = () => {
     let currentRecommendation = 0;
     let recommendations = [];
 
+    const emptyRecommendationText = "На данный момент для Вас нет рекомендаций. Вы можете изменить критерии поиска в профиле или подождать, когда мы подберем новые рекомендации.";
+    const emptyLikeText = "У Вас пока нет новых лайков. Вы можете расширить ваше описание о себе в профиле, чтобы Вы чаще попадались в рекомендациях.";
+
     const getRecommendations = async () => {
         try {
             const recs = await (await Tinder.getRecommendation()).json();
@@ -47,11 +50,39 @@ export const Recom = () => {
             return {recommendations: [], error: e};
         }
     };
+
+    const getLikes = async () => {
+        try {
+            const recs = await (await Tinder.getLikes()).json();
+            if (recs.status === 200) {
+                if (!isLikes) {
+                    recommendations = recs.body.recommendations;
+                } else {
+                    recommendations = recs.body.likes;
+                }
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
     const test = async () => {
-        await getRecommendations();
+        if (!isLikes) {
+            await getRecommendations();
+        } else {
+            await getLikes();
+        }
+
         if (!recommendations || recommendations.length === 0) {
             locationPointRef.getValue().innerHTML = "";
-            info.getValue().innerHTML = "На данный момент для Вас нет рекомендаций. Вы можете изменить критерии поиска в профиле или подождать, когда мы подберем новые рекомендации";
+
+            let text;
+            if (!isLikes) {
+                text = emptyRecommendationText;
+            } else {
+                text = emptyLikeText;
+            }
+            info.getValue().innerHTML = text;
             hideButtons();
             currRecPhoto.getValue().src = like;
             return ;
@@ -102,7 +133,14 @@ export const Recom = () => {
         currRecPhoto.getValue().classList.add(styles.objectFitContain);
         currRecPhoto.getValue().src = loadingPhoto;
         locationPointRef.getValue().innerHTML = "";
-        info.getValue().innerHTML = "На данный момент для Вас нет рекомендаций. Вы можете изменить критерии поиска в профиле или подождать, когда мы подберем новые рекомендации";
+
+        let text;
+        if (!isLikes) {
+            text = emptyRecommendationText;
+        } else {
+            text = emptyLikeText;
+        }
+        info.getValue().innerHTML = text;
     };
     const next = () => {
         if (currentRecommendation > recommendations.length - 2) {
@@ -161,9 +199,8 @@ export const Recom = () => {
     return (
         <div className={styles.content}>
             <ModalWindow dispatcher={likesEndMessageModalDispatcher}>
-                <div className={styles.likeText}>Сегодня вы больше не можете ставить лайки, попробуйте завтра.
-                    Или приобретите подписку и лайкайте, сколько хотите!
-                    Для приобретения подписки пишите в telegram нашему&nbsp;
+                <div className={styles.likeText}>Лимит лайков был превышен.<br/>Приходите завтра или оформите <span className={styles.premiumGold}>MeetMe Gold</span> или <span className={styles.premiumBronze}>MeetMe Bronze</span> сейчас<br/>и продолжайте лайкать!
+                    <br/>Для приобретения подписки пишите в telegram нашему&nbsp;
                     <u><a href={"https://t.me/yakwilik"}>админу</a></u>
                 </div>
             </ModalWindow>

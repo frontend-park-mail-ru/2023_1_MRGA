@@ -5,10 +5,10 @@ export const BackendHost = "meetme-app.ru";
 export const BackendPort = 443;
 export const WSProtocol = "wss";
 
-// export const BackendProtocol = 'http';
-// export const BackendHost = 'localhost';
-// export const BackendPort = 80;
-// export  const WSProtocol = 'ws';
+// export const BackendProtocol = "http";
+// export const BackendHost = "localhost";
+// export const BackendPort = 8080;
+// export const WSProtocol = "ws";
 
 const ApiUrl = `${BackendProtocol}://${BackendHost}:${BackendPort}`;
 
@@ -61,6 +61,12 @@ export class Tinder {
     }
     static async getMessages(chatId) {
         return Ajax.ajax(`${ApiUrl}/api/auth/chats/${chatId}/messages`, "GET");
+    }
+    static async getLikesCount() {
+        return Ajax.ajax(`${ApiUrl}/api/auth/likes/count`, "GET");
+    }
+    static async getLikes() {
+        return Ajax.ajax(`${ApiUrl}/api/auth/likes`, "GET");
     }
     static async getCities() {
         return Ajax.ajax(`${ApiUrl}/api/cities`, "GET");

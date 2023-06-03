@@ -20,7 +20,6 @@ body {
 .firstMessageInput {
     position: absolute;
     bottom: 0;
-/*style={"align-items:center;"}*/
 }
 
 .matchNewChatUser {
@@ -56,8 +55,38 @@ a {
 
 .matchImgStyle.notSeen {
     border-style: solid;
-    border-color: orange;
-    border-width: 4px;
+    border-color: #926ab1de;
+    border-width: 3.7px;
+}
+
+.goldSubscription {
+    border: 3.7px solid gold;
+}
+
+.likeText{
+    font-size: 16px;
+    width: 95%;
+    margin: auto;
+    line-height: 20px;
+}
+
+.premiumGold {
+    font-size: 18px;
+    color: #dcbb0c;
+}
+
+.premiumBronze {
+    font-size: 18px;
+    color: rgb(150 141 88);
+}
+
+.heartImage {
+    position: absolute;
+    bottom: 15%;
+    right: 11px;
+    transform: translateY(50%);
+    width: 25px;
+    height: 25px;
 }
 
 .matchName {
@@ -351,6 +380,23 @@ a {
     align-items: center;
     padding: 14px 25px;
     gap: 10px;
+}
+
+.likesCountContainer {
+    height: 128px;
+    position: relative;
+}
+
+.centeredText {
+    font-size: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    color: white;
+    text-align: center;
+    z-index: 1;
 }
 
 .btn-edit:hover {

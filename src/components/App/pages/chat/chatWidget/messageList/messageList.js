@@ -3,7 +3,7 @@ import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
 import {SubmitButton} from "components/UI/forms/submitButton/submitButton";
 import {MessageArea, OneMsgSpace} from "components/App/pages/chat/chatWidget/messageList/messageArea/messageArea";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
-import chatIcon from "assets/svg/chat-icon.svg";
+import chatIcon from "assets/img/chat.png";
 import {render} from "@/lib/jsx/render";
 import {WSChatAPI} from "@/api/ws_chat_api";
 import sendIcon from "assets/img/send.png";
@@ -250,7 +250,7 @@ const Container = ({ref}) => {
             <div className={styles.messagesPlaceholderContainer}>
                 <img src={chatIcon} width="52" height="52" alt=""/>
                 <div className={styles.placeholder}>
-                    Выберите человека, чтобы начать чат
+                    Выберите человека, чтобы открыть чат
                 </div>
             </div>
         </div>
