@@ -237,7 +237,7 @@ export const MessageList = ({messageDispatcher}) => {
                     chatId:  chatId,
                 });
             }
-        });
+        }, "1");
     });
 
     return (<Container ref={info}/>);

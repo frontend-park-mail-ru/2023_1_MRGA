@@ -49,24 +49,35 @@ const onWsClose = (connectionObject, callback, url, event) => {
         callback();
     }
     if (connectionObject === wsReaction) {
-        initWsHandlers(connectionObject, closeCallback, url);
+        initWsHandlers(connectionObject, reactionCloseCallback, url);
+    }
+    if (connectionObject === wsChat) {
+        initWsHandlers(connectionObject, chatCloseCallback, url);
     }
 
 };
 
-const closeCallback = () => {
+const reactionCloseCallback = () => {
     const values = Object.entries(wsReaction.GetListeners());
+    wsReaction.SetListeners({});
     wsReaction.Get().addEventListener("open", () => {
         console.log("connection opened for reaction");
         values.forEach(([key, value]) => {
-            wsReaction.Get()?.addEventListener("message", (event) => {
-                const jsonMSG = JSON.parse(event.data);
-                value(jsonMSG);
-                NotificationPopupDispatcher.showModal();
-                setTimeout(() => {
-                    NotificationPopupDispatcher.hideModal();
-                }, 3000);
-            });
+            wsReaction.GetListeners()[key] = value;
+            wsReaction.Get()?.addEventListener("message", value);
+        });
+    });
+
+};
+
+const chatCloseCallback = () => {
+    const values = Object.entries(wsChat.GetListeners());
+    wsChat.SetListeners({});
+    wsChat.Get().addEventListener("open", () => {
+        console.log("connection opened for chat");
+        values.forEach(([key, value]) => {
+            wsChat.GetListeners()[key] = value;
+            wsChat.Get()?.addEventListener("message", value);
         });
     });
 
@@ -84,12 +95,12 @@ export class WSChatAPI {
             if (wsChat.IsUndef()) {
                 const chatURL = `${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/chats/subscribe`;
                 wsChat.Set(new WebSocket(chatURL));
-                initWsHandlers(wsChat, undefined, chatURL);
+                initWsHandlers(wsChat, chatCloseCallback, chatURL);
             }
             if (wsReaction.IsUndef()) {
                 const reactionURL = `${WSProtocol}://${BackendHost}:${BackendPort}/api/auth/match/subscribe`;
                 wsReaction.Set(new WebSocket(reactionURL));
-                initWsHandlers(wsReaction, closeCallback, reactionURL);
+                initWsHandlers(wsReaction, reactionCloseCallback, reactionURL);
             }
         } catch(e) {
             console.log(e);
@@ -98,48 +109,60 @@ export class WSChatAPI {
 
     static subscribeOnReaction(callback, id) {
         if (!wsReaction.GetListeners()[id]) {
-            wsReaction.GetListeners()[id] = callback;
-            console.log(wsReaction.GetListeners()[id]);
-            wsReaction.Get()?.addEventListener("message", (event) => {
-                const jsonMSG = JSON.parse(event.data);
-                wsReaction.GetListeners()[id](jsonMSG);
+            const handler = (event) => {
+                // debugger;
+                const data = event.data;
+                const jsonMSG = JSON.parse(data);
+                callback(jsonMSG);
                 NotificationPopupDispatcher.showModal();
                 // setTimeout(() => {
                 //     NotificationPopupDispatcher.hideModal();
                 // }, 3000);
-            });
+            };
+            wsReaction.GetListeners()[id] = handler;
+            wsReaction.Get()?.addEventListener("message", handler);
         }
     }
-    static getMessage(listener) {
-        wsChat.Get()?.addEventListener("message", (event) => {
-            const jsonMSG = JSON.parse(event.data);
+    static getMessage(listener, id) {
+        if (!wsChat.GetListeners()[id]) {
+            const callback = (event) => {
+                const jsonMSG = JSON.parse(event.data);
 
-            if (jsonMSG.flag === "SEND") {
-                const msgId = jsonMSG.body.msgId;
-                const msg = jsonMSG.body.msg;
-                const senderId = jsonMSG.body.senderId;
-                const sentAt = jsonMSG.body.sentAt;
-                const chatId = jsonMSG.body.chatId;
-                const messageType = jsonMSG.body.messageType;
-                const path = jsonMSG.body.path;
+                if (jsonMSG.flag === "SEND") {
+                    const msgId = jsonMSG.body.msgId;
+                    const msg = jsonMSG.body.msg;
+                    const senderId = jsonMSG.body.senderId;
+                    const sentAt = jsonMSG.body.sentAt;
+                    const chatId = jsonMSG.body.chatId;
+                    const messageType = jsonMSG.body.messageType;
+                    const path = jsonMSG.body.path;
+                    listener(msgId, msg, senderId, sentAt, chatId, messageType, path);
+                }
+            };
+            wsChat.GetListeners()[id] = callback;
+            wsChat.Get()?.addEventListener("message", callback);
 
-                listener(msgId, msg, senderId, sentAt, chatId, messageType, path);
-            }
-        });
+        }
+
     }
 
-    static getReadStatus(listener) {
-        wsChat.Get()?.addEventListener("message", (event) => {
-            const jsonMSG = JSON.parse(event.data);
+    static getReadStatus(listener, id) {
+        console.log("id:", id);
+        if (!wsChat.GetListeners()[id]) {
+            const callback = (event) => {
+                const jsonMSG = JSON.parse(event.data);
 
-            if (jsonMSG.flag === "READ") {
-                const readData = {
-                    senderId: jsonMSG.body.senderId,
-                    chatId: jsonMSG.body.chatId,
-                };
-                listener(readData);
-            }
-        });
+                if (jsonMSG.flag === "READ") {
+                    const readData = {
+                        senderId: jsonMSG.body.senderId,
+                        chatId: jsonMSG.body.chatId,
+                    };
+                    listener(readData);
+                }
+            };
+            wsChat.Get()?.addEventListener("message", callback);
+            wsChat.GetListeners()[id] = callback;
+        }
     }
 
     static sendReadStatus(readData) {
