@@ -10,6 +10,7 @@ import {Label} from "components/UI/forms/label/label";
 
 import deletePhoto from "assets/svg/dislike.svg";
 import {modalDispatcher, ModalWindow} from "components/UI/modal/modal";
+import {Warning} from "components/UI/forms/warning/warning";
 
 function PhotoInputContainer(props, children) {
     return (
@@ -69,16 +70,24 @@ export const PhotoEditInputs = () => {
     const onUpdateClick = async (e) => {
         e.preventDefault();
 
-        for (const {label, id} of photosRef) {
+        for (const {label, id, photo} of photosRef) {
             const file = label.getValue().control.files[0];
             if (file) {
                 const formData = new FormData();
                 formData.append("file", file);
-                const respPhotoUser = await Tinder.putPhoto(formData, id);
+                const respPhotoUser = await (await Tinder.putPhoto(formData, id)).json();
+                if (respPhotoUser.status === 400) {
+                    // photo.getValue().classList.add(styles.badBorder);
+                    warning.getValue().innerText = "Невалидное фото";
+                    setTimeout(() => {
+                        warning.getValue().innerText = "";
+                    }, 3000);
+                }
+                console.log("respPhotoUser: ", respPhotoUser);
             }
         }
 
-        rootRender(<ProfilePage/>);
+        loadUserData();
     };
     let currentPhotoID;
     const afterConfirm = async (e) => {
@@ -101,6 +110,7 @@ export const PhotoEditInputs = () => {
             alert(e);
         }
     };
+    const warning = useRef();
     const onDeleteClick = async (id, e) => {
         dispatcher.showModal();
         currentPhotoID = id;
@@ -127,6 +137,7 @@ export const PhotoEditInputs = () => {
                         </MyPhotoInput>
                     );
                 })}
+                <Warning ref={warning}/>
             </div>
         <SubmitButton onClick={onUpdateClick}>Сохранить</SubmitButton>
         </div>

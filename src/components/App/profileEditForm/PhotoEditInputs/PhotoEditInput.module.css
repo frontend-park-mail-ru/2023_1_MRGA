@@ -5,6 +5,11 @@
     margin-bottom: 10px;
 }
 
+
+.badBorder {
+    border: red 1px solid;
+}
+
 .form {
     width: 100%;
     display: flex;
