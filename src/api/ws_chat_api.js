@@ -111,11 +111,8 @@ export class WSChatAPI {
         if (!wsReaction.GetListeners()[id]) {
             const handler = (event) => {
                 // debugger;
-                console.log("event: ", event);
                 const data = event.data;
                 const jsonMSG = JSON.parse(data);
-                console.log("data: ", data);
-                console.log("json: ", jsonMSG);
                 callback(jsonMSG);
                 NotificationPopupDispatcher.showModal();
                 // setTimeout(() => {
@@ -128,7 +125,6 @@ export class WSChatAPI {
     }
     static getMessage(listener, id) {
         if (!wsChat.GetListeners()[id]) {
-            console.log("get message id:", id);
             const callback = (event) => {
                 const jsonMSG = JSON.parse(event.data);
 
