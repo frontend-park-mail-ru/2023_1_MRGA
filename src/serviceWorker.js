@@ -17,8 +17,8 @@ self.addEventListener("fetch", event => {
 
     if (self.__BMWP_MANIFEST.includes(url.pathname)) {
         event.respondWith(
-            fetchFromCache(request)
-                .catch(() => fetch(request))
+            fetch(event.request)
+                .catch(fetchFromCache.bind(null, request))
                 .catch(() => returnOfflineResponse())
         );
     }

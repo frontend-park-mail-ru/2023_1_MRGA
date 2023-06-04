@@ -426,3 +426,13 @@ a {
     margin: auto;
     line-height: 20px;
 }
+
+.premiumGold {
+    font-size: 18px;
+    color: #dcbb0c;
+}
+
+.premiumBronze {
+    font-size: 18px;
+    color: rgb(150 141 88);
+}

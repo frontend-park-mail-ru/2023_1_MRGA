@@ -27,3 +27,19 @@ export const convertToDate = (dateString) => {
         return `${day}.${month}.${year.slice(-2)}\t${hours}:${minutes}`;
     }
 };
+
+export const getLikesString = (num) => {
+    const lastDigit = num % 10;
+    const secondLastDigit = Math.floor(num / 10) % 10;
+    let end = "лайков";
+
+    if (secondLastDigit !== 1) {
+        if (lastDigit === 1) {
+            end = "лайк";
+        } else if (lastDigit >= 2 && lastDigit <= 4) {
+            end = "лайка";
+        }
+    }
+
+    return `${num} ${end}`;
+};

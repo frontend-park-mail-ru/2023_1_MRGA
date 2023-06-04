@@ -34,7 +34,7 @@ export const ChatList = ({messageDispatcher}) => {
             if (chatId !== undefined) {
                 changeChatsList(msgData, chatId);
             }
-        });
+        }, "3");
 
         messageDispatcher.subscribe((chat) => {
             chats.forEach((element, idx) => {

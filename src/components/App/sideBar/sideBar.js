@@ -3,10 +3,10 @@ import {Tinder, BackendProtocol, BackendHost, BackendPort} from "@/api/api";
 import loading from "@/assets/img/loading.png";
 import {Link} from "@/lib/jsx/components/link/link";
 
-import home from "assets/svg/home.svg";
-import matches from "assets/svg/matches.svg";
-import message from "assets/svg/message.svg";
-import profile from "assets/svg/profile.svg";
+import home from "assets/img/home.png";
+import matches from "assets/img/matchMenu.png";
+import message from "assets/img/chatMenu.png";
+import profile from "assets/img/user.png";
 import {useRef} from "@/lib/jsx/hooks/useRef/useRef";
 
 export const SideBar = ({current}) => {
@@ -53,8 +53,10 @@ export const SideBar = ({current}) => {
                         classList.push(styles.current);
                     }
                     return <Link href={href} className={classList.join(" ")}>
-                        <img className={[styles.icon].join(" ")} src={src}/>
-                        {text}
+                        <div className={styles.menuContainer}>
+                            <img className={[styles.icon].join(" ")} src={src}/>
+                            {text}
+                        </div>
                     </Link>;
                 })}
             </div>

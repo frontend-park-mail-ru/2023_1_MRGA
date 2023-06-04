@@ -19,7 +19,7 @@ module.exports = {
         "semi": ["error", "always"],
         "eol-last": ["error", "always"],
         "linebreak-style": ["error", "unix"],
-        "no-console": "warn",
+        // "no-console": "warn",
         "eqeqeq": "error",
         "curly": "error",
         "prefer-const": "error",

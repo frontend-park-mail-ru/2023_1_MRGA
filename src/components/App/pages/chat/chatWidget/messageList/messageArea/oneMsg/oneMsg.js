@@ -26,7 +26,7 @@ export const OneMsg = ({chatId, msg}) => {
         if (chatId === gotChatId && readStatusRef.getValue().innerText === " •" && senderId !== msg.senderId) {
             readStatusRef.getValue().innerText = "";
         }
-    });
+    }, chatId+msg.msgId);
 
     const handleTranscription = async (audioPath) => {
         const transcriptionButton = transcriptionRef.getValue();
